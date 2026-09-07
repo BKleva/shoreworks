@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Gallery Admin | Twin Cleans</title>
+<link rel="icon" href="images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal: #1b8f9c; --teal-dark: #10707c; --teal-deep: #0b525c;
+    --ink: #0c2a31; --slate: #4a6067; --line: #d5e4e6;
+    --mist: #d6e9eb; --mist-2: #e7f2f3; --white: #fff;
+    --danger: #c0392b;
+    --radius: 14px;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--mist-2); color: var(--slate); line-height: 1.55;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: 'Poppins', sans-serif; color: var(--ink); line-height: 1.2; }
+  a { color: var(--teal-dark); }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; cursor: pointer; border: none; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 1.5rem; }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1rem 1.5rem; background: var(--white); border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 0.6rem; }
+  .brand img { width: 38px; height: 38px; border-radius: 50%; }
+  .brand span { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--ink); }
+  .topbar-actions { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.75rem 1.4rem; border-radius: 999px; font-weight: 600; font-size: 0.92rem;
+    background: var(--teal); color: #fff; transition: background .2s, opacity .2s;
+  }
+  .btn:hover { background: var(--teal-dark); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--teal-dark); border: 1.5px solid var(--line); }
+  .btn-ghost:hover { background: transparent; border-color: var(--teal); }
+  .btn-sm { padding: 0.45rem 0.9rem; font-size: 0.82rem; }
+  .btn-danger { background: var(--danger); }
+  .btn-danger:hover { background: #96271c; }
+
+  .card {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(1.4rem, 4vw, 2.2rem);
+  }
+
+  /* login */
+  .login-shell { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1.5rem; }
+  .login-shell .card { width: 100%; max-width: 380px; }
+  .login-shell h1 { font-size: 1.4rem; margin-bottom: 0.35rem; }
+  .login-shell p.sub { font-size: 0.9rem; margin-bottom: 1.4rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+  .field input {
+    width: 100%; padding: 0.75rem 0.9rem; border: 1px solid var(--line);
+    border-radius: 10px; background: var(--mist-2); color: var(--ink); font: inherit;
+  }
+  .field input:focus { outline: none; border-color: var(--teal); background: #fff; }
+
+  .msg { font-size: 0.88rem; margin-top: 0.9rem; padding: 0.7rem 0.9rem; border-radius: 9px; display: none; }
+  .msg.show { display: block; }
+  .msg.err { background: #fdecea; color: var(--danger); }
+  .msg.ok { background: var(--mist); color: var(--teal-deep); }
+
+  section.panel { margin-top: 1.5rem; }
+  section.panel h2 { font-size: 1.1rem; margin-bottom: 0.9rem; }
+
+  .drop {
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    border: 2px dashed var(--line); border-radius: var(--radius); padding: 2rem 1.5rem;
+    text-align: center; background: var(--mist-2); cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .drop.hover { border-color: var(--teal); background: #fff; }
+  .drop p { font-size: 0.92rem; margin-bottom: 0.8rem; }
+  .drop input[type=file] { display: none; }
+
+  .queue { list-style: none; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .queue li {
+    display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem;
+    background: var(--mist-2); border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem 0.75rem;
+  }
+  .queue li img { width: 44px; height: 44px; object-fit: cover; border-radius: 7px; flex-shrink: 0; }
+  .queue li .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+  .queue li .state { font-size: 0.78rem; }
+  .queue li .state.done { color: var(--teal-dark); font-weight: 600; }
+  .queue li .state.fail { color: var(--danger); font-weight: 600; }
+
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.8rem; margin-top: 0.5rem;
+  }
+  .tile {
+    position: relative; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line); background: var(--mist-2); aspect-ratio: 1;
+  }
+  .tile img { width: 100%; height: 100%; object-fit: cover; }
+  .tile button.del {
+    position: absolute; top: 6px; right: 6px;
+    width: 30px; height: 30px; border-radius: 50%; background: rgba(12,42,49,0.78); color: #fff;
+    font-size: 1rem; line-height: 1; display: flex; align-items: center; justify-content: center;
+  }
+  .tile button.del:hover { background: var(--danger); }
+  .empty { font-size: 0.9rem; color: var(--slate); padding: 1rem 0; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-top: 1.1rem; }
+  .hint { font-size: 0.82rem; color: var(--slate); margin-top: 0.6rem; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-shell" id="loginShell">
+  <div class="card">
+    <h1>Gallery Admin</h1>
+    <p class="sub">Sign in to manage the Twin Cleans photo gallery.</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="u">Username</label>
+        <input id="u" name="username" type="text" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label for="p">Password</label>
+        <input id="p" name="password" type="password" autocomplete="current-password" required />
+      </div>
+      <button class="btn" type="submit" id="loginBtn" style="width:100%">Sign in</button>
+      <div class="msg err" id="loginMsg"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminShell" hidden>
+  <div class="topbar">
+    <div class="brand">
+      <img src="images/logo.png" alt="" />
+      <span>Twin Cleans — Gallery</span>
+    </div>
+    <div class="topbar-actions">
+      <a href="/#gallery" target="_blank" rel="noopener">View site</a>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="panel">
+      <h2>Add photos</h2>
+      <div class="card">
+        <label class="drop" id="drop">
+          <p><strong>Drag photos here</strong> or click to choose</p>
+          <span class="btn btn-ghost btn-sm">Choose files</span>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple />
+        </label>
+        <ul class="queue" id="queue"></ul>
+        <div class="row">
+          <button class="btn" id="uploadBtn" disabled>Upload</button>
+          <button class="btn btn-ghost" id="clearBtn" disabled>Clear</button>
+        </div>
+        <p class="hint">JPG, PNG or WebP · up to 10&nbsp;MB each. New photos appear first in the gallery carousel.</p>
+        <div class="msg ok" id="uploadMsg"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Uploaded photos <span id="count" style="font-weight:400;color:var(--slate)"></span></h2>
+      <div class="card">
+        <div class="grid" id="grid"></div>
+        <p class="empty" id="gridEmpty" hidden>No uploaded photos yet. The 16 built-in photos still show on the site.</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  const TOKEN_KEY = 'tc_admin_token';
+  const $ = (id) => document.getElementById(id);
+
+  let token = sessionStorage.getItem(TOKEN_KEY) || '';
+  let files = []; // pending File objects
+
+  // ---------- auth ----------
+  function showLogin(msg) {
+    $('adminShell').hidden = true;
+    $('loginShell').style.display = 'flex';
+    if (msg) { $('loginMsg').textContent = msg; $('loginMsg').classList.add('show'); }
+  }
+  function showAdmin() {
+    $('loginShell').style.display = 'none';
+    $('adminShell').hidden = false;
+    loadGrid();
+  }
+
+  $('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('loginMsg').classList.remove('show');
+    $('loginBtn').disabled = true;
+    $('loginBtn').textContent = 'Signing in…';
+    try {
+      const res = await fetch('/api/gallery-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: $('u').value, password: $('p').value }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.token) throw new Error(data.error || 'Sign in failed.');
+      token = data.token;
+      sessionStorage.setItem(TOKEN_KEY, token);
+      $('p').value = '';
+      showAdmin();
+    } catch (err) {
+      $('loginMsg').textContent = err.message;
+      $('loginMsg').classList.add('show');
+    } finally {
+      $('loginBtn').disabled = false;
+      $('loginBtn').textContent = 'Sign in';
+    }
+  });
+
+  $('logoutBtn').addEventListener('click', () => {
+    sessionStorage.removeItem(TOKEN_KEY);
+    token = '';
+    location.reload();
+  });
+
+  function handleAuthFail() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    token = '';
+    showLogin('Session expired — please sign in again.');
+  }
+
+  // ---------- upload queue ----------
+  const drop = $('drop');
+  ['dragenter', 'dragover'].forEach((ev) =>
+    drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('hover'); })
+  );
+  ['dragleave', 'drop'].forEach((ev) =>
+    drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('hover'); })
+  );
+  drop.addEventListener('drop', (e) => addFiles(e.dataTransfer.files));
+  $('fileInput').addEventListener('change', (e) => { addFiles(e.target.files); e.target.value = ''; });
+
+  function addFiles(list) {
+    for (const f of list) {
+      if (!/^image\/(jpeg|png|webp)$/.test(f.type)) continue;
+      files.push(f);
+    }
+    renderQueue();
+  }
+
+  function renderQueue() {
+    const ul = $('queue');
+    ul.innerHTML = '';
+    files.forEach((f, i) => {
+      const li = document.createElement('li');
+      const url = URL.createObjectURL(f);
+      li.innerHTML =
+        '<img src="' + url + '" alt="" />' +
+        '<span class="name">' + f.name + '</span>' +
+        '<span class="state" data-i="' + i + '">' + (f.size / 1024 / 1024).toFixed(1) + ' MB</span>' +
+        '<button class="btn btn-ghost btn-sm" data-rm="' + i + '">Remove</button>';
+      ul.appendChild(li);
+    });
+    ul.querySelectorAll('[data-rm]').forEach((b) =>
+      b.addEventListener('click', () => { files.splice(+b.dataset.rm, 1); renderQueue(); })
+    );
+    $('uploadBtn').disabled = files.length === 0;
+    $('clearBtn').disabled = files.length === 0;
+  }
+
+  $('clearBtn').addEventListener('click', () => { files = []; renderQueue(); });
+
+  $('uploadBtn').addEventListener('click', async () => {
+    $('uploadBtn').disabled = true;
+    $('clearBtn').disabled = true;
+    $('uploadMsg').classList.remove('show');
+    const states = $('queue').querySelectorAll('.state');
+    let ok = 0, fail = 0;
+
+    for (let i = 0; i < files.length; i++) {
+      const st = states[i];
+      if (st) { st.textContent = 'Uploading…'; st.className = 'state'; }
+      const fd = new FormData();
+      fd.append('file', files[i]);
+      try {
+        const res = await fetch('/api/gallery', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + token },
+          body: fd,
+        });
+        if (res.status === 401) { handleAuthFail(); return; }
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Failed');
+        if (st) { st.textContent = 'Done'; st.className = 'state done'; }
+        ok++;
+      } catch (err) {
+        if (st) { st.textContent = 'Failed'; st.className = 'state fail'; }
+        fail++;
+      }
+    }
+
+    $('uploadMsg').textContent =
+      ok + ' uploaded' + (fail ? ', ' + fail + ' failed' : '') + '.';
+    $('uploadMsg').className = 'msg ' + (fail ? 'err' : 'ok') + ' show';
+    files = [];
+    setTimeout(() => { renderQueue(); loadGrid(); }, 600);
+  });
+
+  // ---------- current photos ----------
+  async function loadGrid() {
+    const grid = $('grid');
+    try {
+      const res = await fetch('/api/gallery', { cache: 'no-store' });
+      const data = await res.json();
+      const keys = (data && data.uploaded) || [];
+      $('count').textContent = keys.length ? '(' + keys.length + ')' : '';
+      $('gridEmpty').hidden = keys.length > 0;
+      grid.innerHTML = '';
+      keys.forEach((k) => {
+        const div = document.createElement('div');
+        div.className = 'tile';
+        div.innerHTML =
+          '<img src="/api/gallery?img=' + encodeURIComponent(k) + '" alt="" loading="lazy" />' +
+          '<button class="del" title="Delete" data-k="' + encodeURIComponent(k) + '">&times;</button>';
+        grid.appendChild(div);
+      });
+      grid.querySelectorAll('.del').forEach((b) =>
+        b.addEventListener('click', () => removePhoto(b.dataset.k))
+      );
+    } catch {
+      grid.innerHTML = '<p class="empty">Could not load photos.</p>';
+    }
+  }
+
+  async function removePhoto(k) {
+    if (!confirm('Delete this photo from the gallery?')) return;
+    try {
+      const res = await fetch('/api/gallery?img=' + k, {
+        method: 'DELETE',
+        headers: { Authorization: 'Bearer ' + token },
+      });
+      if (res.status === 401) { handleAuthFail(); return; }
+      if (!res.ok) throw new Error();
+      loadGrid();
+    } catch {
+      alert('Could not delete that photo.');
+    }
+  }
+
+  // ---------- boot ----------
+  if (token) showAdmin(); else showLogin();
+</script>
+</body>
+</html>

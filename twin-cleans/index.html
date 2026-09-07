@@ -751,33 +751,54 @@
 
   // ===== GALLERY =====
   const GALLERY_COUNT = 16;
-  const photos = Array.from({ length: GALLERY_COUNT }, (_, i) =>
+  const STATIC_PHOTOS = Array.from({ length: GALLERY_COUNT }, (_, i) =>
     'images/gallery/detail-' + String(i + 1).padStart(2, '0') + '.jpeg');
+
+  let photos = STATIC_PHOTOS.slice();
 
   const track = document.getElementById('carouselTrack');
   const grid = document.getElementById('galleryGrid');
 
-  // carousel: render twice for a seamless infinite loop
-  [...photos, ...photos].forEach((src, i) => {
-    const slide = document.createElement('button');
-    slide.className = 'carousel-slide';
-    slide.type = 'button';
-    slide.setAttribute('aria-label', 'View photo ' + ((i % photos.length) + 1));
-    slide.dataset.index = i % photos.length;
-    slide.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" decoding="async" />';
-    track.appendChild(slide);
-  });
+  function buildGallery() {
+    track.innerHTML = '';
+    grid.innerHTML = '';
 
-  // thumbnail grid
-  photos.forEach((src, i) => {
-    const thumb = document.createElement('button');
-    thumb.className = 'gallery-thumb';
-    thumb.type = 'button';
-    thumb.setAttribute('aria-label', 'View photo ' + (i + 1));
-    thumb.dataset.index = i;
-    thumb.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" loading="lazy" />';
-    grid.appendChild(thumb);
-  });
+    // carousel: render twice for a seamless infinite loop
+    [...photos, ...photos].forEach((src, i) => {
+      const slide = document.createElement('button');
+      slide.className = 'carousel-slide';
+      slide.type = 'button';
+      slide.setAttribute('aria-label', 'View photo ' + ((i % photos.length) + 1));
+      slide.dataset.index = i % photos.length;
+      slide.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" decoding="async" />';
+      track.appendChild(slide);
+    });
+
+    // thumbnail grid
+    photos.forEach((src, i) => {
+      const thumb = document.createElement('button');
+      thumb.className = 'gallery-thumb';
+      thumb.type = 'button';
+      thumb.setAttribute('aria-label', 'View photo ' + (i + 1));
+      thumb.dataset.index = i;
+      thumb.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" loading="lazy" />';
+      grid.appendChild(thumb);
+    });
+  }
+
+  buildGallery();
+
+  // pull in any admin-uploaded photos and show them first
+  fetch('/api/gallery')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((data) => {
+      if (data && Array.isArray(data.uploaded) && data.uploaded.length) {
+        const uploaded = data.uploaded.map((k) => '/api/gallery?img=' + encodeURIComponent(k));
+        photos = uploaded.concat(STATIC_PHOTOS);
+        buildGallery();
+      }
+    })
+    .catch(() => {});
 
   // expandable toggle
   const galleryToggle = document.getElementById('galleryToggle');
