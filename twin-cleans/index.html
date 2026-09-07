@@ -183,25 +183,31 @@
     mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   }
   .carousel-track {
-    display: flex; gap: 1rem; width: max-content;
+    display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 1rem; width: max-content;
     animation: carousel-scroll 60s linear infinite;
   }
   .carousel:hover .carousel-track { animation-play-state: paused; }
   @media (prefers-reduced-motion: reduce) {
     .carousel-track { animation: none; }
-    .carousel { overflow-x: auto; }
+    .carousel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   }
   @keyframes carousel-scroll {
     from { transform: translateX(0); }
     to   { transform: translateX(calc(-50% - 0.5rem)); }
   }
   .carousel-slide {
-    flex: 0 0 auto; width: clamp(240px, 32vw, 340px); aspect-ratio: 4 / 3;
+    flex: 0 0 auto;
+    width: clamp(260px, 34vw, 340px);
+    height: clamp(195px, 25.5vw, 255px);
     border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
     background: var(--mist); cursor: pointer; padding: 0; display: block;
   }
-  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur) var(--ease); }
+  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur) var(--ease); }
   .carousel-slide:hover img { transform: scale(1.05); }
+
+  @media (max-width: 560px) {
+    .carousel-slide { width: 74vw; height: 55.5vw; }
+  }
 
   /* ============ GALLERY — THUMBNAIL GRID ============ */
   .gallery-toggle-wrap { display: flex; justify-content: center; margin-top: 1.75rem; }
@@ -758,7 +764,7 @@
     slide.type = 'button';
     slide.setAttribute('aria-label', 'View photo ' + ((i % photos.length) + 1));
     slide.dataset.index = i % photos.length;
-    slide.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" loading="lazy" />';
+    slide.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" decoding="async" />';
     track.appendChild(slide);
   });
 
