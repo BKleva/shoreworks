@@ -230,12 +230,32 @@
   .gallery-thumb:hover img { transform: scale(1.08); }
   .gallery-note { font-size: 0.86rem; margin-top: 1.4rem; text-align: center; }
 
-  .ig-inline {
-    display: inline-flex; align-items: center; gap: 0.28rem;
-    color: var(--teal-dark); font-weight: 600; white-space: nowrap;
+  /* prominent Instagram callout in the gallery header */
+  .ig-feature {
+    display: inline-flex; align-items: center; gap: 0.85rem;
+    margin-top: 1.5rem; padding: 0.7rem 1.4rem 0.7rem 0.75rem;
+    border-radius: 999px; background: var(--white); border: 1px solid var(--line);
+    box-shadow: 0 10px 30px -14px rgba(11,82,92,0.35);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
   }
-  .ig-inline svg { width: 16px; height: 16px; }
-  .ig-inline:hover { color: var(--teal); }
+  .ig-feature:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -14px rgba(11,82,92,0.45); }
+  .ig-feature-badge {
+    width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 55%, #962fbf 80%, #4f5bd5);
+  }
+  .ig-feature-badge svg { width: 22px; height: 22px; }
+  .ig-feature-txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; text-align: left; }
+  .ig-feature-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+  .ig-feature-handle { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+
+  .btn-ig {
+    color: #fff;
+    background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 55%, #962fbf 80%, #4f5bd5);
+    box-shadow: 0 8px 20px -8px rgba(214,41,118,0.6);
+  }
+  .btn-ig:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
   .gallery-ig-wrap { display: flex; justify-content: center; margin-top: 1.75rem; }
 
   /* ============ LIGHTBOX ============ */
@@ -470,12 +490,16 @@
       <div class="section-head center">
         <span class="eyebrow">Gallery</span>
         <h2>Work we&rsquo;re proud of</h2>
-        <p>A look at recent details &mdash; deep cleans, paint work, and finishes fresh out of the driveway. See more day&ndash;to&ndash;day on Instagram
-          <a class="ig-inline" href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
-            @twincleans
-          </a>.
-        </p>
+        <p>A look at recent details &mdash; deep cleans, paint work, and finishes fresh out of the driveway.</p>
+        <a class="ig-feature" href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener">
+          <span class="ig-feature-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5" stroke="#fff" stroke-width="1.9"/><circle cx="12" cy="12" r="4.2" stroke="#fff" stroke-width="1.9"/><circle cx="17.6" cy="6.4" r="1.3" fill="#fff"/></svg>
+          </span>
+          <span class="ig-feature-txt">
+            <span class="ig-feature-label">Follow us on Instagram</span>
+            <span class="ig-feature-handle">@twincleans</span>
+          </span>
+        </a>
       </div>
     </div>
 
@@ -494,8 +518,8 @@
       <div class="gallery-grid" id="galleryGrid"></div>
 
       <div class="gallery-ig-wrap">
-        <a class="btn btn-ghost" href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" width="17" height="17" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+        <a class="btn btn-ig" href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>
           Follow @twincleans
         </a>
       </div>
