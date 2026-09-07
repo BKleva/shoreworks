@@ -230,6 +230,14 @@
   .gallery-thumb:hover img { transform: scale(1.08); }
   .gallery-note { font-size: 0.86rem; margin-top: 1.4rem; text-align: center; }
 
+  .ig-inline {
+    display: inline-flex; align-items: center; gap: 0.28rem;
+    color: var(--teal-dark); font-weight: 600; white-space: nowrap;
+  }
+  .ig-inline svg { width: 16px; height: 16px; }
+  .ig-inline:hover { color: var(--teal); }
+  .gallery-ig-wrap { display: flex; justify-content: center; margin-top: 1.75rem; }
+
   /* ============ LIGHTBOX ============ */
   .lightbox {
     position: fixed; inset: 0; z-index: 300; background: rgba(6,26,30,0.92);
@@ -335,8 +343,11 @@
   .footer-brand { display: flex; align-items: center; gap: 0.65rem; }
   .footer-brand img { height: 38px; width: 38px; border-radius: 50%; }
   .footer-brand span { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--ink); }
-  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
   .footer-links a { font-size: 0.88rem; }
+  .footer-ig { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--teal-dark); }
+  .footer-ig svg { width: 16px; height: 16px; }
+  .footer-ig:hover { color: var(--teal); }
   .footer-links a:hover { color: var(--teal-dark); }
   .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1.6rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
   .footer-copyright { font-size: 0.78rem; color: var(--slate); }
@@ -459,7 +470,12 @@
       <div class="section-head center">
         <span class="eyebrow">Gallery</span>
         <h2>Work we&rsquo;re proud of</h2>
-        <p>A look at recent details &mdash; deep cleans, paint work, and finishes fresh out of the driveway.</p>
+        <p>A look at recent details &mdash; deep cleans, paint work, and finishes fresh out of the driveway. See more day&ndash;to&ndash;day on Instagram
+          <a class="ig-inline" href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            @twincleans
+          </a>.
+        </p>
       </div>
     </div>
 
@@ -476,6 +492,13 @@
         </button>
       </div>
       <div class="gallery-grid" id="galleryGrid"></div>
+
+      <div class="gallery-ig-wrap">
+        <a class="btn btn-ghost" href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" width="17" height="17" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+          Follow @twincleans
+        </a>
+      </div>
     </div>
   </section>
 
@@ -694,6 +717,10 @@
         <a href="tel:+16093170199">Call</a>
         <a href="mailto:twincleanss@gmail.com">Email</a>
         <a href="#book">Book Now</a>
+        <a href="https://www.instagram.com/twincleans/" target="_blank" rel="noopener" class="footer-ig" aria-label="Twin Cleans on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+          Instagram
+        </a>
       </div>
     </div>
     <div class="footer-bottom">
