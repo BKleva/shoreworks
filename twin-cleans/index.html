@@ -324,15 +324,16 @@
     max-width: 760px; margin: 0 auto;
   }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-  .field { margin-bottom: 1.1rem; }
+  .field { margin-bottom: 1.1rem; min-width: 0; }
   .field label { display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; color: var(--ink); margin-bottom: 0.45rem; }
   .field .req { color: var(--teal-dark); }
   .field input, .field select, .field textarea {
-    width: 100%; background: var(--mist-2);
+    width: 100%; max-width: 100%; min-width: 0; display: block; background: var(--mist-2);
     border: 1px solid var(--line); border-radius: 10px;
     padding: 0.8rem 0.95rem; color: var(--ink);
     transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
   }
+  .field input[type="date"], .field input[type="time"] { -webkit-appearance: none; appearance: none; }
   .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
   .field textarea { resize: vertical; min-height: 110px; }
   .field select {
@@ -346,11 +347,12 @@
   .form-card .btn-primary { width: 100%; justify-content: center; margin-top: 0.4rem; }
 
   @media (max-width: 620px) {
-    .field-row { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    .form-card { padding: 1.4rem 1.15rem; }
   }
 
   /* ============ CONTACT BAR ============ */
-  .contact-bar { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-top: 2rem; }
+  .contact-bar { display: flex; flex-wrap: wrap; gap: 1.4rem 2rem; justify-content: flex-start; margin-top: 2rem; max-width: 760px; margin-left: auto; margin-right: auto; }
   .contact-line { display: flex; align-items: center; gap: 0.8rem; }
   .contact-line .ico { width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .contact-line .ico svg { width: 18px; height: 18px; }
@@ -359,11 +361,11 @@
 
   /* ============ FOOTER ============ */
   footer { border-top: 1px solid var(--line); padding: 2.6rem 0; }
-  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+  .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1.3rem; text-align: center; }
   .footer-brand { display: flex; align-items: center; gap: 0.65rem; }
   .footer-brand img { height: 38px; width: 38px; border-radius: 50%; }
   .footer-brand span { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--ink); }
-  .footer-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+  .footer-links { display: flex; gap: 1rem 1.5rem; align-items: center; justify-content: center; flex-wrap: wrap; }
   .footer-links a { font-size: 0.88rem; }
   .footer-ig { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--teal-dark); }
   .footer-ig svg { width: 16px; height: 16px; }
@@ -447,7 +449,7 @@
       <div class="section-head">
         <span class="eyebrow">Packages</span>
         <h2>Detailing built around your ride</h2>
-        <p>Every package can be tailored on-site. Not sure what you need? Pick the closest option when you book and we&rsquo;ll confirm details with you.</p>
+        <p>Every package can be tailored on-site. Not sure what you need? Tell us about your vehicle when you book and we&rsquo;ll recommend the right service.</p>
       </div>
       <div class="card-grid">
         <div class="card">
@@ -642,32 +644,6 @@
             <div class="field">
               <label for="makeModel">Year / make / model</label>
               <input id="makeModel" name="Year make model" type="text" placeholder="e.g. 2019 Ford F-150" />
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="package">Package <span class="req">*</span></label>
-              <select id="package" name="Package" required>
-                <option value="">Select one&hellip;</option>
-                <option>Express Wash &amp; Shine</option>
-                <option>Full Interior Detail</option>
-                <option>Exterior Paint Detail</option>
-                <option>The Twin Full Detail</option>
-                <option>Boat / RV / Trailer detail</option>
-                <option>Maintenance plan</option>
-                <option>Not sure &mdash; recommend for me</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="condition">Current condition</label>
-              <select id="condition" name="Condition">
-                <option value="">Select one&hellip;</option>
-                <option>Light &mdash; just needs a refresh</option>
-                <option>Average &mdash; normal use</option>
-                <option>Heavy &mdash; needs serious work</option>
-                <option>Pet hair / stains / odor</option>
-              </select>
             </div>
           </div>
 
