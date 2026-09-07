@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Twin Cleans | Mobile Auto Detailing</title>
+<meta name="description" content="Twin Cleans is a mobile detailing company run by twin brothers. We come to you to detail cars, trucks, boats, trailers, RVs and more. Book online today." />
+<meta property="og:title" content="Twin Cleans | Mobile Auto Detailing" />
+<meta property="og:description" content="Twin brothers bringing showroom-quality detailing to your driveway — cars, trucks, boats, trailers, RVs and more." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="images/logo.png" />
+<link rel="icon" href="images/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null, '', location.pathname);
+  document.addEventListener('DOMContentLoaded', () => window.scrollTo(0, 0));
+  window.addEventListener('load', () => window.scrollTo(0, 0));
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal:       #1b8f9c;
+    --teal-dark:  #10707c;
+    --teal-deep:  #0b525c;
+    --ink:        #0c2a31;
+    --slate:      #4a6067;
+    --line:       #d5e4e6;
+    --mist:       #eef6f7;
+    --mist-2:     #f6fbfb;
+    --white:      #ffffff;
+
+    --maxw: 1120px;
+    --pad: clamp(1.25rem, 4vw, 2.5rem);
+    --radius: 16px;
+    --dur: 0.25s;
+    --ease: cubic-bezier(.4,0,.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--white);
+    color: var(--slate);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; color: var(--ink); line-height: 1.15; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(2.1rem, 5.5vw, 3.4rem); font-weight: 800; }
+  h2 { font-size: clamp(1.7rem, 3.8vw, 2.5rem); font-weight: 700; }
+  h3 { font-size: 1.15rem; font-weight: 600; }
+  p { color: var(--slate); }
+
+  img, svg { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input, select, textarea { font: inherit; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+  section[id] { scroll-margin-top: 90px; }
+
+  .eyebrow {
+    display: inline-block; font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-dark);
+    margin-bottom: 0.9rem;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.95rem 1.8rem; border-radius: 999px;
+    font-weight: 600; font-size: 0.95rem; white-space: nowrap;
+    transition: background var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .btn-primary { background: var(--teal); color: var(--white); box-shadow: 0 8px 20px -8px rgba(27,143,156,0.6); }
+  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); }
+  .btn-ghost { border: 1.5px solid var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal-dark); }
+
+  /* ============ NAV ============ */
+  header.nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; height: 74px; }
+  .logo { display: flex; align-items: center; gap: 0.7rem; }
+  .logo img { height: 46px; width: 46px; border-radius: 50%; }
+  .logo .text { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo .name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+  .logo .sub { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal-dark); font-weight: 600; }
+
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a:not(.btn) { font-size: 0.92rem; font-weight: 500; color: var(--slate); transition: color var(--dur) var(--ease); }
+  .nav-links a:not(.btn):hover { color: var(--teal-dark); }
+
+  .burger { display: none; flex-direction: column; gap: 5px; width: 24px; padding: 4px 0; }
+  .burger span { width: 100%; height: 2px; background: var(--ink); border-radius: 2px; transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease); }
+  .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { display: none; }
+
+  @media (max-width: 820px) {
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .mobile-menu {
+      position: fixed; inset: 74px 0 auto 0; background: var(--white);
+      border-bottom: 1px solid var(--line); padding: 1.5rem var(--pad) 2rem;
+      display: flex; flex-direction: column; gap: 1.15rem;
+      transform: translateY(-10px); opacity: 0; pointer-events: none;
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); z-index: 199;
+    }
+    .mobile-menu.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-menu a:not(.btn) { font-size: 1.02rem; font-weight: 500; color: var(--ink); }
+    .mobile-menu .btn { align-self: flex-start; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding-top: clamp(8rem, 16vw, 11rem);
+    padding-bottom: clamp(3.5rem, 9vw, 6rem);
+    background:
+      radial-gradient(ellipse 760px 460px at 82% 6%, rgba(27,143,156,0.16), transparent 62%),
+      linear-gradient(180deg, var(--mist-2), var(--white));
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(2rem, 6vw, 4rem); align-items: center; }
+  .hero p.lede { font-size: clamp(1.02rem, 1.5vw, 1.18rem); margin: 1.3rem 0 2rem; max-width: 42ch; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-badges { display: flex; gap: 1.6rem; margin-top: 2.4rem; flex-wrap: wrap; }
+  .hero-badge { display: flex; align-items: center; gap: 0.5rem; font-size: 0.86rem; font-weight: 500; color: var(--slate); }
+  .hero-badge svg { width: 18px; height: 18px; color: var(--teal); flex-shrink: 0; }
+  .hero-art { display: flex; justify-content: center; }
+  .hero-art img { width: min(360px, 80vw); filter: drop-shadow(0 24px 48px rgba(11,82,92,0.28)); }
+
+  @media (max-width: 820px) {
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero p.lede { margin-left: auto; margin-right: auto; }
+    .hero-cta, .hero-badges { justify-content: center; }
+    .hero-art { order: -1; }
+    .hero-art img { width: min(240px, 60vw); }
+  }
+
+  /* ============ SERVICES ============ */
+  .section-head { max-width: 46ch; margin-bottom: clamp(2rem, 5vw, 3rem); }
+  .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.4rem; }
+  .card {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.8rem; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(11,82,92,0.35); border-color: var(--teal); }
+  .card .ico { width: 44px; height: 44px; border-radius: 12px; background: var(--mist); color: var(--teal-dark); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .card .ico svg { width: 22px; height: 22px; }
+  .card h3 { margin-bottom: 0.4rem; }
+  .card p { font-size: 0.92rem; }
+
+  /* ============ WHAT WE DETAIL ============ */
+  .detail-strip { background: var(--mist-2); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.5rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--white); border: 1px solid var(--line);
+    padding: 0.6rem 1.1rem; border-radius: 999px; font-size: 0.9rem; font-weight: 500; color: var(--ink);
+  }
+  .chip svg { width: 16px; height: 16px; color: var(--teal); }
+
+  /* ============ GALLERY — CAROUSEL ============ */
+  .carousel {
+    margin-top: 1.75rem; position: relative; overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .carousel-track {
+    display: flex; gap: 1rem; width: max-content;
+    animation: carousel-scroll 60s linear infinite;
+  }
+  .carousel:hover .carousel-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track { animation: none; }
+    .carousel { overflow-x: auto; }
+  }
+  @keyframes carousel-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - 0.5rem)); }
+  }
+  .carousel-slide {
+    flex: 0 0 auto; width: clamp(240px, 32vw, 340px); aspect-ratio: 4 / 3;
+    border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
+    background: var(--mist); cursor: pointer; padding: 0; display: block;
+  }
+  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur) var(--ease); }
+  .carousel-slide:hover img { transform: scale(1.05); }
+
+  /* ============ GALLERY — THUMBNAIL GRID ============ */
+  .gallery-toggle-wrap { display: flex; justify-content: center; margin-top: 1.75rem; }
+  .gallery-toggle {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1.5px solid var(--line); color: var(--ink);
+    padding: 0.8rem 1.6rem; border-radius: 999px; font-weight: 600; font-size: 0.92rem;
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .gallery-toggle:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .gallery-toggle svg { width: 15px; height: 15px; transition: transform var(--dur) var(--ease); }
+  .gallery-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.6rem;
+    overflow: hidden; max-height: 0; opacity: 0;
+    transition: max-height 0.45s var(--ease), opacity 0.35s var(--ease), margin-top 0.45s var(--ease);
+  }
+  .gallery-grid.open { max-height: 2400px; opacity: 1; margin-top: 1.5rem; }
+  .gallery-thumb {
+    position: relative; border-radius: 10px; overflow: hidden;
+    background: var(--mist); border: 1px solid var(--line); aspect-ratio: 1 / 1;
+    cursor: pointer; padding: 0; display: block;
+  }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur) var(--ease); }
+  .gallery-thumb:hover img { transform: scale(1.08); }
+  .gallery-note { font-size: 0.86rem; margin-top: 1.4rem; text-align: center; }
+
+  /* ============ LIGHTBOX ============ */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 300; background: rgba(6,26,30,0.92);
+    display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+    opacity: 0; pointer-events: none; transition: opacity var(--dur) var(--ease);
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox img { max-width: 92vw; max-height: 86vh; border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+  .lightbox button {
+    position: absolute; color: #fff; background: rgba(255,255,255,0.12);
+    width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; line-height: 1; transition: background var(--dur) var(--ease);
+  }
+  .lightbox button:hover { background: rgba(255,255,255,0.25); }
+  .lb-close { top: 1.2rem; right: 1.2rem; }
+  .lb-prev { left: 1.2rem; top: 50%; transform: translateY(-50%); }
+  .lb-next { right: 1.2rem; top: 50%; transform: translateY(-50%); }
+  @media (max-width: 560px) {
+    .lb-prev { left: 0.5rem; } .lb-next { right: 0.5rem; }
+  }
+
+  /* ============ ABOUT / OWNERS ============ */
+  .about-lead { max-width: 60ch; }
+  .about-lead p + p { margin-top: 1rem; }
+  .owners { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 2.4rem; }
+  .owner {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .owner .photo {
+    aspect-ratio: 1 / 1; background: var(--mist); position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .owner .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .owner .photo .ph { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: var(--teal-dark); font-size: 0.8rem; font-weight: 500; }
+  .owner .photo .ph svg { width: 30px; height: 30px; opacity: 0.55; }
+  .owner .body { padding: 1.3rem 1.4rem 1.5rem; }
+  .owner .body h3 { margin-bottom: 0.15rem; }
+  .owner .body .role { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 0.6rem; }
+  .owner .body p { font-size: 0.9rem; }
+
+  @media (max-width: 620px) {
+    .owners { grid-template-columns: 1fr; }
+  }
+
+  /* ============ COME TO YOU ============ */
+  .cty { background: var(--mist-2); }
+  .cty-inner {
+    display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap;
+    background: linear-gradient(160deg, var(--teal), var(--teal-deep));
+    color: var(--white); border-radius: var(--radius); padding: clamp(1.8rem, 4vw, 2.6rem);
+  }
+  .cty-inner .ico { width: 52px; height: 52px; border-radius: 14px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cty-inner .ico svg { width: 26px; height: 26px; }
+  .cty-inner h2 { color: var(--white); font-size: clamp(1.3rem, 2.8vw, 1.8rem); margin-bottom: 0.3rem; }
+  .cty-inner p { color: rgba(255,255,255,0.9); font-size: 0.98rem; max-width: 60ch; }
+  .cty-inner .txt { flex: 1; min-width: 240px; }
+
+  /* ============ BOOKING FORM ============ */
+  .booking { background: linear-gradient(180deg, var(--mist-2), var(--mist)); }
+  .form-card {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(1.6rem, 4vw, 2.6rem); box-shadow: 0 24px 60px -30px rgba(11,82,92,0.4);
+    max-width: 760px; margin: 0 auto;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .field { margin-bottom: 1.1rem; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; color: var(--ink); margin-bottom: 0.45rem; }
+  .field .req { color: var(--teal-dark); }
+  .field input, .field select, .field textarea {
+    width: 100%; background: var(--mist-2);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 0.8rem 0.95rem; color: var(--ink);
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--teal); background: var(--white); }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .field select {
+    appearance: none; -webkit-appearance: none; padding-right: 2.4rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2310707c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.95rem center; background-size: 11px 8px;
+  }
+  .form-note { font-size: 0.82rem; color: var(--slate); margin-top: 0.25rem; }
+  .form-msg { font-size: 0.92rem; margin-top: 1rem; padding: 0.9rem 1rem; border-radius: 10px; background: var(--mist); color: var(--teal-deep); font-weight: 500; display: none; }
+  .form-msg.show { display: block; }
+  .form-card .btn-primary { width: 100%; justify-content: center; margin-top: 0.4rem; }
+
+  @media (max-width: 620px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  /* ============ CONTACT BAR ============ */
+  .contact-bar { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-top: 2rem; }
+  .contact-line { display: flex; align-items: center; gap: 0.8rem; }
+  .contact-line .ico { width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-line .ico svg { width: 18px; height: 18px; }
+  .contact-line strong { display: block; color: var(--ink); font-size: 0.95rem; }
+  .contact-line span { font-size: 0.85rem; }
+
+  /* ============ FOOTER ============ */
+  footer { border-top: 1px solid var(--line); padding: 2.6rem 0; }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+  .footer-brand { display: flex; align-items: center; gap: 0.65rem; }
+  .footer-brand img { height: 38px; width: 38px; border-radius: 50%; }
+  .footer-brand span { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--ink); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.88rem; }
+  .footer-links a:hover { color: var(--teal-dark); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1.6rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+  .footer-copyright { font-size: 0.78rem; color: var(--slate); }
+  .footer-credit { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--slate); }
+  .footer-credit img { height: 15px; width: auto; opacity: 0.85; }
+  .footer-credit:hover { color: var(--ink); }
+
+  @media (max-width: 620px) {
+    .footer-inner, .footer-bottom { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-row">
+    <a href="#top" class="logo">
+      <img src="images/logo.png" alt="Twin Cleans logo" />
+      <span class="text">
+        <span class="name">Twin Cleans</span>
+        <span class="sub">Mobile Detailing</span>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+      <a href="tel:+16093170199">Call</a>
+      <a href="#book" class="btn btn-primary">Book Now</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#about">About</a>
+    <a href="tel:+16093170199">Call (609) 317-0199</a>
+    <a href="mailto:twincleanss@gmail.com">Email us</a>
+    <a href="#book" class="btn btn-primary">Book Now</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Mobile Auto Detailing</span>
+        <h1>Showroom shine,<br />right in your driveway.</h1>
+        <p class="lede">
+          Twin Cleans is run by twin brothers who bring the full detailing shop to you.
+          Cars, trucks, boats, trailers, RVs &mdash; if it has a surface, we&rsquo;ll make it gleam.
+        </p>
+        <div class="hero-cta">
+          <a href="#book" class="btn btn-primary">Book a Detail</a>
+          <a href="tel:+16093170199" class="btn btn-ghost">
+            <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M3 2h3l1.5 4-2 1.5a10 10 0 004.5 4.5l1.5-2 4 1.5v3a1 1 0 01-1 1C7.5 15.5.5 8.5.5 3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            (609) 317-0199
+          </a>
+        </div>
+        <div class="hero-badges">
+          <span class="hero-badge"><svg viewBox="0 0 20 20" fill="none"><path d="M10 1l2.5 5 5.5.8-4 3.9.9 5.5L10 15.5 5.1 16.2l.9-5.5-4-3.9L7.5 6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg> Fully insured</span>
+          <span class="hero-badge"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> We come to you</span>
+          <span class="hero-badge"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M10 5v5l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> 7 days a week</span>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="images/logo.png" alt="Twin Cleans Mobile Detailing" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Packages</span>
+        <h2>Detailing built around your ride</h2>
+        <p>Every package can be tailored on-site. Not sure what you need? Pick the closest option when you book and we&rsquo;ll confirm details with you.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13l2-5a3 3 0 013-2h8a3 3 0 013 2l2 5M5 13h14v4a1 1 0 01-1 1h-2a1 1 0 01-1-1v-1H9v1a1 1 0 01-1 1H6a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="16" cy="15" r="1" fill="currentColor"/></svg></div>
+          <h3>Express Wash &amp; Shine</h3>
+          <p>Exterior hand wash, wheels, tire dressing, glass, and a quick interior wipe-down and vacuum.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l1.5-4A2.5 2.5 0 018 6h8a2.5 2.5 0 012.5 2L20 12v6h-3v-2H7v2H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3>Full Interior Detail</h3>
+          <p>Deep vacuum, shampoo or leather clean, steam, plastics dressed, streak-free glass, odor treatment.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3c4 4 6 7 6 10a6 6 0 01-12 0c0-3 2-6 6-10z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <h3>Exterior Paint Detail</h3>
+          <p>Foam bath, clay decontamination, light polish, and a sealant or wax for months of protection.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>The Twin Full Detail</h3>
+          <p>Our signature top-to-bottom service &mdash; complete inside and out, ceramic-ready finish.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17h18l-2-4H8l-1-3H3M5 17a2 2 0 104 0M15 17a2 2 0 104 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Boat, RV &amp; Trailer</h3>
+          <p>Oxidation removal, hull and gelcoat cleaning, awnings, interiors, and marine-grade protection.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3>Maintenance Plans</h3>
+          <p>Recurring weekly, biweekly, or monthly visits to keep any vehicle in permanent showroom shape.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DETAIL -->
+  <section id="detail" class="detail-strip">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">If it rolls, floats, or tows</span>
+        <h2>We detail more than cars</h2>
+        <p>Mobile means we bring water, power, and every tool with us. That opens the door to just about anything.</p>
+      </div>
+      <div class="chips">
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><path d="M4 6h12l-1 6H5z" stroke="currentColor" stroke-width="1.4"/></svg> Cars &amp; sedans</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><path d="M3 12l1-4h9l3 3h1v3H3z" stroke="currentColor" stroke-width="1.4"/></svg> Trucks &amp; SUVs</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><circle cx="6" cy="13" r="2" stroke="currentColor" stroke-width="1.4"/><circle cx="14" cy="13" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M4 9h8l3 3" stroke="currentColor" stroke-width="1.4"/></svg> Motorcycles</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><path d="M3 14h14l-2-4H6z" stroke="currentColor" stroke-width="1.4"/></svg> Boats &amp; jet skis</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="7" stroke="currentColor" stroke-width="1.4"/></svg> Campers &amp; RVs</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><rect x="3" y="7" width="11" height="6" stroke="currentColor" stroke-width="1.4"/><path d="M14 10h3" stroke="currentColor" stroke-width="1.4"/></svg> Utility &amp; car trailers</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><path d="M4 15V8l4-3 4 3v7" stroke="currentColor" stroke-width="1.4"/></svg> Fleet vehicles</span>
+        <span class="chip"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="1.4"/></svg> Something else? Ask us</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Gallery</span>
+        <h2>Work we&rsquo;re proud of</h2>
+        <p>A look at recent details &mdash; deep cleans, paint work, and finishes fresh out of the driveway.</p>
+      </div>
+    </div>
+
+    <!-- auto-rotating carousel -->
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carouselTrack"></div>
+    </div>
+
+    <div class="wrap">
+      <div class="gallery-toggle-wrap">
+        <button class="gallery-toggle" id="galleryToggle" aria-expanded="false" aria-controls="galleryGrid">
+          <span id="galleryToggleLabel">View all photos</span>
+          <svg viewBox="0 0 14 14" fill="none"><path d="M2 4.5l5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+  </section>
+
+  <!-- lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+    <button class="lb-prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
+    <img id="lbImg" src="" alt="Twin Cleans detailing photo" />
+    <button class="lb-next" id="lbNext" aria-label="Next photo">&#8250;</button>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="detail-strip">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Our Story</span>
+        <h2>Meet Jake &amp; Dan Sinderbrand</h2>
+        <div class="about-lead">
+          <p>Twin Cleans is owned and run by twin brothers Jake and Dan Sinderbrand. They grew up side by side, washing and detailing every car they could get their hands on, and turned that shared habit into a business built on one simple standard: leave every vehicle better than showroom condition.</p>
+          <p>When you book Twin Cleans, you&rsquo;re getting both brothers and the same level of care on every job &mdash; whether it&rsquo;s a daily driver, a weekend boat, or the family RV.</p>
+        </div>
+      </div>
+      <div class="owners">
+        <div class="owner">
+          <div class="photo">
+            <!-- Replace with <img src="images/jake-sinderbrand.jpg" alt="Jake Sinderbrand" /> -->
+            <div class="ph"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Photo of Jake</div>
+          </div>
+          <div class="body">
+            <h3>Jake Sinderbrand</h3>
+            <div class="role">Co-Owner</div>
+            <p>Handles the deep interior work and paint correction. If there&rsquo;s a stain or swirl mark that won&rsquo;t quit, Jake&rsquo;s the one who stays on it.</p>
+          </div>
+        </div>
+        <div class="owner">
+          <div class="photo">
+            <!-- Replace with <img src="images/dan-sinderbrand.jpg" alt="Dan Sinderbrand" /> -->
+            <div class="ph"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Photo of Dan</div>
+          </div>
+          <div class="body">
+            <h3>Dan Sinderbrand</h3>
+            <div class="role">Co-Owner</div>
+            <p>Runs scheduling, exterior washes, and the boat, RV, and trailer work. He&rsquo;s usually the one you&rsquo;ll talk to when you book.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME TO YOU -->
+  <section class="cty">
+    <div class="wrap">
+      <div class="cty-inner">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13l2-5a3 3 0 013-2h8a3 3 0 013 2l2 5M5 13h14v4a1 1 0 01-1 1h-2a1 1 0 01-1-1v-1H9v1a1 1 0 01-1 1H6a1 1 0 01-1-1z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8" cy="15" r="1" fill="#fff"/><circle cx="16" cy="15" r="1" fill="#fff"/></svg></span>
+        <div class="txt">
+          <h2>We come to you</h2>
+          <p>No drop-off, no waiting room. Once your booking is confirmed, Jake and Dan arrive at your home, office, marina, or storage lot with their own water, power, and professional-grade equipment &mdash; and get to work right there in your driveway.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section id="book" class="booking">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Book / Inquire</span>
+        <h2>Request your detailing</h2>
+        <p>Tell us what you&rsquo;ve got and what you&rsquo;re after. This is an inquiry &mdash; we&rsquo;ll confirm the date and price before anything is locked in.</p>
+      </div>
+
+      <div class="form-card">
+        <form id="bookingForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="booking" />
+          <p style="display:none"><label>Don&rsquo;t fill this out: <input name="bot-field" /></label></p>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Name <span class="req">*</span></label>
+              <input id="name" name="Name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone <span class="req">*</span></label>
+              <input id="phone" name="Phone" type="tel" required />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" name="Email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="location">Service address / city <span class="req">*</span></label>
+              <input id="location" name="Service location" type="text" required placeholder="Where we&rsquo;ll meet you" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="itemType">What are we detailing? <span class="req">*</span></label>
+              <select id="itemType" name="Item type" required>
+                <option value="">Select one&hellip;</option>
+                <option>Car / sedan</option>
+                <option>Truck / SUV</option>
+                <option>Van / minivan</option>
+                <option>Motorcycle</option>
+                <option>Boat</option>
+                <option>Jet ski / PWC</option>
+                <option>RV / motorhome</option>
+                <option>Camper / travel trailer</option>
+                <option>Utility / car trailer</option>
+                <option>Fleet (multiple vehicles)</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="makeModel">Year / make / model</label>
+              <input id="makeModel" name="Year make model" type="text" placeholder="e.g. 2019 Ford F-150" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="package">Package <span class="req">*</span></label>
+              <select id="package" name="Package" required>
+                <option value="">Select one&hellip;</option>
+                <option>Express Wash &amp; Shine</option>
+                <option>Full Interior Detail</option>
+                <option>Exterior Paint Detail</option>
+                <option>The Twin Full Detail</option>
+                <option>Boat / RV / Trailer detail</option>
+                <option>Maintenance plan</option>
+                <option>Not sure &mdash; recommend for me</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="condition">Current condition</label>
+              <select id="condition" name="Condition">
+                <option value="">Select one&hellip;</option>
+                <option>Light &mdash; just needs a refresh</option>
+                <option>Average &mdash; normal use</option>
+                <option>Heavy &mdash; needs serious work</option>
+                <option>Pet hair / stains / odor</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="date">Preferred date</label>
+              <input id="date" name="Preferred date" type="date" />
+            </div>
+            <div class="field">
+              <label for="time">Preferred time</label>
+              <select id="time" name="Preferred time">
+                <option value="">Any time</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+                <option>Evening</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="power">On-site water &amp; power available?</label>
+            <select id="power" name="Water and power">
+              <option value="">Not sure</option>
+              <option>Yes &mdash; outdoor spigot and outlet</option>
+              <option>Water only</option>
+              <option>Power only</option>
+              <option>No &mdash; please bring your own</option>
+            </select>
+            <p class="form-note">We can bring our own water and power if needed &mdash; just let us know.</p>
+          </div>
+
+          <div class="field">
+            <label for="notes">Anything else we should know?</label>
+            <textarea id="notes" name="Notes" placeholder="Specific concerns, add-ons, gate codes, multiple vehicles, etc."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Send Booking Request
+            <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M2 7h10M12 7L7.5 2.5M12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="form-msg" id="formMsg">Thanks! Your request is in &mdash; one of the twins will text or email you shortly to confirm the date and price.</p>
+        </form>
+      </div>
+
+      <div class="contact-bar">
+        <a class="contact-line" href="tel:+16093170199">
+          <span class="ico"><svg viewBox="0 0 16 16" fill="none"><path d="M3 2h3l1.5 4-2 1.5a10 10 0 004.5 4.5l1.5-2 4 1.5v3a1 1 0 01-1 1C7.5 15.5.5 8.5.5 3a1 1 0 011-1z" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+          <div><strong>(609) 317-0199</strong><span>Call or text</span></div>
+        </a>
+        <a class="contact-line" href="mailto:twincleanss@gmail.com">
+          <span class="ico"><svg viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="#fff" stroke-width="1.2"/><path d="M2 4l6 5 6-5" stroke="#fff" stroke-width="1.2"/></svg></span>
+          <div><strong>twincleanss@gmail.com</strong><span>We reply fast</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="#top" class="footer-brand">
+        <img src="images/logo.png" alt="Twin Cleans" />
+        <span>Twin Cleans</span>
+      </a>
+      <div class="footer-links">
+        <a href="#services">Services</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#about">About</a>
+        <a href="tel:+16093170199">Call</a>
+        <a href="mailto:twincleanss@gmail.com">Email</a>
+        <a href="#book">Book Now</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">&copy; <span id="year"></span> Twin Cleans Mobile Detailing. All rights reserved.</span>
+      <a href="https://shoreworksnj.com" target="_blank" rel="noopener" class="footer-credit">Site by <img src="images/shoreworks-logo.png" alt="Shoreworks" /></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }));
+
+  // ===== GALLERY =====
+  const GALLERY_COUNT = 16;
+  const photos = Array.from({ length: GALLERY_COUNT }, (_, i) =>
+    'images/gallery/detail-' + String(i + 1).padStart(2, '0') + '.jpeg');
+
+  const track = document.getElementById('carouselTrack');
+  const grid = document.getElementById('galleryGrid');
+
+  // carousel: render twice for a seamless infinite loop
+  [...photos, ...photos].forEach((src, i) => {
+    const slide = document.createElement('button');
+    slide.className = 'carousel-slide';
+    slide.type = 'button';
+    slide.setAttribute('aria-label', 'View photo ' + ((i % photos.length) + 1));
+    slide.dataset.index = i % photos.length;
+    slide.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" loading="lazy" />';
+    track.appendChild(slide);
+  });
+
+  // thumbnail grid
+  photos.forEach((src, i) => {
+    const thumb = document.createElement('button');
+    thumb.className = 'gallery-thumb';
+    thumb.type = 'button';
+    thumb.setAttribute('aria-label', 'View photo ' + (i + 1));
+    thumb.dataset.index = i;
+    thumb.innerHTML = '<img src="' + src + '" alt="Twin Cleans detailing work" loading="lazy" />';
+    grid.appendChild(thumb);
+  });
+
+  // expandable toggle
+  const galleryToggle = document.getElementById('galleryToggle');
+  const galleryLabel = document.getElementById('galleryToggleLabel');
+  galleryToggle.addEventListener('click', () => {
+    const open = grid.classList.toggle('open');
+    galleryToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    galleryLabel.textContent = open ? 'Hide photos' : 'View all photos';
+  });
+
+  // lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  let lbIndex = 0;
+  const openLb = (i) => {
+    lbIndex = (i + photos.length) % photos.length;
+    lbImg.src = photos[lbIndex];
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeLb = () => {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  document.getElementById('carouselTrack').addEventListener('click', (e) => {
+    const s = e.target.closest('.carousel-slide');
+    if (s) openLb(Number(s.dataset.index));
+  });
+  grid.addEventListener('click', (e) => {
+    const t = e.target.closest('.gallery-thumb');
+    if (t) openLb(Number(t.dataset.index));
+  });
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  document.getElementById('lbPrev').addEventListener('click', () => openLb(lbIndex - 1));
+  document.getElementById('lbNext').addEventListener('click', () => openLb(lbIndex + 1));
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLb(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') openLb(lbIndex - 1);
+    if (e.key === 'ArrowRight') openLb(lbIndex + 1);
+  });
+
+  // min date = today
+  const dateInput = document.getElementById('date');
+  if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // form submit (Netlify Forms)
+  const form = document.getElementById('bookingForm');
+  const formMsg = document.getElementById('formMsg');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    })
+      .then(() => {
+        formMsg.textContent = "Thanks! Your request is in — one of the twins will text or email you shortly to confirm the date and price.";
+        formMsg.classList.add('show');
+        form.reset();
+        formMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      })
+      .catch(() => {
+        formMsg.textContent = "Something went wrong — please call or text us and we'll get you booked.";
+        formMsg.classList.add('show');
+      });
+  });
+</script>
+
+</body>
+</html>
