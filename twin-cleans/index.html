@@ -603,9 +603,13 @@
       </div>
 
       <div class="form-card">
-        <form id="bookingForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="booking" />
-          <p style="display:none"><label>Don&rsquo;t fill this out: <input name="bot-field" /></label></p>
+        <form id="bookingForm" method="POST" action="https://formsubmit.co/twincleanss@gmail.com">
+          <input type="hidden" name="_subject" value="New detailing request – Twin Cleans" />
+          <input type="hidden" name="_cc" value="ben@shoreworksnj.com" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="https://twin-cleans.netlify.app/?booked=1" />
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
           <div class="field-row">
             <div class="field">
@@ -690,8 +694,8 @@
             Send Booking Request
             <svg viewBox="0 0 14 14" fill="none" width="14" height="14"><path d="M2 7h10M12 7L7.5 2.5M12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <p class="form-msg" id="formMsg">Thanks! Your request is in &mdash; one of the twins will text or email you shortly to confirm the date and price.</p>
         </form>
+        <p class="form-msg" id="formMsg">Thanks! Your request is in &mdash; one of the twins will text or email you shortly to confirm the date and price.</p>
       </div>
 
       <div class="contact-bar">
@@ -849,28 +853,19 @@
   // year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // form submit (Netlify Forms)
+  // booking form: submits to FormSubmit.co (emails twincleanss@gmail.com, cc ben@shoreworksnj.com)
+  // and returns here with ?booked=1 — show the confirmation and hide the form.
   const form = document.getElementById('bookingForm');
   const formMsg = document.getElementById('formMsg');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(data).toString()
-    })
-      .then(() => {
-        formMsg.textContent = "Thanks! Your request is in — one of the twins will text or email you shortly to confirm the date and price.";
-        formMsg.classList.add('show');
-        form.reset();
-        formMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      })
-      .catch(() => {
-        formMsg.textContent = "Something went wrong — please call or text us and we'll get you booked.";
-        formMsg.classList.add('show');
-      });
-  });
+  if (new URLSearchParams(location.search).get('booked') === '1') {
+    form.hidden = true;
+    formMsg.textContent = "Thanks! Your request is in — one of the twins will text or email you shortly to confirm the date and price.";
+    formMsg.classList.add('show');
+    history.replaceState(null, '', location.pathname);
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('book').scrollIntoView({ behavior: 'smooth' }), 60);
+    });
+  }
 </script>
 
 </body>
