@@ -236,9 +236,11 @@ async function signUp() {
     }
     // Create Square checkout link
     try {
+      const { data: { session: curSession } } = await sb.auth.getSession();
+      const jwt = curSession?.access_token || '';
       const res = await fetch('/.netlify/functions/sq-checkout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` },
         body: JSON.stringify({ uid, email, name, biz }),
       });
       const data = await res.json();
