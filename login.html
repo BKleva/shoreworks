@@ -51,9 +51,22 @@ body{background:#EDE5D4;display:flex;flex-direction:column;align-items:center;ju
 .forgot{font-size:11.5px;color:#1A6B8A;text-decoration:none;display:inline-block;margin-top:.35rem}
 .forgot:hover{text-decoration:underline}
 
+/* PLAN SELECTOR */
+.plan-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.plan-opt{border:1.5px solid #E0DBD0;border-radius:14px;padding:14px 12px;cursor:pointer;transition:all .15s;text-align:left;background:#FDFAF6;position:relative}
+.plan-opt:hover{border-color:#4BB8B8}
+.plan-opt.selected{border-color:#0D3D54;background:#EDF4F8}
+.plan-opt input{position:absolute;opacity:0;pointer-events:none}
+.plan-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#889;margin-bottom:4px}
+.plan-name{font-size:13px;font-weight:700;color:#0D3D54}
+.plan-price{font-size:12px;color:#4BB8B8;font-weight:600;margin-top:2px}
+.plan-desc{font-size:11px;color:#99a;margin-top:5px;line-height:1.4}
+.plan-badge{display:inline-block;padding:2px 8px;background:#4BB8B8;color:#fff;border-radius:100px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+
 @media(max-width:480px){
   .card{padding:1.75rem 1.25rem}
   .fld-row{grid-template-columns:1fr}
+  .plan-row{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -93,6 +106,25 @@ body{background:#EDE5D4;display:flex;flex-direction:column;align-items:center;ju
   <div class="panel" id="panel-up">
     <div class="err-box" id="up-err"></div>
     <div class="ok-box" id="up-ok"></div>
+
+    <!-- Plan selector -->
+    <div class="plan-row">
+      <label class="plan-opt selected" id="plan-free-opt" onclick="selectPlan('free')">
+        <input type="radio" name="plan" value="free" checked>
+        <div class="plan-label">Community</div>
+        <div class="plan-name">Free Member</div>
+        <div class="plan-price">Free</div>
+        <div class="plan-desc">Save favorites, join the forum</div>
+      </label>
+      <label class="plan-opt" id="plan-spot-opt" onclick="selectPlan('spotlight')">
+        <input type="radio" name="plan" value="spotlight">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Spotlight Business</div>
+        <div class="plan-price">$19.99 / mo</div>
+        <div class="plan-desc">Featured listing, analytics &amp; more</div>
+      </label>
+    </div>
+
     <div class="fld-row">
       <div class="fld">
         <label>Your Name</label>
@@ -112,7 +144,7 @@ body{background:#EDE5D4;display:flex;flex-direction:column;align-items:center;ju
       <input type="password" id="up-pass" placeholder="At least 8 characters" autocomplete="new-password" onkeydown="if(event.key==='Enter')signUp()">
     </div>
     <button class="submit-btn" id="up-btn" onclick="signUp()">Create My Account</button>
-    <p class="hint">By creating an account you agree to our community guidelines — keep it helpful and respectful.</p>
+    <p class="hint" id="up-hint">By creating an account you agree to our community guidelines — keep it helpful and respectful.</p>
     <div class="divider">or</div>
     <p class="hint">Already a member? <a href="#" onclick="switchTab('in');return false">Sign in →</a></p>
   </div>
@@ -138,10 +170,28 @@ function switchTab(t) {
   document.querySelectorAll('.panel').forEach(el => el.classList.toggle('on', el.id === 'panel-'+t));
 }
 
+var selectedPlan = 'free';
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('plan-free-opt').classList.toggle('selected', plan === 'free');
+  document.getElementById('plan-spot-opt').classList.toggle('selected', plan === 'spotlight');
+  var btn = document.getElementById('up-btn');
+  var hint = document.getElementById('up-hint');
+  if (plan === 'spotlight') {
+    btn.textContent = 'Continue to Payment →';
+    hint.textContent = 'You\'ll be charged $19.99/month after entering your payment details on the next step.';
+  } else {
+    btn.textContent = 'Create My Account';
+    hint.textContent = 'By creating an account you agree to our community guidelines — keep it helpful and respectful.';
+  }
+}
+
 function setLoading(btnId, loading) {
-  const btn = document.getElementById(btnId);
+  var btn = document.getElementById(btnId);
   btn.disabled = loading;
-  btn.textContent = loading ? 'Please wait…' : (btnId === 'in-btn' ? 'Sign In' : 'Create My Account');
+  if (loading) { btn.textContent = 'Please wait…'; return; }
+  if (btnId === 'in-btn') { btn.textContent = 'Sign In'; return; }
+  btn.textContent = selectedPlan === 'spotlight' ? 'Continue to Payment →' : 'Create My Account';
 }
 
 async function signIn() {
@@ -168,16 +218,51 @@ async function signUp() {
   if (!name || !email || !pass) { err.textContent = 'Please fill in all required fields.'; err.classList.add('show'); return; }
   if (pass.length < 8) { err.textContent = 'Password must be at least 8 characters.'; err.classList.add('show'); return; }
   setLoading('up-btn', true);
-  const { error } = await sb.auth.signUp({
+  const { data: signUpData, error } = await sb.auth.signUp({
     email,
     password: pass,
-    options: { data: { full_name: name, business_name: biz || null } }
+    options: { data: { full_name: name, business_name: biz || null, plan: selectedPlan } }
   });
+  if (error) { setLoading('up-btn', false); err.textContent = error.message; err.classList.add('show'); return; }
+
+  if (selectedPlan === 'spotlight') {
+    // Get the new user's ID — session may not exist yet if email confirmation is on
+    const uid = (signUpData.user || {}).id;
+    if (!uid) {
+      setLoading('up-btn', false);
+      ok.textContent = 'Account created! Confirm your email first, then contact us to complete Spotlight setup.';
+      ok.classList.add('show');
+      return;
+    }
+    // Create Square checkout link
+    try {
+      const res = await fetch('/.netlify/functions/sq-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid, email, name, biz }),
+      });
+      const data = await res.json();
+      if (res.ok && data.url) {
+        ok.textContent = 'Account created! Redirecting to payment…';
+        ok.classList.add('show');
+        setTimeout(() => { location.href = data.url; }, 800);
+      } else {
+        setLoading('up-btn', false);
+        err.textContent = 'Account created, but payment setup failed. Please contact us to activate Spotlight.';
+        err.classList.add('show');
+      }
+    } catch (e) {
+      setLoading('up-btn', false);
+      err.textContent = 'Account created, but could not reach payment service. Please contact us.';
+      err.classList.add('show');
+    }
+    return;
+  }
+
+  // Free account — normal flow
   setLoading('up-btn', false);
-  if (error) { err.textContent = error.message; err.classList.add('show'); return; }
   ok.textContent = 'Account created! Check your email to confirm, then sign in.';
   ok.classList.add('show');
-  // If email confirmation disabled in Supabase, sign in immediately
   const { data: { session } } = await sb.auth.getSession();
   if (session) { setTimeout(() => { location.href = sessionStorage.getItem('pending_list') ? '/' : getNext(); }, 1200); }
 }

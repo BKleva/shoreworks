@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Spotlight — Shore Works</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230D3D54'/><text x='8' y='23' font-family='Georgia,serif' font-size='19' fill='white' font-weight='400'>S</text><text x='19' y='23' font-family='Georgia,serif' font-size='16' fill='%234BB8B8' font-style='italic'>w</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;font-family:'Sora',sans-serif}
+body{background:#EDE5D4;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.brand{text-align:center;margin-bottom:2rem}
+.brand-name{font-family:'Playfair Display',serif;font-size:28px;color:#0D3D54}
+.brand-name em{color:#4BB8B8;font-style:italic}
+.card{background:#fff;border-radius:22px;padding:2.5rem 2.25rem;width:100%;max-width:440px;box-shadow:0 16px 56px rgba(13,61,84,.12);text-align:center}
+.spinner{width:40px;height:40px;border:3px solid #EDE8DF;border-top-color:#4BB8B8;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.icon-wrap{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.icon-wrap.ok{background:#E6F7F0}
+.icon-wrap.err{background:#FEE8E8}
+.icon-wrap i{font-size:2rem}
+.icon-wrap.ok i{color:#1A7A4A}
+.icon-wrap.err i{color:#B83030}
+h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:400;color:#0D3D54;margin-bottom:.6rem}
+p{font-size:13px;color:#667;line-height:1.7;margin-bottom:1.5rem}
+.btn{display:inline-block;padding:13px 28px;border-radius:100px;background:#0D3D54;color:#fff;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;text-decoration:none;transition:background .15s}
+.btn:hover{background:#0a2f40}
+.btn.sec{background:transparent;color:#0D3D54;border:1.5px solid #C8C4BB;margin-left:8px}
+.btn.sec:hover{border-color:#0D3D54}
+.loading-msg{font-size:13px;color:#889;margin-top:.5rem}
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <div class="brand-name">Shore<em>works</em></div>
+</div>
+
+<div class="card" id="card">
+  <div class="spinner" id="spinner"></div>
+  <p class="loading-msg">Activating your Spotlight account…</p>
+</div>
+
+<script>
+(async function () {
+  const token = new URLSearchParams(location.search).get('token');
+  const card = document.getElementById('card');
+
+  function showOk() {
+    card.innerHTML = `
+      <div class="icon-wrap ok"><i class="ti ti-star"></i></div>
+      <h2>You're a Spotlight member!</h2>
+      <p>Your account is active and your $19.99/month subscription is confirmed. Sign in now to set up your listing and start getting discovered.</p>
+      <a href="/login" class="btn">Sign In to Your Account</a>
+    `;
+  }
+
+  function showErr(msg) {
+    card.innerHTML = `
+      <div class="icon-wrap err"><i class="ti ti-alert-circle"></i></div>
+      <h2>Something went wrong</h2>
+      <p>${msg || 'We couldn't activate your account. Your payment went through — please contact us and we'll sort it out right away.'}</p>
+      <a href="mailto:ben@shoreworksnj.com" class="btn">Email Us</a>
+      <a href="/login" class="btn sec">Sign In</a>
+    `;
+  }
+
+  if (!token) { showErr('Missing activation token.'); return; }
+
+  try {
+    const res = await fetch('/.netlify/functions/sq-activate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+    if (res.ok) {
+      showOk();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      showErr(data.error || null);
+    }
+  } catch (e) {
+    showErr('Network error — please try again or contact us.');
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -10,6 +10,11 @@
   status = 200
 
 [[redirects]]
+  from = "/spotlight-success"
+  to = "/spotlight-success.html"
+  status = 200
+
+[[redirects]]
   from = "/dashboard"
   to = "/dashboard.html"
   status = 200
@@ -24,6 +29,14 @@
 [[redirects]]
   from = "/reviews-api/*"
   to = "https://shoreworks-review-collector.netlify.app/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# Serve business logos from this domain (not the Supabase storage host) so
+# review-request emails don't trip "cross-domain image" spam-filter checks.
+[[redirects]]
+  from = "/reviews/logo/*"
+  to = "https://nnrkdxadjxadmbanwtoe.supabase.co/storage/v1/object/public/logos/:splat"
   status = 200
   force = true
 
