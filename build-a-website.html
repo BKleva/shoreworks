@@ -718,23 +718,42 @@ footer p{font-size:12px;color:#888}
 <script>
 (function(){
   var idx = 0;
-  function portUpdate() {
+  var autoTimer = null;
+  var cardW = 0;
+  var gap = 24;
+
+  function getPerView() { return window.innerWidth > 768 ? 2 : 1; }
+
+  function getCards() {
+    var track = document.getElementById('port-track');
+    return track ? track.querySelectorAll('.port-card') : [];
+  }
+
+  function portUpdate(animated) {
     var track = document.getElementById('port-track');
     if (!track) return;
-    var cards = track.querySelectorAll('.port-card');
+    var cards = getCards();
     if (!cards.length) return;
-    var gap = 24;
+    var perView = getPerView();
     var wrapW = track.parentElement.offsetWidth;
-    var perView = window.innerWidth > 768 ? 2 : 1;
-    var cardW = Math.floor((wrapW - gap * (perView - 1)) / perView);
+    cardW = Math.floor((wrapW - gap * (perView - 1)) / perView);
     cards.forEach(function(c){ c.style.width = cardW + 'px'; });
     var maxIdx = Math.max(0, cards.length - perView);
-    idx = Math.max(0, Math.min(idx, maxIdx));
-    track.style.transform = 'translateX(-' + (idx * (cardW + gap)) + 'px)';
-    var prev = document.getElementById('port-prev');
-    var next = document.getElementById('port-next');
-    if (prev) prev.disabled = idx === 0;
-    if (next) next.disabled = idx >= maxIdx;
+
+    // Wrap around for infinite loop
+    if (idx > maxIdx) idx = 0;
+    if (idx < 0) idx = maxIdx;
+
+    if (animated === false) {
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(-' + (idx * (cardW + gap)) + 'px)';
+      track.offsetHeight; // force reflow
+      track.style.transition = '';
+    } else {
+      track.style.transform = 'translateX(-' + (idx * (cardW + gap)) + 'px)';
+    }
+
+    // Dots — build once
     var dotsEl = document.getElementById('port-dots');
     if (dotsEl && !dotsEl.children.length) {
       for (var i = 0; i < cards.length; i++) {
@@ -749,12 +768,35 @@ footer p{font-size:12px;color:#888}
     if (dotsEl) {
       dotsEl.querySelectorAll('.port-dot').forEach(function(d, i){ d.classList.toggle('on', i === idx); });
     }
+
+    // Arrows always enabled in loop mode
+    var prev = document.getElementById('port-prev');
+    var next = document.getElementById('port-next');
+    if (prev) prev.disabled = false;
+    if (next) next.disabled = false;
   }
+
   window.portMove = function(dir) { idx += dir; portUpdate(); };
   window.portGoto = function(i) { idx = i; portUpdate(); };
-  window.addEventListener('resize', portUpdate);
-  if (document.readyState !== 'loading') portUpdate();
-  else document.addEventListener('DOMContentLoaded', portUpdate);
+
+  // Auto-advance every 4 seconds
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(function(){ idx++; portUpdate(); }, 4000);
+  }
+  function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+
+  // Pause on hover
+  var carousel = document.querySelector('.portfolio-carousel');
+  if (carousel) {
+    carousel.addEventListener('mouseenter', stopAuto);
+    carousel.addEventListener('mouseleave', startAuto);
+  }
+
+  window.addEventListener('resize', function(){ portUpdate(false); });
+  function init() { portUpdate(false); startAuto(); }
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
 })();
 window.addEventListener('scroll', function(){
   var btt = document.getElementById('back-to-top');
