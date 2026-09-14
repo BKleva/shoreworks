@@ -71,11 +71,13 @@ body{font-family:'Space Grotesk',sans-serif;color:#1a1a1a;background:#EDE5D4;fon
 .portfolio-section .section-title{color:#fff}
 .portfolio-section .section-sub{color:rgba(255,255,255,.7)}
 .portfolio-inner{max-width:1100px;margin:0 auto}
-.portfolio-carousel{position:relative;margin-top:3rem}
-.portfolio-track-wrap{overflow:hidden}
-.portfolio-track{display:flex;gap:1.5rem;transition:transform .45s cubic-bezier(.25,.46,.45,.94);will-change:transform}
-.port-card{flex-shrink:0;background:#fff;border-radius:20px;border:3px solid #4BB8B8;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .22s}
-.port-card:hover{box-shadow:0 16px 48px rgba(13,61,84,.12)}
+.portfolio-carousel{position:relative;margin-top:3rem;padding:0 52px}
+.portfolio-track-wrap{overflow:hidden;position:relative;height:510px}
+.portfolio-track{position:relative;height:100%}
+.port-card{position:absolute;left:50%;top:0;width:440px;max-width:calc(100% - 60px);background:#fff;border-radius:20px;border:3px solid #4BB8B8;overflow:hidden;display:flex;flex-direction:column;opacity:0;z-index:1;pointer-events:none;transform:translateX(-50%) scale(0.72);transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .5s ease,box-shadow .5s ease}
+.port-card.pc-active{opacity:1;z-index:10;transform:translateX(-50%) scale(1);pointer-events:auto;box-shadow:0 24px 72px rgba(0,0,0,.35)}
+.port-card.pc-prev{opacity:0.5;z-index:5;transform:translateX(calc(-50% - 320px)) scale(0.82)}
+.port-card.pc-next{opacity:0.5;z-index:5;transform:translateX(calc(-50% + 320px)) scale(0.82)}
 .port-preview{width:100%;height:220px;display:block;flex-shrink:0;object-fit:cover;object-position:top}
 .port-preview-wrap{background:#F5F0E8;flex-shrink:0}
 .port-preview-logo{object-fit:contain;padding:1.5rem;height:220px}
@@ -86,8 +88,7 @@ body{font-family:'Space Grotesk',sans-serif;color:#1a1a1a;background:#EDE5D4;fon
 .port-desc{font-size:13px;color:#556677;line-height:1.7;flex:1}
 .port-link{display:inline-flex;align-items:center;gap:6px;margin-top:1rem;padding:8px 20px;border-radius:100px;background:#0D3D54;color:#fff;text-decoration:none;font-size:12px;font-weight:600;font-family:'Space Grotesk',sans-serif;align-self:flex-start;transition:background .15s}
 .port-link:hover{background:#0a2f40}
-.portfolio-carousel{padding:0 36px}
-.port-arrow{display:flex;position:absolute;top:38%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:#fff;border:1.5px solid #E2DACE;box-shadow:0 4px 18px rgba(13,61,84,.1);align-items:center;justify-content:center;cursor:pointer;color:#0D3D54;font-size:1.15rem;transition:all .18s;z-index:5;padding:0;font-family:inherit;line-height:1}
+.port-arrow{display:flex;position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:#fff;border:1.5px solid #E2DACE;box-shadow:0 4px 18px rgba(13,61,84,.1);align-items:center;justify-content:center;cursor:pointer;color:#0D3D54;font-size:1.15rem;transition:all .18s;z-index:20;padding:0;font-family:inherit;line-height:1}
 .port-arrow:hover:not(:disabled){background:#0D3D54;color:#fff;border-color:#0D3D54;box-shadow:0 6px 24px rgba(13,61,84,.18)}
 .port-arrow:disabled{opacity:.2;pointer-events:none}
 .port-arrow-left{left:0}
@@ -203,7 +204,9 @@ footer p{font-size:12px;color:#888}
   .svc-name{font-size:14px}
   .svc-desc{font-size:11.5px;line-height:1.6}
   .portfolio-carousel{padding:0 28px}
-  .port-card{flex:0 0 100%}
+  .portfolio-track-wrap{height:440px}
+  .port-card.pc-prev{transform:translateX(calc(-50% - 200px)) scale(0.82)}
+  .port-card.pc-next{transform:translateX(calc(-50% + 200px)) scale(0.82)}
   .headshot-wrap img{width:140px;height:170px}
   .spotlight-inner{grid-template-columns:1fr}
   .spotlight-card{display:none}
@@ -286,7 +289,7 @@ footer p{font-size:12px;color:#888}
     <h2 class="section-title">Sites we've <em>built</em></h2>
     <p class="section-sub">Real projects for real local businesses — custom-designed, handcrafted, and built to perform.</p>
     <div class="portfolio-carousel">
-      <button class="port-arrow port-arrow-left" id="port-prev" onclick="portMove(-1)" disabled aria-label="Previous"><i class="ti ti-chevron-left"></i></button>
+      <button class="port-arrow port-arrow-left" id="port-prev" aria-label="Previous"><i class="ti ti-chevron-left"></i></button>
       <div class="portfolio-track-wrap">
         <div class="portfolio-track" id="port-track">
 
@@ -339,7 +342,7 @@ footer p{font-size:12px;color:#888}
       </div>
       </div><!-- /portfolio-track -->
       </div><!-- /portfolio-track-wrap -->
-      <button class="port-arrow port-arrow-right" id="port-next" onclick="portMove(1)" aria-label="Next"><i class="ti ti-chevron-right"></i></button>
+      <button class="port-arrow port-arrow-right" id="port-next" aria-label="Next"><i class="ti ti-chevron-right"></i></button>
       <div class="port-dots" id="port-dots"></div>
     </div><!-- /portfolio-carousel -->
   </div>
@@ -725,84 +728,57 @@ footer p{font-size:12px;color:#888}
 
 <script>
 (function(){
-  var idx = 0;
-  var autoTimer = null;
-  var cardW = 0;
-  var gap = 24;
+  var current = 0, timer;
+  var cards, total, dotsEl;
 
-  function getPerView() { return window.innerWidth > 768 ? 2 : 1; }
+  function init() {
+    cards = Array.from(document.querySelectorAll('#port-track .port-card'));
+    total = cards.length;
+    dotsEl = document.getElementById('port-dots');
 
-  function getCards() {
-    var track = document.getElementById('port-track');
-    return track ? track.querySelectorAll('.port-card') : [];
-  }
+    // Build dots
+    cards.forEach(function(_, i) {
+      var d = document.createElement('button');
+      d.className = 'port-dot' + (i === 0 ? ' on' : '');
+      d.setAttribute('aria-label', 'Slide ' + (i + 1));
+      d.addEventListener('click', function(){ goTo(i); resetTimer(); });
+      dotsEl.appendChild(d);
+    });
 
-  function portUpdate(animated) {
-    var track = document.getElementById('port-track');
-    if (!track) return;
-    var cards = getCards();
-    if (!cards.length) return;
-    var perView = getPerView();
-    var wrapW = track.parentElement.offsetWidth;
-    cardW = Math.floor((wrapW - gap * (perView - 1)) / perView);
-    cards.forEach(function(c){ c.style.width = cardW + 'px'; });
-    var maxIdx = Math.max(0, cards.length - perView);
-
-    // Wrap around for infinite loop
-    if (idx > maxIdx) idx = 0;
-    if (idx < 0) idx = maxIdx;
-
-    if (animated === false) {
-      track.style.transition = 'none';
-      track.style.transform = 'translateX(-' + (idx * (cardW + gap)) + 'px)';
-      track.offsetHeight; // force reflow
-      track.style.transition = '';
-    } else {
-      track.style.transform = 'translateX(-' + (idx * (cardW + gap)) + 'px)';
-    }
-
-    // Dots — build once
-    var dotsEl = document.getElementById('port-dots');
-    if (dotsEl && !dotsEl.children.length) {
-      for (var i = 0; i < cards.length; i++) {
-        var d = document.createElement('button');
-        d.className = 'port-dot' + (i === 0 ? ' on' : '');
-        d.setAttribute('aria-label', 'Slide ' + (i + 1));
-        d.setAttribute('data-i', i);
-        d.addEventListener('click', function(){ portGoto(+this.getAttribute('data-i')); });
-        dotsEl.appendChild(d);
-      }
-    }
-    if (dotsEl) {
-      dotsEl.querySelectorAll('.port-dot').forEach(function(d, i){ d.classList.toggle('on', i === idx); });
-    }
-
-    // Arrows always enabled in loop mode
+    // Arrow listeners
     var prev = document.getElementById('port-prev');
     var next = document.getElementById('port-next');
-    if (prev) prev.disabled = false;
-    if (next) next.disabled = false;
+    if (prev) { prev.removeAttribute('disabled'); prev.addEventListener('click', function(){ goTo(current - 1); resetTimer(); }); }
+    if (next) { next.removeAttribute('disabled'); next.addEventListener('click', function(){ goTo(current + 1); resetTimer(); }); }
+
+    // Pause on hover
+    var carousel = document.querySelector('.portfolio-carousel');
+    if (carousel) {
+      carousel.addEventListener('mouseenter', function(){ clearInterval(timer); });
+      carousel.addEventListener('mouseleave', resetTimer);
+    }
+
+    goTo(0);
+    resetTimer();
   }
 
-  window.portMove = function(dir) { idx += dir; portUpdate(); };
-  window.portGoto = function(i) { idx = i; portUpdate(); };
-
-  // Auto-advance every 4 seconds
-  function startAuto() {
-    stopAuto();
-    autoTimer = setInterval(function(){ idx++; portUpdate(); }, 4000);
-  }
-  function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
-
-  // Pause on hover
-  var carousel = document.querySelector('.portfolio-carousel');
-  if (carousel) {
-    carousel.addEventListener('mouseenter', stopAuto);
-    carousel.addEventListener('mouseleave', startAuto);
+  function goTo(n) {
+    current = ((n % total) + total) % total;
+    var prev = ((current - 1) + total) % total;
+    var next = (current + 1) % total;
+    cards.forEach(function(c, i) {
+      c.classList.remove('pc-active', 'pc-prev', 'pc-next');
+      if (i === current) c.classList.add('pc-active');
+      else if (i === prev) c.classList.add('pc-prev');
+      else if (i === next) c.classList.add('pc-next');
+    });
+    dotsEl.querySelectorAll('.port-dot').forEach(function(d, i){ d.classList.toggle('on', i === current); });
   }
 
-  window.addEventListener('resize', function(){ portUpdate(false); });
-  function init() { portUpdate(false); startAuto(); }
+  function resetTimer() { clearInterval(timer); timer = setInterval(function(){ goTo(current + 1); }, 4000); }
+
+  window.portMove = function(dir){ goTo(current + dir); resetTimer(); };
+
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 })();
