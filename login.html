@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign In — Shore Works</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230D3D54'/><text x='8' y='23' font-family='Georgia,serif' font-size='19' fill='white' font-weight='400'>S</text><text x='19' y='23' font-family='Georgia,serif' font-size='16' fill='%234BB8B8' font-style='italic'>w</text></svg>">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
@@ -226,38 +227,11 @@ async function signUp() {
   if (error) { setLoading('up-btn', false); err.textContent = error.message; err.classList.add('show'); return; }
 
   if (selectedPlan === 'spotlight') {
-    // Get the new user's ID — session may not exist yet if email confirmation is on
-    const uid = (signUpData.user || {}).id;
-    if (!uid) {
-      setLoading('up-btn', false);
-      ok.textContent = 'Account created! Confirm your email first, then contact us to complete Spotlight setup.';
-      ok.classList.add('show');
-      return;
-    }
-    // Create Square checkout link
-    try {
-      const { data: { session: curSession } } = await sb.auth.getSession();
-      const jwt = curSession?.access_token || '';
-      const res = await fetch('/.netlify/functions/sq-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-        body: JSON.stringify({ uid, email, name, biz }),
-      });
-      const data = await res.json();
-      if (res.ok && data.url) {
-        ok.textContent = 'Account created! Redirecting to payment…';
-        ok.classList.add('show');
-        setTimeout(() => { location.href = data.url; }, 800);
-      } else {
-        setLoading('up-btn', false);
-        err.textContent = 'Account created, but payment setup failed. Please contact us to activate Spotlight.';
-        err.classList.add('show');
-      }
-    } catch (e) {
-      setLoading('up-btn', false);
-      err.textContent = 'Account created, but could not reach payment service. Please contact us.';
-      err.classList.add('show');
-    }
+    // Redirect to Square Payment Link for $19.99/mo recurring subscription
+    const SQUARE_PAYMENT_LINK = 'SQUARE_LINK_HERE'; // replaced once payment link is created
+    ok.textContent = 'Account created! Redirecting to payment…';
+    ok.classList.add('show');
+    setTimeout(() => { location.href = SQUARE_PAYMENT_LINK; }, 900);
     return;
   }
 
