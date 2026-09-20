@@ -420,6 +420,51 @@
   @media (prefers-reduced-motion: reduce) {
     .progress-bar { transition: none; }
   }
+
+  .main-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .print-only { display: none; }
+  @media print {
+    body { background: #fff; color: #000; font-size: 11px; }
+    header.appbar, .layout, .toast { display: none !important; }
+    dialog { display: none !important; }
+    .print-only { display: block; padding: 0; }
+    #printReport { font-family: "Overpass", "Helvetica Neue", Arial, sans-serif; }
+    #printReport .rpt-head { border-bottom: 3px solid #000; padding-bottom: 8px; margin-bottom: 4px; }
+    #printReport .rpt-title { font-size: 18px; font-weight: 800; margin: 0; }
+    #printReport .rpt-meta { font-size: 10.5px; color: #333; margin: 2px 0 0; }
+    #printReport h2 {
+      font-size: 13px; font-weight: 800;
+      margin: 16px 0 6px;
+      break-after: avoid;
+    }
+    #printReport table {
+      width: 100%; min-width: 0;
+      border-collapse: collapse;
+    }
+    #printReport th, #printReport td {
+      border: 1px solid #999;
+      padding: 4px 6px;
+      font-size: 9.5px;
+      color: #000;
+      text-align: left;
+      vertical-align: top;
+    }
+    #printReport th { background: #eee; text-transform: uppercase; letter-spacing: 0.05em; font-size: 8.5px; }
+    #printReport tr { break-inside: avoid; }
+    #printReport mark { background: none; color: #000; font-weight: 700; text-decoration: underline; }
+    #printReport .status { border: 1px solid #000; background: none !important; color: #000 !important; border-radius: 3px; padding: 0 4px; }
+    #printReport .rte { border: 1px solid #999; background: none; color: #000; }
+    #printReport .town { font-weight: 700; }
+    #printReport .county-tag, #printReport .cite, #printReport .corridor { color: #000; }
+    #printReport .rpt-disclaimer { font-size: 9.5px; color: #333; margin-top: 14px; border-top: 1px solid #999; padding-top: 6px; }
+  }
 </style>
 
 <header class="appbar">
@@ -486,6 +531,11 @@
   </aside>
 
   <main>
+    <div class="main-actions">
+      <button class="btn" id="printBtn" type="button">Print Report</button>
+      <button class="btn" id="exportBtn" type="button">Export Spreadsheet (.xlsx)</button>
+    </div>
+
     <div class="tiles" id="tiles"></div>
 
     <div class="tabs" role="tablist" id="tabBar"></div>
@@ -520,6 +570,9 @@
   </form>
 </dialog>
 
+<div class="print-only" id="printReport" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function () {
   "use strict";
@@ -727,9 +780,9 @@
       "</tr></thead><tbody>" + rowsHtml + "</tbody></table>";
   }
 
-  function renderPanel() {
+  function tabHtml(tabId) {
     var html = "";
-    if (state.tab === "ordinances") {
+    if (tabId === "ordinances") {
       html = tableShell(
         ["Town", "Citation", "Matched Language", "Corridors", "Status", "Checked"],
         filteredOrdinances().map(function (r) {
@@ -743,7 +796,7 @@
             "</tr>";
         }).join("")
       );
-    } else if (state.tab === "plans") {
+    } else if (tabId === "plans") {
       html = tableShell(
         ["Town", "Latest Master Plan", "Scenic Highway", "What It Says", "Corridors"],
         filteredPlans().map(function (r) {
@@ -758,7 +811,7 @@
             "</tr>";
         }).join("")
       );
-    } else if (state.tab === "digitals") {
+    } else if (tabId === "digitals") {
       html = tableShell(
         ["Location", "County", "Unit", "Faces", "Operator", "Route"],
         filteredDigitals().map(function (r) {
@@ -787,7 +840,11 @@
         }).join("")
       );
     }
-    panelHost.innerHTML = html;
+    return html;
+  }
+
+  function renderPanel() {
+    panelHost.innerHTML = tabHtml(state.tab);
   }
 
   function renderCounties() {
@@ -927,6 +984,144 @@
     document.body.appendChild(t);
     setTimeout(function () { t.remove(); }, 3200);
   }
+
+  /* ---------- print report ---------- */
+
+  function filterSummary() {
+    var picked = COUNTIES.filter(function (c) { return state.counties[c]; });
+    var s = "Counties: " + (picked.length ? picked.join(", ") : "none selected");
+    if (state.query) s += " · Search: “" + state.query + "”";
+    return s;
+  }
+
+  function buildPrintReport() {
+    var d = new Date();
+    var html =
+      '<div class="rpt-head">' +
+      '<p class="rpt-title">Ordinance Scout — NJ Billboard Zoning Report</p>' +
+      '<p class="rpt-meta">Generated ' + esc(d.toLocaleDateString()) + " · " + esc(filterSummary()) + "</p>" +
+      "</div>";
+    TABS.forEach(function (t) {
+      html += "<h2>" + esc(t.label) + " (" + t.count().length + ")</h2>" + tabHtml(t.id);
+    });
+    html += '<p class="rpt-disclaimer">Sample data for UI review — citations and statuses are illustrative placeholders, not verified research. Crawler and NJDOT connection not yet active.</p>';
+    document.getElementById("printReport").innerHTML = html;
+  }
+
+  document.getElementById("printBtn").addEventListener("click", function () {
+    buildPrintReport();
+    window.print();
+  });
+  window.addEventListener("beforeprint", buildPrintReport);
+
+  /* ---------- spreadsheet export ---------- */
+
+  function buildWorkbook() {
+    var wb = XLSX.utils.book_new();
+    var d = new Date();
+
+    function sheet(name, headers, rows, widths) {
+      var ws = XLSX.utils.aoa_to_sheet([headers].concat(rows));
+      ws["!cols"] = widths.map(function (w) { return { wch: w }; });
+      XLSX.utils.book_append_sheet(wb, ws, name);
+    }
+
+    sheet("Summary",
+      ["Ordinance Scout — NJ Billboard Zoning Report"],
+      [
+        ["Generated", d.toLocaleString()],
+        ["Filters", filterSummary()],
+        ["Crawler phrases", crawlerTerms.join("; ")],
+        [],
+        ["Towns matched", filteredOrdinances().length],
+        ["Explicit prohibitions", filteredOrdinances().filter(function (r) { return r.status === "prohibited"; }).length],
+        ["Scenic highway designations", filteredPlans().filter(function (r) { return r.scenic; }).length],
+        ["Digital faces located", filteredDigitals().reduce(function (n, r) { return n + r.faces; }, 0)],
+        [],
+        ["NOTE", "Sample data for UI review — not verified research."]
+      ],
+      [28, 70]);
+
+    sheet("Ordinance Matches",
+      ["Town", "County", "Citation", "Matched Language", "Corridors", "Status", "Checked"],
+      filteredOrdinances().map(function (r) {
+        return [r.town, r.county, r.cite, r.excerpt, r.routes.join(", "), r.status, r.updated];
+      }),
+      [20, 10, 14, 70, 22, 11, 9]);
+
+    sheet("Master Plans",
+      ["Town", "County", "Latest Master Plan", "Scenic Highway", "What It Says", "Corridors"],
+      filteredPlans().map(function (r) {
+        return [r.town, r.county, r.plan, r.scenic ? "Designated" : "None found", r.excerpt, r.routes.join(", ")];
+      }),
+      [20, 10, 30, 14, 70, 18]);
+
+    sheet("Digital Inventory",
+      ["Location", "County", "Unit", "Faces", "Operator", "Route"],
+      filteredDigitals().map(function (r) {
+        return [r.loc, r.county, r.size, r.faces, r.owner, r.route];
+      }),
+      [38, 10, 22, 6, 16, 8]);
+
+    sheet("Highway Corridors",
+      ["Corridor", "Counties", "Frontage Towns", "Prohibit", "Open", "Notes"],
+      filteredCorridors().map(function (r) {
+        return [r.route, r.counties.join(", "), r.towns, r.prohibited, r.open, r.note];
+      }),
+      [22, 22, 13, 8, 6, 80]);
+
+    return wb;
+  }
+
+  function blobDownload(name, buffer) {
+    var blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+  }
+
+  var exportBtn = document.getElementById("exportBtn");
+  exportBtn.addEventListener("click", function () {
+    if (!window.XLSX) {
+      toast("Spreadsheet library didn’t load — check your connection and reload");
+      return;
+    }
+    exportBtn.disabled = true;
+    var filename = "ordinance-scout-" + new Date().toISOString().slice(0, 10) + ".xlsx";
+    var buffer;
+    try {
+      buffer = XLSX.write(buildWorkbook(), { bookType: "xlsx", type: "array" });
+    } catch (e) {
+      exportBtn.disabled = false;
+      toast("Couldn’t build the spreadsheet");
+      return;
+    }
+    var savePromise = (window.claude && typeof window.claude.use === "function")
+      ? window.claude.use("downloads")
+      : Promise.resolve(null);
+    savePromise.then(function (downloads) {
+      if (downloads) {
+        return downloads.save({ filename: filename, data: buffer }).then(function () {
+          toast("Spreadsheet saved");
+        }, function (err) {
+          if (err && err.code === "declined") return;
+          if (err && err.code === "rate_limited") { toast("A save prompt is already open — try again in a moment"); return; }
+          toast("Couldn’t save the file in this view");
+        });
+      }
+      blobDownload(filename, buffer);
+      toast("Spreadsheet downloading");
+    }).then(function () {
+      exportBtn.disabled = false;
+    }, function () {
+      exportBtn.disabled = false;
+    });
+  });
 
   /* ---------- boot ---------- */
   renderCounties();
