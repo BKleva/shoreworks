@@ -157,20 +157,46 @@
   .hero .lede { color: rgba(255,255,255,0.72); margin: 1.4rem 0 2.2rem; }
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
   .hero-art { position: relative; }
-  .hero-art img { border-radius: 8px; width: 100%; }
+  .hero-carousel {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--charcoal);
+  }
+  .hero-carousel .h-slide {
+    position: absolute; inset: 0;
+    opacity: 0; transform: scale(1.03);
+    transition: opacity 0.9s var(--ease), transform 1.1s var(--ease);
+    cursor: pointer;
+  }
+  .hero-carousel .h-slide.active { opacity: 1; transform: scale(1); z-index: 2; }
+  .hero-carousel .h-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-carousel .h-tag {
+    position: absolute; left: 14px; bottom: 14px;
+    background: rgba(10,10,10,0.82); color: #fff;
+    padding: 0.55rem 0.9rem; border-radius: 3px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .hero-carousel .h-tag .price { color: var(--yellow); }
+  .hero-carousel .h-dots { position: absolute; right: 14px; bottom: 18px; display: flex; flex-direction: column; gap: 6px; z-index: 3; }
+  .hero-carousel .h-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.35); transition: background var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .hero-carousel .h-dots span.active { background: #fff; transform: scale(1.3); }
   .hero-badge {
-    position: absolute; bottom: -18px; left: -18px;
+    position: absolute; top: -16px; right: 18px;
     background: var(--white); color: var(--black);
     padding: 0.8rem 1.1rem; border-radius: var(--radius);
     font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
     display: flex; align-items: center; gap: 0.6rem;
     box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+    z-index: 4;
   }
-  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); }
 
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-badge { left: 0; }
+    .hero-badge { right: 0; }
   }
 
   /* ============ MARQUEE ============ */
@@ -384,12 +410,14 @@
         <p class="lede">Every pair in the Sling lineup is fit-tested and modeled by the guy running the brand before it ever ships. No stock photos, no stand-ins &mdash; just a fit dialed in on the beach, on the boardwalk, on repeat.</p>
         <div class="hero-cta">
           <a href="#gallery" class="btn btn-primary">View The Lookbook</a>
-          <a href="#shop" class="btn btn-light">Shop The Drop</a>
+          <a href="#shop" class="btn btn-light">Shop The Collection</a>
         </div>
       </div>
       <div class="hero-art reveal">
-        <img src="images/hero.svg" alt="Sling hero model shot placeholder">
-        <div class="hero-badge"><span class="dot"></span> New drop &mdash; Summer lineup live</div>
+        <div class="hero-carousel" id="heroStage">
+          <!-- slides populated by JS from the PRODUCTS array -->
+        </div>
+        <div class="hero-badge"><span class="dot"></span> In stock &amp; ready to ship</div>
       </div>
     </div>
   </section>
@@ -398,11 +426,11 @@
     <div class="marquee-track">
       <span>Modeled By The Maker</span>
       <span>Free Shipping Over $75</span>
-      <span>Small Batch Drops</span>
+      <span>Always In Stock</span>
       <span>Sling Approved</span>
       <span>Modeled By The Maker</span>
       <span>Free Shipping Over $75</span>
-      <span>Small Batch Drops</span>
+      <span>Always In Stock</span>
       <span>Sling Approved</span>
     </div>
   </div>
@@ -412,8 +440,8 @@
       <div class="gallery-head reveal">
         <div>
           <span class="eyebrow">The Lookbook</span>
-          <h2>Click a look. Buy the pair.</h2>
-          <p class="lede">A rotating gallery of real model shots &mdash; click any photo to see the pair, the price, and buy it on the spot.</p>
+          <h2>What's in stock, worn.</h2>
+          <p class="lede">A rotating gallery of real model shots from the current catalog &mdash; click any photo to see the pair, the price, and buy it on the spot.</p>
         </div>
       </div>
 
@@ -429,9 +457,9 @@
     <div class="wrap">
       <div class="gallery-head reveal">
         <div>
-          <span class="eyebrow">Shop The Collection</span>
-          <h2>Every pair, ready to order.</h2>
-          <p class="lede">Tap any style for sizing, colorways, and a direct link to buy.</p>
+          <span class="eyebrow">The Catalog</span>
+          <h2>Every pair we carry, in stock now.</h2>
+          <p class="lede">This is the full current lineup &mdash; no drops, no waiting. Tap any style for sizing, colorways, and a direct link to buy.</p>
         </div>
       </div>
       <div class="shop-grid" id="shopGrid"></div>
@@ -450,7 +478,7 @@
         <ul class="about-list">
           <li><span class="chip" style="background:var(--blue)"></span> Designed and modeled in-house &mdash; no stock talent</li>
           <li><span class="chip" style="background:var(--red)"></span> Small-batch colorways inspired by shore towns</li>
-          <li><span class="chip" style="background:var(--yellow)"></span> New looks added to the lookbook every drop</li>
+          <li><span class="chip" style="background:var(--yellow)"></span> Full catalog kept in stock &mdash; no waiting on drops</li>
         </ul>
         <div style="margin-top:1.8rem;display:flex;gap:1rem;flex-wrap:wrap;">
           <a href="#shop" class="btn btn-primary">Shop The Collection</a>
@@ -461,7 +489,7 @@
   </section>
 
   <div class="color-band">
-    <div class="cell blue"><h4>Blue Tide</h4><p>Cool colorways for early-season drops.</p></div>
+    <div class="cell blue"><h4>Blue Tide</h4><p>Cool colorways, always in stock.</p></div>
     <div class="cell red"><h4>Red Flag</h4><p>Bold accents pulled straight off the boards.</p></div>
     <div class="cell yellow"><h4>Sun Yellow</h4><p>Peak-summer brights, made to be seen.</p></div>
   </div>
@@ -532,7 +560,7 @@
   // ---- PRODUCT / MODEL-LOOK DATA ----
   // Swap `image` for real model photos and `buyUrl` for your real store/checkout link.
   const PRODUCTS = [
-    { id: 'tide-blue',   name: 'Tide Shorts — Blue',    price: '$48', color: '#1e5fd9', image: 'images/look-01.svg', desc: 'Quick-dry Sling shorts in Tide Blue. Modeled here in the current drop.', buyUrl: '#' },
+    { id: 'tide-blue',   name: 'Tide Shorts — Blue',    price: '$48', color: '#1e5fd9', image: 'images/look-01.svg', desc: 'Quick-dry Sling shorts in Tide Blue. In stock and modeled by the founder himself.', buyUrl: '#' },
     { id: 'flag-red',    name: 'Flag Shorts — Red',     price: '$48', color: '#e0262c', image: 'images/look-02.svg', desc: 'Bold red colorway built for high-visibility summer days.', buyUrl: '#' },
     { id: 'sun-yellow',  name: 'Sunset Shorts — Yellow',price: '$52', color: '#f5c518', image: 'images/look-03.svg', desc: 'Peak-summer yellow with a relaxed, boardwalk-ready fit.', buyUrl: '#' },
     { id: 'tide-navy',   name: 'Tide Shorts — Navy Mix',price: '$48', color: '#1e5fd9', image: 'images/look-04.svg', desc: 'A cooler take on the Tide silhouette with navy accents.', buyUrl: '#' },
@@ -544,6 +572,7 @@
   const stage = document.getElementById('galleryStage');
   const dotsWrap = document.getElementById('galleryDots');
   const thumbsWrap = document.getElementById('galleryThumbs');
+  const heroStage = document.getElementById('heroStage');
   let current = 0;
   let timer;
 
@@ -567,20 +596,44 @@
     thumb.innerHTML = `<img src="${p.image}" alt="${p.name} thumbnail">`;
     thumb.addEventListener('click', () => goTo(i));
     thumbsWrap.appendChild(thumb);
+
+    const hSlide = document.createElement('div');
+    hSlide.className = 'h-slide' + (i === 0 ? ' active' : '');
+    hSlide.innerHTML = `
+      <img src="${p.image}" alt="${p.name} model shot">
+      <span class="h-tag">${p.name} <span class="price">${p.price}</span></span>
+    `;
+    hSlide.addEventListener('click', () => openLightbox(p));
+    heroStage.appendChild(hSlide);
   });
+
+  const hDotsWrap = document.createElement('div');
+  hDotsWrap.className = 'h-dots';
+  PRODUCTS.forEach((p, i) => {
+    const d = document.createElement('span');
+    if (i === 0) d.classList.add('active');
+    hDotsWrap.appendChild(d);
+  });
+  heroStage.appendChild(hDotsWrap);
 
   const slides = stage.querySelectorAll('.slide');
   const dots = dotsWrap.querySelectorAll('button');
   const thumbs = thumbsWrap.querySelectorAll('button');
+  const hSlides = heroStage.querySelectorAll('.h-slide');
+  const hDots = hDotsWrap.querySelectorAll('span');
 
   function goTo(i) {
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
     thumbs[current].classList.remove('active');
+    hSlides[current].classList.remove('active');
+    hDots[current].classList.remove('active');
     current = i;
     slides[current].classList.add('active');
     dots[current].classList.add('active');
     thumbs[current].classList.add('active');
+    hSlides[current].classList.add('active');
+    hDots[current].classList.add('active');
     resetTimer();
   }
 
