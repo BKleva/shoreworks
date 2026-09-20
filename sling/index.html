@@ -351,8 +351,21 @@
   .lightbox-info .swatches span { width: 22px; height: 22px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); cursor: pointer; transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease); }
   .lightbox-info .swatches span:hover { transform: scale(1.1); }
   .lightbox-info .swatches span.active { box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--black); }
-  .lightbox-info .desc { font-size: 0.92rem; margin-bottom: 1.6rem; }
+  .lightbox-info .desc { font-size: 0.92rem; margin-bottom: 1.2rem; }
   .lightbox-info .btn { justify-content: center; margin-bottom: 0.7rem; }
+
+  .size-block { margin-bottom: 1.4rem; }
+  .size-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.6rem; }
+  .size-options { display: flex; gap: 0.5rem; }
+  .size-options button {
+    width: 42px; height: 42px; border-radius: var(--radius);
+    border: 2px solid var(--line); font-size: 0.85rem; font-weight: 700; color: var(--ink);
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .size-options button:hover { border-color: var(--black); }
+  .size-options button.active { background: var(--black); border-color: var(--black); color: #fff; }
+  .size-warning { display: none; margin-top: 0.6rem; font-size: 0.8rem; color: var(--red); font-weight: 600; }
+  .size-warning.show { display: block; }
   .lightbox-close {
     position: absolute; top: -44px; right: 0; width: 34px; height: 34px;
     border-radius: 50%; background: rgba(255,255,255,0.14); color: #fff;
@@ -602,6 +615,11 @@
         <div class="price-row"><span class="now" id="lbPrice">$0</span></div>
         <div class="swatches" id="lbSwatches"></div>
         <p class="desc" id="lbDesc">Description goes here.</p>
+        <div class="size-block">
+          <span class="size-label">Select A Size</span>
+          <div class="size-options" id="lbSizes"></div>
+          <span class="size-warning" id="lbSizeWarning">Pick a size to continue.</span>
+        </div>
         <a href="#" id="lbBuy" target="_blank" rel="noopener" class="btn btn-primary">Buy This Pair</a>
         <a href="#" id="lbGoLook" class="btn btn-outline">See In Lookbook</a>
       </div>
@@ -728,6 +746,7 @@
   });
 
   // ---- Lightbox ----
+  const SIZES = ['S', 'M', 'L', 'XL'];
   const lightbox = document.getElementById('lightbox');
   const lbImage = document.getElementById('lbImage');
   const lbName = document.getElementById('lbName');
@@ -735,6 +754,9 @@
   const lbDesc = document.getElementById('lbDesc');
   const lbBuy = document.getElementById('lbBuy');
   const lbSwatches = document.getElementById('lbSwatches');
+  const lbSizes = document.getElementById('lbSizes');
+  const lbSizeWarning = document.getElementById('lbSizeWarning');
+  let selectedSize = null;
 
   function openLightbox(p) {
     lbImage.src = p.image;
@@ -749,6 +771,18 @@
     lbSwatches.querySelectorAll('span').forEach(sw => {
       sw.addEventListener('click', () => openLightbox(PRODUCTS.find(x => x.id === sw.dataset.id)));
     });
+
+    selectedSize = null;
+    lbSizeWarning.classList.remove('show');
+    lbSizes.innerHTML = SIZES.map(s => `<button type="button" data-size="${s}">${s}</button>`).join('');
+    lbSizes.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedSize = btn.dataset.size;
+        lbSizes.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+        lbSizeWarning.classList.remove('show');
+      });
+    });
+
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -756,6 +790,12 @@
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
   }
+  lbBuy.addEventListener('click', (e) => {
+    if (!selectedSize) {
+      e.preventDefault();
+      lbSizeWarning.classList.add('show');
+    }
+  });
   document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
