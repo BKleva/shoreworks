@@ -624,7 +624,6 @@
   const heroStage = document.getElementById('heroStage');
   const N = PRODUCTS.length;
   let current = 0;
-  let timer;
 
   function colorName(p) { return p.name.split('—')[1].trim().toLowerCase(); }
 
@@ -704,16 +703,12 @@
     hSlides[current].classList.add('active');
     hDots[current].classList.add('active');
     renderCards();
-    resetTimer();
   }
 
   document.getElementById('cardPrev').addEventListener('click', () => goTo(current - 1));
   document.getElementById('cardNext').addEventListener('click', () => goTo(current + 1));
 
-  function nextSlide() { goTo(current + 1); }
-  function resetTimer() { clearInterval(timer); timer = setInterval(nextSlide, 4200); }
   renderCards();
-  resetTimer();
 
   // ---- Shop grid ----
   const shopGrid = document.getElementById('shopGrid');
