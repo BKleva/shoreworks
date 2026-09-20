@@ -300,8 +300,10 @@
   .lightbox-info h3 { font-size: 1.9rem; margin-bottom: 0.4rem; }
   .lightbox-info .price-row { display: flex; align-items: center; gap: 0.7rem; margin: 0.6rem 0 1.1rem; }
   .lightbox-info .price-row .now { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.03em; }
-  .lightbox-info .swatches { display: flex; gap: 0.5rem; margin: 0.4rem 0 1.4rem; }
-  .lightbox-info .swatches span { width: 20px; height: 20px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); }
+  .lightbox-info .swatches { display: flex; gap: 0.6rem; margin: 0.4rem 0 1.4rem; }
+  .lightbox-info .swatches span { width: 22px; height: 22px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); cursor: pointer; transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .lightbox-info .swatches span:hover { transform: scale(1.1); }
+  .lightbox-info .swatches span.active { box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--black); }
   .lightbox-info .desc { font-size: 0.92rem; margin-bottom: 1.6rem; }
   .lightbox-info .btn { justify-content: center; margin-bottom: 0.7rem; }
   .lightbox-close {
@@ -330,10 +332,12 @@
 
   /* ============ COLOR BAND ============ */
   .color-band { display: grid; grid-template-columns: repeat(3, 1fr); }
-  .color-band .cell { padding: 2.4rem clamp(1.25rem, 4vw, 2.5rem); color: #fff; }
+  .color-band .cell { padding: 2.4rem clamp(1.25rem, 4vw, 2.5rem); color: #fff; display: flex; align-items: center; gap: 1rem; }
+  .color-band .swatch { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 2px rgba(255,255,255,0.3); }
   .color-band .cell.blue { background: var(--blue); }
-  .color-band .cell.red { background: var(--red); }
-  .color-band .cell.yellow { background: var(--yellow); color: #111; }
+  .color-band .cell.black { background: var(--black); }
+  .color-band .cell.white { background: #fff; color: #111; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .color-band .cell.white .swatch { background: #fff; box-shadow: 0 0 0 2px var(--line); }
   .color-band h4 { font-size: 1.5rem; color: inherit; }
   .color-band p { color: inherit; opacity: 0.85; font-size: 0.9rem; margin-top: 0.4rem; }
   @media (max-width: 700px) { .color-band { grid-template-columns: 1fr; } }
@@ -489,9 +493,9 @@
   </section>
 
   <div class="color-band">
-    <div class="cell blue"><h4>Blue Tide</h4><p>Cool colorways, always in stock.</p></div>
-    <div class="cell red"><h4>Red Flag</h4><p>Bold accents pulled straight off the boards.</p></div>
-    <div class="cell yellow"><h4>Sun Yellow</h4><p>Peak-summer brights, made to be seen.</p></div>
+    <div class="cell blue"><span class="swatch" style="background:var(--blue)"></span><div><h4>Blue</h4><p>The signature Sling colorway, always in stock.</p></div></div>
+    <div class="cell black"><span class="swatch" style="background:#000"></span><div><h4>Black</h4><p>Clean and versatile, built to go with anything.</p></div></div>
+    <div class="cell white"><span class="swatch"></span><div><h4>White</h4><p>Crisp warm-weather white, made to be seen.</p></div></div>
   </div>
 
   <section id="contact">
@@ -560,12 +564,9 @@
   // ---- PRODUCT / MODEL-LOOK DATA ----
   // Swap `image` for real model photos and `buyUrl` for your real store/checkout link.
   const PRODUCTS = [
-    { id: 'tide-blue',   name: 'Tide Shorts — Blue',    price: '$48', color: '#1e5fd9', image: 'images/look-01.svg', desc: 'Quick-dry Sling shorts in Tide Blue. In stock and modeled by the founder himself.', buyUrl: '#' },
-    { id: 'flag-red',    name: 'Flag Shorts — Red',     price: '$48', color: '#e0262c', image: 'images/look-02.svg', desc: 'Bold red colorway built for high-visibility summer days.', buyUrl: '#' },
-    { id: 'sun-yellow',  name: 'Sunset Shorts — Yellow',price: '$52', color: '#f5c518', image: 'images/look-03.svg', desc: 'Peak-summer yellow with a relaxed, boardwalk-ready fit.', buyUrl: '#' },
-    { id: 'tide-navy',   name: 'Tide Shorts — Navy Mix',price: '$48', color: '#1e5fd9', image: 'images/look-04.svg', desc: 'A cooler take on the Tide silhouette with navy accents.', buyUrl: '#' },
-    { id: 'flag-crimson',name: 'Flag Shorts — Crimson', price: '$50', color: '#e0262c', image: 'images/look-05.svg', desc: 'Deeper red tone, same fit the founder wears on every shoot.', buyUrl: '#' },
-    { id: 'sun-gold',    name: 'Sunset Shorts — Gold',  price: '$52', color: '#f5c518', image: 'images/look-06.svg', desc: 'Warm gold colorway rounding out the Sunset lineup.', buyUrl: '#' },
+    { id: 'sling-blue',  name: 'Sling Shorts — Blue',  price: '$48', color: '#1e5fd9', image: 'images/look-01.svg', desc: 'The signature Sling colorway. In stock and modeled by the founder himself.', buyUrl: '#' },
+    { id: 'sling-black', name: 'Sling Shorts — Black', price: '$48', color: '#111111', image: 'images/look-02.svg', desc: 'Clean, versatile black &mdash; built to go with anything in the rotation.', buyUrl: '#' },
+    { id: 'sling-white', name: 'Sling Shorts — White', price: '$48', color: '#ffffff', image: 'images/look-03.svg', desc: 'Crisp warm-weather white, same fit as every other Sling pair.', buyUrl: '#' },
   ];
 
   // ---- Rotating gallery ----
@@ -674,8 +675,12 @@
     lbPrice.textContent = p.price;
     lbDesc.textContent = p.desc;
     lbBuy.href = p.buyUrl;
-    lbSwatches.innerHTML = PRODUCTS.filter(x => x.name.split(' ')[0] === p.name.split(' ')[0])
-      .map(x => `<span style="background:${x.color}"></span>`).join('');
+    lbSwatches.innerHTML = PRODUCTS.map(x =>
+      `<span data-id="${x.id}" style="background:${x.color}" class="${x.id === p.id ? 'active' : ''}"></span>`
+    ).join('');
+    lbSwatches.querySelectorAll('span').forEach(sw => {
+      sw.addEventListener('click', () => openLightbox(PRODUCTS.find(x => x.id === sw.dataset.id)));
+    });
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
