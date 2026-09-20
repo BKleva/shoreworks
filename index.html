@@ -656,6 +656,18 @@ textarea.einput{height:auto;min-height:160px;resize:vertical;line-height:1.6;whi
     </div>
   </div>
 
+  <!-- Hidden Netlify form for new listing email alerts -->
+  <form name="new-listing-alert" data-netlify="true" netlify-honeypot="bot-field" style="display:none">
+    <input type="hidden" name="form-name" value="new-listing-alert">
+    <input name="bot-field">
+    <input name="business">
+    <input name="plan">
+    <input name="location">
+    <input name="contact">
+    <input name="email">
+    <input name="status">
+  </form>
+
   <!-- SIGNUP -->
   <div id="page-signup" class="page">
     <div class="su-wrap">
@@ -1703,11 +1715,19 @@ async function submitSu() {
     return;
   }
   db.push(data);
-  // Fire-and-forget email notification — don't block the success page
-  fetch('/.netlify/functions/notify', {
+  // Fire-and-forget Netlify Forms alert — don't block the success page
+  fetch('/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bname: data.bname, plan: data.plan, email: data.email, fname: data.fname, lname: data.lname, town: data.town, county: data.county, status: data.status })
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      'form-name': 'new-listing-alert',
+      business: data.bname,
+      plan: data.plan,
+      location: `${data.town}, ${data.county}`,
+      contact: `${data.fname} ${data.lname}`,
+      email: data.email,
+      status: data.status
+    }).toString()
   }).catch(() => {});
   const statusLabel = data.status === 'active' ? `<span class="sdv" style="color:#1A7A4A">Active</span>` : `<span class="sdv" style="color:#8a6520">Pending review</span>`;
   document.getElementById('suc-details').innerHTML = `<div class="sd-row"><span class="sdk">Business</span><span class="sdv">${data.bname}</span></div><div class="sd-row"><span class="sdk">Plan</span><span class="sdv">${PNAMES[data.plan]}</span></div><div class="sd-row"><span class="sdk">Status</span>${statusLabel}</div><div class="sd-row" style="border-bottom:none"><span class="sdk">Email</span><span class="sdv">${data.email}</span></div>`;
