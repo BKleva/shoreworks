@@ -105,10 +105,8 @@
     background: rgba(10,10,10,0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--dur) var(--ease);
   }
-  header.nav.scrolled { border-bottom-color: var(--line-dark); }
+  header.nav .tri-stripe { height: 3px; }
   .nav-row { display: flex; align-items: center; justify-content: space-between; height: 74px; }
   .logo { display: flex; align-items: center; gap: 0.7rem; }
   .logo img.logo-mark { height: 26px; width: auto; display: block; border-radius: 2px; }
@@ -395,6 +393,7 @@
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
+  <div class="tri-stripe"><span class="b"></span><span class="r"></span><span class="y"></span></div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="#gallery">Lookbook</a>
     <a href="#shop">Shop</a>
