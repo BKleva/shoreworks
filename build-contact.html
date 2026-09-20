@@ -230,7 +230,7 @@ form.addEventListener('submit', async function(e) {
   e.preventDefault();
   const data = new URLSearchParams(new FormData(form)).toString();
   try {
-    await fetch('/', { method: 'POST', body: data, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+    await fetch('/build-contact.html', { method: 'POST', body: data, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
   } catch(_) {}
   form.style.display = 'none';
   success.style.display = 'block';
