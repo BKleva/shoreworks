@@ -446,22 +446,20 @@
     </a>
     <nav class="nav-links">
       <a href="#gallery">Lookbook</a>
-      <a href="#shop">Shop</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
     <div class="nav-right" style="display:flex;align-items:center;gap:1.4rem;">
-      <a href="#shop" class="btn btn-light">Shop Now</a>
+      <a href="#gallery" class="btn btn-light">Shop Now</a>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
   <div class="tri-stripe"><span class="b"></span><span class="r"></span><span class="y"></span></div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="#gallery">Lookbook</a>
-    <a href="#shop">Shop</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
-    <a href="#shop" class="btn btn-primary">Shop Now</a>
+    <a href="#gallery" class="btn btn-primary">Shop Now</a>
   </div>
 </header>
 
@@ -475,7 +473,7 @@
         <p class="lede">Every pair in the Sling lineup is fit-tested and modeled by the guy running the brand before it ever ships. No stock photos, no stand-ins &mdash; just a fit dialed in on the beach, on the boardwalk, on repeat.</p>
         <div class="hero-cta">
           <a href="#gallery" class="btn btn-primary">View The Lookbook</a>
-          <a href="#shop" class="btn btn-light">Shop The Collection</a>
+          <a href="#contact" class="btn btn-light">Get In Touch</a>
         </div>
       </div>
       <div class="hero-art reveal">
@@ -519,6 +517,7 @@
     </div>
   </section>
 
+  <!-- Catalog section — disabled for now, restore by uncommenting
   <section id="shop" style="background:var(--off)">
     <div class="wrap">
       <div class="gallery-head reveal">
@@ -531,6 +530,7 @@
       <div class="shop-grid" id="shopGrid"></div>
     </div>
   </section>
+  -->
 
   <section class="about-section" id="about">
     <div class="wrap about-grid">
@@ -547,7 +547,7 @@
           <li><span class="chip" style="background:var(--yellow)"></span> Full catalog kept in stock &mdash; no waiting on drops</li>
         </ul>
         <div style="margin-top:1.8rem;display:flex;gap:1rem;flex-wrap:wrap;">
-          <a href="#shop" class="btn btn-primary">Shop The Collection</a>
+          <a href="#gallery" class="btn btn-primary">Shop The Collection</a>
           <a href="#contact" class="btn btn-outline">Get In Touch</a>
         </div>
       </div>
@@ -584,7 +584,6 @@
     </a>
     <div class="footer-links">
       <a href="#gallery">Lookbook</a>
-      <a href="#shop">Shop</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </div>
@@ -728,22 +727,24 @@
 
   renderCards();
 
-  // ---- Shop grid ----
+  // ---- Shop grid (catalog section is currently disabled — see markup above) ----
   const shopGrid = document.getElementById('shopGrid');
-  PRODUCTS.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <span class="swatch-corner" style="background:${p.color}"></span>
-      <img src="${p.image}" alt="${p.name}">
-      <div class="product-overlay">
-        <h3>${p.name}</h3>
-        <div class="row"><span class="price">${p.price}</span><span class="buy">Buy Now</span></div>
-      </div>
-    `;
-    card.addEventListener('click', () => openLightbox(p));
-    shopGrid.appendChild(card);
-  });
+  if (shopGrid) {
+    PRODUCTS.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <span class="swatch-corner" style="background:${p.color}"></span>
+        <img src="${p.image}" alt="${p.name}">
+        <div class="product-overlay">
+          <h3>${p.name}</h3>
+          <div class="row"><span class="price">${p.price}</span><span class="buy">Buy Now</span></div>
+        </div>
+      `;
+      card.addEventListener('click', () => openLightbox(p));
+      shopGrid.appendChild(card);
+    });
+  }
 
   // ---- Lightbox ----
   const SIZES = ['S', 'M', 'L', 'XL'];
