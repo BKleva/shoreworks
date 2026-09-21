@@ -1,126 +1,244 @@
-<title>Billboard Ordinance Scout</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&display=swap">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outdoor Impact Ordinance Scout</title>
+<meta name="description" content="Internal tool. Not for public listing.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700,800&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1628'/%3E%3Crect x='5' y='11' width='22' height='9' rx='1.5' fill='%232f6fed'/%3E%3Crect x='15' y='20' width='2' height='7' fill='%232f6fed'/%3E%3C/svg%3E">
 <style>
   :root {
-    --bg: #F6F5F1;
-    --surface: #FFFFFF;
-    --surface-2: #EFEEE8;
-    --ink: #1C231F;
-    --ink-soft: #5A635D;
-    --line: #DDDCD3;
-    --accent: #14522F;
-    --accent-ink: #FFFFFF;
-    --accent-soft: #E3EDE6;
-    --flag-amber: #B7791F;
-    --flag-amber-soft: #F7EBD4;
-    --flag-red: #B0422F;
-    --flag-red-soft: #F6E2DD;
-    --flag-green: #2F6E49;
-    --flag-green-soft: #DFEEE4;
-    --mark: #FBEFC5;
-    --shadow: 0 1px 3px rgba(28, 35, 31, 0.10);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #141815;
-      --surface: #1D2320;
-      --surface-2: #232A26;
-      --ink: #E8EAE4;
-      --ink-soft: #9AA59D;
-      --line: #313A34;
-      --accent: #4E9C6F;
-      --accent-ink: #0E1511;
-      --accent-soft: #22352A;
-      --flag-amber: #D9A24A;
-      --flag-amber-soft: #37301F;
-      --flag-red: #D4705C;
-      --flag-red-soft: #3A231E;
-      --flag-green: #6DB58C;
-      --flag-green-soft: #1F3328;
-      --mark: #4A3F1E;
-      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #141815;
-    --surface: #1D2320;
-    --surface-2: #232A26;
-    --ink: #E8EAE4;
-    --ink-soft: #9AA59D;
-    --line: #313A34;
-    --accent: #4E9C6F;
-    --accent-ink: #0E1511;
-    --accent-soft: #22352A;
-    --flag-amber: #D9A24A;
-    --flag-amber-soft: #37301F;
-    --flag-red: #D4705C;
-    --flag-red-soft: #3A231E;
-    --flag-green: #6DB58C;
-    --flag-green-soft: #1F3328;
-    --mark: #4A3F1E;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f4f6fb;
+    --ink: #101a33;
+    --ink-soft: rgba(16,26,51,0.60);
+    --ink-dim: rgba(16,26,51,0.45);
+    --line: rgba(16,26,51,0.12);
+    --accent: #2f6fed;
+    --accent-2: #1d4ed8;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(47,111,237,0.10);
+    --navy: #101a33;
+    --navy-2: #1a3a6b;
+    --flag-amber: #b06f13;
+    --flag-amber-soft: #fbf0da;
+    --flag-red: #c23b2b;
+    --flag-red-soft: #fbe6e2;
+    --flag-green: #17835a;
+    --flag-green-soft: #dff3ea;
+    --mark: #ffe89a;
+    --shadow: 0 1px 3px rgba(16,26,51,0.10);
+    --shadow-lg: 0 20px 60px rgba(10,22,50,0.35);
   }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
   body {
     background: var(--bg);
     color: var(--ink);
-    font-family: "Overpass", "Helvetica Neue", Arial, sans-serif;
+    font-family: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 14px;
     line-height: 1.5;
     margin: 0;
+    -webkit-font-smoothing: antialiased;
   }
-  .mono { font-family: "Overpass Mono", "Courier New", monospace; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Consolas, monospace; }
+  button { font: inherit; }
 
-  header.appbar {
+  /* ============ GATE ============ */
+  #gate {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse 900px 500px at 20% 0%, rgba(47,111,237,0.10), transparent 60%),
+      var(--bg);
+    text-align: center;
+  }
+  .gate-mark {
+    width: 76px; height: 76px;
+    border-radius: 18px;
+    border: none;
+    background: var(--navy);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(16,26,51,0.18);
+    transition: transform 0.15s ease;
+    padding: 0;
+  }
+  .gate-mark svg { width: 44px; height: 44px; display: block; }
+  .gate-mark:active { transform: scale(0.94); }
+  .gate-mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .gate-word { font-weight: 700; font-size: 1.2rem; color: var(--ink); letter-spacing: -0.01em; }
+  .gate-sub { font-size: 0.78rem; color: var(--ink-dim); font-weight: 500; letter-spacing: 0.02em; margin-top: -14px; }
+  .gate-dots { display: flex; gap: 6px; height: 8px; }
+  .gate-dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--line);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .gate-dots span.lit { background: var(--accent); transform: scale(1.15); }
+  .gate-foot { position: fixed; bottom: 18px; font-size: 0.72rem; color: var(--ink-dim); }
+
+  @keyframes gateShake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+  }
+  .shake { animation: gateShake 0.5s; }
+
+  /* ============ LOGIN DIALOG ============ */
+  dialog {
+    border: none;
+    border-radius: 14px;
+    background: var(--surface);
+    color: var(--ink);
+    padding: 0;
+    width: min(380px, calc(100vw - 32px));
+    box-shadow: var(--shadow-lg);
+  }
+  dialog::backdrop { background: rgba(10,20,40,0.55); backdrop-filter: blur(2px); }
+  .dialog-head {
+    background: var(--navy);
+    color: #fff;
+    padding: 20px 22px 16px;
+    border-radius: 14px 14px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dialog-head .mark { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,0.08); display: grid; place-items: center; flex: none; }
+  .dialog-head .mark svg { width: 20px; height: 20px; }
+  .dialog-head h3 { margin: 0; font-size: 15px; font-weight: 700; }
+  .dialog-head p { margin: 2px 0 0; font-size: 12px; color: rgba(255,255,255,0.7); }
+  .dialog-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 2px; }
+  .auth-error {
+    font-size: 12.5px;
+    color: var(--flag-red);
+    background: var(--flag-red-soft);
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-weight: 600;
+  }
+
+  label.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 0 0 5px;
+  }
+  input[type="text"], input[type="search"], input[type="password"] {
+    width: 100%;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 9px 11px 8px;
+  }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  input::placeholder { color: var(--ink-dim); }
+
+  .btn {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink);
+    padding: 9px 15px 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover { border-color: var(--ink-dim); }
+  .btn.primary {
     background: var(--accent);
+    border-color: var(--accent);
     color: var(--accent-ink);
+  }
+  .btn.primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+  .btn.block { width: 100%; padding: 11px 14px 10px; font-size: 14px; }
+  .btn.small { padding: 5px 11px 4px; font-size: 12px; }
+  .btn:focus-visible, .chip button:focus-visible, .tab:focus-visible, .njdot-pill:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ============ APP SHELL ============ */
+  header.appbar {
+    background: var(--navy);
+    color: #fff;
     position: sticky;
-    top: env(safe-area-inset-top, 0px);
+    top: 0;
     z-index: 20;
     box-shadow: var(--shadow);
   }
   .appbar-inner {
-    max-width: 1220px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 12px 16px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
   }
   .brandmark {
-    width: 34px; height: 34px; flex: none;
-    border: 2px solid var(--accent-ink);
-    border-radius: 6px;
+    width: 36px; height: 36px; flex: none;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.08);
     display: grid; place-items: center;
-    font-weight: 800; font-size: 15px;
-    letter-spacing: 0.02em;
   }
-  .brand-name { font-weight: 800; font-size: 17px; letter-spacing: 0.01em; }
-  .brand-sub { font-size: 11.5px; opacity: 0.85; letter-spacing: 0.06em; text-transform: uppercase; }
+  .brandmark svg { width: 22px; height: 22px; }
+  .brand-name { font-weight: 700; font-size: 16px; letter-spacing: -0.005em; }
+  .brand-sub { font-size: 11px; color: #8fb4ff; font-weight: 500; letter-spacing: 0.03em; }
   .appbar-spacer { flex: 1; }
   .njdot-pill {
     display: inline-flex; align-items: center; gap: 8px;
-    border: 1px solid rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.22);
     border-radius: 999px;
     padding: 6px 14px 5px;
     font-size: 12.5px; font-weight: 600;
-    background: rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.06);
     color: inherit;
     cursor: pointer;
-    font-family: inherit;
   }
-  .njdot-pill:hover { background: rgba(0,0,0,0.22); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #E0B84C; flex: none; }
-  .dot.on { background: #7FE0A8; }
+  .njdot-pill:hover { background: rgba(255,255,255,0.14); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #e8b84c; flex: none; }
+  .dot.on { background: #4fd894; }
+  .lock-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    cursor: pointer;
+  }
+  .lock-btn:hover { background: rgba(255,255,255,0.14); }
+  .lock-btn svg { width: 15px; height: 15px; }
 
   .layout {
-    max-width: 1220px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 20px 16px 48px;
+    padding: 20px 20px 48px;
     display: grid;
-    grid-template-columns: 292px 1fr;
+    grid-template-columns: 296px 1fr;
     gap: 20px;
     align-items: start;
   }
@@ -131,79 +249,34 @@
   .panel {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 16px;
   }
   .rail { display: flex; flex-direction: column; gap: 16px; }
   .rail h2 {
     margin: 0 0 10px;
-    font-size: 11.5px;
-    font-weight: 800;
-    letter-spacing: 0.09em;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink-dim);
   }
 
   .login-row { display: flex; align-items: center; gap: 10px; }
   .login-avatar {
-    width: 36px; height: 36px; border-radius: 6px; flex: none;
+    width: 36px; height: 36px; border-radius: 8px; flex: none;
     background: var(--accent-soft); color: var(--accent);
-    display: grid; place-items: center; font-weight: 800; font-size: 13px;
+    display: grid; place-items: center; font-weight: 700; font-size: 13px;
   }
   .login-meta { min-width: 0; }
   .login-name { font-weight: 700; font-size: 13.5px; }
   .login-state { font-size: 12px; color: var(--ink-soft); }
-  .btn {
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 700;
-    border-radius: 6px;
-    border: 1px solid var(--line);
-    background: var(--surface-2);
-    color: var(--ink);
-    padding: 8px 14px 7px;
-    cursor: pointer;
-  }
-  .btn:hover { border-color: var(--ink-soft); }
-  .btn.primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-ink);
-    width: 100%;
-    padding: 11px 14px 10px;
-    font-size: 14px;
-  }
-  .btn.primary:hover { filter: brightness(1.08); }
-  .btn.small { padding: 5px 10px 4px; font-size: 12px; }
-  .btn:focus-visible, .chip button:focus-visible, .tab:focus-visible, input:focus-visible, .njdot-pill:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-
-  label.field-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    margin: 0 0 5px;
-  }
-  input[type="text"], input[type="search"], input[type="password"] {
-    width: 100%;
-    font-family: inherit;
-    font-size: 13.5px;
-    color: var(--ink);
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 9px 10px 8px;
-  }
-  input::placeholder { color: var(--ink-soft); }
 
   .county-list { display: flex; flex-direction: column; gap: 2px; }
   .county-row {
     display: flex; align-items: center; gap: 9px;
     padding: 6px 6px;
-    border-radius: 5px;
+    border-radius: 7px;
     cursor: pointer;
     font-size: 13.5px;
   }
@@ -212,15 +285,14 @@
   .county-count {
     margin-left: auto;
     font-size: 11.5px;
-    color: var(--ink-soft);
-    font-family: "Overpass Mono", monospace;
+    color: var(--ink-dim);
   }
 
   .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
   .chip {
     display: inline-flex; align-items: center; gap: 6px;
     background: var(--accent-soft);
-    color: var(--accent);
+    color: var(--accent-2);
     border: 1px solid transparent;
     border-radius: 999px;
     padding: 4px 6px 3px 11px;
@@ -235,11 +307,11 @@
     display: grid; place-items: center;
     font-size: 12px; line-height: 1;
   }
-  .chip button:hover { background: rgba(0,0,0,0.12); }
+  .chip button:hover { background: rgba(47,111,237,0.16); }
   .chip-add { display: flex; gap: 6px; }
   .chip-add input { flex: 1; min-width: 0; }
 
-  .crawl-note { font-size: 11.5px; color: var(--ink-soft); margin: 8px 0 0; }
+  .crawl-note { font-size: 11.5px; color: var(--ink-dim); margin: 8px 0 0; }
 
   .tiles {
     display: grid;
@@ -251,16 +323,17 @@
   .tile {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 12px 14px 10px;
   }
   .tile .num {
     font-size: 26px;
-    font-weight: 800;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
+    color: var(--ink);
   }
-  .tile .lbl { font-size: 11.5px; color: var(--ink-soft); font-weight: 600; }
+  .tile .lbl { font-size: 11.5px; color: var(--ink-dim); font-weight: 600; }
   .tile.red .num { color: var(--flag-red); }
   .tile.amber .num { color: var(--flag-amber); }
   .tile.green .num { color: var(--flag-green); }
@@ -274,7 +347,7 @@
     font-family: inherit;
     font-size: 13.5px;
     font-weight: 700;
-    color: var(--ink-soft);
+    color: var(--ink-dim);
     background: none;
     border: none;
     border-bottom: 3px solid transparent;
@@ -286,7 +359,6 @@
   .tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
   .tab .n {
     font-size: 11px;
-    font-family: "Overpass Mono", monospace;
     background: var(--surface-2);
     border-radius: 4px;
     padding: 1px 5px 0;
@@ -297,7 +369,7 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-top: none;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 12px 12px;
     padding: 4px 0 8px;
   }
   .table-scroll { overflow-x: auto; }
@@ -305,10 +377,10 @@
   th {
     text-align: left;
     font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.07em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink-dim);
     padding: 10px 12px 8px;
     border-bottom: 1px solid var(--line);
     white-space: nowrap;
@@ -322,12 +394,12 @@
   tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: var(--surface-2); }
   .town { font-weight: 700; white-space: nowrap; }
-  .county-tag { font-size: 11.5px; color: var(--ink-soft); }
-  .cite { font-family: "Overpass Mono", monospace; font-size: 12px; white-space: nowrap; }
+  .county-tag { font-size: 11.5px; color: var(--ink-dim); }
+  .cite { font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Consolas, monospace; font-size: 12px; white-space: nowrap; }
   .excerpt { color: var(--ink); max-width: 420px; }
-  .excerpt mark { background: var(--mark); color: inherit; padding: 0 2px; border-radius: 2px; font-weight: 600; }
+  .excerpt mark { background: var(--mark); color: var(--ink); padding: 0 2px; border-radius: 2px; font-weight: 600; }
   .corridor {
-    font-family: "Overpass Mono", monospace;
+    font-family: ui-monospace, 'SF Mono', 'Roboto Mono', Consolas, monospace;
     font-size: 11.5px;
     white-space: nowrap;
   }
@@ -351,53 +423,33 @@
   .status.restricted { background: var(--flag-amber-soft); color: var(--flag-amber); }
   .status.open { background: var(--flag-green-soft); color: var(--flag-green); }
   .status.scenic { background: var(--flag-amber-soft); color: var(--flag-amber); }
-  .status.none { background: var(--surface-2); color: var(--ink-soft); }
+  .status.none { background: var(--surface-2); color: var(--ink-dim); }
 
   .empty {
     padding: 28px 16px;
     text-align: center;
-    color: var(--ink-soft);
+    color: var(--ink-dim);
     font-size: 13.5px;
   }
   .sample-note {
     margin: 14px 2px 0;
     font-size: 12px;
-    color: var(--ink-soft);
+    color: var(--ink-dim);
   }
   .sample-note strong { color: var(--flag-amber); }
 
-  dialog {
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--ink);
-    padding: 0;
-    width: min(400px, calc(100vw - 32px));
-  }
-  dialog::backdrop { background: rgba(10, 14, 11, 0.5); }
-  .dialog-head {
-    background: var(--accent);
-    color: var(--accent-ink);
-    padding: 14px 18px 12px;
-    border-radius: 9px 9px 0 0;
-  }
-  .dialog-head h3 { margin: 0; font-size: 15px; font-weight: 800; }
-  .dialog-head p { margin: 2px 0 0; font-size: 12px; opacity: 0.85; }
-  .dialog-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px; }
-  .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
-
   .toast {
     position: fixed;
-    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    bottom: 18px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--navy);
+    color: #fff;
     font-size: 13px;
     font-weight: 600;
     border-radius: 999px;
     padding: 10px 18px 9px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
     z-index: 40;
   }
 
@@ -415,10 +467,11 @@
     border-radius: 999px;
     transition: width 0.25s ease;
   }
-  .progress-label { font-size: 11.5px; color: var(--ink-soft); margin-top: 4px; font-family: "Overpass Mono", monospace; }
+  .progress-label { font-size: 11.5px; color: var(--ink-dim); margin-top: 4px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .progress-bar { transition: none; }
+    .progress-bar, .gate-mark, .gate-dots span { transition: none; }
+    .shake { animation: none; }
   }
 
   .main-actions {
@@ -432,30 +485,16 @@
   .print-only { display: none; }
   @media print {
     body { background: #fff; color: #000; font-size: 11px; }
-    header.appbar, .layout, .toast { display: none !important; }
+    header.appbar, .layout, .toast, #gate { display: none !important; }
     dialog { display: none !important; }
     .print-only { display: block; padding: 0; }
-    #printReport { font-family: "Overpass", "Helvetica Neue", Arial, sans-serif; }
+    #printReport { font-family: 'General Sans', -apple-system, sans-serif; }
     #printReport .rpt-head { border-bottom: 3px solid #000; padding-bottom: 8px; margin-bottom: 4px; }
     #printReport .rpt-title { font-size: 18px; font-weight: 800; margin: 0; }
     #printReport .rpt-meta { font-size: 10.5px; color: #333; margin: 2px 0 0; }
-    #printReport h2 {
-      font-size: 13px; font-weight: 800;
-      margin: 16px 0 6px;
-      break-after: avoid;
-    }
-    #printReport table {
-      width: 100%; min-width: 0;
-      border-collapse: collapse;
-    }
-    #printReport th, #printReport td {
-      border: 1px solid #999;
-      padding: 4px 6px;
-      font-size: 9.5px;
-      color: #000;
-      text-align: left;
-      vertical-align: top;
-    }
+    #printReport h2 { font-size: 13px; font-weight: 800; margin: 16px 0 6px; break-after: avoid; }
+    #printReport table { width: 100%; min-width: 0; border-collapse: collapse; }
+    #printReport th, #printReport td { border: 1px solid #999; padding: 4px 6px; font-size: 9.5px; color: #000; text-align: left; vertical-align: top; }
     #printReport th { background: #eee; text-transform: uppercase; letter-spacing: 0.05em; font-size: 8.5px; }
     #printReport tr { break-inside: avoid; }
     #printReport mark { background: none; color: #000; font-weight: 700; text-decoration: underline; }
@@ -466,116 +505,288 @@
     #printReport .rpt-disclaimer { font-size: 9.5px; color: #333; margin-top: 14px; border-top: 1px solid #999; padding-top: 6px; }
   }
 </style>
+</head>
+<body>
 
-<header class="appbar">
-  <div class="appbar-inner">
-    <div class="brandmark" aria-hidden="true">OS</div>
-    <div>
-      <div class="brand-name">Ordinance Scout</div>
-      <div class="brand-sub">NJ Billboard Zoning Research</div>
-    </div>
-    <div class="appbar-spacer"></div>
-    <button class="njdot-pill" id="njdotBtn" type="button">
-      <span class="dot" id="njdotDot"></span>
-      <span id="njdotLabel">NJDOT — Not connected</span>
-    </button>
+<!-- Billboard mark, reused for the gate icon, header brandmark, and dialog crest -->
+<template id="markSvg"><svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="#0a1628"/><rect x="5" y="11" width="22" height="9" rx="1.5" fill="#2f6fed"/><rect x="15" y="20" width="2" height="7" fill="#2f6fed"/></svg></template>
+
+<div id="gate">
+  <button class="gate-mark" id="gateMark" type="button" aria-label="Outdoor Impact"></button>
+  <div>
+    <div class="gate-word">Outdoor Impact</div>
+    <div class="gate-sub">Premium Billboard Development</div>
   </div>
-</header>
-
-<div class="layout">
-  <aside class="rail">
-
-    <section class="panel">
-      <h2>NJDOT Account</h2>
-      <div class="login-row">
-        <div class="login-avatar" id="loginAvatar">—</div>
-        <div class="login-meta">
-          <div class="login-name" id="loginName">Not signed in</div>
-          <div class="login-state" id="loginState">Outdoor Advertising Permit portal</div>
-        </div>
-      </div>
-      <div style="margin-top: 12px;">
-        <button class="btn" id="loginBtn" type="button" style="width:100%;">Sign in to NJDOT</button>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Counties</h2>
-      <div class="county-list" id="countyList"></div>
-    </section>
-
-    <section class="panel">
-      <h2>Town Search</h2>
-      <label class="field-label" for="townSearch">Filter by town or route</label>
-      <input type="search" id="townSearch" placeholder="e.g. Toms River, Rt 17…">
-    </section>
-
-    <section class="panel">
-      <h2>Crawler Verbiage</h2>
-      <p class="crawl-note" style="margin: 0 0 10px;">Phrases the crawler flags in ordinances and master plans.</p>
-      <div class="chips" id="chipRow"></div>
-      <div class="chip-add">
-        <input type="text" id="chipInput" placeholder="Add a phrase…" aria-label="Add crawler phrase">
-        <button class="btn small" id="chipAddBtn" type="button">Add</button>
-      </div>
-      <div style="margin-top: 14px;">
-        <button class="btn primary" id="crawlBtn" type="button">Run Crawl</button>
-        <div class="progress-wrap" id="progressWrap" hidden>
-          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-          <div class="progress-label" id="progressLabel">Queued…</div>
-        </div>
-        <p class="crawl-note">Scans eCode360 / municipal code hosts and the latest adopted master plan for each town in the selected counties.</p>
-      </div>
-    </section>
-
-  </aside>
-
-  <main>
-    <div class="main-actions">
-      <button class="btn" id="printBtn" type="button">Print Report</button>
-      <button class="btn" id="exportBtn" type="button">Export Spreadsheet (.xlsx)</button>
-    </div>
-
-    <div class="tiles" id="tiles"></div>
-
-    <div class="tabs" role="tablist" id="tabBar"></div>
-
-    <div class="tabpanel">
-      <div class="table-scroll" id="panelHost"></div>
-    </div>
-
-    <p class="sample-note"><strong>Sample data.</strong> These rows are placeholder examples for UI review — the crawler and the NJDOT connection aren't wired up yet, so citations and statuses shown here are illustrative, not verified.</p>
-  </main>
+  <div class="gate-dots" id="gateDots" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="gate-foot">&copy; 2026 Outdoor Impact</div>
 </div>
 
-<dialog id="loginDialog">
-  <div class="dialog-head">
-    <h3>NJDOT Sign In</h3>
-    <p>Outdoor Advertising Permits &amp; SLD access</p>
+<div id="app" hidden>
+
+  <header class="appbar">
+    <div class="appbar-inner">
+      <div class="brandmark" id="brandmark" aria-hidden="true"></div>
+      <div>
+        <div class="brand-name">Outdoor Impact Ordinance Scout</div>
+        <div class="brand-sub">NJ Billboard Zoning Research &middot; Admin</div>
+      </div>
+      <div class="appbar-spacer"></div>
+      <button class="njdot-pill" id="njdotBtn" type="button">
+        <span class="dot" id="njdotDot"></span>
+        <span id="njdotLabel">NJDOT — Not connected</span>
+      </button>
+      <button class="lock-btn" id="lockBtn" type="button" title="Lock admin view" aria-label="Lock admin view">
+        <svg viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+
+      <section class="panel">
+        <h2>NJDOT Account</h2>
+        <div class="login-row">
+          <div class="login-avatar" id="loginAvatar">—</div>
+          <div class="login-meta">
+            <div class="login-name" id="loginName">Not signed in</div>
+            <div class="login-state" id="loginState">Outdoor Advertising Permit portal</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;">
+          <button class="btn block" id="loginBtn" type="button">Sign in to NJDOT</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Counties</h2>
+        <div class="county-list" id="countyList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Town Search</h2>
+        <label class="field-label" for="townSearch">Filter by town or route</label>
+        <input type="search" id="townSearch" placeholder="e.g. Toms River, Rt 17…">
+      </section>
+
+      <section class="panel">
+        <h2>Crawler Verbiage</h2>
+        <p class="crawl-note" style="margin: 0 0 10px;">Phrases the crawler flags in ordinances and master plans.</p>
+        <div class="chips" id="chipRow"></div>
+        <div class="chip-add">
+          <input type="text" id="chipInput" placeholder="Add a phrase…" aria-label="Add crawler phrase">
+          <button class="btn small" id="chipAddBtn" type="button">Add</button>
+        </div>
+        <div style="margin-top: 14px;">
+          <button class="btn primary block" id="crawlBtn" type="button">Run Crawl</button>
+          <div class="progress-wrap" id="progressWrap" hidden>
+            <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-label" id="progressLabel">Queued…</div>
+          </div>
+          <p class="crawl-note">Scans eCode360 / municipal code hosts and the latest adopted master plan for each town in the selected counties.</p>
+        </div>
+      </section>
+
+    </aside>
+
+    <main>
+      <div class="main-actions">
+        <button class="btn" id="printBtn" type="button">Print Report</button>
+        <button class="btn" id="exportBtn" type="button">Export Spreadsheet (.xlsx)</button>
+      </div>
+
+      <div class="tiles" id="tiles"></div>
+
+      <div class="tabs" role="tablist" id="tabBar"></div>
+
+      <div class="tabpanel">
+        <div class="table-scroll" id="panelHost"></div>
+      </div>
+
+      <p class="sample-note"><strong>Sample data.</strong> These rows are placeholder examples for UI review — the crawler, the Outdoor Impact site connection, and the NJDOT connection aren't wired up yet, so citations and statuses shown here are illustrative, not verified.</p>
+    </main>
   </div>
-  <form method="dialog" class="dialog-body" id="loginForm">
+
+  <dialog id="loginDialog">
+    <div class="dialog-head">
+      <div class="mark" id="njMark"></div>
+      <div>
+        <h3>NJDOT Sign In</h3>
+        <p>Outdoor Advertising Permits &amp; SLD access</p>
+      </div>
+    </div>
+    <form method="dialog" class="dialog-body" id="loginForm">
+      <div>
+        <label class="field-label" for="njUser">Username</label>
+        <input type="text" id="njUser" autocomplete="username" placeholder="MyNewJersey ID">
+      </div>
+      <div>
+        <label class="field-label" for="njPass">Password</label>
+        <input type="password" id="njPass" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <p class="crawl-note" style="margin:0;">Demo only — credentials aren't sent anywhere yet. This will connect to the NJDOT Outdoor Advertising / Straight Line Diagram services.</p>
+      <div class="dialog-actions">
+        <button class="btn" value="cancel" type="submit" formnovalidate id="loginCancel">Cancel</button>
+        <button class="btn primary" value="signin" type="submit">Sign in</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="print-only" id="printReport" aria-hidden="true"></div>
+
+</div>
+
+<dialog id="authDialog">
+  <div class="dialog-head">
+    <div class="mark" id="authMark"></div>
     <div>
-      <label class="field-label" for="njUser">Username</label>
-      <input type="text" id="njUser" autocomplete="username" placeholder="MyNewJersey ID">
+      <h3>Staff Sign In</h3>
+      <p>Outdoor Impact Ordinance Scout</p>
+    </div>
+  </div>
+  <form class="dialog-body" id="authForm">
+    <div id="authError" class="auth-error" hidden></div>
+    <div>
+      <label class="field-label" for="authUser">Username</label>
+      <input type="text" id="authUser" autocomplete="username" placeholder="Username" autocapitalize="off" autocorrect="off">
     </div>
     <div>
-      <label class="field-label" for="njPass">Password</label>
-      <input type="password" id="njPass" autocomplete="current-password" placeholder="••••••••">
+      <label class="field-label" for="authPass">Password</label>
+      <input type="password" id="authPass" autocomplete="current-password" placeholder="Password">
     </div>
-    <p class="crawl-note" style="margin:0;">Demo only — credentials aren't sent anywhere yet. This will connect to the NJDOT Outdoor Advertising / Straight Line Diagram services.</p>
     <div class="dialog-actions">
-      <button class="btn" value="cancel" type="submit" formnovalidate id="loginCancel">Cancel</button>
-      <button class="btn" value="signin" type="submit" style="background: var(--accent); border-color: var(--accent); color: var(--accent-ink);">Sign in</button>
+      <button class="btn" type="button" id="authCancel">Cancel</button>
+      <button class="btn primary" type="submit">Sign in</button>
     </div>
   </form>
 </dialog>
-
-<div class="print-only" id="printReport" aria-hidden="true"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function () {
   "use strict";
+
+  /* ---------- brand mark stamping ---------- */
+  var markHtml = document.getElementById("markSvg").innerHTML;
+  ["gateMark", "brandmark", "njMark", "authMark"].forEach(function (id) {
+    var host = document.getElementById(id);
+    if (host) host.innerHTML = markHtml;
+  });
+
+  /* ---------- gate: 5 clicks + staff login ---------- */
+
+  var AUTH_KEY = "oi-ordinance-scout-auth";
+  // Credential is never stored in plain text here: this holds only the
+  // SHA-256 hash of "<username>:<password>", checked in checkCredentials().
+  var CRED_HASH = "40f26cc952052fac22e3db16df932fd36fe8afed510caf50ceae76b3aeaa32ac";
+  var CLICK_WINDOW_MS = 1400;
+  var NEEDED_CLICKS = 5;
+
+  function sha256Hex(text) {
+    if (!(window.crypto && window.crypto.subtle)) return Promise.resolve(null);
+    var data = new TextEncoder().encode(text);
+    return window.crypto.subtle.digest("SHA-256", data).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return b.toString(16).padStart(2, "0");
+      }).join("");
+    });
+  }
+
+  function checkCredentials(user, pass) {
+    return sha256Hex(user + ":" + pass).then(function (hex) {
+      return hex !== null && hex === CRED_HASH;
+    });
+  }
+
+  var gate = document.getElementById("gate");
+  var app = document.getElementById("app");
+  var gateMark = document.getElementById("gateMark");
+  var gateDots = document.getElementById("gateDots").querySelectorAll("span");
+  var authDialog = document.getElementById("authDialog");
+  var authForm = document.getElementById("authForm");
+  var authError = document.getElementById("authError");
+  var authUser = document.getElementById("authUser");
+  var authPass = document.getElementById("authPass");
+
+  var clickCount = 0;
+  var clickTimer = null;
+
+  function resetClicks() {
+    clickCount = 0;
+    gateDots.forEach(function (d) { d.classList.remove("lit"); });
+  }
+
+  function unlockApp() {
+    gate.hidden = true;
+    app.hidden = false;
+    document.title = "Outdoor Impact Ordinance Scout";
+    boot();
+  }
+
+  gateMark.addEventListener("click", function () {
+    clickCount++;
+    if (clickTimer) clearTimeout(clickTimer);
+    var lit = Math.min(clickCount, NEEDED_CLICKS);
+    gateDots.forEach(function (d, i) { d.classList.toggle("lit", i < lit); });
+    clickTimer = setTimeout(resetClicks, CLICK_WINDOW_MS);
+
+    if (clickCount >= NEEDED_CLICKS) {
+      clearTimeout(clickTimer);
+      resetClicks();
+      authError.hidden = true;
+      authForm.reset();
+      if (typeof authDialog.showModal === "function") {
+        authDialog.showModal();
+        authUser.focus();
+      }
+    }
+  });
+
+  authForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var u = authUser.value.trim();
+    var p = authPass.value;
+    var submitBtn = authForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    checkCredentials(u, p).then(function (ok) {
+      submitBtn.disabled = false;
+      if (ok) {
+        try { sessionStorage.setItem(AUTH_KEY, "1"); } catch (e2) { /* private mode: session-only, ask again next load */ }
+        authDialog.close();
+        authForm.reset();
+        authError.hidden = true;
+        unlockApp();
+      } else {
+        authError.textContent = "Incorrect username or password.";
+        authError.hidden = false;
+        authDialog.querySelector(".dialog-body").classList.add("shake");
+        setTimeout(function () { authDialog.querySelector(".dialog-body").classList.remove("shake"); }, 500);
+        authPass.value = "";
+        authPass.focus();
+      }
+    });
+  });
+
+  document.getElementById("authCancel").addEventListener("click", function () {
+    authDialog.close();
+    authForm.reset();
+    authError.hidden = true;
+  });
+
+  try {
+    if (sessionStorage.getItem(AUTH_KEY) === "1") unlockApp();
+  } catch (e) { /* no sessionStorage available: fall through to gate */ }
+
+  /* ================================================================
+     Everything below runs once, only after unlockApp() fires boot().
+     ================================================================ */
+
+  var booted = false;
+  function boot() {
+    if (booted) return;
+    booted = true;
 
   /* ---------- data (sample rows for UI review) ---------- */
 
@@ -916,18 +1127,18 @@
   });
 
   /* NJDOT login (demo) */
-  var dialog = document.getElementById("loginDialog");
-  function openLogin() {
-    if (typeof dialog.showModal === "function") dialog.showModal();
+  var njDialog = document.getElementById("loginDialog");
+  function openNjLogin() {
+    if (typeof njDialog.showModal === "function") njDialog.showModal();
   }
   document.getElementById("loginBtn").addEventListener("click", function () {
-    if (state.njdot) { setNjdot(false); } else { openLogin(); }
+    if (state.njdot) { setNjdot(false); } else { openNjLogin(); }
   });
   document.getElementById("njdotBtn").addEventListener("click", function () {
-    if (!state.njdot) openLogin();
+    if (!state.njdot) openNjLogin();
   });
-  dialog.addEventListener("close", function () {
-    if (dialog.returnValue === "signin") {
+  njDialog.addEventListener("close", function () {
+    if (njDialog.returnValue === "signin") {
       var user = document.getElementById("njUser").value.trim() || "NJDOT user";
       setNjdot(true, user);
       toast("Signed in to NJDOT (demo)");
@@ -944,6 +1155,14 @@
     document.getElementById("loginAvatar").textContent = on ? (user || "NJ").slice(0, 2).toUpperCase() : "—";
     document.getElementById("loginBtn").textContent = on ? "Sign out" : "Sign in to NJDOT";
   }
+
+  /* lock button: return to gate */
+  document.getElementById("lockBtn").addEventListener("click", function () {
+    try { sessionStorage.removeItem(AUTH_KEY); } catch (e) { /* nothing to clear */ }
+    app.hidden = true;
+    gate.hidden = false;
+    document.title = "Outdoor Impact";
+  });
 
   /* crawl simulation */
   var crawlBtn = document.getElementById("crawlBtn");
@@ -998,7 +1217,7 @@
     var d = new Date();
     var html =
       '<div class="rpt-head">' +
-      '<p class="rpt-title">Ordinance Scout — NJ Billboard Zoning Report</p>' +
+      '<p class="rpt-title">Outdoor Impact Ordinance Scout — NJ Billboard Zoning Report</p>' +
       '<p class="rpt-meta">Generated ' + esc(d.toLocaleDateString()) + " · " + esc(filterSummary()) + "</p>" +
       "</div>";
     TABS.forEach(function (t) {
@@ -1027,7 +1246,7 @@
     }
 
     sheet("Summary",
-      ["Ordinance Scout — NJ Billboard Zoning Report"],
+      ["Outdoor Impact Ordinance Scout — NJ Billboard Zoning Report"],
       [
         ["Generated", d.toLocaleString()],
         ["Filters", filterSummary()],
@@ -1092,7 +1311,7 @@
       return;
     }
     exportBtn.disabled = true;
-    var filename = "ordinance-scout-" + new Date().toISOString().slice(0, 10) + ".xlsx";
+    var filename = "outdoor-impact-ordinance-scout-" + new Date().toISOString().slice(0, 10) + ".xlsx";
     var buffer;
     try {
       buffer = XLSX.write(buildWorkbook(), { bookType: "xlsx", type: "array" });
@@ -1101,31 +1320,18 @@
       toast("Couldn’t build the spreadsheet");
       return;
     }
-    var savePromise = (window.claude && typeof window.claude.use === "function")
-      ? window.claude.use("downloads")
-      : Promise.resolve(null);
-    savePromise.then(function (downloads) {
-      if (downloads) {
-        return downloads.save({ filename: filename, data: buffer }).then(function () {
-          toast("Spreadsheet saved");
-        }, function (err) {
-          if (err && err.code === "declined") return;
-          if (err && err.code === "rate_limited") { toast("A save prompt is already open — try again in a moment"); return; }
-          toast("Couldn’t save the file in this view");
-        });
-      }
-      blobDownload(filename, buffer);
-      toast("Spreadsheet downloading");
-    }).then(function () {
-      exportBtn.disabled = false;
-    }, function () {
-      exportBtn.disabled = false;
-    });
+    blobDownload(filename, buffer);
+    toast("Spreadsheet downloading");
+    exportBtn.disabled = false;
   });
 
   /* ---------- boot ---------- */
   renderCounties();
   renderChips();
   renderAll();
+
+  } // end boot()
 })();
 </script>
+</body>
+</html>
