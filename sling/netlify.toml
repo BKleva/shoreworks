@@ -1,0 +1,9 @@
+# Sling — standalone static site (own Netlify project)
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
