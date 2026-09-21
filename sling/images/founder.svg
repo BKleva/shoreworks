@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="fgrad" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#2c2c2c"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#fgrad)"/>
+  <circle cx="300" cy="230" r="90" fill="none" stroke="#f4f4f4" stroke-width="5"/>
+  <path d="M150,520 C150,400 220,340 300,340 C380,340 450,400 450,520 Z" fill="none" stroke="#f4f4f4" stroke-width="5"/>
+  <rect x="0" y="0" width="600" height="8" fill="#e0262c"/>
+  <text x="300" y="565" text-anchor="middle" fill="#8f8f8f" font-family="Arial, sans-serif" font-size="14" letter-spacing="2">FOUNDER PHOTO PLACEHOLDER</text>
+</svg>
