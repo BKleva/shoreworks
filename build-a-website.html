@@ -82,6 +82,10 @@ body{font-family:'Space Grotesk',sans-serif;color:#1a1a1a;background:#EDE5D4;fon
 .port-card.pc-next{opacity:0.5;z-index:5;transform:translateX(calc(-50% + 320px)) scale(0.82)}
 .port-preview{width:100%;height:220px;display:block;flex-shrink:0;object-fit:cover;object-position:top}
 .port-preview-wrap{background:#F5F0E8;flex-shrink:0}
+.port-preview-wrap--tlpa{display:flex;align-items:center;justify-content:center;height:220px}
+.port-preview-tlpa{display:flex;align-items:center;gap:.75rem}
+.port-preview-tlpa img{height:64px;width:auto;display:block}
+.port-preview-tlpa span{font-weight:800;color:#023A51;font-size:1rem;line-height:1.2;font-family:'Space Grotesk',sans-serif}
 .port-preview-logo{object-fit:contain;padding:1.5rem;height:220px}
 .port-info{padding:1.5rem;flex:1;display:flex;flex-direction:column}
 .port-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:#EBF4F8;color:#1A6B8A;display:inline-block;margin-bottom:.6rem}
@@ -212,6 +216,8 @@ footer p{font-size:12px;color:#888}
   .port-card.pc-next{transform:translateX(calc(-50% + 200px)) scale(0.82)}
   .port-preview{height:140px}
   .port-preview-logo{height:140px}
+  .port-preview-wrap--tlpa{height:140px}
+  .port-preview-tlpa img{height:44px}
   .port-info{padding:1rem}
   .port-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .port-link{margin-top:.6rem;padding:7px 16px}
@@ -339,7 +345,12 @@ footer p{font-size:12px;color:#888}
 
       <!-- Thomas Lacovara Public Adjusters -->
       <div class="port-card">
-        <div class="port-preview-wrap"><img class="port-preview port-preview-logo" src="assets/portfolio/thomas-lacovara-badge.png" alt="Thomas Lacovara Public Adjusters website" style="object-fit:contain;padding:2rem;object-position:center"></div>
+        <div class="port-preview-wrap port-preview-wrap--tlpa">
+          <div class="port-preview-tlpa">
+            <img src="assets/portfolio/thomas-lacovara-badge.png" alt="Thomas Lacovara &amp; Associates badge">
+            <span>Thomas Lacovara<br>Public Adjusters</span>
+          </div>
+        </div>
         <div class="port-info">
           <span class="port-tag">Public Adjusters · Insurance Claims</span>
           <div class="port-title">Thomas Lacovara &amp; Associates</div>
