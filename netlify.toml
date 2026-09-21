@@ -1,3 +1,7 @@
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -7,6 +11,11 @@
 [[redirects]]
   from = "/login"
   to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/ordinance-scout"
+  to = "/ordinance-scout/index.html"
   status = 200
 
 [[redirects]]
