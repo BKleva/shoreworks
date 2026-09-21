@@ -1,0 +1,19 @@
+# Outdoor Impact — standalone static site (own Netlify project)
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Pretty URL for the Ordinance Scout admin tool
+[[redirects]]
+  from = "/ordinance-scout"
+  to = "/admin/ordinance-scout.html"
+  status = 200
