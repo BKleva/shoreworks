@@ -677,26 +677,45 @@
 
   /* ---------- gate: 5 clicks + staff login ---------- */
 
-  var AUTH_KEY = "oi-ordinance-scout-auth";
-  // Credential is never stored in plain text here: this holds only the
-  // SHA-256 hash of "<username>:<password>", checked in checkCredentials().
-  var CRED_HASH = "40f26cc952052fac22e3db16df932fd36fe8afed510caf50ceae76b3aeaa32ac";
+  var TOKEN_KEY = "oi-ordinance-scout-token";
   var CLICK_WINDOW_MS = 1400;
   var NEEDED_CLICKS = 5;
 
-  function sha256Hex(text) {
-    if (!(window.crypto && window.crypto.subtle)) return Promise.resolve(null);
-    var data = new TextEncoder().encode(text);
-    return window.crypto.subtle.digest("SHA-256", data).then(function (buf) {
-      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
-        return b.toString(16).padStart(2, "0");
-      }).join("");
+  // Real server-side login: POSTs to a Netlify function that checks the
+  // submitted username/password against ADMIN_USER / ADMIN_PASS in the
+  // site's environment variables and, on a match, returns a signed,
+  // time-limited session token. No credential ever lives in this file.
+  function login(user, pass) {
+    return fetch("/api/ordinance-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: user, password: pass })
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok || !data.token) {
+          var err = new Error(data.error || "Invalid username or password.");
+          err.network = false;
+          throw err;
+        }
+        return data.token;
+      });
+    }, function () {
+      var err = new Error("Couldn’t reach the sign-in service. Make sure this page is running on the live Outdoor Impact site.");
+      err.network = true;
+      throw err;
     });
   }
 
-  function checkCredentials(user, pass) {
-    return sha256Hex(user + ":" + pass).then(function (hex) {
-      return hex !== null && hex === CRED_HASH;
+  // Confirms a stored token is still valid with a real server round trip
+  // (signed by the backend and not expired) rather than trusting whatever
+  // sessionStorage happens to hold.
+  function verifySession(token) {
+    return fetch("/api/ordinance-session", {
+      headers: { Authorization: "Bearer " + token }
+    }).then(function (res) {
+      return res.ok;
+    }, function () {
+      return false;
     });
   }
 
@@ -750,22 +769,23 @@
     var p = authPass.value;
     var submitBtn = authForm.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
-    checkCredentials(u, p).then(function (ok) {
+    authError.hidden = true;
+    login(u, p).then(function (token) {
       submitBtn.disabled = false;
-      if (ok) {
-        try { sessionStorage.setItem(AUTH_KEY, "1"); } catch (e2) { /* private mode: session-only, ask again next load */ }
-        authDialog.close();
-        authForm.reset();
-        authError.hidden = true;
-        unlockApp();
-      } else {
-        authError.textContent = "Incorrect username or password.";
-        authError.hidden = false;
+      try { sessionStorage.setItem(TOKEN_KEY, token); } catch (e2) { /* private mode: session-only, ask again next load */ }
+      authDialog.close();
+      authForm.reset();
+      unlockApp();
+    }, function (err) {
+      submitBtn.disabled = false;
+      authError.textContent = err.message;
+      authError.hidden = false;
+      if (!err.network) {
         authDialog.querySelector(".dialog-body").classList.add("shake");
         setTimeout(function () { authDialog.querySelector(".dialog-body").classList.remove("shake"); }, 500);
-        authPass.value = "";
-        authPass.focus();
       }
+      authPass.value = "";
+      authPass.focus();
     });
   });
 
@@ -775,9 +795,15 @@
     authError.hidden = true;
   });
 
-  try {
-    if (sessionStorage.getItem(AUTH_KEY) === "1") unlockApp();
-  } catch (e) { /* no sessionStorage available: fall through to gate */ }
+  (function checkExistingSession() {
+    var stored;
+    try { stored = sessionStorage.getItem(TOKEN_KEY); } catch (e) { stored = null; }
+    if (!stored) return;
+    verifySession(stored).then(function (ok) {
+      if (ok) { unlockApp(); return; }
+      try { sessionStorage.removeItem(TOKEN_KEY); } catch (e) { /* nothing to clear */ }
+    });
+  })();
 
   /* ================================================================
      Everything below runs once, only after unlockApp() fires boot().
@@ -1158,7 +1184,7 @@
 
   /* lock button: return to gate */
   document.getElementById("lockBtn").addEventListener("click", function () {
-    try { sessionStorage.removeItem(AUTH_KEY); } catch (e) { /* nothing to clear */ }
+    try { sessionStorage.removeItem(TOKEN_KEY); } catch (e) { /* nothing to clear */ }
     app.hidden = true;
     gate.hidden = false;
     document.title = "Outdoor Impact";
