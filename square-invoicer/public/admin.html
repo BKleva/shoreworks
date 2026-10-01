@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Send Invoice — Square Invoicer</title>
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div class="wrap hidden" id="app">
+    <div class="topbar">
+      <div>
+        <h1 style="margin-bottom:0;">Send an invoice</h1>
+        <span class="env-tag" id="env-tag">sandbox</span>
+      </div>
+      <button class="btn-ghost" id="logout-btn">Sign out</button>
+    </div>
+
+    <div class="card">
+      <form id="invoice-form" autocomplete="off">
+        <label for="customerName">Customer name</label>
+        <input type="text" id="customerName" required maxlength="200" />
+
+        <label for="customerEmail">Customer email</label>
+        <input type="email" id="customerEmail" required maxlength="254" />
+
+        <label for="title">Invoice title</label>
+        <input type="text" id="title" maxlength="120" placeholder="Invoice" />
+
+        <label for="description">Memo (optional)</label>
+        <textarea id="description" rows="2" maxlength="1000"></textarea>
+
+        <label for="dueDate">Due date</label>
+        <input type="date" id="dueDate" required />
+
+        <div id="line-items"></div>
+        <button type="button" class="add-line-btn" id="add-line-btn">+ Add line item</button>
+
+        <button type="submit" class="btn-primary" id="submit-btn">Create &amp; send invoice</button>
+        <div class="error-banner" id="error-banner"></div>
+        <div class="success-banner" id="success-banner"></div>
+      </form>
+    </div>
+  </div>
+
+  <template id="line-item-template">
+    <div class="line-item">
+      <div>
+        <label>Description</label>
+        <input type="text" class="li-description" maxlength="200" required />
+      </div>
+      <div>
+        <label>Qty</label>
+        <input type="number" class="li-quantity" min="1" step="1" value="1" required />
+      </div>
+      <div>
+        <label>Price ($)</label>
+        <input type="number" class="li-amount" min="0.01" step="0.01" required />
+      </div>
+      <button type="button" class="remove-btn" title="Remove">&times;</button>
+    </div>
+  </template>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

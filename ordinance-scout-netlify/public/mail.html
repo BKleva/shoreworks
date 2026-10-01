@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Print mail | Outdoor Impact</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1628'/%3E%3Crect x='5' y='11' width='22' height='9' rx='1.5' fill='%232f6fed'/%3E%3Crect x='15' y='20' width='2' height='7' fill='%232f6fed'/%3E%3C/svg%3E">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --ink: #101a33; --dim: rgba(16,26,51,.72); --dimmer: rgba(16,26,51,.52); --line: rgba(16,26,51,.14); --blue: #2f6fed; --blue-dark: #1d4ed8; --navy: #1a3a6b; --bg: #f4f7fc; }
+  body { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--dim); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; color: var(--ink); }
+  input, select, textarea { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: .4rem .6rem; width: 100%; }
+  input[type=checkbox], input[type=radio] { width: auto; }
+  textarea { resize: vertical; }
+  a { color: var(--blue-dark); }
+  header.top { background: var(--navy); padding: .8rem clamp(1rem, 3vw, 2rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header .name { font-weight: 700; color: #fff; font-size: 1.1rem; display: block; line-height: 1.15; }
+  header .sub { font-size: .72rem; color: #8fb4ff; }
+  header a.back { color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem; border: 1px solid rgba(255,255,255,.4); border-radius: 8px; padding: .4rem .9rem; }
+  .layout { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 1.2rem; padding: 1.2rem clamp(1rem, 3vw, 2rem) 3rem; max-width: 1700px; margin: 0 auto; }
+  .panel { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+  .panel h2 { font-size: .95rem; color: var(--ink); margin-bottom: .6rem; letter-spacing: -.01em; }
+  .fld { display: block; font-size: .78rem; font-weight: 600; color: var(--ink); margin-bottom: .6rem; }
+  .fld > input, .fld > select, .fld > textarea { margin-top: .2rem; font-weight: 400; }
+  .row { display: flex; gap: .6rem; } .row > * { flex: 1; }
+  .chks { display: flex; flex-wrap: wrap; gap: .3rem .9rem; font-size: .85rem; margin-bottom: .6rem; }
+  .chks label { display: inline-flex; align-items: center; gap: .35rem; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .6rem 1.1rem; border-radius: 9px; font-weight: 600; font-size: .88rem; cursor: pointer; border: 1px solid var(--line); background: #fff; }
+  .btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); } .btn.primary:hover { background: var(--blue-dark); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .count { font-size: 1.6rem; font-weight: 700; color: var(--ink); line-height: 1.1; }
+  .muted { color: var(--dimmer); font-size: .82rem; }
+  .tip { font-size: .8rem; background: #eef4ff; border-radius: 9px; padding: .55rem .7rem; margin-top: .6rem; color: var(--ink); }
+  .warn { color: #b26a00; font-weight: 600; }
+  table.list { width: 100%; border-collapse: collapse; font-size: .8rem; }
+  .list th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--dimmer); padding: .35rem .4rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: #fff; }
+  .list td { padding: .3rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .listwrap { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 9px; }
+  .tag { font-size: .68rem; font-weight: 600; padding: .05rem .4rem; border-radius: 6px; background: #edf0f6; color: #5b6478; }
+  .tag.bad { background: #fff3dc; color: #b26a00; }
+  #sheet { zoom: .62; } #sheet .page, #sheet .env { box-shadow: 0 2px 12px rgba(16,26,51,.18); margin: 0 0 18px; background: #fff; }
+  .empty { padding: 2rem; text-align: center; color: var(--dimmer); }
+
+  /* ---------- the printed pieces (exact physical sizes) ---------- */
+  .page { width: 8.5in; height: 11in; position: relative; overflow: hidden; color: #000; font-family: Arial, Helvetica, sans-serif; }
+  .labels { padding: .5in .1875in 0; display: grid; grid-template-columns: repeat(3, 2.625in); column-gap: .125in; grid-auto-rows: 1in; }   /* Avery 5160 / 30 per sheet */
+  .cell { padding: .13in .14in 0; font-size: 10pt; line-height: 1.22; overflow: hidden; white-space: nowrap; }
+  .env { width: 9.5in; height: 4.125in; position: relative; overflow: hidden; color: #000; font-family: Arial, Helvetica, sans-serif; }   /* #10 envelope */
+  .ret { position: absolute; font-size: 10pt; line-height: 1.25; white-space: pre-line; }
+  .addr { position: absolute; font-size: 12pt; line-height: 1.3; white-space: pre-line; }
+  .env .ret { left: .5in; top: .4in; } .env .addr { left: 4.2in; top: 1.75in; width: 4.8in; }
+  .letter .ret { left: .9in; top: .55in; } .letter .addr { left: .9in; top: 2.05in; width: 3.6in; }   /* shows through a #10 double-window envelope */
+  .letter .body { position: absolute; left: .9in; right: .9in; top: 3.45in; font-size: 11pt; line-height: 1.45; }
+  .letter .body p { margin-bottom: .85em; }
+  .letter .date { position: absolute; right: .9in; top: .6in; font-size: 11pt; }
+  .letter .logo { position: absolute; left: .9in; top: .4in; }
+  .letter .logo img { display: block; width: 2.6in; height: auto; }   /* oilogo.jpg, 745 px wide = 286 dpi at this size */
+  .letter.with-logo .ret { top: 1.32in; }
+  #sigPad { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 320; border: 1px dashed var(--line); border-radius: 9px; background: #fff; touch-action: none; cursor: crosshair; }
+  .letter .body .sig { margin: -.15em 0 0; min-height: .7in; display: flex; align-items: flex-start; }
+  .letter .body .sig img { height: .7in; max-width: 3.4in; width: auto; object-fit: contain; object-position: left; display: block; }
+  .letter .body .sig .script { font-family: 'Mrs Saint Delafield', 'Brush Script MT', cursive; font-size: 34pt; line-height: 1; color: #16245a; transform: rotate(-2deg); transform-origin: left bottom; display: inline-block; padding-top: .05in; }
+  .letter .qr { position: absolute; left: .9in; bottom: .6in; display: flex; align-items: center; gap: .16in; }
+  .letter .qr img { width: 1.05in; height: 1.05in; display: block; }     /* qr.png, 500 px = 476 dpi */
+  .letter .qr span { font-size: 10pt; line-height: 1.35; max-width: 3in; white-space: pre-line; color: #000; }
+  @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+  @media print {
+    body { background: #fff; } header.top, .controls, .screen-only { display: none !important; }
+    .layout { display: block; padding: 0; max-width: none; } #sheet { zoom: 1; }
+    #sheet .page, #sheet .env { box-shadow: none; margin: 0; page-break-after: always; break-after: page; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div><span class="name">Outdoor Impact</span><span class="sub">Ordinance Scout &middot; Print mail</span></div>
+  <a class="back" href="/#roadside">&larr; Back to Roadside Map</a>
+</header>
+
+<div class="layout">
+  <div class="controls">
+    <div class="panel">
+      <h2>1 &middot; Who gets mail</h2>
+      <div class="chks" id="counties"></div>
+      <div class="row">
+        <label class="fld">From road edge (ft)<input id="min" type="number" min="0" value="0"></label>
+        <label class="fld">Back to (ft)<input id="max" type="number" min="25" value="300"></label>
+      </div>
+      <div class="chks" id="classes"></div>
+      <div class="chks">
+        <label><input type="checkbox" id="skipSame"> Skip tax bills that go to the property itself</label>
+        <label><input type="checkbox" id="skipBad" checked> Skip incomplete addresses</label>
+        <label><input type="checkbox" id="exact" checked> <b>Print the tax bill address exactly as recorded</b> (no abbreviating or reformatting)</label>
+      </div>
+      <div class="muted" id="refsNote"></div>
+    </div>
+
+    <div class="panel">
+      <h2>2 &middot; What to print</h2>
+      <label class="fld">Format
+        <select id="format">
+          <option value="labels">Mailing labels (Avery 5160, 30 per sheet)</option>
+          <option value="envelopes">Envelopes (#10, address printed on envelope)</option>
+          <option value="letters">Letters (address positioned for a #10 window envelope)</option>
+        </select></label>
+      <label class="fld">Addressee line (owner names are not in the public record)
+        <select id="addressee">
+          <option value="owner">PROPERTY OWNER</option>
+          <option value="ownerOf">OWNER OF {property address}</option>
+          <option value="owneroccupant">CURRENT PROPERTY OWNER / LANDOWNER</option>
+          <option value="custom">Custom…</option>
+          <option value="none">(none)</option>
+        </select></label>
+      <label class="fld" id="customWrap" hidden>Custom addressee line<input id="custom" placeholder="e.g. LANDOWNER"></label>
+      <label class="fld" id="startWrap">Start at label # (for a partly used sheet)<input id="start" type="number" min="1" max="30" value="1"></label>
+      <label class="fld">Return address
+        <textarea id="ret" rows="3" placeholder="Outdoor Impact&#10;Street&#10;City, NJ 00000"></textarea></label>
+      <div id="letterOpts">
+        <label class="chks" style="display:block;margin-bottom:.6rem"><label><input type="checkbox" id="logo" checked> Outdoor Impact logo at the top of each letter</label></label>
+        <label class="chks" style="display:block;margin-bottom:.4rem"><label><input type="checkbox" id="qr" checked> QR code at the bottom of each letter</label></label>
+        <label class="fld">Text next to the QR code <span class="muted">(leave empty for none)</span><textarea id="qrText" rows="2"></textarea></label>
+        <div class="panel" style="padding:.7rem .8rem;margin-bottom:.7rem">
+          <label class="chks" style="display:block;margin-bottom:.4rem"><label><input type="checkbox" id="sigOn" checked> Signature under the contact info</label></label>
+          <div class="muted" style="margin:0 0 .3rem"><b>Draw the signature</b> in the box with a mouse, finger or stylus:</div>
+          <canvas id="sigPad" width="1200" height="320" aria-label="Signature drawing pad"></canvas>
+          <div class="row" style="margin-top:.4rem"><button class="btn" id="sigPadClear" type="button">Clear</button><button class="btn primary" id="sigPadUse" type="button">Use this signature</button></div>
+          <div class="muted" id="sigNote" style="margin:.4rem 0"></div>
+          <details style="margin-top:.2rem"><summary class="muted" style="cursor:pointer">Other ways: upload an image, or use a typed name</summary>
+            <div class="row" style="align-items:center;margin-top:.4rem"><label class="fld" style="margin:0">Upload a scan or photo of the signature<input id="sigFile" type="file" accept="image/*"></label><button class="btn" id="sigClear" type="button" style="flex:none">Remove signature</button></div>
+            <label class="fld" style="margin-top:.5rem">Typed name in a handwriting style (used when no drawing is saved)<input id="sigName" value="Colton Lacovara"></label>
+          </details>
+        </div>
+        <label class="fld">Letter text <span class="muted">(tokens: {{property_address}} {{properties}} {{town}} {{county}} {{signature}})</span>
+          <textarea id="body" rows="9"></textarea></label>
+        <label class="fld">Date on letter<input id="date" type="text"></label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>3 &middot; Print</h2>
+      <div class="count" id="count">0</div>
+      <div class="muted" id="countSub">mail pieces</div>
+      <div class="row" style="margin-top:.8rem">
+        <button class="btn primary" id="print">Print</button>
+        <button class="btn" id="test">Print a 3-piece test</button>
+      </div>
+      <button class="btn" id="csv" style="margin-top:.6rem">Download addresses (CSV)</button>
+      <div class="tip" id="tip"></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel screen-only">
+      <h2>Recipients <span class="muted" id="listNote"></span></h2>
+      <div class="row" style="margin-bottom:.5rem"><button class="btn" id="all">Select all</button><button class="btn" id="none">Select none</button></div>
+      <div class="listwrap"><table class="list" id="list"><thead><tr><th></th><th>Mailing address</th><th>Properties (parcels)</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="screen-only muted" style="margin:.2rem 0 .6rem">Preview (scaled down). What prints is full size.</div>
+    <div id="sheet"></div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const COUNTIES = ['Monmouth', 'Ocean', 'Bergen', 'Morris'];
+const CLASSES = { '1': 'Vacant land', '4A': 'Commercial', '4B': 'Industrial' };
+const STATES = { ALABAMA: 'AL', ALASKA: 'AK', ARIZONA: 'AZ', ARKANSAS: 'AR', CALIFORNIA: 'CA', COLORADO: 'CO', CONNECTICUT: 'CT', DELAWARE: 'DE', 'DISTRICT OF COLUMBIA': 'DC',
+  FLORIDA: 'FL', GEORGIA: 'GA', HAWAII: 'HI', IDAHO: 'ID', ILLINOIS: 'IL', INDIANA: 'IN', IOWA: 'IA', KANSAS: 'KS', KENTUCKY: 'KY', LOUISIANA: 'LA', MAINE: 'ME', MARYLAND: 'MD',
+  MASSACHUSETTS: 'MA', MICHIGAN: 'MI', MINNESOTA: 'MN', MISSISSIPPI: 'MS', MISSOURI: 'MO', MONTANA: 'MT', NEBRASKA: 'NE', NEVADA: 'NV', 'NEW HAMPSHIRE': 'NH', 'NEW JERSEY': 'NJ',
+  'NEW MEXICO': 'NM', 'NEW YORK': 'NY', 'NORTH CAROLINA': 'NC', 'NORTH DAKOTA': 'ND', OHIO: 'OH', OKLAHOMA: 'OK', OREGON: 'OR', PENNSYLVANIA: 'PA', 'RHODE ISLAND': 'RI',
+  'SOUTH CAROLINA': 'SC', 'SOUTH DAKOTA': 'SD', TENNESSEE: 'TN', TEXAS: 'TX', UTAH: 'UT', VERMONT: 'VT', VIRGINIA: 'VA', WASHINGTON: 'WA', 'WEST VIRGINIA': 'WV', WISCONSIN: 'WI',
+  WYOMING: 'WY', 'PUERTO RICO': 'PR' };
+const norm = (x) => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+const q = new URLSearchParams(location.search);
+const LOGO = '<div class="logo"><img src="/static/mail/oilogo.jpg" alt="Outdoor Impact"></div>';
+const qrBlock = () => `<div class="qr"><img src="/static/mail/qr.png" alt="QR code">${$('qrText').value.trim() ? `<span>${esc($('qrText').value.trim())}</span>` : ''}</div>`;
+const DEFAULT_BODY = `Dear Property Owner,
+
+Outdoor Impact works with New Jersey landowners who want passive income from their land. We develop premium billboard structures on private property and pay the landowner.
+
+Your property at {{property_address}} in {{town}} sits along a state highway, which is why I am writing. If you would like to talk about what a billboard could mean for this property, please call or email me. There is no obligation.
+
+Sincerely,
+
+Colton Lacovara
+Co-Owner & Senior Property Consultant
+(609) 513-3340  ·  colton.lacovara@gmail.com
+
+{{signature}}`;
+
+// ---- address cleanup: the tax record stores some states spelled out and ZIPs as 9 digits ----
+function fmtAddr(p, exact) {
+  // What the tax record says, untouched except for trimming stray spaces at the ends.
+  const rawStreet = String(p.mail_street || '').trim(), rawCs = String(p.mail_city_state || '').trim(), rawZip = String(p.mail_zip || '').trim();
+  // A cleaned-up reading of the same fields, used to decide whether the address is mailable (and, only if you turn exact mode off, what prints).
+  const line1c = rawStreet.toUpperCase().replace(/\s+/g, ' ');
+  const cs = rawCs.toUpperCase().replace(/\s+/g, ' ').replace(/\s+N\.? ?J\.?$/, ' NJ');   // "EATONTOWN N J" -> "EATONTOWN NJ"
+  let zip = rawZip.replace(/\s+/g, ''), city = cs, st = '';
+  const m = cs.match(/^(.*?),\s*(.+)$/);
+  if (m) { city = m[1].trim(); st = m[2].trim(); }
+  else { const m2 = cs.match(/^(.*\S)\s+([A-Z]{2})$/); if (m2) { city = m2[1].trim(); st = m2[2]; } }   // the record often omits the comma: "CAMDEN NJ"
+  st = st.replace(/^N\.?\s*J\.?$/, 'NJ');   // "N J"
+  st = st.replace(/\.$/, '');   // "PA."
+  const zm = st.match(/^(.*?)\s*(\d{5}(?:-?\d{4})?)$/);
+  if (zm) { st = zm[1].trim(); if (zip.replace(/\D/g, '').length < 5) zip = zm[2]; }
+  st = STATES[st] || st;
+  zip = zip.replace(/[^0-9-]/g, '');
+  if (/^\d{9}$/.test(zip)) zip = zip.slice(0, 5) + '-' + zip.slice(5);
+  if (/^\d{5}-0000$/.test(zip)) zip = zip.slice(0, 5);
+  if (/^0{5}/.test(zip)) zip = '';   // 00000 is a placeholder in the tax record, not a real ZIP
+  const complete = !!(line1c && city && /^[A-Z]{2}$/.test(st) && /^\d{5}(-\d{4})?$/.test(zip)) && !/UNKNOWN/.test(line1c + ' ' + cs);
+  const cleaned2 = [city && st ? `${city}, ${st}` : city || st, zip].filter(Boolean).join(' ');
+  return exact
+    ? { line1: rawStreet, line2: [rawCs, rawZip].filter(Boolean).join(' '), complete, city: rawCs, st: '', zip: rawZip, rawStreet, rawCs, rawZip }
+    : { line1: line1c, line2: cleaned2, complete, city, st, zip, rawStreet, rawCs, rawZip };
+}
+
+let all = [], recipients = [];
+let sigUrl = '';   // blob URL of the uploaded signature image, created once so thousands of letters share it
+function setSig(blob) { if (sigUrl) URL.revokeObjectURL(sigUrl); sigUrl = blob ? URL.createObjectURL(blob) : ''; $('sigNote').textContent = sigUrl ? 'Using the saved signature (drawn or uploaded). It stays saved in this browser.' : 'No drawn signature saved yet, so letters show the typed name in a handwriting style. Draw one above and press "Use this signature".'; }
+const sigHtml = () => `<div class="sig">${sigUrl ? `<img src="${sigUrl}" alt="Signature">` : `<span class="script">${esc($('sigName').value)}</span>`}</div>`;
+
+function setup() {
+  const want = (q.get('county') || '').split(',').filter(Boolean);
+  $('counties').innerHTML = COUNTIES.map((c) => `<label><input type="checkbox" value="${c}" ${(!want.length || want.includes(c)) ? 'checked' : ''}> ${c}</label>`).join('');
+  const wantCls = (q.get('classes') || '').split(',').filter(Boolean);
+  $('classes').innerHTML = Object.entries(CLASSES).map(([k, v]) => `<label><input type="checkbox" value="${k}" ${(!wantCls.length || wantCls.includes(k)) ? 'checked' : ''}> ${v}</label>`).join('');
+  if (q.get('min_ft')) $('min').value = q.get('min_ft');
+  if (q.get('max_ft')) $('max').value = q.get('max_ft');
+  const refs = (q.get('refs') || '').split(',').filter(Boolean);
+  $('refsNote').textContent = refs.length ? `Only highways: ${refs.join(', ')} (from the map)` : 'All state highways in the chosen counties.';
+  const saved = JSON.parse(localStorage.getItem('oi_mail') || '{}');
+  $('ret').value = saved.ret ?? ''; $('body').value = (saved.body && !saved.body.includes('[Your name]')) ? saved.body : DEFAULT_BODY;   // old placeholder text is replaced
+  $('sigOn').checked = saved.sigOn ?? true; $('sigName').value = saved.sigName ?? 'Colton Lacovara';
+  $('addressee').value = saved.addressee ?? 'owner'; $('custom').value = saved.custom ?? ''; $('format').value = saved.format ?? 'labels'; $('logo').checked = saved.logo ?? true; $('qr').checked = saved.qr ?? true; $('qrText').value = saved.qrText ?? 'Scan to learn more\noutdoorimpactllc.com';
+  $('date').value = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  for (const id of ['min', 'max', 'skipSame', 'skipBad', 'exact']) $(id).addEventListener('input', rebuild);
+  $('counties').addEventListener('change', load); $('classes').addEventListener('change', rebuild);
+  for (const id of ['format', 'addressee', 'custom', 'ret', 'body', 'date', 'start', 'logo', 'qr', 'qrText', 'sigOn', 'sigName']) $(id).addEventListener('input', () => { save(); render(); });
+  $('print').addEventListener('click', () => doPrint(false)); $('test').addEventListener('click', () => doPrint(true));
+  $('all').addEventListener('click', () => { recipients.forEach((r) => r.on = true); renderList(); render(); });
+  $('none').addEventListener('click', () => { recipients.forEach((r) => r.on = false); renderList(); render(); });
+  $('csv').addEventListener('click', downloadCsv);
+  initPad();
+  $('sigFile').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    if (f.size > 1.5e6) { alert('Choose an image under 1.5 MB.'); e.target.value = ''; return; }
+    const fr = new FileReader();
+    fr.onload = () => { try { localStorage.setItem('oi_sig', fr.result); } catch { /* too big to remember: still works this session */ } setSig(f); render(); };
+    fr.readAsDataURL(f);
+  });
+  $('sigClear').addEventListener('click', () => { localStorage.removeItem('oi_sig'); $('sigFile').value = ''; setSig(null); render(); });
+  const storedSig = localStorage.getItem('oi_sig');
+  if (storedSig) fetch(storedSig).then((r) => r.blob()).then((b) => { setSig(b); render(); }); else setSig(null);
+  $('list').querySelector('tbody').addEventListener('change', (e) => { const i = e.target.dataset.i; if (i != null) { recipients[i].on = e.target.checked; render(); } });
+  load();
+}
+
+const save = () => localStorage.setItem('oi_mail', JSON.stringify({ ret: $('ret').value, body: $('body').value, addressee: $('addressee').value, custom: $('custom').value, format: $('format').value, logo: $('logo').checked, qr: $('qr').checked, qrText: $('qrText').value, sigOn: $('sigOn').checked, sigName: $('sigName').value }));
+
+async function load() {
+  const cs = [...$('counties').querySelectorAll('input:checked')].map((i) => i.value);
+  $('count').textContent = '…'; $('countSub').textContent = 'loading parcels';
+  const parts = await Promise.all(cs.map(async (c) => {
+    const r = await fetch('/api/roadside/results?county=' + c);
+    if (r.status === 401) { location.href = '/login?next=' + encodeURIComponent(location.pathname + location.search); return []; }
+    return (await r.json()).features.map((f) => f.properties);
+  }));
+  all = parts.flat();
+  rebuild();
+}
+
+function rebuild() {
+  const min = +$('min').value || 0, max = +$('max').value || 300;
+  const cls = [...$('classes').querySelectorAll('input:checked')].map((i) => i.value);
+  const refs = (q.get('refs') || '').split(',').filter(Boolean);
+  const groups = new Map();
+  for (const p of all) {
+    if (p.edge_min_ft < min || p.edge_min_ft > max || !cls.includes(p.prop_class)) continue;
+    if (refs.length && !p.route.split(', ').some((r) => refs.includes(r))) continue;
+    const a = fmtAddr(p, $('exact').checked);
+    if (!a.line1) continue;
+    // one piece per distinct address; only case and repeated spaces are ignored, so "1-2 Main St" and "12 Main St" stay separate
+    const key = [a.rawStreet, a.rawCs, a.rawZip].map((x) => x.toUpperCase().replace(/\s+/g, ' ')).join('|');
+    const g = groups.get(key) || { key, a, same: false, parcels: [], on: true };
+    g.parcels.push(p);
+    if (norm(p.mail_street) === norm(p.prop_loc)) g.same = true;
+    groups.set(key, g);
+  }
+  recipients = [...groups.values()].sort((x, y) => (x.a.zip || '').localeCompare(y.a.zip || '') || x.a.line1.localeCompare(y.a.line1)); // sorted by ZIP, the order a mail house wants
+  renderList(); render();
+}
+
+const eligible = () => recipients.filter((r) => r.on && !($('skipSame').checked && r.same) && !($('skipBad').checked && !r.a.complete));
+
+function renderList() {
+  const tb = $('list').querySelector('tbody');
+  tb.innerHTML = recipients.length ? recipients.map((r, i) => `<tr><td><input type="checkbox" data-i="${i}" ${r.on ? 'checked' : ''}></td>
+    <td><b>${esc(r.a.line1)}</b><br>${esc(r.a.line2)} ${r.a.complete ? '' : '<span class="tag bad">incomplete</span>'} ${r.same ? '<span class="tag">property itself</span>' : ''}</td>
+    <td>${esc(r.parcels.slice(0, 3).map((p) => p.prop_loc + ' (' + p.muni + ')').join('; '))}${r.parcels.length > 3 ? ` <span class="muted">+${r.parcels.length - 3} more</span>` : ''}</td></tr>`).join('')
+    : '<tr><td colspan="3" class="empty">No parcels match.</td></tr>';
+}
+
+function addresseeLine(r) {
+  const m = $('addressee').value;
+  if (m === 'owner') return 'PROPERTY OWNER';
+  if (m === 'ownerOf') return 'OWNER OF ' + (r.parcels[0].prop_loc || 'PROPERTY').toUpperCase();
+  if (m === 'owneroccupant') return 'CURRENT PROPERTY OWNER / LANDOWNER';
+  if (m === 'custom') return ($('custom').value || '').toUpperCase();
+  return '';
+}
+const block = (r) => [addresseeLine(r), r.a.line1, r.a.line2].filter(Boolean).join('\n');
+
+function letterBody(r) {
+  const props = r.parcels.slice(0, 4).map((p) => p.prop_loc).join('; ') + (r.parcels.length > 4 ? ` and ${r.parcels.length - 4} more` : '');
+  const t = $('body').value.replace(/\{\{property_address\}\}/g, r.parcels[0].prop_loc || 'your property').replace(/\{\{properties\}\}/g, props)
+    .replace(/\{\{town\}\}/g, titleCase(r.parcels[0].muni)).replace(/\{\{county\}\}/g, r.parcels[0].county + ' County');
+  return t.split(/\n{2,}/).map((para) => para.trim() === '{{signature}}' ? ($('sigOn').checked ? sigHtml() : '') : `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
+}
+const titleCase = (s) => String(s || '').toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase()).replace(/\bTwp\b/, 'Township').replace(/\bBoro\b/, 'Borough');
+
+function pieces(testOnly) {
+  const list = eligible();
+  return testOnly ? list.slice(0, 3) : list;
+}
+
+function initPad() {
+  const pad = $('sigPad'), ctx = pad.getContext('2d');
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#0f1d4d';
+  let drawing = false, prev = null, prevMid = null;
+  const pt = (e) => { const r = pad.getBoundingClientRect(); return { x: (e.clientX - r.left) * pad.width / r.width, y: (e.clientY - r.top) * pad.height / r.height, w: e.pointerType === 'pen' ? 4 + (e.pressure || .5) * 6 : 6.5 }; };
+  pad.addEventListener('pointerdown', (e) => {
+    try { pad.setPointerCapture(e.pointerId); } catch { /* synthetic events */ }
+    drawing = true; prev = pt(e); prevMid = prev;
+    ctx.beginPath(); ctx.arc(prev.x, prev.y, prev.w / 2, 0, 7); ctx.fillStyle = '#0f1d4d'; ctx.fill();   // a dot, so a tap leaves a mark
+    e.preventDefault();
+  });
+  pad.addEventListener('pointermove', (e) => {
+    if (!drawing) return;
+    const cur = pt(e), mid = { x: (prev.x + cur.x) / 2, y: (prev.y + cur.y) / 2 };
+    ctx.lineWidth = cur.w; ctx.beginPath(); ctx.moveTo(prevMid.x, prevMid.y); ctx.quadraticCurveTo(prev.x, prev.y, mid.x, mid.y); ctx.stroke();   // smoothed curve through the points
+    prev = cur; prevMid = mid; e.preventDefault();
+  });
+  const end = () => { drawing = false; };
+  pad.addEventListener('pointerup', end); pad.addEventListener('pointercancel', end); pad.addEventListener('pointerleave', end);
+  $('sigPadClear').addEventListener('click', () => ctx.clearRect(0, 0, pad.width, pad.height));
+  $('sigPadUse').addEventListener('click', () => {
+    const { width: w, height: h } = pad, d = ctx.getImageData(0, 0, w, h).data;
+    let x0 = w, y0 = h, x1 = -1, y1 = -1;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (d[(y * w + x) * 4 + 3] > 12) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    if (x1 < 0) { $('sigNote').textContent = 'The box is empty. Draw the signature first.'; return; }
+    const m = 14, cw = x1 - x0 + 2 * m, ch = y1 - y0 + 2 * m, out = document.createElement('canvas');
+    out.width = cw; out.height = ch;
+    out.getContext('2d').drawImage(pad, x0 - m, y0 - m, cw, ch, 0, 0, cw, ch);   // cropped to the ink, transparent background
+    out.toBlob((blob) => {
+      const fr = new FileReader();
+      fr.onload = () => { try { localStorage.setItem('oi_sig', fr.result); } catch { /* still works this session */ } };
+      fr.readAsDataURL(blob);
+      setSig(blob); $('sigOn').checked = true; save(); render();
+    }, 'image/png');
+  });
+}
+
+function render(testOnly) {
+  const list = pieces(testOnly);
+  const fmt = $('format').value;
+  $('customWrap').hidden = $('addressee').value !== 'custom';
+  $('startWrap').hidden = fmt !== 'labels'; $('letterOpts').hidden = fmt !== 'letters';
+  const n = eligible().length;
+  $('count').textContent = n.toLocaleString();
+  const skippedBad = recipients.filter((r) => r.on && !r.a.complete).length;
+  $('countSub').innerHTML = `mail pieces (${recipients.length.toLocaleString()} unique tax addresses, ${all.length ? '' : 'no '}parcels loaded)` + ($('skipBad').checked && skippedBad ? ` &middot; <span class="warn">${skippedBad} incomplete skipped</span>` : '');
+  $('listNote').textContent = `· ${recipients.length.toLocaleString()} unique tax addresses, one piece each`;
+  const ret = $('ret').value.trim();
+  const pages = document.createElement('div');
+  if (fmt === 'labels') {
+    const start = Math.max(1, Math.min(30, +$('start').value || 1)), cells = Array(start - 1).fill('').concat(list.map((r) => block(r)));
+    for (let i = 0; i < Math.max(cells.length, 1); i += 30) {
+      const pg = cells.slice(i, i + 30);
+      pages.insertAdjacentHTML('beforeend', `<div class="page labels">${pg.map((c) => `<div class="cell">${esc(c).replace(/\n/g, '<br>')}</div>`).join('')}</div>`);
+    }
+    setPage('letter');
+    $('tip').textContent = 'Load Avery 5160 (or any 1" x 2-5/8", 30-up) label sheets. In the print dialog choose Scale 100% and Margins: None.';
+  } else if (fmt === 'envelopes') {
+    pages.innerHTML = list.map((r) => `<div class="env">${ret ? `<div class="ret">${esc(ret)}</div>` : ''}<div class="addr">${esc(block(r))}</div></div>`).join('');
+    setPage('9.5in 4.125in');
+    $('tip').textContent = 'Feed #10 envelopes in landscape. In the print dialog choose paper size #10 (or Custom 9.5 x 4.125 in), Scale 100%, Margins: None.';
+  } else {
+    pages.innerHTML = list.map((r) => `<div class="page letter${$('logo').checked ? ' with-logo' : ''}">${$('logo').checked ? LOGO : ''}${ret ? `<div class="ret">${esc(ret)}</div>` : ''}<div class="date">${esc($('date').value)}</div><div class="addr">${esc(block(r))}</div><div class="body">${letterBody(r)}</div>${$('qr').checked ? qrBlock() : ''}</div>`).join('');
+    setPage('letter');
+    $('tip').textContent = 'Print on letter paper, tri-fold, and use a #10 double-window envelope: the return address and the recipient address show through the windows. Scale 100%, Margins: None.';
+  }
+  $('tip').textContent += $('exact').checked ? ' Addresses print exactly as they appear on the tax record.' : ' Addresses are cleaned up for USPS (states abbreviated, ZIP+4 formatted).';
+  $('sheet').replaceChildren(...pages.childNodes);
+  if (!list.length) $('sheet').innerHTML = '<div class="empty">Nothing to print yet. Pick recipients on the left.</div>';
+  $('print').disabled = $('test').disabled = !list.length;
+}
+
+function setPage(size) {
+  let s = document.getElementById('pgstyle'); if (!s) { s = document.createElement('style'); s.id = 'pgstyle'; document.head.appendChild(s); }
+  s.textContent = `@page { size: ${size}; margin: 0; }`;
+}
+
+function doPrint(testOnly) {
+  render(testOnly);
+  setTimeout(() => { window.print(); setTimeout(() => render(false), 500); }, 150);
+}
+
+function downloadCsv() {
+  const rows = [['Addressee', 'Street (as recorded)', 'City / state (as recorded)', 'ZIP (as recorded)', 'Address as printed (street, city / state ZIP)', 'Properties (parcels on this tax bill)', 'Towns', 'County']];
+  for (const r of eligible()) rows.push([addresseeLine(r), r.a.rawStreet, r.a.rawCs, r.a.rawZip, [r.a.line1, r.a.line2].join(', '),
+    r.parcels.map((p) => p.prop_loc).join('; '), [...new Set(r.parcels.map((p) => titleCase(p.muni)))].join('; '), r.parcels[0].county]);
+  const csv = rows.map((r) => r.map((c) => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'mailing-list.csv'; a.click();
+}
+
+setup();
+</script>
+</body>
+</html>

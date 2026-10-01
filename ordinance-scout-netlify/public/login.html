@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Sign in | Outdoor Impact</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1628'/%3E%3Crect x='5' y='11' width='22' height='9' rx='1.5' fill='%232f6fed'/%3E%3Crect x='15' y='20' width='2' height='7' fill='%232f6fed'/%3E%3C/svg%3E">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --ink: #101a33; --dim: rgba(16,26,51,.72); --blue: #2f6fed; --blue-dark: #1d4ed8; --navy: #1a3a6b; --line: rgba(16,26,51,.18); }
+  body { font-family: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--dim); background: #f4f7fc; min-height: 100vh;
+    display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+  header { background: var(--navy); padding: 1.1rem clamp(1rem, 4vw, 2.5rem); }
+  .name { display: block; font-weight: 700; font-size: 1.15rem; color: #fff; letter-spacing: -.01em; }
+  .sub { font-size: .72rem; color: #8fb4ff; font-weight: 500; }
+  main { flex: 1; display: grid; place-items: center; padding: 1.5rem 1rem 4rem; }
+  form { width: min(400px, 100%); background: #fff; border: 1px solid rgba(16,26,51,.10); border-radius: 14px; padding: 1.8rem 1.6rem; box-shadow: 0 10px 30px rgba(16,26,51,.08); }
+  h1 { font-size: 1.4rem; color: var(--ink); letter-spacing: -.01em; margin-bottom: .3rem; }
+  p.lede { font-size: .9rem; margin-bottom: 1.3rem; }
+  label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: .95rem; }
+  input { display: block; width: 100%; margin-top: .3rem; font: inherit; font-size: 1rem; color: var(--ink); border: 1px solid var(--line); border-radius: 9px; padding: .7rem .8rem; background: #fff; }
+  input:focus, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  button { width: 100%; font: inherit; font-weight: 600; font-size: .95rem; color: #fff; background: var(--blue); border: 0; border-radius: 9px; padding: .8rem; cursor: pointer; }
+  button:hover { background: var(--blue-dark); }
+  button:disabled { opacity: .6; cursor: wait; }
+  .err { min-height: 1.3rem; margin-top: .8rem; font-size: .88rem; color: #c62828; font-weight: 500; }
+</style>
+</head>
+<body>
+<header><span class="name">Outdoor Impact</span><span class="sub">Ordinance Scout</span></header>
+<main>
+  <form id="f" autocomplete="on">
+    <h1>Sign in</h1>
+    <p class="lede">This tool is private. Use your Outdoor Impact login.</p>
+    <label>Email <input id="email" type="email" name="email" autocomplete="username" required autofocus></label>
+    <label>Password <input id="pw" type="password" name="password" autocomplete="current-password" required></label>
+    <button id="go">Sign in</button>
+    <div class="err" id="err" role="alert"></div>
+  </form>
+</main>
+<script>
+  const f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault(); err.textContent = ''; go.disabled = true; go.textContent = 'Signing in…';
+    try {
+      const r = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: document.getElementById('email').value, password: document.getElementById('pw').value }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.error || 'Sign-in failed.');
+      const next = new URLSearchParams(location.search).get('next') || '/';
+      location.href = /^\/(?!\/)/.test(next) ? next : '/';   // same-site paths only
+    } catch (ex) { err.textContent = ex.message; go.disabled = false; go.textContent = 'Sign in'; }
+  });
+</script>
+</body>
+</html>

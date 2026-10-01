@@ -1,0 +1,16 @@
+[build]
+  publish = "admin"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Runs the 1st of every month at 13:00 UTC (9am ET) and emails every client
+# their prior-month Netlify Analytics report.
+[functions."send-reports"]
+  schedule = "0 13 1 * *"
+
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200

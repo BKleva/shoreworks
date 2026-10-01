@@ -34,7 +34,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    *:not(.marquee-track), *:not(.marquee-track)::before, *:not(.marquee-track)::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   }
 
   html { scroll-behavior: smooth; }
@@ -199,10 +199,17 @@
 
   /* ============ MARQUEE ============ */
   .marquee { background: var(--yellow); overflow: hidden; padding: 0.85rem 0; }
-  .marquee-track { display: flex; gap: 3rem; white-space: nowrap; animation: scroll 22s linear infinite; width: max-content; }
+  .marquee-track {
+    display: flex; gap: 3rem; white-space: nowrap; width: max-content;
+    animation: scroll 22s linear infinite;
+    -webkit-animation: scroll 22s linear infinite;
+    will-change: transform; transform: translate3d(0,0,0);
+    -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  }
   .marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.1em; color: var(--black); display: flex; align-items: center; gap: 0.8rem; }
   .marquee-track span::after { content: "\2726"; color: var(--red); font-size: 0.8rem; }
-  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes scroll { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @-webkit-keyframes scroll { from { -webkit-transform: translate3d(0,0,0); } to { -webkit-transform: translate3d(-50%,0,0); } }
 
   /* ============ GALLERY (trading-card carousel) ============ */
   .gallery-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }

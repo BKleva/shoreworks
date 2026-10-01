@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traffic Reports — Shore Works</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230D3D54'/><text x='8' y='23' font-family='Georgia,serif' font-size='19' fill='white' font-weight='400'>S</text><text x='19' y='23' font-family='Georgia,serif' font-size='16' fill='%234BB8B8' font-style='italic'>w</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#0D3D54; --teal:#4BB8B8; --cream:#EDE5D4; --card:#fff; --line:#E0DBD0; --ink:#1a1a1a; --muted:#889; --red:#b3413c; --green:#1a7a4a; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100vh;font-family:'Sora',sans-serif}
+  body{background:var(--cream);color:var(--ink);padding:2.5rem 1.25rem}
+  .wrap{max-width:1040px;margin:0 auto}
+  #gateBox{max-width:420px;margin:0 auto}
+
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+  .brand-icon{width:40px;height:40px;border-radius:9px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .brand-icon span{font-family:Georgia,serif;color:#fff;font-size:20px}
+  .brand-icon em{font-family:Georgia,serif;color:var(--teal);font-size:17px;font-style:italic;margin-left:-1px}
+  .brand-text .name{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);line-height:1.1}
+  .brand-text .name em{color:var(--teal);font-style:italic}
+  .brand-text .sub{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+
+  .card{background:var(--card);border-radius:20px;padding:2rem 2.25rem;box-shadow:0 16px 56px rgba(13,61,84,.1);border:1px solid var(--line)}
+  .card + .card{margin-top:20px}
+
+  h1{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);font-weight:500}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+
+  label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 6px}
+  input{width:100%;padding:11px 13px;border-radius:11px;border:1.5px solid var(--line);background:#FDFAF6;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color .15s}
+  input:focus{border-color:var(--teal)}
+
+  button{cursor:pointer;font-family:'Sora',sans-serif}
+  .primary{background:var(--navy);color:#fff;border:none;padding:12px 22px;border-radius:100px;font-size:13px;font-weight:700}
+  .primary:disabled{opacity:.55;cursor:default}
+  .ghost{background:none;border:1.5px solid var(--line);padding:8px 16px;border-radius:100px;font-size:12px;font-weight:600;color:var(--navy)}
+  .ghost:disabled{opacity:.55;cursor:default}
+  .danger-link{background:none;border:none;color:var(--red);font-size:12px;font-weight:600;text-decoration:underline;padding:0}
+
+  table{width:100%;min-width:640px;border-collapse:collapse;margin-top:8px}
+  td:first-child, td:nth-child(2){white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:8px 6px;border-bottom:1.5px solid var(--line)}
+  td{padding:12px 6px;font-size:13px;border-bottom:1px solid #f1ece0;vertical-align:middle}
+  td.actions{text-align:right;white-space:nowrap}
+  td.actions button{margin-left:8px}
+
+  .form-row{display:flex;gap:14px;flex-wrap:wrap}
+  .form-row > div{flex:1;min-width:180px}
+
+  .msg{font-size:13px;margin-top:14px;padding:10px 13px;border-radius:10px;display:none}
+  .msg.error{background:#fbeceb;color:var(--red);display:block}
+  .msg.ok{background:#eaf6f0;color:var(--green);display:block}
+  .hidden{display:none}
+  .toolbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .empty{color:var(--muted);font-size:13px;padding:14px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <div class="brand-icon"><span>S</span><em>w</em></div>
+    <div class="brand-text">
+      <div class="name">Shore<em>works</em></div>
+      <div class="sub">Traffic Reports</div>
+    </div>
+  </div>
+
+  <div class="card" id="gateBox">
+    <h1>Sign in</h1>
+    <p class="sub">Enter the admin password to manage clients.</p>
+    <label>Password</label>
+    <input type="password" id="gatePassword" autocomplete="current-password">
+    <button class="primary" id="gateSubmit" style="margin-top:18px">Unlock</button>
+    <div class="msg" id="gateMsg"></div>
+  </div>
+
+  <div class="hidden" id="appBox">
+    <div class="card">
+      <div class="toolbar">
+        <div>
+          <h1>Clients</h1>
+          <p class="sub">Reports send automatically on the 1st of each month for the prior month. Use "Send" on a client to send theirs on demand.</p>
+        </div>
+      </div>
+
+      <div class="msg" id="appMsg"></div>
+
+      <h3 id="formHeading" style="font-size:13px;font-weight:700;margin:22px 0 0;color:var(--navy)">Add a client</h3>
+      <div class="form-row">
+        <div>
+          <label>Client / business name</label>
+          <input id="fName" placeholder="Twin Cleans">
+        </div>
+        <div>
+          <label>Report label (optional)</label>
+          <input id="fSiteName" placeholder="Online Traffic Metrics">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label>Client email</label>
+          <input id="fEmail" type="email" placeholder="owner@example.com">
+        </div>
+        <div>
+          <label>Netlify Site ID</label>
+          <input id="fSiteId" placeholder="e.g. 3f2a1c9e-...">
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:18px">
+        <button class="primary" id="addBtn">Add client</button>
+        <button type="button" class="danger-link hidden" id="cancelEditBtn">Cancel</button>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table id="clientsTable">
+          <thead>
+            <tr><th>Client</th><th>Email</th><th>Site ID</th><th></th></tr>
+          </thead>
+          <tbody id="clientsBody"></tbody>
+        </table>
+      </div>
+      <div class="empty hidden" id="emptyState">No clients yet — add one above.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let PASSWORD = sessionStorage.getItem('reportsAdminPw') || '';
+  let editingId = null;
+
+  const DRAFT_KEY = 'reportsNewClientDraft';
+  const draftFields = ['fName', 'fSiteName', 'fEmail', 'fSiteId'];
+  const DEFAULT_SITE_NAME = '..... Online Traffic Metrics';
+
+  // Persists the in-progress "Add a client" form so it survives a reload or
+  // closed tab. Only while adding — never while editing an existing client.
+  function saveDraft() {
+    if (editingId) return;
+    try {
+      const draft = {};
+      draftFields.forEach((id) => (draft[id] = document.getElementById(id).value));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch (e) {}
+  }
+
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return false;
+      const draft = JSON.parse(raw);
+      draftFields.forEach((id) => (document.getElementById(id).value = draft[id] || ''));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function clearDraft() {
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch (e) {}
+  }
+
+  const gateBox = document.getElementById('gateBox');
+  const appBox = document.getElementById('appBox');
+  const gateMsg = document.getElementById('gateMsg');
+  const appMsg = document.getElementById('appMsg');
+
+  function showAppMsg(text, ok) {
+    appMsg.textContent = text;
+    appMsg.className = 'msg ' + (ok ? 'ok' : 'error');
+  }
+
+  async function api(path, opts = {}) {
+    const res = await fetch(path, {
+      ...opts,
+      headers: { ...(opts.headers || {}), 'x-admin-password': PASSWORD }
+    });
+    if (res.status === 401) {
+      sessionStorage.removeItem('reportsAdminPw');
+      location.reload();
+      throw new Error('Unauthorized');
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  function renderClients(clients) {
+    const body = document.getElementById('clientsBody');
+    const empty = document.getElementById('emptyState');
+    body.innerHTML = '';
+    empty.classList.toggle('hidden', clients.length > 0);
+    for (const c of clients) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${c.site_name || c.name}</td>
+        <td>${c.email}</td>
+        <td style="font-family:monospace;font-size:12px">${c.site_id}</td>
+        <td class="actions">
+          <button class="ghost" data-send="${c.id}">Send</button>
+          <button class="ghost" data-edit="${c.id}">Edit</button>
+          <button class="danger-link" data-remove="${c.id}">Remove</button>
+        </td>
+      `;
+      body.appendChild(tr);
+    }
+
+    body.querySelectorAll('button[data-edit]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const client = clients.find((c) => c.id === btn.dataset.edit);
+        if (client) startEdit(client);
+      });
+    });
+
+    body.querySelectorAll('button[data-remove]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Remove this client from the report list?')) return;
+        try {
+          const data = await api('/.netlify/functions/clients?id=' + encodeURIComponent(btn.dataset.remove), { method: 'DELETE' });
+          if (editingId === btn.dataset.remove) stopEdit();
+          renderClients(data.clients);
+        } catch (e) {
+          showAppMsg(e.message, false);
+        }
+      });
+    });
+
+    body.querySelectorAll('button[data-send]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const row = btn.closest('tr');
+        const clientName = row.querySelector('td').textContent;
+        if (!confirm(`Send this month's report to ${clientName} now?`)) return;
+        btn.disabled = true;
+        const originalText = btn.textContent;
+        btn.textContent = 'Sending…';
+        try {
+          const data = await api('/.netlify/functions/send-reports-now', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ client_id: btn.dataset.send })
+          });
+          const result = data.results && data.results[0];
+          if (result && result.ok) {
+            showAppMsg(`Sent ${data.period} report to ${clientName}.`, true);
+          } else {
+            showAppMsg(`Failed to send to ${clientName}: ${(result && result.error) || 'Unknown error'}`, false);
+          }
+        } catch (e) {
+          showAppMsg(e.message, false);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = originalText;
+        }
+      });
+    });
+  }
+
+  function startEdit(client) {
+    editingId = client.id;
+    document.getElementById('fName').value = client.name;
+    document.getElementById('fSiteName').value = client.site_name === client.name ? '' : (client.site_name || '');
+    document.getElementById('fEmail').value = client.email;
+    document.getElementById('fSiteId').value = client.site_id;
+    document.getElementById('formHeading').textContent = 'Edit client';
+    document.getElementById('addBtn').textContent = 'Save changes';
+    document.getElementById('cancelEditBtn').classList.remove('hidden');
+    document.getElementById('formHeading').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function stopEdit() {
+    editingId = null;
+    if (!loadDraft()) {
+      draftFields.forEach((id) => (document.getElementById(id).value = ''));
+      document.getElementById('fSiteName').value = DEFAULT_SITE_NAME;
+    }
+    document.getElementById('formHeading').textContent = 'Add a client';
+    document.getElementById('addBtn').textContent = 'Add client';
+    document.getElementById('cancelEditBtn').classList.add('hidden');
+  }
+
+  document.getElementById('cancelEditBtn').addEventListener('click', stopEdit);
+
+  async function loadClients() {
+    try {
+      const data = await api('/.netlify/functions/clients');
+      renderClients(data.clients);
+    } catch (e) {
+      showAppMsg(e.message, false);
+    }
+  }
+
+  async function unlock(pw) {
+    PASSWORD = pw;
+    try {
+      const data = await api('/.netlify/functions/clients');
+      sessionStorage.setItem('reportsAdminPw', pw);
+      gateBox.classList.add('hidden');
+      appBox.classList.remove('hidden');
+      renderClients(data.clients);
+    } catch (e) {
+      gateMsg.textContent = 'Incorrect password.';
+      gateMsg.classList.add('error');
+    }
+  }
+
+  document.getElementById('gateSubmit').addEventListener('click', () => {
+    unlock(document.getElementById('gatePassword').value);
+  });
+  document.getElementById('gatePassword').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') unlock(e.target.value);
+  });
+
+  document.getElementById('addBtn').addEventListener('click', async () => {
+    const name = document.getElementById('fName').value.trim();
+    const site_name = document.getElementById('fSiteName').value.trim();
+    const email = document.getElementById('fEmail').value.trim();
+    const site_id = document.getElementById('fSiteId').value.trim();
+    if (!name || !email || !site_id) {
+      showAppMsg('Name, email, and Site ID are required.', false);
+      return;
+    }
+    try {
+      if (editingId) {
+        const data = await api('/.netlify/functions/clients', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, name, email, site_id, site_name })
+        });
+        renderClients(data.clients);
+        showAppMsg('Client updated.', true);
+        stopEdit();
+      } else {
+        const data = await api('/.netlify/functions/clients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, site_id, site_name })
+        });
+        renderClients(data.clients);
+        showAppMsg('Client added.', true);
+        draftFields.forEach((id) => (document.getElementById(id).value = ''));
+        document.getElementById('fSiteName').value = DEFAULT_SITE_NAME;
+        clearDraft();
+      }
+    } catch (e) {
+      showAppMsg(e.message, false);
+    }
+  });
+
+  draftFields.forEach((id) => {
+    document.getElementById(id).addEventListener('input', saveDraft);
+  });
+  if (!loadDraft()) {
+    document.getElementById('fSiteName').value = DEFAULT_SITE_NAME;
+  }
+
+  if (PASSWORD) unlock(PASSWORD);
+</script>
+</body>
+</html>

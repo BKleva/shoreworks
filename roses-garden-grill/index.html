@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rose's Garden Grill – Northfield, NJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #1b3a1e;
+      --green-mid:    #2a5230;
+      --green-light:  #3d7a47;
+      --green-neon:   #39d353;
+      --red:          #c0392b;
+      --red-bright:   #e74c3c;
+      --cream:        #f5f0e8;
+      --warm-white:   #fdfaf4;
+      --gold:         #d4a843;
+      --text-dark:    #1a1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--warm-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(27, 58, 30, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(57, 211, 83, 0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--green-neon);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green-neon); }
+
+    .nav-cta {
+      background: var(--red);
+      color: #fff !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--red-bright) !important; color: #fff !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(to bottom, rgba(18,40,20,0.72) 0%, rgba(27,58,30,0.65) 50%, rgba(18,40,20,0.88) 100%),
+        url('images/storefront.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* neon glow strips */
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--green-neon), var(--red-bright), var(--green-neon), transparent);
+      opacity: 0.7;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: #fff;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-title span {
+      color: var(--green-neon);
+      text-shadow: 0 0 40px rgba(57,211,83,0.5), 0 4px 40px rgba(0,0,0,0.6);
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 2.2rem);
+      font-style: italic;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-tagline {
+      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.8);
+      font-size: 0.75rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Lato', sans-serif;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 8px 30px rgba(192,57,43,0.45);
+    }
+
+    .btn-primary:hover { box-shadow: 0 12px 40px rgba(192,57,43,0.6); }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+
+    .btn-outline:hover { border-color: var(--green-neon); color: var(--green-neon); }
+
+    /* neon sign strip */
+    .neon-strip {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .neon-word {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .neon-green {
+      color: var(--green-neon);
+      text-shadow: 0 0 20px rgba(57,211,83,0.8), 0 0 40px rgba(57,211,83,0.4);
+    }
+
+    .neon-red {
+      color: var(--red-bright);
+      text-shadow: 0 0 20px rgba(231,76,60,0.8), 0 0 40px rgba(231,76,60,0.4);
+    }
+
+    .neon-gold {
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(212,168,67,0.8), 0 0 40px rgba(212,168,67,0.4);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 2rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--green-deep);
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--green-deep);
+      color: #fff;
+    }
+
+    #about .section-label { color: var(--green-neon); }
+    #about .section-title { color: #fff; }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: rgba(255,255,255,0.75);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+
+    .about-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      margin-top: 1.5rem;
+    }
+
+    .about-detail i { color: var(--green-neon); font-size: 1.2rem; }
+
+    .about-img-wrap {
+      position: relative;
+    }
+
+    .about-img-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border: 2px solid rgba(57,211,83,0.25);
+      border-radius: 20px;
+      z-index: 0;
+    }
+
+    .about-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
+
+    .about-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(57,211,83,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: rgba(255,255,255,0.25);
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-img-placeholder i { font-size: 3rem; color: rgba(57,211,83,0.2); }
+    .about-img-placeholder span { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; letter-spacing: 0.06em; }
+
+    /* ── ORDER ── */
+    #order {
+      background: var(--cream);
+    }
+
+    .order-title-row {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .order-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .order-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: var(--text-dark);
+      display: block;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+
+    .order-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    .order-card.pickup { border-color: transparent; }
+    .order-card.pickup:hover { border-color: var(--green-light); }
+
+    .order-card.doordash:hover { border-color: #ff3008; }
+    .order-card.ubereats:hover { border-color: #142328; }
+    .order-card.grubhub:hover { border-color: #f63440; }
+
+    .order-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 2rem;
+    }
+
+    .order-card.pickup .order-icon { background: rgba(42,82,48,0.1); color: var(--green-mid); }
+    .order-card.doordash .order-icon { background: rgba(255,48,8,0.1); color: #ff3008; }
+    .order-card.ubereats .order-icon { background: rgba(20,35,40,0.08); color: #142328; }
+    .order-card.grubhub .order-icon { background: rgba(246,52,64,0.1); color: #f63440; }
+
+    .order-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-card-desc {
+      font-size: 0.88rem;
+      color: rgba(0,0,0,0.5);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .order-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: inherit;
+      letter-spacing: 0.04em;
+    }
+
+    .order-card.pickup .order-card-action { color: var(--green-mid); }
+    .order-card.doordash .order-card-action { color: #ff3008; }
+    .order-card.ubereats .order-card-action { color: #142328; }
+    .order-card.grubhub .order-card-action { color: #f63440; }
+
+    /* ── MENU ── */
+    #menu {
+      background: #2a1a0a;
+      padding: 6rem 2rem;
+    }
+
+    #menu .section-label { color: var(--green-neon); }
+    #menu .section-title { color: #fff; }
+
+    /* Flip card wrapper */
+    .menu-flip-scene {
+      perspective: 2000px;
+      margin-top: 2.5rem;
+      width: 100%;
+    }
+
+    .menu-flip-card {
+      position: relative;
+      width: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.4,0.2,0.2,1);
+    }
+
+    .menu-flip-card.flipped { transform: rotateY(180deg); }
+
+    .menu-face {
+      width: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      background: #e8dfc8;
+      border: 6px solid #8b1a1a;
+    }
+
+    .menu-face.back {
+      position: absolute;
+      top: 0; left: 0;
+      transform: rotateY(180deg);
+    }
+
+    /* Italian flag stripe */
+    .menu-flag-stripe {
+      display: flex;
+      height: 10px;
+    }
+    .menu-flag-stripe .s-green { flex: 1; background: #009246; }
+    .menu-flag-stripe .s-white { flex: 1; background: #fff; }
+    .menu-flag-stripe .s-red   { flex: 1; background: #ce2b37; }
+
+    /* Menu header */
+    .menu-header {
+      background: #1b3a1e;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    .menu-header-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .menu-header-sub {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* Menu body grid */
+    .menu-body {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: #e8dfc8;
+    }
+
+    .menu-col {
+      padding: 1rem 1rem;
+      border-right: 1px solid rgba(139,26,26,0.25);
+    }
+
+    .menu-col:last-child { border-right: none; }
+
+    /* Section heading */
+    .ms-head {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-style: italic;
+      color: #8b1a1a;
+      border-bottom: 2px solid #8b1a1a;
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .ms-head:first-child { margin-top: 0; }
+
+    /* Flag divider between sections */
+    .ms-flag {
+      display: flex;
+      height: 4px;
+      margin: 0.5rem 0;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .ms-flag span { flex: 1; }
+    .ms-flag .g { background: #009246; }
+    .ms-flag .w { background: #ccc; }
+    .ms-flag .r { background: #ce2b37; }
+
+    /* Individual menu row */
+    .mr {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.3rem;
+      padding: 0.2rem 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.1);
+      font-size: 0.72rem;
+    }
+
+    .mr:last-child { border-bottom: none; }
+
+    .mr-left { flex: 1; }
+
+    .mr-name {
+      font-weight: 700;
+      color: #1b3a1e;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .mr-name.starred::before {
+      content: '★ ';
+      color: #8b1a1a;
+      font-size: 0.65rem;
+    }
+
+    .mr-nick {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.7rem;
+      color: #555;
+    }
+
+    .mr-desc {
+      font-size: 0.65rem;
+      color: #666;
+      line-height: 1.3;
+    }
+
+    .mr-price {
+      font-weight: 700;
+      font-size: 0.72rem;
+      color: #8b1a1a;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .mr-price-dual {
+      font-weight: 700;
+      font-size: 0.68rem;
+      color: #8b1a1a;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    /* Footer note */
+    .menu-footer-note {
+      background: #1b3a1e;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.65rem;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      letter-spacing: 0.06em;
+    }
+
+    /* Back cover */
+    .menu-back-cover {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      background: #e8dfc8;
+    }
+
+    .menu-back-info {
+      background: #e8dfc8;
+      padding: 1.5rem 1.5rem;
+      border-right: 1px solid rgba(139,26,26,0.25);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-back-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      font-style: italic;
+      color: #8b1a1a;
+      line-height: 0.9;
+    }
+
+    .menu-back-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1b3a1e;
+      margin: 0.5rem 0;
+    }
+
+    .menu-back-details {
+      font-size: 0.75rem;
+      color: #333;
+      line-height: 1.8;
+      margin-top: 0.5rem;
+    }
+
+    .menu-catering-box {
+      border: 2px solid #1b3a1e;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      max-width: 260px;
+    }
+
+    .menu-catering-box .ct-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #8b1a1a;
+    }
+
+    .menu-catering-box p {
+      font-size: 0.72rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Flip controls */
+    .menu-flip-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .flip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 100px;
+      padding: 0.65rem 1.5rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .flip-btn:hover { background: rgba(255,255,255,0.18); border-color: var(--green-neon); }
+    .flip-btn.active { background: var(--green-deep); border-color: var(--green-neon); }
+
+    @media (max-width: 760px) {
+      .menu-body { grid-template-columns: 1fr; }
+      .menu-col { border-right: none; border-bottom: 1px solid rgba(139,26,26,0.2); }
+      .menu-back-cover { grid-template-columns: 1fr; }
+      .menu-header-title { font-size: 1.5rem; }
+    }
+
+    /* ── GALLERY ── */
+    #gallery {
+      background: #fff;
+    }
+
+    .gallery-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--green-deep);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 0.7rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Lato', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .upload-btn:hover { background: var(--green-mid); }
+
+    #gallery-input { display: none; }
+
+    .gallery-grid {
+      columns: 3;
+      column-gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid { columns: 2; }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid { columns: 1; }
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: #eee;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.03); }
+
+    .gallery-item .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .gallery-item:hover .remove-btn { display: flex; }
+
+    .gallery-empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      border: 2px dashed rgba(0,0,0,0.12);
+      border-radius: 16px;
+      color: rgba(0,0,0,0.35);
+    }
+
+    .gallery-empty i { font-size: 2.5rem; margin-bottom: 1rem; display: block; color: rgba(0,0,0,0.2); }
+
+    /* lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-deep);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(57,211,83,0.1);
+    }
+
+    footer .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--green-neon);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 30px rgba(57,211,83,0.4);
+    }
+
+    footer p { font-size: 0.85rem; margin-top: 0.25rem; }
+
+    footer .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    footer .footer-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    footer .footer-links a:hover { color: var(--green-neon); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .about-img-wrap { max-width: 500px; margin: 0 auto; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.75rem 1rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.25rem; }
+    }
+
+    /* hamburger menu */
+    .nav-burger {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .nav-burger { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Rose's Garden Grill</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#order" class="nav-cta">Order Now</a></li>
+  </ul>
+  <button class="nav-burger" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'">
+    <i class="ti ti-menu-2"></i>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <h1 class="hero-title">Rose's<br><span>Garden</span><br>Grill</h1>
+  <p class="hero-subtitle">— Trifiletti & Sons —</p>
+  <p class="hero-tagline">Signature Sandwiches · Wings · Fresh Salads · Breakfast · Catering</p>
+
+  <div class="hero-badges">
+    <span class="badge">Lunch &amp; Dinner</span>
+    <span class="badge">Take Out</span>
+    <span class="badge">Catering</span>
+    <span class="badge">Family Owned</span>
+  </div>
+
+  <div class="hero-buttons">
+    <a href="#order" class="btn btn-primary"><i class="ti ti-shopping-bag"></i> Order Now</a>
+    <a href="#menu" class="btn btn-outline"><i class="ti ti-book-2"></i> View Menu</a>
+  </div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-text">
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">A Family Tradition, One Sandwich at a Time</h2>
+        <p>Rose's Garden Grill has been a beloved staple in Northfield, NJ for years. Founded by the Trifiletti family, we've built our reputation on generous portions, fresh ingredients, and the kind of home-cooked quality you just can't find anywhere else.</p>
+        <p>From our famous cheesesteaks to our crispy wings and hearty breakfast, every dish is made with care and served with pride. We treat every customer like family — because around here, that's just what you do.</p>
+        <div class="about-detail"><i class="ti ti-phone"></i> (609) 646-1763</div>
+        <div class="about-detail"><i class="ti ti-map-pin"></i> Northfield, NJ</div>
+        <div class="about-detail"><i class="ti ti-clock"></i> Open for Lunch &amp; Dinner · Take Out Available</div>
+      </div>
+
+      <div class="about-img-wrap">
+        <div class="about-img-placeholder static">
+          <i class="ti ti-users"></i>
+          <span>The Trifiletti Family</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container" style="max-width:1200px;">
+    <p class="section-label">What We Serve</p>
+    <h2 class="section-title">The Menu</h2>
+    <p style="color:rgba(255,255,255,0.5);max-width:520px;margin-bottom:0;">Comes on a seeded roll · 75¢ Aunt Rose's Peppers · $1 Fresh Mozzarella</p>
+
+    <!-- Flip controls -->
+    <div class="menu-flip-controls">
+      <button class="flip-btn active" id="btn-front" onclick="showFront()"><i class="ti ti-file-text"></i> Front</button>
+      <button class="flip-btn" id="btn-back" onclick="showBack()"><i class="ti ti-file-text"></i> Back</button>
+    </div>
+
+    <div class="menu-flip-scene">
+      <div class="menu-flip-card" id="menu-flip-card">
+
+        <!-- ══ FRONT FACE ══ -->
+        <div class="menu-face front">
+          <div class="menu-flag-stripe"><div class="s-green"></div><div class="s-white"></div><div class="s-red"></div></div>
+          <div class="menu-header">
+            <div class="menu-header-title">Rose's Garden Grill</div>
+            <div class="menu-header-sub">Trifiletti &amp; Sons · Professional Sandwich Shop · Northfield, NJ</div>
+          </div>
+          <div class="menu-flag-stripe"><div class="s-green"></div><div class="s-white"></div><div class="s-red"></div></div>
+
+          <div class="menu-body">
+            <!-- COL 1: The Italians + Cold Sandwiches -->
+            <div class="menu-col">
+              <div class="ms-head">The Italians</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Atlantic City</div><div class="mr-nick">The Art Rendo Jr.</div><div class="mr-desc">Genoa salami, capicola, milk, LTO</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Capp's Salami &amp; Cheese</div><div class="mr-nick">The Tony Deo Special</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The South Philly</div><div class="mr-nick">The Joe Lopretti</div><div class="mr-desc">Parma prosciutto, imported capicola, dilissa genoa</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Bomber</div><div class="mr-nick">The Lou Forrester</div><div class="mr-desc">Parma prosciutto, roasted peppers, LTO</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Mustang</div><div class="mr-nick">The Sam Jackson</div><div class="mr-desc">Prosciutto, soppressata, broccoli rabe, sharp provolone, Aunt Rose's peppers</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Saint Anthony</div><div class="mr-nick">The Edmunds Brothers</div><div class="mr-desc">Parma prosciutto, sharp provolone, tomato &amp; long hots</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">The Henry Hill</div><div class="mr-nick">The best Giacoma</div><div class="mr-desc">Peppers, mayo, LTO</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">The Angel</div><div class="mr-nick">Fanniella</div><div class="mr-desc">Prosciutto, sharp provolone, Aunt Rose's</div></div><div class="mr-price">14</div></div>
+
+              <div class="ms-flag"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+              <div class="ms-head">Cold Sandwiches</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Jive Turkey</div><div class="mr-desc">Own roasted turkey, cheese, LTO</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Turkey Club</div><div class="mr-nick">The Nikki Johnson</div><div class="mr-desc">Roasted turkey, bacon, LT, mayo</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Southwest Turkey</div><div class="mr-nick">The Grea Allen</div><div class="mr-desc">Roasted turkey, avocado, LT, mayo, roasted peppers</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Wrap</div><div class="mr-nick">The Ade Vitale</div><div class="mr-desc">Hand cut chicken salad</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The California Wrap</div><div class="mr-nick">The Dave Parker</div><div class="mr-desc">Hand cut chicken salad, bacon, avocado, L&amp;T</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Hamptons Wrap</div><div class="mr-nick">The Hank Rowland</div><div class="mr-desc">Chicken salad or tuna, fruit croutons, candy walnuts</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Tuna Submarine</div><div class="mr-nick">The Dino (El Fortuna)</div><div class="mr-desc">Tuna from the sea, LTO, Hellmann's</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Sandson</div><div class="mr-desc">Tuna fish, Aunt Rose's peppers, sharp provo, homemade Caesar dressing, LTO</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Cold Roast Beef Sub</div><div class="mr-nick">The Billy Graft</div><div class="mr-desc">Fresh roasted in-house roast beef, American, LTO</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Corned Beef Special</div><div class="mr-nick">The Schelle Brothers</div><div class="mr-desc">Corned beef, swiss, slaw, Thousand Island &amp; pickles</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Ham &amp; Cheese</div><div class="mr-nick">The Dom Morgan</div><div class="mr-desc">Imported ham, cheese, LTO</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Egg Salad</div><div class="mr-nick">The Mike Presti</div><div class="mr-desc">Egg salad, lettuce, cheese</div></div><div class="mr-price">10</div></div>
+            </div>
+
+            <!-- COL 2: Hand Cut Chicken Cutlets -->
+            <div class="menu-col">
+              <div class="ms-head">Hand Cut Chicken Cutlets</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Cutlet</div><div class="mr-nick">The End</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Parm</div><div class="mr-nick">The Sam</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Big Nick</div><div class="mr-desc">Chicken cutlet, broccoli rabe, spinach &amp; sharp provo</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Parminator</div><div class="mr-desc">Chicken cutlet parm, pepperoni</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Caesar Augustus</div><div class="mr-nick">Gene &amp; Lisa loco</div><div class="mr-desc">Chicken cutlet, prosciutto, pesto, romaine, parm &amp; banana peppers</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">The Gladiator</div><div class="mr-nick">The Frank Hannum</div><div class="mr-desc">Arugula, balsamic, sharp provolone, rabe &amp; long hots</div></div><div class="mr-price">15</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">The Montalban</div><div class="mr-nick">The Gray Petti</div><div class="mr-desc">Provo, Aunt Rose's, avocado, LT mayo</div></div><div class="mr-price">15</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Joe – Cali Cutlet</div></div><div class="mr-price">13</div></div>
+
+              <div class="ms-flag"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+              <div class="ms-head">Hot Sandwiches</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Cheese Steak</div><div class="mr-nick">The Walt OG</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Cheese Steak Sub</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Bill Cooper</div><div class="mr-desc">Sharp, long hots, fried onions &amp; mayo</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">The Balboa</div><div class="mr-nick">The Rocky Paul D'Amato</div><div class="mr-desc">Steak, wiz, fried onions — A South Philly Favorite!</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">The Super Lomo</div><div class="mr-desc">Cheese steak, BLT, fried onion w/ mayo</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Volcano Cheese Steak</div><div class="mr-nick">The Clarky</div><div class="mr-desc">Hoagie, wiz, fried onions, piece of hot peppers</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name starred">Steak B</div><div class="mr-nick">The Rhum</div><div class="mr-desc">Steak, rabe, spinach, sharp provo</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Cheese Steak</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Chicken B</div><div class="mr-nick">The Kim Pack</div><div class="mr-desc">Grilled chicken, rabe, spinach, sharp provo</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Steak Champ</div><div class="mr-nick">The Billy Kent</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Cuban</div><div class="mr-nick">The Steve Colligari</div><div class="mr-desc">Filet, bacon, American cheese, ranch</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Fleishman</div><div class="mr-desc">Grilled chicken, buffalo sauce, Am. cheese &amp; blue cheese</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Buffalo Chicken</div><div class="mr-desc">Crispy chicken, buffalo sauce, Am. cheese &amp; blue cheese</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Ava Wrap or Roll</div><div class="mr-nick">The Tyler Odermith</div><div class="mr-desc">Filet, arugula, horseradish mayo, red onion, feta</div></div><div class="mr-price">14</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Fancy Fried Tenderloin Wrap</div><div class="mr-nick">Debra</div><div class="mr-desc">Sweet &amp; spicy chimichanga sauce, tomato salsa, pickles</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Buffalo Chimichanga</div><div class="mr-nick">The Feliciana</div><div class="mr-desc">Deep fried buffalo chicken burrito</div></div><div class="mr-price">13</div></div>
+            </div>
+
+            <!-- COL 3: Big Burgers + Old Schoolers + Burritos & Quesadillas + Vegetarian/Seafood -->
+            <div class="menu-col">
+              <div class="ms-head">Big Burgers</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Big John Kelly Double Burger</div><div class="mr-nick">The Skaliano</div><div class="mr-desc">Two hand-made beef patties</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Cheese Burger</div><div class="mr-nick">The Terry Flynn</div><div class="mr-desc">Add Bacon +2</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Bacon &amp; Bacon Burger</div><div class="mr-nick">The Bernie</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Western Mushroom Burger</div><div class="mr-desc">Roast beef, mushroom, onion rings, cheddar &amp; BBQ</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Mushroom</div><div class="mr-desc">w/ mushroom, mozzarella, onion rings, cheddar</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Hot Roast Beef</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Hot Roast Pork</div><div class="mr-nick">The George Cimino</div><div class="mr-desc">Slow roasted pork, provolone</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Ole Lee Geiger</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Meatball Sub</div><div class="mr-nick">The Geca</div><div class="mr-desc">Garlic cheese sub</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Hot Sausage &amp; Peppers</div><div class="mr-nick">The Joe Triff</div><div class="mr-desc">Meatball sub, peppers &amp; onions</div></div><div class="mr-price">10</div></div>
+
+              <div class="ms-flag"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+              <div class="ms-head">Burritos &amp; Quesadillas</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Quesadilla</div><div class="mr-nick">The James Le</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Burrito</div><div class="mr-desc">Grilled chicken, cheddar, chipotle sauce, rice, black beans</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Burrito B</div><div class="mr-nick">Alberto Brothers</div><div class="mr-desc">Grilled chicken or steak burrito, cheddar, chipotle sauce, seasoned rice, black beans</div></div><div class="mr-price">11</div></div>
+
+              <div class="ms-flag"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+              <div class="ms-head">Vegetarian / Seafood</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Eggplant B</div><div class="mr-nick">Mike Gaska</div><div class="mr-desc">Pan fried eggplant, broccoli rabe, sharp provo</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Tijuana Wrap</div><div class="mr-nick">EP 8</div><div class="mr-desc">Pan fried eggplant, broccoli rabe, L&amp;T, sharp provo in a wrap</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Hasson Vegan Burrito</div><div class="mr-nick">Mike Gaska</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Flounder Sandwich</div><div class="mr-nick">The Cody Allen</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Shrimp Yum Yum Shrimp Wrap</div><div class="mr-desc">Shrimp w/ Alberto sauce, avocado, L&amp;T served in a wrap</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Ahi Tuna</div><div class="mr-nick">The Ari Barrel</div><div class="mr-desc">Grilled ahi tuna over lettuce with wasabi vinaigrette</div></div><div class="mr-price">15</div></div>
+            </div>
+          </div>
+
+          <div class="menu-flag-stripe"><div class="s-green"></div><div class="s-white"></div><div class="s-red"></div></div>
+          <div class="menu-footer-note">Comes on a seeded roll · Counter Options: White, Whole Wheat, Wraps +75¢ · Aunt Rose's Peppers +75¢ · Fresh Mozzarella +$1 · Long Hots +75¢ · Roasted Peppers +$1</div>
+        </div>
+
+        <!-- ══ BACK FACE ══ -->
+        <div class="menu-face back">
+          <div class="menu-flag-stripe"><div class="s-green"></div><div class="s-white"></div><div class="s-red"></div></div>
+          <div class="menu-header">
+            <div class="menu-header-title">Rose's Garden Grill</div>
+            <div class="menu-header-sub">Salads · Breakfast · Appetizers · Caesar Wraps</div>
+          </div>
+          <div class="menu-flag-stripe"><div class="s-green"></div><div class="s-white"></div><div class="s-red"></div></div>
+
+          <div class="menu-body">
+            <!-- COL 1: Salads -->
+            <div class="menu-col">
+              <div class="ms-head">Salads</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Garden Salad</div><div class="mr-nick">The Scott Berton</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Caesar</div><div class="mr-nick">Lum Marshall</div><div class="mr-desc">Mixed veggies, egg &amp; cheese</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Troy Salad</div><div class="mr-nick">The Ade Levitz</div><div class="mr-desc">Grilled chicken salad, bacon, cheddar cheese</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Chef Salad</div><div class="mr-nick">The Kris Facenda</div><div class="mr-desc">Roasted turkey, bacon, avocado, mixed veggies &amp; egg</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Cobb Salad</div><div class="mr-desc">Roasted turkey, bacon, avocado, mixed veggies &amp; egg</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Tuna Scoop</div><div class="mr-nick">The Francis Brown</div><div class="mr-desc">Scoop of tuna salad, cheddar cheese, mixed veggies &amp; egg</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Wedge Salad</div><div class="mr-nick">The Francis Brown</div><div class="mr-desc">Blue cheese, bacon, tomato, red onion, lemon (Shrimp +4, Filet +5)</div></div><div class="mr-price">15</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Antipasto</div><div class="mr-nick">The Charlie Vegans</div><div class="mr-desc">Pepperoni, salami, sharp provolone, mixed veggies</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Crispy Buffalo</div><div class="mr-nick">The Pam Vitale</div><div class="mr-desc">Crispy chicken marinated in hot sauce, cheddar, blue cheese dressing, mixed veggies &amp; egg</div></div><div class="mr-price">15</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Salmon</div><div class="mr-nick">The Winnie Adams</div></div><div class="mr-price">14</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled NY Strip Salad</div><div class="mr-nick">The Islanger</div></div><div class="mr-price">14</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Shrimp Salad</div><div class="mr-nick">The Juan Santiago</div><div class="mr-desc">Grilled shrimp, mixed veggies &amp; parmesan</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Ahi Tuna</div><div class="mr-nick">The Ari Barrel</div><div class="mr-desc">Over lettuce with wasabi vinaigrette</div></div><div class="mr-price">14</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Rosa Salad</div></div><div class="mr-price">12</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Meatball Salad</div><div class="mr-nick">The Geca</div><div class="mr-desc">Garlic croutons, peppers &amp; onions</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Sol Rubi Salad</div><div class="mr-desc">Crispy yum yum chicken or shrimp, mixed veggies, blue cheese crumbles</div></div><div class="mr-price">14</div></div>
+
+              <div class="ms-flag"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+              <div class="ms-head">Caesar Wraps</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Caesar Wrap</div><div class="mr-nick">The Kristin Gawrysiuk</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Caesar Wrap</div><div class="mr-nick">The Billy Care</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Caesar Wrap</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Shrimp Caesar Wrap</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Filet Caesar Wrap</div><div class="mr-nick">The Billy Cam</div></div><div class="mr-price">11</div></div>
+            </div>
+
+            <!-- COL 2: Breakfast Sandwiches + Appetizers -->
+            <div class="menu-col">
+              <div class="ms-head">Breakfast Sandwiches</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Pork Roll, Egg &amp; Cheese</div></div><div class="mr-price-dual">Kaiser 7<br>Long 10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Bacon, Egg &amp; Cheese</div><div class="mr-nick">The Joe Savini</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Sausage, Egg &amp; Cheese</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Taylor Ham, Egg &amp; Cheese</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Broccoli Rabe, Egg &amp; Cheese</div><div class="mr-nick">Frankie Wright</div></div><div class="mr-price-dual">9/11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Sausage, Broccoli Rabe, Egg &amp; Cheese</div></div><div class="mr-price-dual">9/11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">The Ole Lee Geiger</div><div class="mr-desc">Sausage, egg, potato, fried onions &amp; cheese</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Cheese</div><div class="mr-nick">The Barron Brothers</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">BLT</div><div class="mr-desc">Bacon, lettuce, tomato &amp; mayo on your choice of bread</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">BLT Turbo</div><div class="mr-nick">Brian Walsh</div><div class="mr-desc">BLT, fried onion, avocado, chipotle mayo</div></div><div class="mr-price">11</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Cheese (The Barron Brothers)</div><div class="mr-desc">Bacon, lettuce, tomato &amp; mayo</div></div><div class="mr-price">7</div></div>
+
+              <div class="ms-flag"><span class="g"></span><span class="w"></span><span class="r"></span></div>
+              <div class="ms-head">Appetizers</div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">French Fries</div></div><div class="mr-price">5</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Cheese Fries</div><div class="mr-desc">With real Cheese Wiz</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Mozzarella Sticks (5)</div><div class="mr-desc">With gravy</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Onion Rings (4)</div></div><div class="mr-price">7</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Chicken Fingers w/ Fries (4)</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Shrimp in a Basket</div><div class="mr-nick">Bob Biferie</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Maximus Cheese Fries</div></div><div class="mr-price">10</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Coral Snake Chili &amp; Soup of the Day</div></div><div class="mr-price-dual">12oz: 5<br>Quart: Avail.</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Garlic Wings (3)</div><div class="mr-nick">Dibonita</div><div class="mr-desc">Garlic parmesan</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Buffalo Wings (9)</div><div class="mr-nick">Kenny Ackerman's</div><div class="mr-desc">Bacon, cheddar cheese &amp; blue cheese</div></div><div class="mr-price">13</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Grilled Ahi Tuna</div></div><div class="mr-price">15</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Jumbo Rosa Salad</div><div class="mr-desc">Walnuts, crumbled blue cheese, mixed veggies, balsamic vinaigrette</div></div><div class="mr-price">14</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">8 Sandwich Tray</div><div class="mr-desc">(6–8 people) Hot/Cold/Mixed</div></div><div class="mr-price">72</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">6 Sandwich Tray</div><div class="mr-desc">(8–12 people) Hot/Cold/Mixed</div></div><div class="mr-price">89</div></div>
+              <div class="mr"><div class="mr-left"><div class="mr-name">Jumbo Rosa Salad (Party)</div><div class="mr-desc">Serves 4</div></div><div class="mr-price">36</div></div>
+            </div>
+
+            <!-- COL 3: Catering info + hours -->
+            <div class="menu-col" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+              <div style="margin-bottom:1rem;">
+                <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;font-style:italic;color:#8b1a1a;line-height:0.9;">Rose's<br>Garden<br>Grill</div>
+                <div style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:#1b3a1e;margin-top:0.5rem;">Trifiletti &amp; Sons</div>
+                <div style="font-size:0.7rem;color:#333;margin-top:0.4rem;line-height:1.8;">Professional Sandwich Shop<br>Serving Breakfast, Lunch &amp; Dinner Daily</div>
+              </div>
+              <div style="border:2px solid #8b1a1a;border-radius:6px;padding:1rem;margin-bottom:1rem;width:100%;">
+                <div style="font-size:0.7rem;color:#333;line-height:1.9;">
+                  <strong>P:</strong> (609) 646-1763<br>
+                  <strong>F:</strong> (609) 646-0202<br>
+                  2605 New Road (Rt. 9)<br>Northfield / Linwood Border<br><br>
+                  <em style="font-size:0.62rem;color:#666;">*$15 Minimum Order for Delivery When Available</em>
+                </div>
+              </div>
+              <div style="border:2px solid #1b3a1e;border-radius:6px;padding:1rem;margin-bottom:1rem;width:100%;">
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:#8b1a1a;margin-bottom:0.4rem;">Hours</div>
+                <div style="font-size:0.7rem;color:#333;line-height:1.9;">
+                  Mon – Wed: 9am – 6pm<br>
+                  Thu – Sat: 9am – 7pm
+                </div>
+              </div>
+              <div style="border:2px solid #1b3a1e;border-radius:6px;padding:1rem;width:100%;">
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:#8b1a1a;">Specialized Catering</div>
+                <div style="font-size:0.68rem;color:#333;margin-top:0.3rem;font-style:italic;">for all Events and Occasions</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-flag-stripe"><div class="s-green"></div><div class="s-white"></div><div class="s-red"></div></div>
+          <div class="menu-footer-note">Dressings: Homemade Caesar, Balsamic Vinaigrette, Thousand Island, Honey Mustard, Ranch, Ext. Dressing $1.25</div>
+        </div>
+
+      </div><!-- end flip card -->
+    </div><!-- end flip scene -->
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="container">
+    <div class="order-title-row">
+      <p class="section-label">Ready to Eat?</p>
+      <h2 class="section-title">Order Your Way</h2>
+      <p style="color:rgba(0,0,0,0.5);margin-top:0.5rem;">Pick up in-store or get it delivered right to your door.</p>
+    </div>
+
+    <div class="order-grid">
+      <!-- Pickup -->
+      <a href="tel:6096461763" class="order-card pickup">
+        <div class="order-icon"><i class="ti ti-building-store"></i></div>
+        <div class="order-card-title">Call to Order Pickup</div>
+        <div class="order-card-desc">Call us directly and swing by when it's ready. Fast, fresh, and ready for you.</div>
+        <span class="order-card-action"><i class="ti ti-phone"></i> (609) 646-1763 <i class="ti ti-arrow-right"></i></span>
+      </a>
+
+      <!-- DoorDash -->
+      <a href="https://www.doordash.com/search/store/roses%20garden%20grill%20northfield/" target="_blank" class="order-card doordash">
+        <div class="order-icon">
+          <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="50" fill="#ff3008"/>
+            <path d="M25 38h30a12 12 0 0 1 0 24H25V38z" fill="white"/>
+            <circle cx="40" cy="68" r="7" fill="white"/>
+            <circle cx="62" cy="68" r="7" fill="white"/>
+          </svg>
+        </div>
+        <div class="order-card-title">DoorDash</div>
+        <div class="order-card-desc">Order delivery through DoorDash and track your food in real time.</div>
+        <span class="order-card-action">Order on DoorDash <i class="ti ti-arrow-right"></i></span>
+      </a>
+
+      <!-- Uber Eats -->
+      <a href="https://www.ubereats.com/search?q=roses%20garden%20grill%20northfield%20nj" target="_blank" class="order-card ubereats">
+        <div class="order-icon">
+          <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="50" fill="#142328"/>
+            <text x="50" y="62" font-family="Arial" font-weight="bold" font-size="28" fill="white" text-anchor="middle">Ue</text>
+          </svg>
+        </div>
+        <div class="order-card-title">Uber Eats</div>
+        <div class="order-card-desc">Find us on Uber Eats for quick, reliable delivery to your door.</div>
+        <span class="order-card-action">Order on Uber Eats <i class="ti ti-arrow-right"></i></span>
+      </a>
+
+      <!-- Grubhub -->
+      <a href="https://www.grubhub.com/search?queryText=roses%20garden%20grill%20northfield%20nj" target="_blank" class="order-card grubhub">
+        <div class="order-icon">
+          <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="50" fill="#f63440"/>
+            <text x="50" y="62" font-family="Arial" font-weight="bold" font-size="26" fill="white" text-anchor="middle">GH</text>
+          </svg>
+        </div>
+        <div class="order-card-title">Grubhub</div>
+        <div class="order-card-desc">Browse the full menu and order delivery through Grubhub.</div>
+        <span class="order-card-action">Order on Grubhub <i class="ti ti-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="gallery-header">
+      <div>
+        <p class="section-label">Inside the Grill</p>
+        <h2 class="section-title" style="margin-bottom:0">Photo Gallery</h2>
+      </div>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- empty state -->
+      <div class="gallery-empty" id="gallery-empty" style="grid-column:1/-1">
+        <i class="ti ti-photo"></i>
+        <p style="font-size:1rem;font-weight:600;margin-bottom:0.25rem">Photos coming soon</p>
+        <p style="font-size:0.85rem">Check back for photos of the restaurant, food, and team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Rose's Garden Grill</div>
+  <p>Trifiletti &amp; Sons · Northfield, New Jersey</p>
+  <p style="margin-top:0.25rem">(609) 646-1763</p>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#order">Order</a>
+    <a href="#gallery">Gallery</a>
+  </div>
+  <p style="font-size:0.75rem;opacity:0.4;">© 2025 Rose's Garden Grill. All rights reserved.</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()"><i class="ti ti-x"></i></button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // ── Gallery ──
+  const galleryGrid = document.getElementById('gallery-grid');
+  const galleryEmpty = document.getElementById('gallery-empty');
+  let images = JSON.parse(localStorage.getItem('rgg-gallery') || '[]');
+
+  function renderGallery() {
+    // remove all items except empty state
+    Array.from(galleryGrid.querySelectorAll('.gallery-item')).forEach(el => el.remove());
+    galleryEmpty.style.display = images.length ? 'none' : 'block';
+
+    images.forEach((src, i) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = `
+        <img src="${src}" alt="Gallery photo ${i+1}" loading="lazy" onclick="openLightbox('${src}')">
+        <button class="remove-btn" onclick="removeImage(event, ${i})"><i class="ti ti-x"></i></button>
+      `;
+      galleryGrid.appendChild(item);
+    });
+  }
+
+  function addGalleryImages(input) {
+    const files = Array.from(input.files);
+    let loaded = 0;
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        images.push(e.target.result);
+        loaded++;
+        if (loaded === files.length) {
+          localStorage.setItem('rgg-gallery', JSON.stringify(images));
+          renderGallery();
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    input.value = '';
+  }
+
+  function removeImage(e, index) {
+    e.stopPropagation();
+    images.splice(index, 1);
+    localStorage.setItem('rgg-gallery', JSON.stringify(images));
+    renderGallery();
+  }
+
+  // ── Lightbox ──
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── Menu flip ──
+  function showFront() {
+    document.getElementById('menu-flip-card').classList.remove('flipped');
+    document.getElementById('btn-front').classList.add('active');
+    document.getElementById('btn-back').classList.remove('active');
+  }
+  function showBack() {
+    document.getElementById('menu-flip-card').classList.add('flipped');
+    document.getElementById('btn-back').classList.add('active');
+    document.getElementById('btn-front').classList.remove('active');
+  }
+
+  // init
+  renderGallery();
+</script>
+</body>
+</html>

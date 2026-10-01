@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLNG — Performance Shorts</title>
+<meta name="description" content="SLNG shorts. Black, White, and Blue. Optimal comfort, premium quality.">
+<link rel="icon" href="images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --white:#ffffff;
+    --off:#f5f5f3;
+    --blue:#2851a3;
+    --yellow:#f4c542;
+    --red:#d7263d;
+    --gray:#8a8a8a;
+    --line:#e4e4e0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Barlow Condensed',sans-serif;
+    background:var(--white);
+    color:var(--black);
+    font-size:1.05rem;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Bebas Neue',sans-serif;letter-spacing:1px;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 2rem;}
+
+  /* stripe accent bar */
+  .stripe-bar{height:6px;display:flex;}
+  .stripe-bar span{flex:1;}
+  .stripe-bar .b{background:var(--blue);}
+  .stripe-bar .y{background:var(--yellow);}
+  .stripe-bar .r{background:var(--red);}
+
+  /* ── NAV ── */
+  header{position:sticky;top:0;z-index:200;background:var(--black);}
+  .navbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0.7rem 2rem;max-width:1280px;margin:0 auto;
+  }
+  .nav-logo{display:flex;align-items:center;gap:0.7rem;flex-shrink:0;}
+  .nav-logo img{height:56px;width:auto;object-fit:contain;transform:scaleX(1.35);}
+  .nav-logo .nav-wordmark{
+    font-family:'Bebas Neue',sans-serif;color:var(--white);font-size:1.15rem;
+    letter-spacing:3px;line-height:1;padding-left:0.7rem;border-left:2px solid rgba(255,255,255,0.3);
+    white-space:nowrap;
+  }
+  .nav-links{display:flex;gap:2.2rem;list-style:none;}
+  .nav-links a{
+    color:var(--white);font-size:1rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:1.5px;transition:color 0.2s;position:relative;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;
+    background:var(--yellow);transition:width 0.2s;
+  }
+  .nav-links a:hover{color:var(--yellow);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-right{display:flex;align-items:center;gap:1.2rem;}
+  .cart-btn{
+    background:none;border:2px solid var(--white);color:var(--white);
+    border-radius:999px;padding:0.4rem 1rem;display:flex;align-items:center;gap:0.5rem;
+    font-size:0.95rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+    transition:background 0.2s,color 0.2s;
+  }
+  .cart-btn:hover{background:var(--white);color:var(--black);}
+  .cart-count{
+    background:var(--red);color:#fff;border-radius:50%;width:20px;height:20px;
+    display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;
+  }
+  .nav-burger{display:none;background:none;border:none;color:var(--white);font-size:1.6rem;}
+
+  /* ── HERO ── */
+  .hero{
+    position:relative;min-height:82vh;
+    background:var(--black);overflow:hidden;
+  }
+  .hero-media{
+    position:absolute;inset:0;z-index:0;
+  }
+  .hero-slides{
+    position:absolute;inset:0;
+  }
+  .hero-slide{
+    position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;
+    background-size:cover;background-position:center;
+    display:flex;align-items:flex-end;justify-content:center;
+  }
+  .hero-slide.active{opacity:1;}
+  .hero-slide .slide-fill{
+    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .hero-slide .model-frame{
+    width:100%;height:100%;
+    display:flex;align-items:flex-start;justify-content:flex-end;
+    padding:6.5rem 2.5rem 0 0;
+    color:rgba(255,255,255,0.3);
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;
+    border:1px dashed rgba(255,255,255,0.14);
+  }
+  .hero-slide .model-frame{background:var(--black);}
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.55) 65%, rgba(10,10,10,0.92) 100%);
+    z-index:1;
+  }
+  .hero-content{
+    position:absolute;left:0;bottom:0;z-index:2;width:100%;
+    padding:2.5rem 2rem 3rem;max-width:560px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;
+  }
+  .hero-eyebrow{
+    display:flex;align-items:center;gap:0.6rem;
+    color:var(--yellow);font-size:0.9rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  }
+  .hero-eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--red);}
+  .hero-logo-lockup{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;}
+  .hero-logo-badge{
+    display:flex;align-items:center;
+  }
+  .hero-logo-img{
+    height:clamp(4.8rem,12vw,8.5rem);width:auto;object-fit:contain;transform:scaleX(1.35);
+  }
+  .hero-logo-shorts{
+    font-family:'Bebas Neue',sans-serif;color:var(--white);
+    font-size:clamp(2.6rem,7vw,5rem);letter-spacing:2px;line-height:1;
+    padding-left:1.4rem;border-left:3px solid var(--yellow);
+  }
+  .hero p{
+    color:rgba(255,255,255,0.8);font-size:1.25rem;max-width:480px;font-weight:500;
+  }
+  .hero-cta{display:flex;flex-direction:column;gap:0.7rem;margin-top:0.6rem;width:100%;max-width:340px;}
+  .hero-cta .btn{width:100%;border-radius:6px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:0.9rem 2.2rem;font-size:1rem;font-weight:800;text-transform:uppercase;
+    letter-spacing:1.5px;border-radius:999px;border:2px solid transparent;
+    transition:transform 0.2s,background 0.2s,color 0.2s,border-color 0.2s;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--white);color:var(--black);}
+  .btn-primary:hover{background:var(--yellow);}
+  .btn-outline{border-color:rgba(255,255,255,0.6);color:var(--white);}
+  .btn-outline:hover{border-color:var(--white);background:rgba(255,255,255,0.08);}
+  .btn-dark{background:var(--black);color:var(--white);}
+  .btn-dark:hover{background:var(--blue);}
+
+  .hero-dots{
+    position:absolute;right:1.6rem;top:1.6rem;z-index:2;
+    display:flex;flex-direction:column;gap:0.6rem;
+  }
+  .hero-dot{
+    width:10px;height:10px;border-radius:50%;border:none;background:rgba(255,255,255,0.35);
+    transition:background 0.2s,transform 0.2s;
+  }
+  .hero-dot.active{background:var(--yellow);transform:scale(1.3);}
+
+  /* ── TICKER ── */
+  .ticker{
+    background:var(--yellow);overflow:hidden;white-space:nowrap;
+    border-top:3px solid var(--black);border-bottom:3px solid var(--black);
+  }
+  .ticker-track{
+    display:inline-flex;width:max-content;
+    animation:tickerScroll 26s linear infinite;
+    -webkit-animation:tickerScroll 26s linear infinite;
+    will-change:transform;transform:translate3d(0,0,0);
+    -webkit-backface-visibility:hidden;backface-visibility:hidden;
+  }
+  .ticker-item{
+    display:inline-flex;align-items:center;gap:0.9rem;
+    padding:0.9rem 2rem;font-family:'Bebas Neue',sans-serif;
+    font-size:1.3rem;letter-spacing:2px;text-transform:uppercase;color:var(--black);
+  }
+  .ticker-item .sep{color:var(--black);opacity:0.5;}
+  @keyframes tickerScroll{
+    from{transform:translate3d(0,0,0);}
+    to{transform:translate3d(-33.3333%,0,0);}
+  }
+  @-webkit-keyframes tickerScroll{
+    from{-webkit-transform:translate3d(0,0,0);}
+    to{-webkit-transform:translate3d(-33.3333%,0,0);}
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section{padding:5.5rem 0;}
+  .section-head{text-align:center;margin-bottom:3rem;}
+  .section-head .eyebrow{
+    color:var(--red);font-weight:800;letter-spacing:3px;text-transform:uppercase;font-size:0.9rem;
+  }
+  .section-head h2{font-size:clamp(2.4rem,5vw,3.6rem);margin-top:0.3rem;}
+  .section-head p{color:var(--gray);max-width:560px;margin:0.8rem auto 0;font-size:1.1rem;}
+  .section-alt{background:var(--off);}
+
+  /* ── SHOP CAROUSEL (TravisMathew-style cards) ── */
+  .shop-carousel-wrap{position:relative;max-width:1100px;margin:0 auto;}
+  .shop-track-viewport{overflow:hidden;position:relative;height:600px;}
+  .shop-track{position:relative;width:100%;height:100%;}
+
+  .product-card{
+    position:absolute;top:50%;left:50%;width:290px;
+    transform:translate(-50%,-50%) scale(0.82);
+    opacity:0;z-index:1;pointer-events:none;text-align:left;
+    transition:transform 0.55s cubic-bezier(0.4,0,0.2,1),opacity 0.55s ease,z-index 0s;
+  }
+  .product-card.pc-active{opacity:1;z-index:10;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+  .product-card.pc-prev{opacity:0.4;z-index:5;transform:translate(calc(-50% - 240px),-50%) scale(0.8);}
+  .product-card.pc-next{opacity:0.4;z-index:5;transform:translate(calc(-50% + 240px),-50%) scale(0.8);}
+
+  .product-media{
+    aspect-ratio:4/5;border-radius:10px;overflow:hidden;position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .product-media.black{background:linear-gradient(160deg,#1a1a1a,#050505);}
+  .product-media.white{background:linear-gradient(160deg,#fafafa,#e9e9e6);}
+  .product-media.blue{background:linear-gradient(160deg,#3a63b0,#18294d);}
+  .shorts-svg{width:150px;height:auto;}
+  .quick-add{
+    position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;
+    background:var(--white);color:var(--black);border:none;font-size:1.4rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.28);
+    transition:transform 0.15s,background 0.2s,color 0.2s;
+  }
+  .quick-add:hover{transform:scale(1.08);background:var(--black);color:var(--white);}
+  .product-meta{padding-top:0.9rem;}
+  .cat-label{color:var(--gray);font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;}
+  .product-meta .name{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.5px;margin-top:0.15rem;}
+  .product-meta .price{font-weight:700;font-size:1.05rem;margin:0.25rem 0 0.7rem;}
+  .swatch-dots{display:flex;gap:8px;}
+  .sw-dot{
+    width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;
+    box-shadow:0 0 0 1px var(--line) inset;
+  }
+  .sw-dot.sw-active{border-color:var(--black);}
+
+  .shop-carousel-controls{
+    display:flex;align-items:center;justify-content:center;gap:1.4rem;margin-top:1.5rem;
+  }
+  .shop-arrow{
+    background:var(--white);color:var(--black);border:1px solid var(--line);border-radius:50%;
+    width:44px;height:44px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+    transition:background 0.2s,color 0.2s,transform 0.15s;
+  }
+  .shop-arrow:hover{background:var(--black);color:var(--white);border-color:var(--black);transform:scale(1.06);}
+  .shop-dot{width:10px;height:10px;border-radius:50%;background:var(--line);border:none;transition:background 0.2s,transform 0.2s;}
+  .shop-dot.active{background:var(--black);transform:scale(1.3);}
+  .shop-dots-wrap{display:flex;gap:0.5rem;}
+
+  /* ── ABOUT / BRAND STORY ── */
+  .brand-story{
+    display:grid;grid-template-columns:0.9fr 1.1fr;gap:3.5rem;align-items:center;
+  }
+  .brand-photo{
+    aspect-ratio:4/5;border-radius:18px;border:2px solid var(--black);overflow:hidden;
+    background:linear-gradient(160deg,#1c1c1c,#050505);position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .brand-photo .placeholder-label{
+    color:rgba(255,255,255,0.32);font-size:0.9rem;letter-spacing:3px;text-transform:uppercase;
+    border:1px dashed rgba(255,255,255,0.16);padding:0.6rem 1rem;
+  }
+  .brand-photo .brand-photo-stripe{
+    position:absolute;bottom:0;left:0;right:0;height:8px;display:flex;
+  }
+  .brand-photo .brand-photo-stripe span{flex:1;}
+  .brand-copy .kicker{
+    color:var(--blue);font-weight:800;letter-spacing:3px;text-transform:uppercase;font-size:0.85rem;
+    margin-bottom:0.6rem;display:block;
+  }
+  .brand-copy h3{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:1rem;}
+  .brand-copy p{color:#444;font-size:1.08rem;margin-bottom:1rem;max-width:520px;}
+  .brand-points{list-style:none;margin-top:1.6rem;display:flex;flex-direction:column;gap:0.9rem;}
+  .brand-points li{
+    display:flex;align-items:flex-start;gap:0.8rem;font-size:1.02rem;font-weight:600;
+  }
+  .brand-points li .num{
+    flex:0 0 30px;height:30px;border-radius:50%;background:var(--black);color:var(--white);
+    display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;
+    font-size:0.95rem;
+  }
+
+  /* ── STRIPE BAND CTA ── */
+  .cta-band{
+    background:var(--black);color:var(--white);text-align:center;padding:4.5rem 2rem;
+  }
+  .cta-band h2{font-size:clamp(2.2rem,5vw,3.2rem);margin-bottom:0.8rem;}
+  .cta-band p{color:rgba(255,255,255,0.75);margin-bottom:1.8rem;font-size:1.1rem;}
+
+  /* ── FOOTER ── */
+  footer{background:var(--black);color:var(--white);padding:3.5rem 0 1.5rem;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+  .footer-logo img{height:32px;margin-bottom:0.8rem;}
+  .footer-grid p{color:rgba(255,255,255,0.6);font-size:0.95rem;max-width:320px;}
+  .footer-col h4{font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);margin-bottom:0.9rem;}
+  .footer-col a{display:block;color:rgba(255,255,255,0.75);font-size:0.98rem;margin-bottom:0.6rem;transition:color 0.2s;}
+  .footer-col a:hover{color:var(--white);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,0.12);padding-top:1.4rem;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;
+    color:rgba(255,255,255,0.45);font-size:0.85rem;
+  }
+
+  /* ── CART DRAWER ── */
+  .cart-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;
+    opacity:0;pointer-events:none;transition:opacity 0.25s;
+  }
+  .cart-overlay.open{opacity:1;pointer-events:auto;}
+  .cart-drawer{
+    position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:var(--white);
+    z-index:401;transform:translateX(100%);transition:transform 0.3s ease;
+    display:flex;flex-direction:column;
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-head{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 1.4rem 1rem;border-bottom:2px solid var(--black);}
+  .cart-head h3{font-size:1.6rem;}
+  .cart-close{background:none;border:none;font-size:1.6rem;line-height:1;}
+  .cart-items{flex:1;overflow-y:auto;padding:1rem 1.4rem;}
+  .cart-empty{color:var(--gray);text-align:center;margin-top:2rem;font-size:1rem;}
+  .cart-item{display:flex;gap:0.8rem;padding:0.9rem 0;border-bottom:1px solid var(--line);}
+  .cart-item .swatch{width:56px;height:56px;border-radius:10px;border:2px solid var(--black);flex:0 0 56px;display:flex;align-items:center;justify-content:center;}
+  .cart-item .swatch.black{background:#111;}
+  .cart-item .swatch.white{background:#f2f2f0;}
+  .cart-item .swatch.blue{background:linear-gradient(160deg,#3a63b0,#18294d);}
+  .cart-item .info{flex:1;}
+  .cart-item .info .nm{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;}
+  .cart-item .info .meta{color:var(--gray);font-size:0.85rem;}
+  .cart-item .qty-row{display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;}
+  .qty-btn{width:24px;height:24px;border:1px solid var(--black);background:var(--white);border-radius:50%;font-size:0.9rem;line-height:1;}
+  .cart-item .remove{color:var(--red);font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-left:auto;background:none;border:none;}
+  .cart-foot{border-top:2px solid var(--black);padding:1.2rem 1.4rem 1.6rem;}
+  .cart-subtotal{display:flex;justify-content:space-between;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;margin-bottom:1rem;}
+
+  /* ── CHECKOUT MODAL ── */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;
+    display:none;align-items:center;justify-content:center;padding:1.5rem;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--white);border-radius:16px;max-width:480px;width:100%;
+    padding:2rem;max-height:90vh;overflow-y:auto;
+  }
+  .modal-box h3{font-size:2rem;margin-bottom:0.3rem;}
+  .modal-box .sub{color:var(--gray);font-size:0.95rem;margin-bottom:1.3rem;}
+  .form-row{margin-bottom:1rem;}
+  .form-row label{display:block;font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.35rem;}
+  .form-row input,.form-row textarea{
+    width:100%;padding:0.7rem 0.9rem;border:2px solid var(--black);border-radius:8px;
+    font-family:inherit;font-size:1rem;
+  }
+  .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+  .modal-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.5rem;}
+  .modal-box{position:relative;}
+  .order-summary-box{background:var(--off);border-radius:10px;padding:0.9rem 1rem;margin-bottom:1.2rem;font-size:0.9rem;color:#333;}
+  .success-msg{display:none;text-align:center;padding:1rem 0;}
+  .success-msg.show{display:block;}
+  .success-msg .check{font-size:3rem;color:var(--blue);margin-bottom:0.5rem;}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .nav-burger{display:block;}
+    .navbar{padding:0.6rem 1rem;}
+    .cart-btn{padding:0.35rem 0.8rem;font-size:0.85rem;}
+    .brand-story{grid-template-columns:1fr;}
+    .brand-photo{aspect-ratio:16/10;}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:480px){
+    .nav-logo .nav-wordmark{display:none;}
+    .nav-logo img{height:36px;}
+    .shop-track-viewport{height:480px;}
+    .product-card{width:230px;}
+    .product-card.pc-prev{transform:translate(calc(-50% - 140px),-50%) scale(0.72);}
+    .product-card.pc-next{transform:translate(calc(-50% + 140px),-50%) scale(0.72);}
+    .form-row-2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="#" class="nav-logo"><img src="images/logo.jpg" alt="SLNG"><span class="nav-wordmark">SHORTS</span></a>
+    <ul class="nav-links">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#about">Details</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="cart-btn" id="cartOpenBtn">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="nav-burger" id="burgerBtn">&#9776;</button>
+    </div>
+  </nav>
+  <div class="stripe-bar"><span class="b"></span><span class="y"></span><span class="r"></span></div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero" id="heroSection">
+  <div class="hero-media">
+    <div class="hero-slides" id="heroSlides">
+      <div class="hero-slide s1 active">
+        <div class="slide-fill"><div class="model-frame">Model Photo — Black</div></div>
+      </div>
+      <div class="hero-slide s2">
+        <div class="slide-fill"><div class="model-frame">Model Photo — White</div></div>
+      </div>
+      <div class="hero-slide s3">
+        <div class="slide-fill"><div class="model-frame">Model Photo — Blue</div></div>
+      </div>
+    </div>
+    <div class="hero-dots" id="heroDots"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-logo-lockup">
+      <div class="hero-logo-badge"><img src="images/logo.jpg" alt="SLNG" class="hero-logo-img"></div>
+      <span class="hero-logo-shorts">SHORTS</span>
+    </div>
+    <p>The SLNG shorts catalog. Black, White, and Blue — always in stock, made for everyday comfort.</p>
+    <div class="hero-cta">
+      <a href="#shop" class="btn btn-primary">Shop the Catalog</a>
+      <a href="#about" class="btn btn-outline">About SLNG</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- ── SHOP ── -->
+<section class="section" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Catalog</div>
+      <h2>Shop the Colors</h2>
+      <p>Three colors, always in stock. Use the arrows to browse — nothing spins unless you tell it to.</p>
+    </div>
+
+    <div class="shop-carousel-wrap">
+      <div class="shop-track-viewport">
+        <div class="shop-track" id="shopTrack">
+          <!-- product cards injected by JS -->
+        </div>
+      </div>
+      <div class="shop-carousel-controls">
+        <button class="shop-arrow" id="shopPrev" aria-label="Previous">&#8592;</button>
+        <div class="shop-dots-wrap" id="shopDots"></div>
+        <button class="shop-arrow" id="shopNext" aria-label="Next">&#8594;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT / BRAND STORY ── -->
+<section class="section section-alt" id="about">
+  <div class="wrap">
+    <div class="brand-story">
+      <div class="brand-photo">
+        <span class="placeholder-label">Photo — SLNG Creator</span>
+        <div class="brand-photo-stripe"><span style="background:#2851a3;"></span><span style="background:#f4c542;"></span><span style="background:#d7263d;"></span></div>
+      </div>
+      <div class="brand-copy">
+        <span class="kicker">The Brand</span>
+        <h3>Straight From My Closet</h3>
+        <p>SLNG started as my own everyday fit — the shorts I kept reaching for, made better and made to share. No hype drops, no gimmicks. Just a small, honest catalog you can come back to anytime.</p>
+        <p>Every pair is picked, tested, and worn by me first before it ever makes the site.</p>
+        <ul class="brand-points">
+          <li><span class="num">1</span> Designed and worn by me, not a faceless label</li>
+          <li><span class="num">2</span> Always in stock — no chasing limited drops</li>
+          <li><span class="num">3</span> Premium fabric, built for everyday comfort</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BAND ── -->
+<div class="cta-band">
+  <h2>Find Your Fit</h2>
+  <p>Black. White. Blue. Pick your color — always in stock.</p>
+  <a href="#shop" class="btn btn-primary">Shop the Colors</a>
+</div>
+
+<!-- ── FOOTER / CONTACT ── -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><img src="images/logo.jpg" alt="SLNG"></div>
+        <p>SLNG is a shorts catalog from a creator's own closet — Black, White, and Blue, always in stock.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#shop">All Shorts</a>
+        <a href="#about">Details &amp; Fit</a>
+      </div>
+      <div class="footer-col">
+        <h4>Get in Touch</h4>
+        <a href="mailto:hello@slngshorts.com">hello@slngshorts.com</a>
+        <a href="#" id="footerCartLink">View Cart</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> SLNG. All rights reserved.</span>
+      <span>Site by Shore Works</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── CART DRAWER ── -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" id="cartCloseBtn">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0</span></div>
+    <button class="btn btn-dark" style="width:100%;" id="checkoutBtn">Checkout</button>
+  </div>
+</div>
+
+<!-- ── CHECKOUT MODAL ── -->
+<div class="modal-overlay" id="checkoutOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="checkoutClose">&times;</button>
+
+    <div id="checkoutForm">
+      <h3>Complete Your Order</h3>
+      <p class="sub">We'll follow up by email to confirm sizing and payment.</p>
+      <div class="order-summary-box" id="orderSummaryBox"></div>
+      <form name="sling-order" method="POST" data-netlify="true" id="orderForm">
+        <input type="hidden" name="form-name" value="sling-order">
+        <input type="hidden" name="order-summary" id="orderSummaryField">
+        <div class="form-row-2">
+          <div class="form-row">
+            <label for="ofName">Name</label>
+            <input type="text" id="ofName" name="name" required>
+          </div>
+          <div class="form-row">
+            <label for="ofPhone">Phone</label>
+            <input type="tel" id="ofPhone" name="phone" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="ofEmail">Email</label>
+          <input type="email" id="ofEmail" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="ofAddress">Shipping Address</label>
+          <input type="text" id="ofAddress" name="address" required>
+        </div>
+        <div class="form-row">
+          <label for="ofNotes">Notes (size, etc.)</label>
+          <textarea id="ofNotes" name="notes" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark" style="width:100%;">Place Order</button>
+      </form>
+    </div>
+
+    <div class="success-msg" id="orderSuccess">
+      <div class="check">&#10003;</div>
+      <h3>Order Sent!</h3>
+      <p class="sub">Thanks for your order — we'll email you shortly to confirm details.</p>
+      <button class="btn btn-primary" id="successCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ═══ SHORTS SVG ═══ */
+function shortsSVG(mode){
+  // mode: 'black' | 'white' | 'blue'
+  const fills = { black:'#1a1a1a', white:'#f7f7f4', blue:'#2851a3' };
+  const base = fills[mode];
+  const stroke = mode === 'white' ? '#1a1a1a' : '#000';
+  return `
+  <svg class="shorts-svg" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 10 H180 L176 60 L150 150 H118 L102 80 L98 80 L82 150 H50 L24 60 Z"
+          fill="${base}" stroke="${stroke}" stroke-width="4" stroke-linejoin="round"/>
+    <line x1="100" y1="14" x2="100" y2="78" stroke="${stroke}" stroke-width="3" opacity="0.5"/>
+  </svg>`;
+}
+
+/* ═══ PRODUCT DATA ═══ */
+const products = [
+  { id:'black', name:'SLNG Shorts — Black', price:58, desc:'Solid black. Understated, everyday.', mode:'black', frameClass:'black' },
+  { id:'white', name:'SLNG Shorts — White', price:58, desc:'Clean white base. Sharp and simple.', mode:'white', frameClass:'white' },
+  { id:'blue',  name:'SLNG Shorts — Blue',  price:58, desc:'Signature blue. Bold and easy to wear.', mode:'blue', frameClass:'blue' },
+];
+
+/* ═══ TICKER ═══ */
+(function ticker(){
+  const track = document.getElementById('tickerTrack');
+  const items = ['3 Colors to Choose From', 'Optimal Comfort', 'Premium Quality'];
+  const html = items.map(t => `<span class="ticker-item">${t}<span class="sep">&#9670;</span></span>`).join('');
+  track.innerHTML = html + html + html;
+})();
+
+/* ═══ HERO ROTATOR (auto-fade, dots also clickable) ═══ */
+(function heroRotator(){
+  const slides = Array.from(document.querySelectorAll('.hero-slide'));
+  const dotsWrap = document.getElementById('heroDots');
+  let idx = 0, timer;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function goTo(i){
+    slides[idx].classList.remove('active');
+    dots[idx].classList.remove('active');
+    idx = i;
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+  }
+  function resetTimer(){
+    clearInterval(timer);
+    timer = setInterval(() => goTo((idx + 1) % slides.length), 4500);
+  }
+  resetTimer();
+})();
+
+/* ═══ SHOP COVERFLOW CAROUSEL (arrows/dots/swatches only — no autoplay) ═══ */
+const swatchFills = { black:'#1a1a1a', white:'#f7f7f4', blue:'#2851a3' };
+
+(function shopCarousel(){
+  const track = document.getElementById('shopTrack');
+  const dotsWrap = document.getElementById('shopDots');
+  let idx = 0;
+
+  track.innerHTML = products.map(p => `
+    <div class="product-card" data-id="${p.id}">
+      <div class="product-media ${p.frameClass}">
+        ${shortsSVG(p.mode)}
+        <button class="quick-add" data-add="${p.id}" aria-label="Quick add ${p.name}">+</button>
+      </div>
+      <div class="product-meta">
+        <div class="cat-label">Performance Shorts</div>
+        <div class="name">${p.name.replace('SLNG Shorts — ', '')}</div>
+        <div class="price">$${p.price}</div>
+        <div class="swatch-dots">
+          ${products.map(sw => `<button class="sw-dot${sw.id === p.id ? ' sw-active' : ''}" data-swatch="${sw.id}" style="background:${swatchFills[sw.id]};" aria-label="${sw.name}"></button>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const cards = Array.from(track.querySelectorAll('.product-card'));
+
+  products.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'shop-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => setIndex(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function render(){
+    cards.forEach((card, i) => {
+      card.classList.remove('pc-active','pc-prev','pc-next');
+      const rel = (i - idx + cards.length) % cards.length;
+      if (rel === 0) card.classList.add('pc-active');
+      else if (rel === 1) card.classList.add('pc-next');
+      else if (rel === cards.length - 1) card.classList.add('pc-prev');
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+  function setIndex(i){ idx = (i + cards.length) % cards.length; render(); }
+
+  document.getElementById('shopPrev').addEventListener('click', () => setIndex(idx - 1));
+  document.getElementById('shopNext').addEventListener('click', () => setIndex(idx + 1));
+
+  track.addEventListener('click', e => {
+    const addBtn = e.target.closest('[data-add]');
+    if (addBtn) addToCart(addBtn.dataset.add);
+    const swBtn = e.target.closest('[data-swatch]');
+    if (swBtn) setIndex(products.findIndex(p => p.id === swBtn.dataset.swatch));
+  });
+
+  render();
+})();
+
+/* ═══ CART ═══ */
+let cart = JSON.parse(localStorage.getItem('slng-cart') || '{}');
+Object.keys(cart).forEach(id => { if (!products.find(p => p.id === id)) delete cart[id]; });
+
+function saveCart(){ localStorage.setItem('slng-cart', JSON.stringify(cart)); renderCart(); }
+
+function addToCart(id){
+  cart[id] = (cart[id] || 0) + 1;
+  saveCart();
+  openCart();
+}
+function changeQty(id, delta){
+  cart[id] = (cart[id] || 0) + delta;
+  if (cart[id] <= 0) delete cart[id];
+  saveCart();
+}
+function removeItem(id){
+  delete cart[id];
+  saveCart();
+}
+
+function renderCart(){
+  const itemsWrap = document.getElementById('cartItems');
+  const ids = Object.keys(cart);
+  let subtotal = 0;
+  let count = 0;
+
+  if (!ids.length){
+    itemsWrap.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+  } else {
+    itemsWrap.innerHTML = ids.map(id => {
+      const p = products.find(x => x.id === id);
+      const qty = cart[id];
+      subtotal += p.price * qty;
+      count += qty;
+      return `
+        <div class="cart-item">
+          <div class="swatch ${p.frameClass}"></div>
+          <div class="info">
+            <div class="nm">${p.name}</div>
+            <div class="meta">$${p.price} each</div>
+            <div class="qty-row">
+              <button class="qty-btn" data-qty="-1" data-id="${id}">-</button>
+              <span>${qty}</span>
+              <button class="qty-btn" data-qty="1" data-id="${id}">+</button>
+              <button class="remove" data-remove="${id}">Remove</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartSubtotal').textContent = '$' + subtotal;
+}
+
+document.getElementById('cartItems').addEventListener('click', e => {
+  const q = e.target.closest('[data-qty]');
+  const r = e.target.closest('[data-remove]');
+  if (q) changeQty(q.dataset.id, parseInt(q.dataset.qty, 10));
+  if (r) removeItem(r.dataset.remove);
+});
+
+function openCart(){
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+}
+function closeCart(){
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+}
+document.getElementById('cartOpenBtn').addEventListener('click', openCart);
+document.getElementById('footerCartLink').addEventListener('click', e => { e.preventDefault(); openCart(); });
+document.getElementById('cartCloseBtn').addEventListener('click', closeCart);
+document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+renderCart();
+
+/* ═══ CHECKOUT MODAL ═══ */
+const checkoutOverlay = document.getElementById('checkoutOverlay');
+
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+  const ids = Object.keys(cart);
+  if (!ids.length) return;
+  const lines = ids.map(id => {
+    const p = products.find(x => x.id === id);
+    return `${cart[id]} x ${p.name} — $${p.price * cart[id]}`;
+  });
+  const subtotal = ids.reduce((sum, id) => sum + products.find(x => x.id === id).price * cart[id], 0);
+  document.getElementById('orderSummaryBox').innerHTML = lines.join('<br>') + `<br><strong>Subtotal: $${subtotal}</strong>`;
+  document.getElementById('orderSummaryField').value = lines.join(' | ') + ` | Subtotal: $${subtotal}`;
+  document.getElementById('checkoutForm').style.display = 'block';
+  document.getElementById('orderSuccess').classList.remove('show');
+  checkoutOverlay.classList.add('open');
+  closeCart();
+});
+document.getElementById('checkoutClose').addEventListener('click', () => checkoutOverlay.classList.remove('open'));
+checkoutOverlay.addEventListener('click', e => { if (e.target === checkoutOverlay) checkoutOverlay.classList.remove('open'); });
+
+document.getElementById('orderForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
+    .then(() => {
+      document.getElementById('checkoutForm').style.display = 'none';
+      document.getElementById('orderSuccess').classList.add('show');
+      cart = {};
+      saveCart();
+      form.reset();
+    })
+    .catch(() => {
+      document.getElementById('checkoutForm').style.display = 'none';
+      document.getElementById('orderSuccess').classList.add('show');
+      cart = {};
+      saveCart();
+      form.reset();
+    });
+});
+document.getElementById('successCloseBtn').addEventListener('click', () => checkoutOverlay.classList.remove('open'));
+
+/* ═══ MOBILE NAV ═══ */
+document.getElementById('burgerBtn').addEventListener('click', () => {
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.style.display === 'flex';
+  links.style.display = isOpen ? 'none' : 'flex';
+  links.style.cssText += isOpen ? '' : 'position:absolute;top:64px;left:0;right:0;flex-direction:column;background:#0a0a0a;padding:1.2rem 2rem;gap:1rem;';
+});
+</script>
+</body>
+</html>

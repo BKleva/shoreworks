@@ -56,10 +56,40 @@
       "port": 8088
     }
     ,{
+      "name": "OutdoorImpactScoutNetlify",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "cd /d C:/Users/bklev/OneDrive/Shorefind/ordinance-scout-netlify && netlify dev --port 8899 --no-open"],
+      "port": 8899
+    }
+    ,{
+      "name": "OutdoorImpactScout",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["C:\\Users\\bklev\\OneDrive\\Shorefind\\ordinance-scout\\app.py"],
+      "port": 5057
+    }
+    ,{
       "name": "ThomasLacovara",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8089", "--directory", "C:\\Users\\bklev\\OneDrive\\Thomas Lacovara Public Adjusters"],
       "port": 8089
+    }
+    ,{
+      "name": "WillysLandscaping",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8091", "--directory", "C:\\Users\\bklev\\OneDrive\\Willys Landscaping"],
+      "port": 8091
+    }
+    ,{
+      "name": "PumpkinCars",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8092", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\pumpkin-cars"],
+      "port": 8092
+    }
+    ,{
+      "name": "ShoppingByTheShore",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8093", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\shopping-by-the-shore"],
+      "port": 8093
     }
     ,{
       "name": "ReviewCollector",
