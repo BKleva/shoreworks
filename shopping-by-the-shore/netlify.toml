@@ -1,0 +1,22 @@
+# Shopping by the Shore LLC — standalone static site (own Netlify project)
+# Booking requests arrive via Netlify Forms (form name: "booking").
+# Checkout saves a card on file with Square through netlify/functions/*.
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

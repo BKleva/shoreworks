@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shopping by the Shore LLC | Your Local Shore Concierge</title>
+<meta name="description" content="Personal shopper and shore concierge serving Atlantic & Cape May County, NJ. Grocery shopping, fridge stocking, errands, home & pet check-ins, and plant watering. Book online.">
+<meta name="theme-color" content="#4b2a8a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand" aria-label="Shopping by the Shore LLC — home">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="#f4effc" stroke="#4b2a8a" stroke-width="3"/>
+        <path d="M10 44c5-4 9-4 14 0s9 4 14 0 9-4 16 0v6c-7 8-35 8-44 0z" fill="#1d8fae"/>
+        <path d="M19 30h26l-3 15H22z" fill="#7b5bc4"/>
+        <path d="M23 30c0-12 18-12 18 0" fill="none" stroke="#4b2a8a" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="27" cy="25" r="3" fill="#ff7a6b"/><circle cx="33" cy="22" r="3.4" fill="#ffc857"/><circle cx="38" cy="26" r="3" fill="#6bbf7a"/>
+      </svg>
+      <span class="brand-text"><b>Shopping by the Shore</b><i>Your local shore concierge</i></span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#stores">Stores</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-sm btn-ghost nav-call" href="tel:+16093391600">609.339.1600</a>
+      <a class="btn btn-sm" href="#book">Book now</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="script kicker">Atlantic &amp; Cape May County, NJ</p>
+      <h1>You enjoy the shore.<br>I'll handle <span class="rotator" id="rotator" data-words='["the groceries.","the errands.","the gifts.","your pets.","your plants.","the details."]'>the groceries.</span></h1>
+      <p class="lead">Hi, I'm Celeste — your personal shopper and shore concierge. Same shopper every time, in-store prices, no membership fees. Tell me what you need and I'll take it from here.</p>
+      <div class="hero-cta">
+        <a class="btn btn-lg" href="#book">Start my booking <span aria-hidden="true">→</span></a>
+        <a class="btn btn-lg btn-ghost" href="tel:+16093391600">Call 609.339.1600</a>
+      </div>
+      <ul class="stats" aria-label="Track record">
+        <li><b><span data-count="5.0" data-decimals="1">5.0</span><small>★</small></b><span>894 ratings</span></li>
+        <li><b><span data-count="1500">1500</span><small>+</small></b><span>orders delivered</span></li>
+        <li><b><span data-count="70">70</span><small>+</small></b><span>repeat clients</span></li>
+      </ul>
+    </div>
+
+    <div class="hero-art" aria-hidden="false">
+      <div class="frame">
+        <!-- Illustrated fallback; drop a real photo at images/celeste.jpg and it covers this -->
+        <svg class="frame-art" viewBox="0 0 400 400" aria-hidden="true">
+          <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6dcf8"/><stop offset="1" stop-color="#fff3e6"/></linearGradient></defs>
+          <rect width="400" height="400" fill="url(#sky)"/>
+          <circle cx="300" cy="110" r="46" fill="#ffc857"/>
+          <path d="M0 270c40-24 80-24 120 0s80 24 120 0 100-24 160 0v130H0z" fill="#9edbe9"/>
+          <path d="M0 305c40-24 80-24 120 0s80 24 120 0 100-24 160 0v95H0z" fill="#1d8fae"/>
+          <g transform="translate(200 215)">
+            <path d="M-80 -6h160l-18 92h-124z" fill="#7b5bc4"/>
+            <path d="M-56 -6c0-70 112-70 112 0" fill="none" stroke="#4b2a8a" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="-28" cy="-34" r="20" fill="#ff7a6b"/><circle cx="8" cy="-52" r="22" fill="#ffc857"/><circle cx="42" cy="-30" r="19" fill="#6bbf7a"/>
+            <path d="M-80 -6h160" stroke="#4b2a8a" stroke-width="8" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <img src="images/celeste.jpg" alt="Celeste, your personal shopper" class="frame-photo" onerror="this.remove()">
+      </div>
+      <div class="ribbon">Your Local Shore Concierge</div>
+      <div class="chip-float chip-a">⭐ 5.0 · 894 ratings</div>
+      <div class="chip-float chip-b">🛒 Same shopper, every time</div>
+      <!-- playful floating groceries: tap them! -->
+      <div class="floaters" id="floaters" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <button class="basket-pill" id="basketPill" type="button" aria-live="polite">
+    <span class="basket-emoji" id="basketEmoji">🧺</span>
+    <span id="basketText">Tap the floating goodies to fill my basket!</span>
+  </button>
+
+  <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60c120-50 240-50 360 0s240 50 360 0 240-50 360 0 240 50 360 0v60H0z" fill="#fffaf2"/></svg>
+</section>
+
+<!-- ============ PROMISES MARQUEE ============ -->
+<section class="marquee" aria-label="Why clients love Shopping by the Shore">
+  <div class="marquee-track">
+    <span>🍏 In-store prices, always</span><span>🍎 No membership fees</span><span>🍋 Multiple stores, one trip</span><span>🍇 Support a local business</span><span>🍅 Store to door, no hassle</span><span>🐚 Same personal shopper every time</span>
+    <span>🍏 In-store prices, always</span><span>🍎 No membership fees</span><span>🍋 Multiple stores, one trip</span><span>🍇 Support a local business</span><span>🍅 Store to door, no hassle</span><span>🐚 Same personal shopper every time</span>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section" id="services">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="script">How can I help?</p>
+      <h2>Services offered</h2>
+      <p>I take care of the details so you can <em>enjoy life.</em> Tap a card to start a booking with that service.</p>
+    </header>
+    <div class="cards" id="serviceCards"></div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section tint" id="how">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="script">Easy as 1-2-3</p>
+      <h2>How it works</h2>
+    </header>
+    <ol class="steps-row">
+      <li class="reveal"><span class="num">1</span><h3>Tell me what you need</h3><p>Build your order right here — pick your services, your stores, and add your list item by item.</p></li>
+      <li class="reveal"><span class="num">2</span><h3>Pick your day</h3><p>Choose the date and a time window that works. Need something sooner? Just give me a call.</p></li>
+      <li class="reveal"><span class="num">3</span><h3>Relax, it's handled</h3><p>I confirm with you, do the shopping or the check-in, and bring it all store to door.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section" id="pricing">
+  <div class="wrap pricing-grid">
+    <div class="reveal">
+      <p class="script">Simple &amp; honest</p>
+      <h2>You only pay in-store prices.</h2>
+      <p class="lead-sm">No mark-ups. No membership fees. My fee is <b>23% of your groceries, with a $50 minimum</b>. Slide to see what your order might look like.</p>
+      <ul class="ticks">
+        <li>Groceries at the same price on the shelf</li>
+        <li>Shop several stores in one order</li>
+        <li>Pricing for other services is based on what you request</li>
+      </ul>
+      <p class="fine">Additional fees may apply depending on travel, time, complexity, or special requests.</p>
+    </div>
+    <div class="calc reveal" id="calc">
+      <label for="calcRange" class="calc-label">If my groceries come to…</label>
+      <div class="calc-big"><span id="calcGroceries">$150</span></div>
+      <input type="range" id="calcRange" min="25" max="600" step="5" value="150" aria-describedby="calcNote">
+      <div class="bar" aria-hidden="true"><i class="bar-g" id="barG"></i><i class="bar-f" id="barF"></i></div>
+      <dl class="calc-rows">
+        <div><dt><span class="dot g"></span>Groceries (in-store prices)</dt><dd id="calcG2">$150.00</dd></div>
+        <div><dt><span class="dot f"></span>Shopping &amp; delivery fee</dt><dd id="calcFee">$50.00</dd></div>
+        <div class="total"><dt>Estimated total</dt><dd id="calcTotal">$200.00</dd></div>
+      </dl>
+      <p class="fine" id="calcNote"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORES ============ -->
+<section class="section tint" id="stores">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="script">Shop any store</p>
+      <h2>Where I shop</h2>
+      <p>These are some favorites — but I can shop <em>any</em> store, and as many as you like in one order. Tap to add them to your booking.</p>
+    </header>
+    <div class="chips store-chips" id="storeChipsPublic"></div>
+  </div>
+</section>
+
+<!-- ============ BOOKING WIZARD ============ -->
+<section class="section book" id="book">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="script">Let's get you booked</p>
+      <h2>Build your order</h2>
+      <p>Five quick steps, then check out. Celeste confirms every order with you personally.</p>
+    </header>
+
+    <div class="wizard" id="wizard">
+      <ol class="track" id="track" aria-label="Booking progress"></ol>
+      <div class="track-bar" aria-hidden="true"><i id="trackFill"></i><span id="trackCart">🛒</span></div>
+
+      <form id="booking" name="booking" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="booking">
+        <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+        <!-- summary fields populated by app.js -->
+        <input type="hidden" name="services">
+        <input type="hidden" name="stores">
+        <input type="hidden" name="shopping_list">
+        <input type="hidden" name="substitutions">
+        <input type="hidden" name="grocery_budget">
+        <input type="hidden" name="estimated_fee">
+        <input type="hidden" name="care_frequency">
+        <input type="hidden" name="care_count">
+        <input type="hidden" name="dates">
+        <input type="hidden" name="time_window">
+        <input type="hidden" name="contact_pref">
+        <input type="hidden" name="tip">
+        <input type="hidden" name="estimated_total">
+        <input type="hidden" name="payment_status">
+        <input type="hidden" name="square_customer_id">
+        <input type="hidden" name="card_on_file">
+
+        <!-- STEP 1 -->
+        <fieldset class="step" data-step="1">
+          <legend tabindex="-1">What can I help with?</legend>
+          <p class="hint">Pick one or mix and match.</p>
+          <div class="cards cards-pick" id="serviceCardsPick"></div>
+        </fieldset>
+
+        <!-- STEP 2 -->
+        <fieldset class="step" data-step="2" hidden>
+          <legend tabindex="-1">The details</legend>
+
+          <div class="panel" id="panelShop" hidden>
+            <h3 class="panel-title">🛒 Your shopping trip</h3>
+
+            <p class="label">Which stores?</p>
+            <div class="chips store-chips" id="storeChipsWizard"></div>
+            <label class="field slim"><span>Another store?</span>
+              <input type="text" name="other_store" id="otherStore" placeholder="Type any store — I shop them all" autocomplete="off">
+            </label>
+
+            <p class="label">Your list <span class="muted">— type an item and press Enter, or paste your whole list</span></p>
+            <div class="list-builder">
+              <div class="adder">
+                <input type="text" id="itemInput" placeholder="e.g. 2% milk (1 gallon)" autocomplete="off" aria-label="Add an item">
+                <button type="button" class="btn btn-sm" id="itemAdd">Add</button>
+              </div>
+              <div class="quick" id="quickItems" aria-label="Quick add"></div>
+              <div class="cart" id="cart" aria-live="polite">
+                <div class="cart-head"><span>🧺 My cart</span><b id="cartCount">0 items</b></div>
+                <ul id="cartList"></ul>
+                <p class="cart-empty" id="cartEmpty">Your cart is empty — add something tasty above.</p>
+              </div>
+              <label class="check"><input type="checkbox" name="list_by_text" id="listByText" value="Yes"> I'll text or send my list to Celeste instead</label>
+            </div>
+
+            <p class="label">If something's out of stock…</p>
+            <div class="chips single" id="subChips" role="radiogroup" aria-label="Out-of-stock preference"></div>
+
+            <p class="label">About how much will your groceries be? <span class="muted">(a rough guess is fine)</span></p>
+            <div class="mini-calc">
+              <input type="range" id="budget" min="25" max="600" step="5" value="150" aria-label="Estimated groceries">
+              <div class="mini-out"><span>Groceries ≈ <b id="mBudget">$150</b></span><span>Fee ≈ <b id="mFee">$50</b></span><span class="mt">Est. total <b id="mTotal">$200</b></span></div>
+            </div>
+          </div>
+
+          <div class="panel" id="panelCare" hidden>
+            <h3 class="panel-title">🏠 Your check-ins</h3>
+            <p class="label" id="careWhat">What needs looking after?</p>
+            <div class="care-grid">
+              <div class="field">
+                <span class="field-label" id="careCountLabel">How many?</span>
+                <div class="stepper" role="group" aria-labelledby="careCountLabel">
+                  <button type="button" id="cMinus" aria-label="Fewer">−</button>
+                  <output id="cVal">1</output>
+                  <button type="button" id="cPlus" aria-label="More">+</button>
+                </div>
+              </div>
+              <div class="field">
+                <span class="field-label">How often?</span>
+                <div class="chips single" id="freqChips" role="radiogroup" aria-label="Visit frequency"></div>
+              </div>
+            </div>
+            <label class="field"><span>Anything Celeste should know?</span>
+              <textarea name="care_notes" id="careNotes" rows="3" placeholder="Pet names &amp; routines, which plants need what, mail or lights… (please don't put door or alarm codes here — we'll sort that out by phone)"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3 -->
+        <fieldset class="step" data-step="3" hidden>
+          <legend tabindex="-1">When works for you?</legend>
+          <p class="hint" id="calHint">Tap a day. For a multi-day stay or trip, tap a second day to make a range.</p>
+          <div class="cal" id="cal"></div>
+          <p class="cal-pick" id="calPick" aria-live="polite">No date picked yet</p>
+          <p class="label">Preferred time of day</p>
+          <div class="chips single" id="winChips" role="radiogroup" aria-label="Preferred time"></div>
+          <p class="fine">Need it sooner than tomorrow? Call or text <a href="tel:+16093391600">609.339.1600</a>.</p>
+        </fieldset>
+
+        <!-- STEP 4 -->
+        <fieldset class="step" data-step="4" hidden>
+          <legend tabindex="-1">Where &amp; who</legend>
+          <div class="grid2">
+            <label class="field"><span>Your name</span><input name="name" id="fName" autocomplete="name" required></label>
+            <label class="field"><span>Phone</span><input name="phone" id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="609-555-0123" required></label>
+            <label class="field"><span>Email</span><input name="email" id="fEmail" type="email" autocomplete="email" required></label>
+            <label class="field"><span>Town</span>
+              <select name="town" id="fTown" autocomplete="address-level2" required>
+                <option value="">Choose your town…</option>
+              </select>
+            </label>
+          </div>
+          <label class="field"><span>Street address <small class="muted">(delivery or visit location)</small></span><input name="address" id="fAddress" autocomplete="street-address" required></label>
+          <p class="label">Best way to reach you</p>
+          <div class="chips single" id="contactChips" role="radiogroup" aria-label="Contact preference"></div>
+          <label class="field"><span>Anything else? <small class="muted">(optional)</small></span><textarea name="notes" id="fNotes" rows="3" placeholder="Delivery instructions, favorite brands, questions…"></textarea></label>
+        </fieldset>
+
+        <!-- STEP 5 : CHECKOUT -->
+        <fieldset class="step" data-step="5" hidden>
+          <legend tabindex="-1">Checkout</legend>
+          <p class="hint" id="coHint">Review your order, add a tip, and you're done.</p>
+
+          <div class="co-grid">
+            <div class="co-main">
+              <section class="co-card">
+                <h3 class="co-title">🧾 Your order</h3>
+                <div class="ticket" id="ticket"></div>
+              </section>
+
+              <section class="co-card" id="tipBox">
+                <h3 class="co-title">💜 Add a tip for Celeste <span class="muted">(optional)</span></h3>
+                <div class="chips single" id="tipChips" role="radiogroup" aria-label="Tip"></div>
+                <label class="field slim" id="tipCustomWrap" hidden><span>Custom tip</span>
+                  <input type="text" id="tipCustom" inputmode="decimal" placeholder="$0.00" autocomplete="off">
+                </label>
+              </section>
+
+              <section class="co-card" id="payBox">
+                <h3 class="co-title">💳 Payment</h3>
+                <p class="secure">🔒 Your card is saved securely with Square. <b>You won't be charged today</b> — Celeste charges your actual receipt total after shopping.</p>
+                <div id="card-container" aria-label="Card details"></div>
+                <p class="demo-note" id="demoNote" hidden>🧪 <b>Demo mode:</b> payments aren't connected yet, so no card is collected and nothing is charged.</p>
+                <p class="pay-loading" id="payLoading">Loading secure card form…</p>
+              </section>
+            </div>
+
+            <aside class="co-side">
+              <div class="totals" id="totals" aria-live="polite"></div>
+            </aside>
+          </div>
+        </fieldset>
+
+        <p class="err" id="err" role="alert" hidden></p>
+
+        <div class="wiz-nav">
+          <button type="button" class="btn btn-ghost" id="btnBack" hidden>← Back</button>
+          <button type="button" class="btn btn-lg" id="btnNext">Next →</button>
+          <button type="submit" class="btn btn-lg btn-go" id="btnSend" hidden>Place order 🚀</button>
+        </div>
+      </form>
+
+      <div class="thanks" id="thanks" hidden tabindex="-1">
+        <div class="thanks-emoji">🎉</div>
+        <h3>You're all set<span id="thanksName"></span>!</h3>
+        <p>Your order is on its way to Celeste. She'll reach out personally to confirm the details — usually the quickest way is a call or text, so keep an eye on your phone.</p>
+        <p class="thanks-pay" id="thanksPay" hidden></p>
+        <p class="fine">Questions in the meantime? <a href="tel:+16093391600">609.339.1600</a></p>
+        <button type="button" class="btn btn-ghost" id="btnAgain">Start another booking</button>
+      </div>
+    </div>
+
+    <noscript><p class="noscript">The booking builder needs JavaScript. No worries — just call or text Celeste at <a href="tel:+16093391600">609.339.1600</a>.</p></noscript>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="section tint" id="reviews">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="script">Kind words</p>
+      <h2>What my clients say</h2>
+    </header>
+    <figure class="quote reveal">
+      <div class="quote-stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <blockquote>Celeste is the best. I am so lucky to have found her. She goes out of her way to get the right items and the best quality.</blockquote>
+      <figcaption>William B. · July 2026</figcaption>
+    </figure>
+    <p class="center reveal"><b>5.0</b> average across <b>894</b> ratings</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="wrap narrow">
+    <header class="sec-head reveal">
+      <p class="script">Good to know</p>
+      <h2>Questions, answered</h2>
+    </header>
+    <div class="faq reveal">
+      <details><summary>Do you mark up the prices?</summary><p>Never. You pay in-store prices for your groceries, and my fee is separate and upfront — 23% of your groceries with a $50 minimum.</p></details>
+      <details><summary>Is there a membership fee?</summary><p>Nope. No memberships, no subscriptions — book only when you need me.</p></details>
+      <details><summary>Can you shop more than one store?</summary><p>Yes! Add as many stores as you like to a single order. I shop ACME, Aldi, ShopRite, Target, Lidl and more — and I'm happy to go anywhere else you ask.</p></details>
+      <details><summary>Will I get the same shopper every time?</summary><p>Yes — it's always me, Celeste. I learn your preferences, your brands, and exactly how you like your bananas.</p></details>
+      <details><summary>Where do you serve?</summary><p>Atlantic and Cape May County, New Jersey. Not sure if you're in range? Message me at 609.339.1600.</p></details>
+      <details><summary>What days are you available?</summary><p>I'm available Saturday through Thursday. Fridays are my day off — but pick any other day on the calendar and I'll confirm with you.</p></details>
+      <details><summary>What about the other services?</summary><p>Home &amp; vacation check-ins, pet sitting, and plant watering are priced based on what you request. Send a booking request and I'll follow up with a quote. Additional fees may apply depending on travel, time, complexity, or special requests.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <svg class="wave wave-top" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60c120-50 240-50 360 0s240 50 360 0 240-50 360 0 240 50 360 0v60H0V0z" fill="#fffaf2"/></svg>
+  <div class="wrap foot-in">
+    <p class="script foot-script">You enjoy the shore. I'll handle the rest. 🐚</p>
+    <div class="foot-grid">
+      <div>
+        <b>Shopping by the Shore LLC</b>
+        <p>Your local shore concierge<br>Serving Atlantic &amp; Cape May County, NJ</p>
+      </div>
+      <div>
+        <b>Get in touch</b>
+        <p><a href="tel:+16093391600">609.339.1600</a><br>Find us on Facebook: <em>Shopping by the Shore LLC</em> for coupons &amp; freebies</p>
+      </div>
+      <div>
+        <b>Prefer an app?</b>
+        <p><a href="https://www.mydumpling.us/biz/shoppingbytheshorellc" target="_blank" rel="noopener">Order through Dumpling →</a></p>
+      </div>
+    </div>
+    <p class="copy">© <span id="yr">2026</span> Shopping by the Shore LLC. All rights reserved.</p>
+  </div>
+</footer>
+
+<button class="mini-cart" id="miniCart" type="button" hidden aria-label="Jump to my booking"><span>🛒</span><b id="miniCount">0</b><span class="mini-label" id="miniLabel">Finish booking</span></button>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script src="app.js"></script>
+</body>
+</html>
