@@ -173,6 +173,10 @@ address{font-style:normal;font-family:var(--mono);font-size:1.15rem;margin:22px 
 .foot-logo{height:42px;width:auto;margin:0 auto 14px}
 .site-footer p{margin:4px 0;font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:.8rem}
 .site-footer .small{color:#b7b1aa;text-transform:none;letter-spacing:.04em}
+.footer-credit{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#b7b1aa;text-decoration:none;transition:color .15s}
+.footer-credit img{height:16px;width:auto;opacity:.9;transition:opacity .15s}
+.footer-credit:hover,.footer-credit:focus-visible{color:#fff}
+.footer-credit:hover img,.footer-credit:focus-visible img{opacity:1}
 
 /* lightbox */
 #lightbox{border:0;padding:0;background:transparent;max-width:min(92vw,820px);max-height:92vh;overflow:visible}
