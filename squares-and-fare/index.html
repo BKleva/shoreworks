@@ -30,8 +30,34 @@
   ]
 }
 </script>
+<script>document.documentElement.classList.add('is-loading')</script>
 </head>
 <body>
+
+<div id="loader" role="status" aria-live="polite">
+  <svg class="pizza" viewBox="0 0 120 120" width="160" height="160" aria-hidden="true">
+    <g class="pz">
+      <rect class="crust" x="6" y="6" width="108" height="108" rx="12"/>
+      <rect class="sauce" x="17" y="17" width="86" height="86" rx="6"/>
+      <g class="cheese">
+        <ellipse cx="38" cy="58" rx="15" ry="9"/>
+        <ellipse cx="78" cy="42" rx="14" ry="8"/>
+        <ellipse cx="72" cy="82" rx="16" ry="9"/>
+        <ellipse cx="34" cy="30" rx="9" ry="6"/>
+        <ellipse cx="90" cy="68" rx="8" ry="5"/>
+      </g>
+      <path class="cuts" d="M60 17V103M17 60H103" pathLength="1"/>
+      <g class="pep">
+        <g style="--d:0s"><circle cx="38" cy="38" r="9"/><circle class="hl" cx="35" cy="35" r="4"/></g>
+        <g style="--d:.18s"><circle cx="82" cy="36" r="9"/><circle class="hl" cx="79" cy="33" r="4"/></g>
+        <g style="--d:.36s"><circle cx="60" cy="60" r="9"/><circle class="hl" cx="57" cy="57" r="4"/></g>
+        <g style="--d:.54s"><circle cx="36" cy="82" r="9"/><circle class="hl" cx="33" cy="79" r="4"/></g>
+        <g style="--d:.72s"><circle cx="84" cy="84" r="9"/><circle class="hl" cx="81" cy="81" r="4"/></g>
+      </g>
+    </g>
+  </svg>
+  <p class="loader-text">Fresh out of the oven&hellip;</p>
+</div>
 
 <header class="site-header" id="top">
   <div class="wrap bar">
@@ -65,7 +91,6 @@
     <figure class="hero-art">
       <div class="sketch">
         <img src="assets/storefront.jpg" width="520" height="334" alt="Pencil sketch of the Squares &amp; Fare storefront with its red door and two café tables out front">
-        <div class="piece" aria-hidden="true"><img src="assets/pie-piece.webp" width="320" height="320" alt=""></div>
       </div>
       <figcaption>7 East New Jersey Avenue &middot; look for the red door</figcaption>
     </figure>

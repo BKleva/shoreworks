@@ -50,7 +50,8 @@ h1,h2,h3{margin:0;line-height:1.1}
 
 /* hero */
 .hero{padding:56px 0 64px;background:
-  radial-gradient(circle at 85% 20%,rgba(168,46,51,.06),transparent 45%),var(--paper)}
+  radial-gradient(ellipse at 78% 38%,rgba(255,255,255,.55),transparent 55%),
+  linear-gradient(180deg,rgba(168,46,51,.24) 0%,rgba(168,46,51,.15) 55%,rgba(168,46,51,.07) 100%),var(--paper)}
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
 .kicker{margin:0 0 14px;text-transform:uppercase;letter-spacing:.2em;font-size:.82rem;color:var(--red);font-weight:700}
 .hero h1{font-family:var(--mono);font-weight:700;font-size:clamp(2.2rem,5vw,3.7rem);letter-spacing:-.01em}
@@ -61,9 +62,6 @@ h1,h2,h3{margin:0;line-height:1.1}
 .hero-art{margin:0;text-align:center}
 .hero-art img{width:100%;max-width:520px;margin-inline:auto;mix-blend-mode:multiply}
 .sketch{position:relative;max-width:520px;margin-inline:auto}
-.hero-art .piece{position:absolute;right:3%;top:-9%;width:30%;transform:rotate(11deg);animation:bob 4.2s ease-in-out infinite;filter:drop-shadow(0 22px 14px rgba(0,0,0,.28))}
-.hero-art .piece img{width:100%;max-width:none;margin:0;border-radius:9px;mix-blend-mode:normal;border:3px solid #2a1308;box-shadow:0 7px 0 #8a4a14,0 9px 0 #2a1308}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(11deg)}50%{transform:translateY(-10px) rotate(8deg)}}
 .hero-art figcaption{margin-top:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--muted)}
 
 /* ticker */
@@ -216,6 +214,24 @@ address{font-style:normal;font-family:var(--mono);font-size:1.15rem;margin:22px 
   .craft img{box-shadow:8px 8px 0 var(--red)}
   .map{box-shadow:6px 6px 0 var(--red)}
 }
+/* loading screen: square pizza */
+#loader{display:none}
+html.is-loading{overflow:hidden}
+html.is-loading #loader{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:var(--paper);transition:opacity .5s ease,visibility .5s ease}
+#loader.done{opacity:0;visibility:hidden}
+.pizza{overflow:visible;filter:drop-shadow(6px 6px 0 var(--ink))}
+.pz{transform-box:fill-box;transform-origin:center;animation:spin 2.6s cubic-bezier(.65,0,.35,1) infinite}
+.pz .crust{fill:#d9a04a;stroke:var(--ink);stroke-width:3}
+.pz .sauce{fill:#b8342f}
+.pz .cheese ellipse{fill:#f7e2ac;opacity:.92}
+.pz .cuts{fill:none;stroke:#fff7e6;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:1;animation:cut 2.6s ease-in-out infinite}
+.pz .pep g{transform-box:fill-box;transform-origin:center;animation:pop 2.6s ease-in-out infinite;animation-delay:var(--d)}
+.pz .pep circle{fill:#7d1d22}
+.pz .pep .hl{fill:#a3302f}
+.loader-text{margin:0;font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;font-size:.8rem;color:var(--muted)}
+@keyframes spin{0%,45%{transform:rotate(0)}85%,100%{transform:rotate(90deg)}}
+@keyframes pop{0%{transform:scale(0)}18%{transform:scale(1.2)}28%,80%{transform:scale(1)}95%,100%{transform:scale(0)}}
+@keyframes cut{0%,35%{stroke-dashoffset:1}60%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
