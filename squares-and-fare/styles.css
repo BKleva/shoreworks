@@ -60,6 +60,10 @@ h1,h2,h3{margin:0;line-height:1.1}
 .hours-line{margin:24px 0 0;text-transform:uppercase;letter-spacing:.12em;font-size:.82rem;color:var(--muted)}
 .hero-art{margin:0;text-align:center}
 .hero-art img{width:100%;max-width:520px;margin-inline:auto;mix-blend-mode:multiply}
+.sketch{position:relative;max-width:520px;margin-inline:auto}
+.hero-art .piece{position:absolute;right:3%;top:-9%;width:30%;transform:rotate(11deg);animation:bob 4.2s ease-in-out infinite;filter:drop-shadow(0 22px 14px rgba(0,0,0,.28))}
+.hero-art .piece img{width:100%;max-width:none;margin:0;border-radius:9px;mix-blend-mode:normal;border:3px solid #2a1308;box-shadow:0 7px 0 #8a4a14,0 9px 0 #2a1308}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(11deg)}50%{transform:translateY(-10px) rotate(8deg)}}
 .hero-art figcaption{margin-top:6px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--muted)}
 
 /* ticker */
