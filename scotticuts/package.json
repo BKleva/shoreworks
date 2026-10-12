@@ -1,0 +1,9 @@
+{
+  "name": "scotticuts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ScottiCuts barber shop — static site + online booking portal (Netlify Functions + Blobs)",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4"
+  }
+}

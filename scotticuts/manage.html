@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Your Appointment | ScottiCuts</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{min-height:100vh;display:flex;flex-direction:column}
+  main{flex:1;display:grid;place-items:center;padding:110px 22px 60px}
+  .card{width:100%;max-width:560px;background:var(--coal);border:1px solid var(--line);padding:34px;text-align:center}
+  .card h1{font-size:2.8rem;margin-bottom:6px}
+  .card .when{font-family:var(--display);font-size:2rem;letter-spacing:.05em;margin:14px 0 4px}
+  .card p{color:var(--bone2)}
+  .tag{display:inline-block;margin-bottom:14px;padding:4px 12px;font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;background:var(--red)}
+  .tag.cancelled{background:#444}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/"><img src="images/pole-light.png" alt="" width="20" height="80"><span>Scotti<em>Cuts</em></span></a>
+  <nav class="nav-links"><a class="btn btn-sm" href="/#book">Book</a></nav>
+</header>
+<main><div class="card" id="card"><p>Loading your appointment…</p></div></main>
+<script>
+(() => {
+  const card = document.getElementById('card');
+  const q = new URLSearchParams(location.search);
+  const id = q.get('id'), t = q.get('t');
+  const fmt = (m) => { const h = Math.floor(m / 60); return `${((h + 11) % 12) + 1}:${String(m % 60).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`; };
+  const longDate = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' });
+  const html = (s) => { card.innerHTML = s; };
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function show(b, msg) {
+    const cancelled = b.status === 'cancelled';
+    html(`
+      <span class="tag ${cancelled ? 'cancelled' : ''}">${cancelled ? 'Cancelled' : 'Confirmed'}</span>
+      <h1>${esc(b.name.split(' ')[0])}’s appointment</h1>
+      <p class="when">${esc(longDate(b.date))} · ${esc(fmt(b.start))}</p>
+      <p>${esc(b.serviceName)} · ${esc(b.priceLabel)}</p>
+      <p style="margin-top:6px;color:var(--mute)">426 Shore Rd Unit E, Somers Point, NJ</p>
+      ${msg ? `<p style="margin-top:18px;color:#7ee2a8">${esc(msg)}</p>` : ''}
+      <div class="actions">
+        ${cancelled ? '<a class="btn" href="/#book">Book a new time</a>' : '<button class="btn btn-ghost" id="cancel" type="button">Cancel appointment</button><a class="btn" href="tel:+16093652539">Call the shop</a>'}
+      </div>
+      <p id="err" class="err" role="alert"></p>`);
+    const c = document.getElementById('cancel');
+    if (c) c.onclick = async () => {
+      if (!confirm('Cancel this appointment?')) return;
+      c.disabled = true;
+      const r = await fetch('/api/manage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, t, action: 'cancel' }) });
+      const d = await r.json().catch(() => ({}));
+      if (r.ok) show(d.booking, 'Your appointment has been cancelled.');
+      else { c.disabled = false; document.getElementById('err').textContent = d.error || 'Something went wrong — please call the shop.'; }
+    };
+  }
+
+  fetch(`/api/manage?id=${encodeURIComponent(id || '')}&t=${encodeURIComponent(t || '')}`)
+    .then(async (r) => ({ ok: r.ok, d: await r.json().catch(() => ({})) }))
+    .then(({ ok, d }) => ok ? show(d.booking) : html(`<h1>Hmm.</h1><p>${esc(d.error || 'We couldn’t load that appointment.')}</p><div class="actions"><a class="btn" href="/#book">Book a time</a><a class="btn btn-ghost" href="tel:+16093652539">Call (609) 365-2539</a></div>`))
+    .catch(() => html('<h1>Hmm.</h1><p>We couldn’t reach the server. Please call (609) 365-2539.</p>'));
+})();
+</script>
+</body>
+</html>
