@@ -1,5 +1,5 @@
 import { getStore } from '@netlify/blobs';
-import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 
 export const TZ = 'America/New_York';
 
@@ -78,18 +78,20 @@ export async function getDay(date, s = store()) {
   return { ...emptyDay(), ...(d || {}) };
 }
 
-// Read-modify-write with an ETag guard so two people can't grab the same slot.
-export async function mutateDay(date, fn, s = store()) {
+// Read-modify-write with an ETag guard so two writers can't clobber each other.
+export async function mutateDoc(key, fresh, fn, s = store()) {
   for (let i = 0; i < 6; i++) {
-    const cur = await s.getWithMetadata(dayKey(date), { type: 'json' }).catch(() => null);
-    const day = { ...emptyDay(), ...(cur?.data || {}) };
-    const out = await fn(day);
+    const cur = await s.getWithMetadata(key, { type: 'json' }).catch(() => null);
+    const doc = { ...fresh(), ...(cur?.data || {}) };
+    const out = await fn(doc);
     if (out && out.error) return out;
-    const res = await s.setJSON(dayKey(date), day, cur ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
-    if (res.modified) return { ...(out || {}), day };
+    const res = await s.setJSON(key, doc, cur ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
+    if (res.modified) return { ...(out || {}), doc, day: doc };
   }
   return { error: 'The calendar is busy right now — please try again.', status: 503 };
 }
+
+export const mutateDay = (date, fn, s = store()) => mutateDoc(dayKey(date), emptyDay, fn, s);
 
 const live = (b) => b.status !== 'cancelled' && b.status !== 'noshow';
 const overlaps = (aStart, aEnd, bStart, bEnd) => aStart < bEnd && bStart < aEnd;
@@ -125,21 +127,59 @@ export function safeEqual(a, b) {
 }
 
 const TTL_MS = 12 * 60 * 60 * 1000;
-export function makeAdminToken() {
-  const exp = String(Date.now() + TTL_MS);
-  return Buffer.from(exp + '.' + sign('admin:' + exp)).toString('base64url');
+// Session token: base64url("role:id:expiry.signature"). role is 'admin' or 'staff'.
+export function makeToken(role, id = '') {
+  const body = `${role}:${id}:${Date.now() + TTL_MS}`;
+  return Buffer.from(body + '.' + sign('tok:' + body)).toString('base64url');
 }
-export function verifyAdmin(req) {
+export function authOf(req) {
   try {
     const h = req.headers.get('authorization') || '';
     const raw = Buffer.from(h.startsWith('Bearer ') ? h.slice(7) : '', 'base64url').toString('utf8');
-    const dot = raw.indexOf('.');
-    if (dot < 0) return false;
-    const exp = raw.slice(0, dot);
-    if (!/^\d+$/.test(exp) || Date.now() > Number(exp)) return false;
-    return safeEqual(raw.slice(dot + 1), sign('admin:' + exp));
-  } catch { return false; }
+    const dot = raw.lastIndexOf('.');
+    if (dot < 0) return null;
+    const body = raw.slice(0, dot);
+    if (!safeEqual(raw.slice(dot + 1), sign('tok:' + body))) return null;
+    const [role, id, exp] = body.split(':');
+    if (!/^\d+$/.test(exp) || Date.now() > Number(exp)) return null;
+    return { role, id };
+  } catch { return null; }
 }
+export const verifyAdmin = (req) => authOf(req)?.role === 'admin';
+
+/* ---------------- passwords ---------------- */
+export function hashPassword(pw) {
+  const salt = randomBytes(16).toString('hex');
+  return `${salt}:${scryptSync(String(pw), salt, 32).toString('hex')}`;
+}
+export function checkPassword(pw, stored) {
+  const [salt, hash] = String(stored || 'x:y').split(':');
+  let got;
+  try { got = scryptSync(String(pw), salt || 'x', 32); } catch { return false; }
+  const want = Buffer.from(hash || '', 'hex');
+  return want.length === got.length && timingSafeEqual(got, want);
+}
+
+/* ---------------- barbers (team) ---------------- */
+export const teamKey = (id) => `team/${id}`;
+export const imgKey = (emp, img) => `img/${emp}/${img}`;
+export const validId = (v) => /^[a-z0-9-]{3,60}$/.test(v || '');
+export const MAX_IMAGES = 40;
+
+export async function listEmployees(s = store()) {
+  const { blobs } = await s.list({ prefix: 'team/' });
+  const docs = await Promise.all(blobs.map((b) => s.get(b.key, { type: 'json' }).catch(() => null)));
+  return docs.filter(Boolean).sort((a, b) => (a.created || '').localeCompare(b.created || ''));
+}
+export const getEmployee = (id, s = store()) => (validId(id) ? s.get(teamKey(id), { type: 'json' }).catch(() => null) : null);
+
+const imgUrl = (emp, img) => `/api/img/${emp}/${img}`;
+// What the public site (and the owner) may see — never the password hash.
+export const publicEmployee = (e) => ({
+  id: e.id, name: e.name, title: e.title || '', bio: e.bio || '',
+  photo: e.photo ? imgUrl(e.id, e.photo) : null,
+  images: (e.portfolio || []).map((p) => ({ id: p.id, url: imgUrl(e.id, p.id), caption: p.caption || '' })),
+});
 
 export const newId = (date) => `${date}-${randomBytes(4).toString('hex')}`;
 

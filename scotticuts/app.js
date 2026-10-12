@@ -275,6 +275,44 @@
     else drawDone();
   }
 
+  /* ---------- barbers ---------- */
+  const LB = { list: [], i: 0 };
+  const lb = $('#lightbox');
+  function lbShow() {
+    const im = LB.list[LB.i];
+    $('img', lb).src = im.url; $('img', lb).alt = im.caption || 'Portfolio photo';
+    $('figcaption', lb).textContent = im.caption || '';
+    lb.classList.toggle('single', LB.list.length < 2);
+  }
+  function lbOpen(list, i) { LB.list = list; LB.i = i; lbShow(); if (!lb.open) lb.showModal(); }
+  const lbStep = (n) => { LB.i = (LB.i + n + LB.list.length) % LB.list.length; lbShow(); };
+  $('.lb-x', lb).onclick = () => lb.close();
+  $('.prev', lb).onclick = () => lbStep(-1);
+  $('.next', lb).onclick = () => lbStep(1);
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') lbStep(-1); if (e.key === 'ArrowRight') lbStep(1); });
+
+  async function renderTeam() {
+    let team = [];
+    try { const r = await fetch('/api/team'); if (r.ok) team = (await r.json()).team; } catch { /* no team yet */ }
+    if (!team.length) return;
+    const initials = (n) => n.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+    const SHOWN = 6;
+    $('#teamGrid').replaceChildren(...team.map((b) => {
+      const photo = el('div', { class: 'b-photo', role: b.photo ? 'img' : null, 'aria-label': b.photo ? b.name : null, style: b.photo ? `background-image:url("${b.photo}")` : '' }, b.photo ? null : initials(b.name));
+      const work = b.images.length ? el('div', { class: 'b-work' }, b.images.slice(0, SHOWN).map((im, i) => {
+        const extra = i === SHOWN - 1 ? b.images.length - SHOWN : 0;
+        return el('button', { type: 'button', 'aria-label': `View ${b.name} photo ${i + 1}`, onclick: () => lbOpen(b.images, i) },
+          el('img', { src: im.url, alt: im.caption || `${b.name} portfolio`, loading: 'lazy' }), extra > 0 ? el('span', { class: 'more' }, `+${extra}`) : null);
+      })) : null;
+      return el('article', { class: 'barber' }, photo, el('div', {},
+        el('h3', { class: 'b-name' }, b.name), b.title ? el('p', { class: 'b-title' }, b.title) : null,
+        b.bio ? el('p', { class: 'b-bio' }, b.bio) : null, work,
+        el('a', { class: 'btn btn-sm', href: '#book' }, `Book a cut`)));
+    }));
+    $('#team').hidden = false; $('#navTeam').hidden = false;
+  }
+
   /* ---------- boot ---------- */
   async function boot() {
     $('#yr').textContent = nowNJ().date.slice(0, 4);
@@ -282,7 +320,7 @@
       const r = await fetch('/api/services');
       if (r.ok) { cfg = { ...cfg, ...(await r.json()) }; apiOk = true; }
     } catch { /* keep fallback */ }
-    renderMenu(); renderHours(); renderOpenBadge();
+    renderMenu(); renderHours(); renderOpenBadge(); renderTeam();
     setStep(1);
   }
   boot();

@@ -1,5 +1,7 @@
+import { randomBytes } from 'node:crypto';
 import {
   store, getConfig, getDay, mutateDay, verifyAdmin, validDate, addDays, newId, json, clean, DEFAULT_CONFIG,
+  listEmployees, publicEmployee, hashPassword, teamKey, validId,
 } from './_lib.mjs';
 
 const STATUSES = ['booked', 'completed', 'noshow', 'cancelled'];
@@ -103,6 +105,36 @@ export default async (req) => {
 
       await s.setJSON('config', next);
       return json({ ok: true, config: next });
+    }
+
+    /* ---- barbers ---- */
+    case 'listEmployees': {
+      const list = await listEmployees(s);
+      return json({ employees: list.map((e) => ({ ...publicEmployee(e), username: e.username })) });
+    }
+
+    case 'createEmployee': {
+      const name = clean(b.name, 60);
+      const username = clean(b.username, 30).toLowerCase();
+      if (name.length < 2) return json({ error: 'Please enter a name.' }, 400);
+      if (!/^[a-z0-9._-]{3,30}$/.test(username)) return json({ error: 'Username: 3–30 letters, numbers, dots or dashes.' }, 400);
+      if (String(b.password || '').length < 8) return json({ error: 'Password must be at least 8 characters.' }, 400);
+      if ((await listEmployees(s)).some((e) => e.username === username)) return json({ error: 'That username is taken.' }, 409);
+      const id = `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 30) || 'barber'}-${randomBytes(2).toString('hex')}`;
+      const doc = {
+        id, name, username, title: clean(b.title, 60), bio: String(b.bio ?? '').trim().slice(0, 800),
+        passHash: hashPassword(b.password), photo: null, portfolio: [], created: new Date().toISOString(),
+      };
+      await s.setJSON(teamKey(id), doc);
+      return json({ ok: true, employee: { ...publicEmployee(doc), username } });
+    }
+
+    case 'deleteEmployee': {
+      if (!validId(b.id)) return json({ error: 'Bad request.' }, 400);
+      const { blobs } = await s.list({ prefix: `img/${b.id}/` });
+      await Promise.all(blobs.map((x) => s.delete(x.key)));
+      await s.delete(teamKey(b.id));
+      return json({ ok: true });
     }
 
     default:

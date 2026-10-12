@@ -92,9 +92,10 @@
   function showTab(t) {
     A.tab = t;
     document.querySelectorAll('.tabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
-    ['calendar', 'upcoming', 'settings'].forEach((k) => { $('#tab-' + k).hidden = k !== t; });
+    ['calendar', 'upcoming', 'team', 'settings'].forEach((k) => { $('#tab-' + k).hidden = k !== t; });
     if (t === 'calendar') loadCalendar();
     if (t === 'upcoming') loadUpcoming();
+    if (t === 'team') loadTeam();
     if (t === 'settings') renderSettings();
   }
   document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
@@ -335,6 +336,47 @@
       box.replaceChildren(...(out.length ? out : [el('div', { class: 'empty' }, 'Nothing booked in the next two weeks.')]));
     } catch (e) { box.textContent = e.message; }
   }
+
+  /* ---------- team ---------- */
+  async function loadTeam() {
+    const box = $('#teamList');
+    box.textContent = 'Loading…';
+    try {
+      const { employees } = await api('listEmployees');
+      if (!employees.length) { box.replaceChildren(el('div', { class: 'empty' }, 'No barbers yet. Add Scotti and the crew — they’ll show up on the website.')); return; }
+      box.replaceChildren(...employees.map((e) => el('div', { class: 'emp-row' },
+        el('div', { class: 'emp-av', style: e.photo ? `background-image:url("${e.photo}")` : '' }, e.photo ? '' : e.name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase()),
+        el('div', { class: 'emp-info' }, el('b', {}, e.name), el('small', {}, `${e.title || 'Barber'} · login: ${e.username} · ${e.images.length} photo${e.images.length === 1 ? '' : 's'}`)),
+        el('div', { class: 'emp-act' },
+          el('a', { class: 'btn btn-ghost btn-sm', href: `/staff?emp=${encodeURIComponent(e.id)}`, target: '_blank' }, 'Edit profile & photos'),
+          el('button', { class: 'btn btn-danger btn-sm', type: 'button', onclick: async () => {
+            if (!confirm(`Remove ${e.name} and all of their photos? This can’t be undone.`)) return;
+            try { await api('deleteEmployee', { id: e.id }); toast('Barber removed'); loadTeam(); } catch (ex) { fail(ex); }
+          } }, 'Remove')))));
+    } catch (e) { box.textContent = e.message; }
+  }
+
+  $('#addEmp').addEventListener('click', () => {
+    const f = {
+      name: el('input', { id: 'e-name', required: true, maxlength: 60 }),
+      title: el('input', { id: 'e-title', maxlength: 60, placeholder: 'Barber, Owner…' }),
+      user: el('input', { id: 'e-user', required: true, maxlength: 30, autocapitalize: 'none', autocomplete: 'off' }),
+      pass: el('input', { id: 'e-pass', type: 'text', required: true, minlength: 8, autocomplete: 'off', placeholder: '8+ characters' }),
+      bio: el('textarea', { id: 'e-bio', maxlength: 800, rows: 3 }),
+    };
+    f.name.addEventListener('input', () => { if (!f.user.dataset.touched) f.user.value = f.name.value.toLowerCase().replace(/[^a-z0-9]+/g, '.').replace(/^\.|\.$/g, ''); });
+    f.user.addEventListener('input', () => { f.user.dataset.touched = '1'; });
+    const err = el('p', { class: 'err', role: 'alert' });
+    openModal(el('h3', {}, 'Add barber'),
+      el('p', { style: 'color:var(--mute)' }, 'Give them the username and password — they can change the password after logging in at /staff.'),
+      field('e-name', 'Name', f.name), field('e-title', 'Title', f.title),
+      el('div', { class: 'grid2' }, field('e-user', 'Username', f.user), field('e-pass', 'Starting password', f.pass)),
+      field('e-bio', 'Bio (optional — they can edit it)', f.bio), err,
+      el('div', { class: 'acts' }, el('button', { class: 'btn', type: 'button', onclick: async () => {
+        try { await api('createEmployee', { name: f.name.value, title: f.title.value, username: f.user.value, password: f.pass.value, bio: f.bio.value }); closeModal(); toast('Barber added'); loadTeam(); } catch (ex) { err.textContent = ex.message; }
+      } }, 'Add barber'), cancelBtn()));
+    f.name.focus();
+  });
 
   /* ---------- settings ---------- */
   let draft;

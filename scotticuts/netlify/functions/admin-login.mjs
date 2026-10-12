@@ -1,4 +1,4 @@
-import { makeAdminToken, safeEqual, json } from './_lib.mjs';
+import { makeToken, safeEqual, json } from './_lib.mjs';
 
 export default async (req) => {
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
@@ -11,7 +11,7 @@ export default async (req) => {
   if (!user || !pass) return json({ error: 'Admin login isn’t set up yet.' }, 503);
   const ok = safeEqual(b.username, user) & safeEqual(b.password, pass);
   if (!ok) return json({ error: 'Invalid username or password.' }, 401);
-  return json({ token: makeAdminToken() });
+  return json({ token: makeToken('admin') });
 };
 
 export const config = { path: '/api/admin-login' };

@@ -33,6 +33,7 @@
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="calendar" class="on">Calendar</button>
       <button role="tab" data-tab="upcoming">Upcoming</button>
+      <button role="tab" data-tab="team">Team</button>
       <button role="tab" data-tab="settings">Settings</button>
     </nav>
     <button class="link-btn" id="logout" type="button">Log out</button>
@@ -62,6 +63,12 @@
     <section id="tab-upcoming" hidden>
       <h2 class="h">Next 14 days</h2>
       <div id="upcoming"></div>
+    </section>
+
+    <section id="tab-team" hidden>
+      <div class="toolbar"><h2 class="h" style="margin:0;flex:1">Barbers</h2><button class="btn btn-sm" id="addEmp">+ Add barber</button></div>
+      <p class="hint" style="color:var(--mute);margin-bottom:16px">Each barber gets their own login at <b>/staff</b> to edit their profile and upload portfolio photos. Profiles show on the website’s “Meet the barbers” section.</p>
+      <div id="teamList"></div>
     </section>
 
     <section id="tab-settings" hidden>

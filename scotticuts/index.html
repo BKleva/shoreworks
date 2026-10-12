@@ -29,6 +29,7 @@
   </a>
   <nav class="nav-links" aria-label="Main">
     <a href="#services">Services</a>
+    <a href="#team" id="navTeam" hidden>Barbers</a>
     <a href="#shop">The Shop</a>
     <a href="#visit">Hours &amp; Visit</a>
     <a class="btn btn-sm" href="#book">Book Now</a>
@@ -91,6 +92,14 @@
   </div>
 </section>
 
+<section class="section" id="team" hidden>
+  <div class="wrap">
+    <p class="kicker">The crew</p>
+    <h2>Meet the Barbers</h2>
+    <div class="team" id="teamGrid"></div>
+  </div>
+</section>
+
 <section class="section" id="shop">
   <div class="wrap shop">
     <figure class="shop-photo">
@@ -138,8 +147,10 @@
 <footer class="footer">
   <img src="images/pole-light.png" alt="" width="14" height="56">
   <p>© <span id="yr">2026</span> ScottiCuts Barbershop · 426 Shore Rd Unit E, Somers Point, NJ</p>
-  <p class="credit"><a class="footer-credit" href="https://shoreworksnj.com" target="_blank" rel="noopener">Site by <img src="images/shoreworks-logo-light.png" width="1327" height="215" alt="Shoreworks" loading="lazy"></a><a class="staff" href="admin">Staff login</a></p>
+  <p class="credit"><a class="footer-credit" href="https://shoreworksnj.com" target="_blank" rel="noopener">Site by <img src="images/shoreworks-logo-light.png" width="1327" height="215" alt="Shoreworks" loading="lazy"></a><span class="logins"><a class="staff" href="staff">Barber login</a><a class="staff" href="admin">Owner login</a></span></p>
 </footer>
+
+<dialog id="lightbox" aria-label="Portfolio photo"><button class="lb-x" type="button" aria-label="Close">✕</button><button class="lb-nav prev" type="button" aria-label="Previous">‹</button><figure><img alt=""><figcaption></figcaption></figure><button class="lb-nav next" type="button" aria-label="Next">›</button></dialog>
 
 <a class="sticky-book" href="#book">Book Now</a>
 

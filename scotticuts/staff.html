@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Barber Portal | ScottiCuts</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="staff.css">
+</head>
+<body class="admin">
+
+<main class="login" id="login">
+  <form class="login-card" id="loginForm">
+    <img src="images/pole-light.png" alt="" width="30" height="120">
+    <h1>Barber Portal</h1>
+    <p class="sub">Manage your profile &amp; portfolio</p>
+    <div class="field"><label for="u">Username</label><input id="u" autocomplete="username" autocapitalize="none" required></div>
+    <div class="field"><label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required></div>
+    <p class="err" id="loginErr" role="alert"></p>
+    <button class="btn" type="submit">Log in</button>
+    <a class="back" href="/">← Back to site</a>
+  </form>
+</main>
+
+<div id="app" hidden>
+  <header class="bar">
+    <a class="brand" href="/"><img src="images/pole-light.png" alt="" width="20" height="80"><span>Scotti<em>Cuts</em></span></a>
+    <span class="who" id="who"></span>
+    <a class="link-btn" href="/#team" target="_blank" rel="noopener">View on site ↗</a>
+    <button class="link-btn" id="logout" type="button">Log out</button>
+  </header>
+
+  <main class="view narrow">
+    <div class="banner" id="asAdmin" hidden></div>
+
+    <h2 class="h">Your profile</h2>
+    <div class="card prof">
+      <div class="avatar-col">
+        <div class="avatar" id="avatar"></div>
+        <label class="btn btn-ghost btn-sm" for="photoIn">Change photo</label>
+        <input type="file" id="photoIn" accept="image/*" hidden>
+        <button class="link-btn" id="photoDel" type="button">Remove</button>
+      </div>
+      <form class="prof-form" id="profForm">
+        <div class="field"><label for="pName">Name</label><input id="pName" maxlength="60" required></div>
+        <div class="field"><label for="pTitle">Title</label><input id="pTitle" maxlength="60" placeholder="Barber · Owner · Master Barber…"></div>
+        <div class="field"><label for="pBio">About you</label><textarea id="pBio" maxlength="800" rows="5" placeholder="Your style, experience, what you love cutting…"></textarea><small class="count" id="bioCount"></small></div>
+        <div class="save-row"><button class="btn" type="submit">Save profile</button><span class="msg" id="profMsg"></span></div>
+      </form>
+    </div>
+
+    <h2 class="h">Portfolio</h2>
+    <p class="hint">Show off your best work. Photos appear on the website under your name. JPG, PNG or WebP — they’re resized automatically. Up to 40.</p>
+    <div class="up-bar">
+      <label class="btn" for="portIn">+ Add photos</label>
+      <input type="file" id="portIn" accept="image/*" multiple hidden>
+      <span class="msg" id="portMsg"></span>
+    </div>
+    <div class="port-grid" id="port"></div>
+
+    <h2 class="h">Password</h2>
+    <form class="card pw" id="pwForm">
+      <div class="field" id="curWrap"><label for="pwCur">Current password</label><input id="pwCur" type="password" autocomplete="current-password"></div>
+      <div class="field"><label for="pwNew">New password (8+ characters)</label><input id="pwNew" type="password" autocomplete="new-password" minlength="8"></div>
+      <div class="save-row"><button class="btn btn-ghost" type="submit">Change password</button><span class="msg" id="pwMsg"></span></div>
+    </form>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="staff.js"></script>
+</body>
+</html>
