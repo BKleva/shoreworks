@@ -79,73 +79,125 @@
   var topic = qs.get('topic'); if (topic && $('#ct')) $('#ct').value = topic;
   var townq = qs.get('town'); if (townq && $('#cm')) $('#cm').value = 'I\'m interested in homes in ' + townq + '.';
 
-  /* ---- search page ---- */
-  var results = $('#results');
-  if (results && $('#f-q')) {
-    var cards = $$('.lcard', results), F = {};
-    ['q', 'town', 'type', 'min', 'max', 'beds', 'baths', 'wf', 'open', 'new'].forEach(function (k) { F[k] = $('#f-' + k); });
-    var sort = $('#sort');
+  /* ---- map + list (Leaflet) ---- */
+  var TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  function pinIcon(label) { return L.divIcon({ className: 'pmwrap', html: '<span class="pm">' + label + '</span>', iconSize: [0, 0] }); }
+  function baseMap(el, view, zoom, wheel) {
+    var m = L.map(el, { zoomControl: true, scrollWheelZoom: wheel }).setView(view, zoom);
+    L.tileLayer(TILES, { attribution: ATTR, maxZoom: 19 }).addTo(m);
+    return m;
+  }
+  $$('.ml-map.static').forEach(function (el) {
+    if (!window.L) return;
+    var p = el.dataset.pin.split(',').map(Number), m = baseMap(el, p, 14, false);
+    L.marker(p, { icon: pinIcon(el.dataset.label) }).addTo(m);
+  });
+
+  $$('[data-maplist]').forEach(function (root) {
+    var results = $('#results', root), cards = $$('.lcard', results), list = $('.ml-list', root), mapEl = $('.ml-map', root);
+    var full = !!$('#f-q', root), sortEl = $('#sort', root), map = null, layer = null, programmatic = false, moveOpt = null;
+    cards.forEach(function (c, i) { c.dataset.i = i; });
+    var c0 = (root.dataset.center || '39.4,-74.55,10').split(',').map(Number);
+
+    if (window.L && mapEl) {
+      map = baseMap(mapEl, [c0[0], c0[1]], c0[2], true);
+      layer = L.layerGroup().addTo(map);
+      cards.forEach(function (card) {
+        var m = L.marker([+card.dataset.lat, +card.dataset.lng], { icon: pinIcon(card.dataset.label), riseOnHover: true });
+        m.on('click', function () { setOn(card, true); list.scrollTo({ top: Math.max(0, card.offsetTop - 90), behavior: 'smooth' }); if (window.innerWidth <= 900) setView('list'); });
+        card._m = m;
+      });
+      if (full) {
+        moveOpt = document.createElement('label'); moveOpt.className = 'ml-moveopt';
+        moveOpt.innerHTML = '<input type="checkbox" checked> Search as I move the map';
+        mapEl.parentNode.appendChild(moveOpt);
+        map.on('moveend', function () { if (!programmatic && $('input', moveOpt).checked) apply(true); });
+        $('input', moveOpt).addEventListener('change', function () { apply(false); });
+      }
+    } else if (mapEl) { mapEl.classList.add('nomap'); mapEl.textContent = 'Map unavailable offline.'; }
+
+    function pinEl(card) { var e = card._m && card._m.getElement(); return e && e.querySelector('.pm'); }
+    function setOn(card, on) {
+      cards.forEach(function (x) { if (x !== card || !on) { x.classList.remove('hl'); var e = pinEl(x); if (e) e.classList.remove('on'); if (x._m) x._m.setZIndexOffset(0); } });
+      if (on) { card.classList.add('hl'); var pe = pinEl(card); if (pe) pe.classList.add('on'); if (card._m) card._m.setZIndexOffset(1000); }
+    }
+    cards.forEach(function (card) {
+      card.addEventListener('mouseenter', function () { setOn(card, true); });
+      card.addEventListener('mouseleave', function () { setOn(card, false); });
+    });
+
+    var val = function (id) { var e = $('#' + id, root); return e ? e.value : ''; };
+    var chk = function (id) { var e = $('#' + id, root); return !!(e && e.checked); };
     var num = function (v) { return parseInt(String(v || '').replace(/[^0-9]/g, ''), 10) || 0; };
-    var townNames = {}; $$('#f-town option').forEach(function (o) { if (o.value) townNames[o.textContent.toLowerCase()] = o.value; });
-    // prefill from URL
-    if (qs.get('q')) { var qv = qs.get('q'); var tk = townNames[qv.toLowerCase()]; if (tk) F.town.value = tk; else F.q.value = qv; }
-    if (qs.get('type')) F.type.value = qs.get('type');
-    if (qs.get('max')) F.max.value = qs.get('max');
-    if (qs.get('min')) F.min.value = qs.get('min');
-    if (qs.get('beds')) F.beds.value = qs.get('beds');
-    if (qs.get('town')) F.town.value = qs.get('town');
-    if (qs.get('baths')) F.baths.value = qs.get('baths');
-    ['wf', 'open', 'new'].forEach(function (k) { if (qs.get(k) === '1') F[k].checked = true; });
-    function apply() {
-      var q = F.q.value.trim().toLowerCase(), min = num(F.min.value), max = num(F.max.value), beds = num(F.beds.value), baths = num(F.baths.value), shown = 0;
-      var wantRental = F.type.value === 'Rental';
+
+    function apply(keepView) {
+      var q = val('f-q').trim().toLowerCase(), min = num(val('f-min')), max = num(val('f-max')), beds = num(val('f-beds')), baths = num(val('f-baths')), type = val('f-type');
+      var useBounds = !!(map && keepView === true && moveOpt && $('input', moveOpt).checked), b = useBounds ? map.getBounds() : null, shown = 0;
       cards.forEach(function (c) {
         var d = c.dataset, price = +d.price, ok = true;
         if (q && d.search.indexOf(q) < 0) ok = false;
-        if (F.town.value && d.town !== F.town.value) ok = false;
-        if (F.type.value && d.type !== F.type.value) ok = false;
-        if (!F.type.value && d.type === 'Rental') ok = false;   // "all types" means for-sale only
+        if (type && d.type !== type) ok = false;
+        if (full && !type && d.type === 'Rental') ok = false;
         if (min && price < min) ok = false;
         if (max && price > max) ok = false;
         if (beds && +d.beds < beds) ok = false;
         if (baths && +d.baths < baths) ok = false;
-        if (F.wf.checked && d.wf !== '1') ok = false;
-        if (F.open.checked && d.open !== '1') ok = false;
-        if (F.new.checked && d.new !== '1') ok = false;
+        if (chk('f-wf') && d.wf !== '1') ok = false;
+        if (chk('f-open') && d.open !== '1') ok = false;
+        if (chk('f-new') && d.new !== '1') ok = false;
+        if (b && !b.contains([+d.lat, +d.lng])) ok = false;
         c.style.display = ok ? '' : 'none'; if (ok) shown++;
       });
-      var s = sort.value, vis = cards.slice().sort(function (a, b) {
-        var A = a.dataset, B = b.dataset;
+      var s = sortEl ? sortEl.value : 'rec';
+      cards.slice().sort(function (a, c) {
+        var A = a.dataset, B = c.dataset;
         if (s === 'plh') return A.price - B.price; if (s === 'phl') return B.price - A.price;
         if (s === 'beds') return B.beds - A.beds; if (s === 'sqft') return B.sqft - A.sqft;
-        return (B.new - A.new) || 0;
-      });
-      vis.forEach(function (c) { results.appendChild(c); });
-      $('#count').textContent = shown; $('#empty').style.display = shown ? 'none' : 'block';
+        return A.i - B.i;
+      }).forEach(function (c) { results.appendChild(c); });
+      var cnt = $('#count', root); if (cnt) cnt.textContent = shown;
+      var em = $('#empty', root); if (em) em.style.display = shown ? 'none' : 'block';
+      if (map) {
+        layer.clearLayers(); var pts = [];
+        cards.forEach(function (c) { if (c.style.display !== 'none') { layer.addLayer(c._m); pts.push([+c.dataset.lat, +c.dataset.lng]); } });
+        if (keepView !== true && pts.length) { programmatic = true; map.fitBounds(pts, { padding: [70, 70], maxZoom: 14, animate: false }); setTimeout(function () { programmatic = false; }, 60); }
+      }
     }
-    Object.keys(F).forEach(function (k) { var el = F[k]; el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', apply); });
-    sort.addEventListener('change', apply);
-    $('#f-reset').addEventListener('click', function () { Object.keys(F).forEach(function (k) { if (F[k].type === 'checkbox') F[k].checked = false; else F[k].value = ''; }); apply(); });
-    $$('[data-view]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        $$('[data-view]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-        var map = b.dataset.view === 'map'; $('#mapph').classList.toggle('show', map); results.style.display = map ? 'none' : '';
+
+    function setView(v) {
+      root.dataset.view = v;
+      $$('[data-mlview]', root).forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mlview === v); });
+      if (v === 'map' && map) setTimeout(function () { map.invalidateSize(); apply(false); }, 30);
+    }
+    $$('[data-mlview]', root).forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.mlview); }); });
+
+    if (full) {
+      var qs2 = new URLSearchParams(location.search), set = function (id, v) { var e = $('#' + id, root); if (e && v) e.value = v; };
+      set('f-q', qs2.get('q') || (qs2.get('town') || '').replace(/-/g, ' ')); set('f-type', qs2.get('type')); set('f-min', qs2.get('min')); set('f-max', qs2.get('max')); set('f-beds', qs2.get('beds')); set('f-baths', qs2.get('baths'));
+      ['wf', 'open', 'new'].forEach(function (k) { if (qs2.get(k) === '1') $('#f-' + k, root).checked = true; });
+      $$('input,select', $('.ml-bar', root)).forEach(function (el) { el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', function () { apply(false); }); });
+      var more = $('#f-more', root), pane = $('#ml-more', root);
+      more.addEventListener('click', function () { pane.hidden = !pane.hidden; more.setAttribute('aria-expanded', !pane.hidden); });
+      $('#f-reset', root).addEventListener('click', function () { $$('input,select', $('.ml-bar', root)).forEach(function (e) { if (e.type === 'checkbox') e.checked = false; else e.value = ''; }); apply(false); });
+      $('#save-search', root).addEventListener('click', function () {
+        var parts = [], q = val('f-q'); if (q) parts.push(q); if (val('f-type')) parts.push(val('f-type')); if (val('f-beds')) parts.push(val('f-beds') + '+ beds');
+        if (val('f-min') || val('f-max')) parts.push((val('f-min') ? money(num(val('f-min'))) : '$0') + '–' + (val('f-max') ? money(num(val('f-max'))) : 'any'));
+        if (chk('f-wf')) parts.push('Waterfront');
+        var pq = new URLSearchParams();
+        [['q', 'f-q'], ['type', 'f-type'], ['min', 'f-min'], ['max', 'f-max'], ['beds', 'f-beds'], ['baths', 'f-baths']].forEach(function (x) { if (val(x[1])) pq.set(x[0], val(x[1])); });
+        ['wf', 'open', 'new'].forEach(function (k) { if (chk('f-' + k)) pq.set(k, '1'); });
+        var s = store.get('bl_searches', []); s.push({ label: parts.join(' · ') || 'All homes', url: '/search/' + (pq.toString() ? '?' + pq.toString() : ''), d: new Date().toLocaleDateString() });
+        store.set('bl_searches', s); toast('Search saved to your account');
       });
-    });
-    $('#save-search').addEventListener('click', function () {
-      var parts = [];
-      if (F.town.value) parts.push(F.town.options[F.town.selectedIndex].text); if (F.q.value) parts.push('“' + F.q.value + '”');
-      if (F.type.value) parts.push(F.type.value); if (F.beds.value) parts.push(F.beds.value + '+ bd');
-      if (F.min.value || F.max.value) parts.push((F.min.value ? money(num(F.min.value)) : '$0') + '–' + (F.max.value ? money(num(F.max.value)) : 'any'));
-      if (F.wf.checked) parts.push('Waterfront');
-      var s = store.get('bl_searches', []); var pq = new URLSearchParams();
-      [['q', F.q], ['town', F.town], ['type', F.type], ['min', F.min], ['max', F.max], ['beds', F.beds], ['baths', F.baths]].forEach(function (x) { if (x[1].value) pq.set(x[0], x[1].value); });
-      ['wf', 'open', 'new'].forEach(function (k) { if (F[k].checked) pq.set(k, '1'); });
-      s.push({ label: parts.join(' · ') || 'All homes', url: '/search/' + (pq.toString() ? '?' + pq.toString() : ''), d: new Date().toLocaleDateString() });
-      store.set('bl_searches', s); toast('Search saved to your account');
-    });
-    apply();
-  }
+    }
+    var bar = $('.ml-bar', root);
+    function barH() { if (bar) root.style.setProperty('--barh', bar.offsetHeight + 'px'); if (map) map.invalidateSize(); }
+    if (bar) { barH(); window.addEventListener('resize', barH); }
+    if (sortEl) sortEl.addEventListener('change', function () { apply(false); });
+    apply(false);
+    if (map) setTimeout(function () { map.invalidateSize(); apply(false); }, 150);
+  });
 
   /* ---- agents directory ---- */
   var grid = $('#agrid');

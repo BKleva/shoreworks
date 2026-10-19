@@ -23,110 +23,7 @@ def write(path, content):
         f.write(content)
 
 # ---------------------------------------------------------------- SVG art
-def _hsl(h, s, l): return "hsl(%d,%d%%,%d%%)" % (h % 360, s, l)
-
-def scene(seed, hue, kind="gable", water=False, w=800, h=600, label=""):
-    r = random.Random(seed)
-    wh = 26 + (hue % 28)  # warm sky: peach to golden
-    sky1, sky2 = _hsl(wh, 78, 86), _hsl(wh + 10, 95, 95)
-    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-label="{E(label)}">',
-         f'<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{sky1}"/><stop offset="1" stop-color="{sky2}"/></linearGradient></defs>',
-         f'<rect width="{w}" height="{h}" fill="url(#s)"/>',
-         f'<circle cx="{r.randint(560,700)}" cy="{r.randint(90,150)}" r="46" fill="#fbd45f" opacity=".9"/>']
-    for i in range(3):
-        cx, cy = r.randint(60, 700), r.randint(50, 200)
-        o.append(f'<g fill="#fff" opacity=".75"><ellipse cx="{cx}" cy="{cy}" rx="60" ry="16"/><ellipse cx="{cx+30}" cy="{cy-10}" rx="38" ry="14"/></g>')
-    horizon = int(h * 0.64)
-    if water:
-        o.append(f'<rect y="{horizon-40}" width="{w}" height="{h-horizon+40}" fill="{_hsl(190,38,50)}"/>')
-        for i in range(6):
-            y = horizon - 30 + i * 22
-            o.append(f'<path d="M0 {y} q50 -12 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>')
-    o.append(f'<path d="M0 {horizon} Q{w/2} {horizon-26} {w} {horizon} V{h} H0Z" fill="{_hsl(hue-60 if not water else 38,35 if not water else 55,66 if not water else 80)}"/>')
-    o.append(f'<rect y="{horizon+30}" width="{w}" height="{h}" fill="{_hsl(hue-70 if not water else 40,32 if not water else 50,56 if not water else 72)}" opacity=".6"/>')
-    body = r.choice(["#f6f0e4", "#e3edf2", "#ecdfc9", "#d3e5da", "#f4dccf", "#e9e3f2"])
-    roof = r.choice(["#37424f", "#5b3a2e", "#2f4358", "#4a4a4a"])
-    door = r.choice(["#c8202f", "#0c2340", "#1f5f8b", "#2e6b4f"])
-    def win(x, y, ww=46, hh=58):
-        return f'<rect x="{x-3}" y="{y-3}" width="{ww+6}" height="{hh+6}" rx="3" fill="#fff"/><rect x="{x}" y="{y}" width="{ww}" height="{hh}" rx="2" fill="#bddcdc"/><path d="M{x+ww/2} {y}V{y+hh}M{x} {y+hh/2}H{x+ww}" stroke="#fff" stroke-width="3"/>'
-    if kind == "gable":
-        x, y, bw, bh = 190, horizon - 150, 420, 170
-        o.append(f'<ellipse cx="400" cy="{horizon+32}" rx="260" ry="18" fill="#000" opacity=".12"/>')
-        o.append(f'<rect x="{x}" y="{y}" width="{bw}" height="{bh}" fill="{body}"/>')
-        o.append(f'<path d="M{x-24} {y+4} L{x+bw/2} {y-100} L{x+bw+24} {y+4}Z" fill="{roof}"/>')
-        o.append(f'<rect x="{x+bw-110}" y="{y-92}" width="30" height="62" fill="#9a5f4b"/>')
-        o.append(win(x+34, y+34) + win(x+130, y+34) + win(x+290, y+34) + win(x+340, y+34, 40, 58))
-        o.append(f'<rect x="{x+bw/2-24}" y="{y+70}" width="48" height="{bh-70}" rx="3" fill="{door}"/><circle cx="{x+bw/2+14}" cy="{y+122}" r="3" fill="#f2b632"/>')
-        o.append(f'<rect x="{x+bw/2-70}" y="{y+bh-10}" width="140" height="10" fill="#cfc7b6"/>')
-    elif kind == "modern":
-        x = 150
-        o.append(f'<ellipse cx="400" cy="{horizon+32}" rx="290" ry="18" fill="#000" opacity=".12"/>')
-        o.append(f'<rect x="{x}" y="{horizon-120}" width="360" height="150" fill="{body}"/>')
-        o.append(f'<rect x="{x+90}" y="{horizon-215}" width="360" height="96" fill="#37424f"/>')
-        o.append(f'<rect x="{x+110}" y="{horizon-198}" width="320" height="62" fill="#bddcdc" opacity=".95"/>')
-        o.append(f'<path d="M{x+110+80} {horizon-198}V{horizon-136}M{x+110+160} {horizon-198}V{horizon-136}M{x+110+240} {horizon-198}V{horizon-136}" stroke="#fff" stroke-width="3"/>')
-        o.append(f'<rect x="{x+20}" y="{horizon-98}" width="200" height="100" fill="#bddcdc" opacity=".95"/><path d="M{x+120} {horizon-98}V{horizon+2}" stroke="#fff" stroke-width="3"/>')
-        o.append(f'<rect x="{x+250}" y="{horizon-90}" width="44" height="92" rx="3" fill="{door}"/>')
-        o.append(f'<rect x="{x+300}" y="{horizon-120}" width="150" height="8" fill="#5b3a2e"/><rect x="{x+300}" y="{horizon-112}" width="150" height="130" fill="{body}" opacity=".0"/>')
-    else:  # tall / condo
-        x = 270
-        o.append(f'<ellipse cx="400" cy="{horizon+32}" rx="200" ry="16" fill="#000" opacity=".12"/>')
-        o.append(f'<rect x="{x}" y="{horizon-280}" width="260" height="310" fill="{body}"/><rect x="{x-10}" y="{horizon-292}" width="280" height="16" fill="{roof}"/>')
-        for rr in range(4):
-            for cc in range(3):
-                wx, wy = x + 26 + cc * 80, horizon - 252 + rr * 72
-                o.append(f'<rect x="{wx}" y="{wy}" width="54" height="42" fill="#bddcdc"/><rect x="{wx-6}" y="{wy+44}" width="66" height="7" fill="#fff"/>')
-        o.append(f'<rect x="{x+100}" y="{horizon-60}" width="60" height="90" rx="3" fill="{door}"/>')
-    if kind != "tall":
-        for tx in (70, 720):
-            o.append(f'<rect x="{tx-5}" y="{horizon-30}" width="10" height="46" fill="#6b4a36"/><circle cx="{tx}" cy="{horizon-52}" r="36" fill="{_hsl(125,35,40)}"/><circle cx="{tx+18}" cy="{horizon-40}" r="26" fill="{_hsl(125,35,46)}"/>')
-    o.append("</svg>")
-    return "".join(o)
-
-def landscape(seed, hue, kind, label=""):
-    """town cards, 800x500"""
-    w, h = 800, 500
-    r = random.Random(seed)
-    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-label="{E(label)}">',
-         f'<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{_hsl(26 + hue % 28,80,84)}"/><stop offset="1" stop-color="{_hsl(36 + hue % 28,95,95)}"/></linearGradient></defs>',
-         f'<rect width="{w}" height="{h}" fill="url(#s)"/><circle cx="{r.randint(100,700)}" cy="100" r="42" fill="#fbd45f" opacity=".9"/>']
-    hz = 300
-    if kind in ("beach", "bay"):
-        o.append(f'<rect y="{hz-40}" width="{w}" height="260" fill="{_hsl(190,38,48)}"/>')
-        for i in range(5):
-            y = hz - 20 + i * 22
-            o.append(f'<path d="M0 {y} q50 -12 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="3"/>')
-        if kind == "beach":
-            o.append(f'<path d="M0 {h-120} Q400 {h-170} {w} {h-110} V{h} H0Z" fill="#f2dfb5"/>')
-            for i in range(3):
-                x = r.randint(120, 680); c = r.choice(["#c8202f", "#f2b632", "#1f5f8b"])
-                o.append(f'<path d="M{x-40} {h-110} A40 40 0 0 1 {x+40} {h-110}Z" fill="{c}"/><rect x="{x-2}" y="{h-110}" width="4" height="46" fill="#6b4a36"/>')
-        else:
-            o.append(f'<path d="M0 {h-70} Q400 {h-110} {w} {h-60} V{h} H0Z" fill="#c9b58a"/><rect x="60" y="{h-130}" width="300" height="10" fill="#6b4a36"/>')
-            for i in range(4): o.append(f'<rect x="{80+i*80}" y="{h-125}" width="8" height="55" fill="#6b4a36"/>')
-            for bx in (480, 640):
-                o.append(f'<path d="M{bx-50} {hz+40} H{bx+50} L{bx+36} {hz+70} H{bx-36}Z" fill="#fff"/><rect x="{bx-2}" y="{hz-60}" width="4" height="100" fill="#37424f"/><path d="M{bx+4} {hz-56} L{bx+44} {hz+26} H{bx+4}Z" fill="#c8202f"/>')
-    elif kind == "farm":
-        for i, (c, y) in enumerate([("#a9c77a", hz), ("#8fb562", hz + 40), ("#779f4c", hz + 90), ("#628a3a", hz + 150)]):
-            o.append(f'<path d="M0 {y} Q{w/2} {y-30-i*6} {w} {y-6} V{h} H0Z" fill="{c}"/>')
-        o.append(f'<rect x="520" y="{hz-70}" width="150" height="100" fill="#b5352f"/><path d="M510 {hz-66} L595 {hz-130} L680 {hz-66}Z" fill="#7a2420"/><rect x="570" y="{hz-30}" width="50" height="60" fill="#f6f0e4"/>')
-        for i in range(5):
-            x = r.randint(60, 420)
-            o.append(f'<rect x="{x}" y="{hz+20}" width="8" height="40" fill="#6b4a36"/><circle cx="{x+4}" cy="{hz+8}" r="30" fill="#4d7a37"/>')
-    else:  # suburb
-        o.append(f'<path d="M0 {hz} Q400 {hz-24} {w} {hz} V{h} H0Z" fill="#9cc473"/><rect y="{h-70}" width="{w}" height="70" fill="#8a8f98"/><rect y="{h-38}" width="{w}" height="4" fill="#fff" opacity=".8"/>')
-        for i in range(3):
-            x = 60 + i * 250; body = r.choice(["#f6f0e4", "#e3edf2", "#ecdfc9", "#f4dccf"]); roof = r.choice(["#37424f", "#5b3a2e", "#2f4358"])
-            o.append(f'<rect x="{x}" y="{hz-60}" width="190" height="90" fill="{body}"/><path d="M{x-12} {hz-58} L{x+95} {hz-130} L{x+202} {hz-58}Z" fill="{roof}"/><rect x="{x+80}" y="{hz-8}" width="30" height="38" rx="2" fill="#c8202f"/><rect x="{x+20}" y="{hz-40}" width="34" height="30" fill="#bddcdc"/><rect x="{x+136}" y="{hz-40}" width="34" height="30" fill="#bddcdc"/>')
-            o.append(f'<rect x="{x+205}" y="{hz-10}" width="8" height="40" fill="#6b4a36"/><circle cx="{x+209}" cy="{hz-26}" r="26" fill="#4d7a37"/>')
-    o.append("</svg>")
-    return "".join(o)
-
-def hero_art():
-    return ('<svg class="hero-art" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
-            '<path d="M0 90 C240 40 480 140 720 90 S1200 40 1440 100 V180 H0Z" fill="#fff" opacity=".18"/>'
-            '<path d="M0 120 C260 70 520 160 780 115 S1220 80 1440 125 V180 H0Z" fill="#fff" opacity=".28"/>'
-            '<path d="M0 150 C300 110 560 180 820 146 S1250 120 1440 150 V180 H0Z" fill="#fff"/></svg>')
+from art import scene, landscape, hero_art, _hsl
 
 def logo(size=46):
     return (f'<svg class="brand-mark" width="{size}" height="{size}" viewBox="0 0 64 64" aria-hidden="true">'
@@ -195,7 +92,7 @@ LEGAL = ("Listing information is deemed reliable but not guaranteed and should b
          "Listing data appears in part through participating MLS programs, including the Cape May County MLS, a voluntary cooperative exchange of property listing data between licensed real estate brokerage firms, and is provided through licensing agreements. "
          "Information is provided for consumers' personal, non-commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing.")
 
-def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og_image="/assets/img/og-default.png", hero=None, prio="0.6", freq="monthly", in_sitemap=True, og_type="website"):
+def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og_image="/assets/img/og-default.png", hero=None, prio="0.6", freq="monthly", in_sitemap=True, og_type="website", bare=False, maps=False):
     url = SITE_URL + path
     full_title = title if SHORT in title else f"{title} | {SHORT}"
     if len(desc) > 160:
@@ -206,6 +103,12 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
     ld = "".join(f'<script type="application/ld+json">{json.dumps(g, ensure_ascii=False, separators=(",", ":"))}</script>' for g in graph)
     robots = '<meta name="robots" content="noindex,nofollow">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">'
     ho = OFFICES[0]
+    topbar = "" if bare else f'''<div class="topbar"><div class="wrap"><span>Serving Atlantic &amp; Cape May Counties since {FOUNDED}</span>
+<span class="tb-links"><a href="tel:{ho['tel']}">{PHONE}</a><a href="/account/">Sign in</a><a href="/agent-portal/">Agent portal</a></span></div></div>'''
+    foot = footer_html()
+    mbar = "" if bare else f'<div class="mobilebar"><a class="btn sm navy" href="tel:{ho["tel"]}">Call us</a><a class="btn sm" href="/search/">Search homes</a></div>'
+    leaflet_css = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">' if maps else ""
+    leaflet_js = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>' if maps else ""
     return f'''<!doctype html>
 <html lang="en-US">
 <head>
@@ -223,13 +126,12 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="/assets/css/site.css">
+{leaflet_css}<link rel="stylesheet" href="/assets/css/site.css">
 {ld}
 </head>
-<body>
+<body{' class="app"' if bare else ''}>
 <a class="skip" href="#main">Skip to main content</a>
-<div class="topbar"><div class="wrap"><span>Serving Atlantic &amp; Cape May Counties since {FOUNDED}</span>
-<span class="tb-links"><a href="tel:{ho['tel']}">{PHONE}</a><a href="/account/">Sign in</a><a href="/agent-portal/">Agent portal</a></span></div></div>
+{topbar}
 <header class="site-header"><div class="wrap">
 <a class="brand" href="/" aria-label="{BRAND} home">{logo()}<span class="brand-name">Balsley Losco<small>Real Estate · Since {FOUNDED}</small></span></a>
 <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
@@ -238,10 +140,10 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
 </div></header>
 {hero or ""}
 <main id="main">{main}</main>
-{footer_html()}
-<div class="mobilebar"><a class="btn sm navy" href="tel:{ho['tel']}">Call us</a><a class="btn sm" href="/search/">Search homes</a></div>
+{foot}
+{mbar}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="/assets/js/site.js" defer></script>
+{leaflet_js}<script src="/assets/js/site.js" defer></script>
 </body>
 </html>'''
 
@@ -286,20 +188,61 @@ def field(label, name, typ="text", req=False, ph="", ac=""):
 
 def lprice(l): return money(l["price"]) + ("/mo" if l["type"] == "Rental" else "")
 
+def ll(l):
+    t = town_of(l); r = random.Random(LISTINGS.index(l) * 31 + 7)
+    return round(t["lat"] + r.uniform(-.008, .008), 5), round(t["lng"] + r.uniform(-.011, .011), 5)
+
+def short_price(l):
+    p = l["price"]
+    if l["type"] == "Rental": return "$%.1fK/mo" % (p / 1000)
+    return "$%.1fM" % (p / 1e6) if p >= 1e6 else "$%dK" % round(p / 1000)
+
+HEART = '<svg viewBox="0 0 24 24"><path d="M12 21s-8-4.9-9.5-10C1.400 7.500 3.800 4.500 7 4.500c2 0 3.700 1 5 2.800 1.300-1.800 3-2.800 5-2.800 3.200 0 5.600 3 4.500 6.500C20 16.100 12 21 12 21z"/></svg>'
+
 def lcard(l):
     t = town_of(l)
     tag = ""
     if l.get("open"): tag = '<span class="tag open">Open house</span>'
     elif l["status"] == "New": tag = '<span class="tag new">New</span>'
     baths = ("%g" % l["baths"])
-    facts = f'<li><b>{l["beds"]}</b> bd</li><li><b>{baths}</b> ba</li><li><b>{l["sqft"]:,}</b> sf</li>'
+    facts = f'<li><b>{l["beds"]}</b> beds</li><li><b>{baths}</b> baths</li><li><b>{l["sqft"]:,}</b> sqft</li>' + (f'<li><b>{l["lot"]}</b> acres</li>' if l["lot"] else "")
     search = f'{l["addr"]} {t["name"]} {t["zip"]} {l["type"]} {l["title"]}'.lower()
-    return (f'<article class="card lcard" data-slug="{l["slug"]}" data-price="{l["price"]}" data-beds="{l["beds"]}" data-baths="{l["baths"]}" data-sqft="{l["sqft"]}" '
+    lat, lng = ll(l)
+    return (f'<article class="card lcard" data-slug="{l["slug"]}" data-price="{l["price"]}" data-label="{short_price(l)}" data-lat="{lat}" data-lng="{lng}" data-beds="{l["beds"]}" data-baths="{l["baths"]}" data-sqft="{l["sqft"]}" '
             f'data-type="{l["type"]}" data-town="{t["slug"]}" data-wf="{int(l["wf"])}" data-open="{int(bool(l.get("open")))}" data-new="{int(l["status"]=="New")}" data-search="{E(search)}">'
-            f'<div class="img"><img src="/assets/img/l-{l["slug"]}.svg" alt="{E(l["title"])} — {E(l["addr"])}, {E(t["name"])}, NJ" width="800" height="600" loading="lazy">{tag}'
-            f'<button class="fav" type="button" aria-pressed="false" aria-label="Save {E(l["addr"])}" data-fav="{l["slug"]}"><svg viewBox="0 0 24 24"><path d="M12 21s-8-4.9-9.5-10C1.400 7.500 3.800 4.500 7 4.500c2 0 3.700 1 5 2.800 1.300-1.800 3-2.800 5-2.800 3.200 0 5.600 3 4.500 6.500C20 16.100 12 21 12 21z"/></svg></button></div>'
-            f'<div class="body"><div class="price">{lprice(l)}</div><p class="addr">{E(l["addr"])}</p><p class="town">{E(t["name"])}, NJ {t["zip"]} · {E(l["type"])}</p><ul class="facts">{facts}</ul></div>'
+            f'<div class="img"><img src="/assets/img/l-{l["slug"]}.svg" alt="{E(l["title"])} — {E(l["addr"])}, {E(t["name"])}, NJ" width="800" height="600" loading="lazy">{tag}</div>'
+            f'<div class="body"><div class="prow"><div class="price">{lprice(l)}</div><button class="fav" type="button" aria-pressed="false" aria-label="Save {E(l["addr"])}" data-fav="{l["slug"]}">{HEART}</button></div>'
+            f'<ul class="facts">{facts}</ul><p class="addr">{E(l["addr"])}, {E(t["name"])}, NJ {t["zip"]}</p></div>'
             f'<a class="cover" href="/listing/{l["slug"]}/">View {E(l["addr"])}, {E(t["name"])}</a></article>')
+
+def _opts(vals, fmt):
+    return "".join(f'<option value="{v}">{fmt(v)}</option>' for v in vals)
+
+def filter_bar():
+    prices = [100000, 200000, 300000, 400000, 500000, 750000, 1000000, 1500000, 2000000]
+    pf = lambda v: "${:,}".format(v)
+    dl = "".join(f'<option value="{E(t["name"])}">' for t in TOWNS)
+    return (f'<form class="ml-bar" role="search" onsubmit="return false"><div class="ml-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>'
+            f'<label class="sr" for="f-q">City, ZIP or address</label><input id="f-q" placeholder="City, ZIP or address" autocomplete="off" list="towns-dl"><datalist id="towns-dl">{dl}</datalist></div>'
+            f'<label class="sr" for="f-min">Min price</label><select id="f-min" class="sel"><option value="">No min</option>{_opts(prices, pf)}</select>'
+            f'<label class="sr" for="f-max">Max price</label><select id="f-max" class="sel"><option value="">No max</option>{_opts(prices[1:] + [3000000], pf)}</select>'
+            f'<label class="sr" for="f-beds">Beds</label><select id="f-beds" class="sel"><option value="">Beds</option>{_opts(range(1, 6), lambda v: f"{v}+ beds")}</select>'
+            f'<label class="sr" for="f-baths">Baths</label><select id="f-baths" class="sel"><option value="">Baths</option>{_opts(range(1, 5), lambda v: f"{v}+ baths")}</select>'
+            f'<label class="sr" for="f-type">Home type</label><select id="f-type" class="sel"><option value="">Home type</option><option>Single Family</option><option>Condo</option><option>Townhouse</option><option>Multi-Family</option><option>Rental</option></select>'
+            f'<button type="button" class="sel more-btn" id="f-more" aria-expanded="false">More filters</button>'
+            f'<button type="button" class="btn dark sm" id="save-search">Save search</button>'
+            f'<div class="ml-more" id="ml-more" hidden><label><input type="checkbox" id="f-wf"> Waterfront / water access</label><label><input type="checkbox" id="f-open"> Open houses</label><label><input type="checkbox" id="f-new"> New listings</label><button type="button" class="btn ghost sm" id="f-reset">Reset all</button></div></form>')
+
+def maplist(ls, heading="homes", full=False, center=None, zoom=11):
+    cx, cy = center or (39.40, -74.55)
+    cards = "".join(lcard(l) for l in ls)
+    return (f'<section class="ml{" full" if full else ""}" data-maplist data-view="list" data-center="{cx},{cy},{zoom}">{filter_bar() if full else ""}'
+            f'<div class="ml-body"><div class="ml-map" role="region" aria-label="Map of homes"></div>'
+            f'<aside class="ml-list" aria-label="Homes for sale"><div class="ml-head"><h2><span id="count">{len(ls)}</span> {heading}</h2>'
+            f'<div><label class="sr" for="sort">Sort</label><select id="sort" class="sel"><option value="rec">Sort: Recommended</option><option value="plh">Price: low to high</option><option value="phl">Price: high to low</option><option value="beds">Most bedrooms</option><option value="sqft">Largest</option></select></div></div>'
+            f'<div class="ml-cards" id="results">{cards}</div><p class="empty" id="empty"><b>No homes match those filters.</b><br>Try widening your search or <a href="/contact/">ask an agent</a> about off-market homes.</p>'
+            f'<p class="note" style="margin-top:18px">Demo listings and pin locations are shown for design purposes. The live MLS/IDX feed replaces them at launch.</p></aside></div>'
+            f'<div class="ml-toggle" role="group" aria-label="View"><button type="button" data-mlview="list" aria-pressed="true">List</button><button type="button" data-mlview="map" aria-pressed="false">Map</button></div></section>')
 
 def tcard(t):
     n = sum(1 for l in LISTINGS if l["town"] == t["slug"])

@@ -80,7 +80,7 @@ def home():
     hero = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div><span class="eyebrow" style="color:var(--gold)">Atlantic &amp; Cape May Counties, NJ</span>
 <h1>Find your place on the <em>Jersey Shore.</em></h1>
 <p class="lead">Search homes, condos and land for sale from Northfield to Ocean City — backed by a locally owned team that has helped neighbors move since {FOUNDED}.</p></div>
-<div class="hero-visual" data-rotator role="region" aria-roledescription="carousel" aria-label="Featured homes"><div class="art">{slides}</div>{floats}<div class="dots">{dots}</div></div></div>
+<div class="hero-visual" data-rotator role="region" aria-roledescription="carousel" aria-label="Featured homes"><div class="art">{slides}{floats}</div><div class="dots">{dots}</div></div></div>
 {search}<div class="quick">{chips}</div></div>{hero_art()}</section>'''
     strip = f'''<section class="strip" aria-label="About us"><div class="wrap"><div><b>{FOUNDED}</b><span>Locally owned since</span></div><div><b>{len(AGENTS)}+</b><span>Local agents on our roster</span></div><div><b>2</b><span>Offices: Northfield &amp; Somers Point</span></div><div><b>{len(TOWNS)}</b><span>Communities we guide you through</span></div></div></section>'''
     featured = "".join(lcard(l) for l in [x for x in LISTINGS if x["type"] != "Rental"][:6])
@@ -104,26 +104,11 @@ def home():
     return layout("Homes for Sale in Atlantic & Cape May County NJ", "Search homes for sale in Northfield, Linwood, Somers Point, Margate, Ventnor and more. Balsley Losco Real Estate — locally owned since 1954. Free home valuation and listing alerts.", "/", main, schema=sch, hero=hero, prio="1.0", freq="daily")
 
 def search_page():
-    opts = "".join(f'<option value="{t["slug"]}">{E(t["name"])}</option>' for t in TOWNS)
-    side = f'''<aside class="filters" aria-label="Search filters"><h2>Filter homes</h2>
-<div class="grp"><label for="f-q" class="sr">Keyword</label><div class="form"><div><label for="f-q">Town, ZIP or address</label><input id="f-q" placeholder="e.g. Linwood or 08225" autocomplete="off"></div>
-<div><label for="f-town">Town</label><select id="f-town"><option value="">All towns</option>{opts}</select></div>
-<div><label for="f-type">Property type</label><select id="f-type"><option value="">All types</option><option>Single Family</option><option>Condo</option><option>Townhouse</option><option>Multi-Family</option><option>Rental</option></select></div>
-<div class="row"><div><label for="f-min">Min price</label><input id="f-min" inputmode="numeric" placeholder="$0"></div><div><label for="f-max">Max price</label><input id="f-max" inputmode="numeric" placeholder="No max"></div></div>
-<div class="row"><div><label for="f-beds">Beds</label><select id="f-beds"><option value="">Any</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div><div><label for="f-baths">Baths</label><select id="f-baths"><option value="">Any</option><option>1</option><option>2</option><option>3</option></select></div></div>
-<div class="consent"><label><input type="checkbox" id="f-wf"> Waterfront / water access</label><label><input type="checkbox" id="f-open"> Open house this weekend</label><label><input type="checkbox" id="f-new"> New listings</label></div>
-<button class="btn ghost block" type="button" id="f-reset">Reset filters</button></div></div></aside>'''
-    cards = "".join(lcard(l) for l in LISTINGS)
-    main = f'''<div class="wrap"><div class="sec" style="padding:30px 0 70px"><div class="sp">{side}<section aria-label="Search results">
-<div class="results-bar"><div><h2 style="margin:0;font-size:1.6rem"><span id="count">{len(LISTINGS)}</span> homes</h2><span class="muted" id="summary">Atlantic &amp; Cape May Counties, NJ</span></div>
-<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" role="group" aria-label="View"><button type="button" aria-pressed="true" data-view="list">List</button><button type="button" aria-pressed="false" data-view="map">Map</button></div>
-<label class="sr" for="sort">Sort</label><select id="sort"><option value="new">Newest</option><option value="plh">Price: low to high</option><option value="phl">Price: high to low</option><option value="beds">Most bedrooms</option><option value="sqft">Largest</option></select>
-<button class="btn sm" type="button" id="save-search">Save search</button></div></div>
-<div class="mapph" id="mapph"><div><h3>Interactive map</h3><p class="muted">The live map search connects to the MLS/IDX feed at launch. Switch back to List to browse homes.</p></div></div>
-<div class="grid g2" id="results">{cards}</div><p class="empty" id="empty"><b>No homes match those filters.</b><br>Try widening your price range or <a href="/contact/">ask an agent</a> to find off-market options.</p>
-<p class="note" style="margin-top:22px">Demo listings are shown for design purposes. The live MLS/IDX feed replaces them at launch.</p></section></div></div></div>'''
-    hero = page_hero("Search homes for sale", "Homes, condos, townhomes and land across Atlantic and Cape May Counties.", [("Home", "/"), ("Search", "/search/")])
-    return layout("Search Homes for Sale in Atlantic County NJ", "Search homes, condos, townhomes and rentals for sale in Atlantic and Cape May Counties, NJ. Filter by town, price, bedrooms and more.", "/search/", main, hero=hero, active="Buy", prio="0.9", freq="daily", schema=[crumb_schema([("Home", "/"), ("Search", "/search/")])])
+    main = '<h1 class="sr">Search homes for sale in Atlantic &amp; Cape May Counties, NJ</h1>' + maplist(LISTINGS, "homes for sale", full=True)
+    seo = ('<section class="sec tint"><div class="wrap prose"><h2>Homes for sale in Atlantic &amp; Cape May Counties</h2><p>Search every active listing from Northfield, Linwood and Somers Point to Margate, Ventnor, Brigantine and Ocean City. '
+           'Use the map to explore neighborhoods, filter by price, bedrooms and home type, and save your search to get alerts when new homes hit the market. '
+           'Looking in a specific town? Browse our <a href="/homes-for-sale/">local area guides</a>, or <a href="/contact/">talk to an agent</a>.</p></div></section>')
+    return layout("Search Homes for Sale in Atlantic County NJ", "Search homes, condos, townhomes and rentals for sale in Atlantic and Cape May Counties, NJ on an interactive map. Filter by price, beds, baths and more.", "/search/", main + seo, active="Buy", prio="0.9", freq="daily", schema=[crumb_schema([("Home", "/"), ("Search", "/search/")])], bare=True, maps=True)
 
 def itemlist(ls, name):
     return {"@context": "https://schema.org", "@type": "ItemList", "name": name, "itemListElement": [
@@ -145,8 +130,7 @@ def town_page(t):
     hl = "".join(f"<li>{E(h)}</li>" for h in t["highlights"])
     bf = "".join(f'<span class="chip dk">{E(b)}</span> ' for b in t["best_for"])
     cr = [("Home", "/"), ("Areas", "/homes-for-sale/"), (t["name"], f"/homes-for-sale/{t['slug']}/")]
-    main = f'''<section class="sec" style="padding-top:44px"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Available now</span><h2>{E(t["name"])} homes for sale</h2></div><a class="btn ghost" href="/search/?q={E(t["name"])}">Search all {E(t["name"])} listings</a></div><div class="grid g3">{cards}</div>
-<p class="note" style="margin-top:22px">Demo listings are shown for design purposes. The live MLS/IDX feed replaces them at launch.</p></div></section>
+    main = f'''<section class="sec" style="padding:30px 0 50px"><div class="wrap">{maplist(ls, f"homes for sale in {t['name']}", center=(t['lat'], t['lng']), zoom=13)}</div></section>
 <section class="sec tint"><div class="wrap"><div class="cols2"><div><span class="eyebrow">About {E(t["name"])}</span><h2>Living in {E(t["name"])}, NJ {t["zip"]}</h2>{"".join(f"<p>{E(p)}</p>" for p in t["intro"])}<p><b>Best for:</b> {bf}</p></div>
 <div class="panel"><h3>Why buyers choose {E(t["name"])}</h3><ul class="checks">{hl}</ul><a class="btn" href="/contact/?topic=buying&amp;town={E(t["name"])}">Talk to a {E(t["name"])} agent</a></div></div></div></section>
 <section class="sec"><div class="wrap narrow"><span class="eyebrow">{E(t["name"])} FAQ</span><h2>Buying a home in {E(t["name"])}</h2>{faq_html(faqs)}
@@ -156,7 +140,7 @@ def town_page(t):
     hero = page_hero(f"Homes for Sale in {E(t['name'])}, NJ", E(t["tagline"]), cr, "Atlantic County" if t["county"] == "Atlantic" else "Cape May County")
     place = {"@context": "https://schema.org", "@type": "Place", "name": f"{t['name']}, NJ", "geo": {"@type": "GeoCoordinates", "latitude": t["lat"], "longitude": t["lng"]}, "containedInPlace": {"@type": "AdministrativeArea", "name": f"{t['county']} County, NJ"}}
     sch = [crumb_schema(cr), faq_schema(faqs), place] + ([itemlist(ls, f"Homes for sale in {t['name']}, NJ")] if ls else [])
-    return layout(f"Homes for Sale in {t['name']}, NJ {t['zip']}", f"Browse {t['name']}, NJ homes for sale, from condos to single-family homes. Local market guide, FAQs, listing alerts and agents from Balsley Losco Real Estate.", f"/homes-for-sale/{t['slug']}/", main, schema=sch, hero=hero, active="Areas", prio="0.9", freq="weekly")
+    return layout(f"Homes for Sale in {t['name']}, NJ {t['zip']}", f"Browse {t['name']}, NJ homes for sale, from condos to single-family homes. Local market guide, FAQs, listing alerts and agents from Balsley Losco Real Estate.", f"/homes-for-sale/{t['slug']}/", main, schema=sch, hero=hero, active="Areas", prio="0.9", freq="weekly", maps=True)
 
 def towns_index():
     cr = [("Home", "/"), ("Areas", "/homes-for-sale/")]
@@ -173,10 +157,10 @@ def category(path, title, h1, lead, desc, flt, intro_html, faqs, active="Buy", e
     ls = [l for l in LISTINGS if flt(l)]
     cr = [("Home", "/"), (h1, path)]
     cards = "".join(lcard(l) for l in ls) or '<p class="muted">No matching demo listings.</p>'
-    main = f'''<section class="sec" style="padding-top:44px"><div class="wrap"><div class="grid g3">{cards}</div><p class="note" style="margin-top:22px">Demo listings are shown for design purposes. The live MLS/IDX feed replaces them at launch.</p></div></section>
+    main = f'''<section class="sec" style="padding:30px 0 50px"><div class="wrap">{maplist(ls, h1.lower())}</div></section>
 <section class="sec tint"><div class="wrap narrow prose">{intro_html}</div></section>{extra}
 <section class="sec"><div class="wrap narrow"><span class="eyebrow">FAQ</span><h2>Common questions</h2>{faq_html(faqs)}</div></section>'''
-    return layout(title, desc, path, main, hero=page_hero(h1, lead, cr), schema=[crumb_schema(cr), faq_schema(faqs), itemlist(ls, h1)], active=active, prio="0.8", freq="weekly")
+    return layout(title, desc, path, main, hero=page_hero(h1, lead, cr), schema=[crumb_schema(cr), faq_schema(faqs), itemlist(ls, h1)], active=active, prio="0.8", freq="weekly", maps=True)
 
 def listing_page(l):
     t = town_of(l)
@@ -197,6 +181,7 @@ def listing_page(l):
 <h2 style="font-size:1.6rem">{E(l["title"])}</h2><p>{E(l["desc"])}</p>
 <h3>Features</h3><ul class="checks">{"".join(f"<li>{E(f)}</li>" for f in l["feats"])}</ul>
 <h3>Property details</h3><dl class="dl">{dl_html}</dl>
+<h3 style="margin-top:30px">Location</h3><div class="ml-map static" data-pin="{ll(l)[0]},{ll(l)[1]}" data-label="{short_price(l)}" role="region" aria-label="Map showing {E(l["addr"])}"></div>
 <h3 style="margin-top:30px">About {E(t["name"])}</h3><p>{E(t["tagline"])} <a href="/homes-for-sale/{t["slug"]}/">Explore homes for sale in {E(t["name"])}</a>.</p>
 {"" if l["type"]=="Rental" else f'<p><a class="btn ghost" href="/buy/mortgage-calculator/?price={l["price"]}">Estimate your monthly payment</a></p>'}
 <p class="note">Demo listing for design purposes — not an actual property for sale.</p></div>
@@ -209,7 +194,7 @@ def listing_page(l):
            "about": {"@type": "House" if l["type"] in ("Single Family",) else "Accommodation", "address": {"@type": "PostalAddress", "streetAddress": l["addr"], "addressLocality": t["name"], "addressRegion": "NJ", "postalCode": t["zip"], "addressCountry": "US"},
                      "numberOfBedrooms": l["beds"], "numberOfBathroomsTotal": l["baths"], "floorSize": {"@type": "QuantitativeValue", "value": l["sqft"], "unitCode": "FTK"}, "yearBuilt": l["year"],
                      "geo": {"@type": "GeoCoordinates", "latitude": t["lat"], "longitude": t["lng"]}}}]
-    return layout(f"{l['addr']}, {t['name']}, NJ — {money_l}", f"{l['beds']} bed, {baths} bath {l['type'].lower()} at {l['addr']}, {t['name']}, NJ {t['zip']} for {money_l}. {l['title']}. Photos, details and showing requests.", f"/listing/{l['slug']}/", main, schema=sch, active="Buy", prio="0.7", freq="weekly")
+    return layout(f"{l['addr']}, {t['name']}, NJ — {money_l}", f"{l['beds']} bed, {baths} bath {l['type'].lower()} at {l['addr']}, {t['name']}, NJ {t['zip']} for {money_l}. {l['title']}. Photos, details and showing requests.", f"/listing/{l['slug']}/", main, schema=sch, active="Buy", prio="0.7", freq="weekly", maps=True)
 
 def agents_index():
     cr = [("Home", "/"), ("Agents", "/agents/")]
