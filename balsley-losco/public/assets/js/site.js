@@ -38,6 +38,25 @@
   });
   paintFavs();
 
+  /* ---- hero listing rotator ---- */
+  var rot = $('[data-rotator]');
+  if (rot) {
+    var sl = $$('.slide', rot), fl = $$('.float', rot), dt = $$('.dots button', rot), cur = 0, timer;
+    function show(n) {
+      cur = (n + sl.length) % sl.length;
+      sl.forEach(function (e, i) { e.classList.toggle('on', i === cur); });
+      fl.forEach(function (e, i) { e.classList.toggle('on', i === cur); });
+      dt.forEach(function (e, i) { if (i === cur) e.setAttribute('aria-current', 'true'); else e.removeAttribute('aria-current'); });
+    }
+    function start() { stop(); if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(function () { show(cur + 1); }, 4500); }
+    function stop() { clearInterval(timer); }
+    dt.forEach(function (b, i) { b.addEventListener('click', function () { show(i); start(); }); });
+    rot.addEventListener('mouseenter', stop); rot.addEventListener('mouseleave', start);
+    rot.addEventListener('focusin', stop); rot.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+    start();
+  }
+
   /* ---- forms (Netlify Forms via AJAX) ---- */
   $$('form[data-ajax]').forEach(function (f) {
     f.addEventListener('submit', function (e) {
@@ -160,7 +179,7 @@
       $('#o-price').textContent = money(price); $('#o-down').textContent = dpPct + '% (' + money(dp) + ')';
       $('#o-total').textContent = money(total); $('#o-pi').textContent = money(pi); $('#o-t').textContent = money(tax); $('#o-i').textContent = money(ins); $('#o-h').textContent = money(hoa);
       $('#o-loan').textContent = money(loan); $('#o-dp').textContent = money(dp);
-      var cols = ['#f2b632', '#c8202f', '#58a6d4', '#9fb3c8'], vals = [pi, tax, ins, hoa];
+      var cols = ['#f2b632', '#c8202f', '#7d1019', '#d9c7a8'], vals = [pi, tax, ins, hoa];
       $('#o-bar').innerHTML = vals.map(function (v, i) { return '<i style="width:' + (total ? v / total * 100 : 0) + '%;background:' + cols[i] + '"></i>'; }).join('');
     }
     $$('input,select', calc).forEach(function (el) { el.addEventListener('input', run); }); run();

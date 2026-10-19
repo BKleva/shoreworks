@@ -27,7 +27,8 @@ def _hsl(h, s, l): return "hsl(%d,%d%%,%d%%)" % (h % 360, s, l)
 
 def scene(seed, hue, kind="gable", water=False, w=800, h=600, label=""):
     r = random.Random(seed)
-    sky1, sky2 = _hsl(hue, 55, 82), _hsl(hue + 25, 70, 94)
+    wh = 26 + (hue % 28)  # warm sky: peach to golden
+    sky1, sky2 = _hsl(wh, 78, 86), _hsl(wh + 10, 95, 95)
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-label="{E(label)}">',
          f'<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{sky1}"/><stop offset="1" stop-color="{sky2}"/></linearGradient></defs>',
          f'<rect width="{w}" height="{h}" fill="url(#s)"/>',
@@ -37,7 +38,7 @@ def scene(seed, hue, kind="gable", water=False, w=800, h=600, label=""):
         o.append(f'<g fill="#fff" opacity=".75"><ellipse cx="{cx}" cy="{cy}" rx="60" ry="16"/><ellipse cx="{cx+30}" cy="{cy-10}" rx="38" ry="14"/></g>')
     horizon = int(h * 0.64)
     if water:
-        o.append(f'<rect y="{horizon-40}" width="{w}" height="{h-horizon+40}" fill="{_hsl(hue+5,55,52)}"/>')
+        o.append(f'<rect y="{horizon-40}" width="{w}" height="{h-horizon+40}" fill="{_hsl(190,38,50)}"/>')
         for i in range(6):
             y = horizon - 30 + i * 22
             o.append(f'<path d="M0 {y} q50 -12 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>')
@@ -47,7 +48,7 @@ def scene(seed, hue, kind="gable", water=False, w=800, h=600, label=""):
     roof = r.choice(["#37424f", "#5b3a2e", "#2f4358", "#4a4a4a"])
     door = r.choice(["#c8202f", "#0c2340", "#1f5f8b", "#2e6b4f"])
     def win(x, y, ww=46, hh=58):
-        return f'<rect x="{x-3}" y="{y-3}" width="{ww+6}" height="{hh+6}" rx="3" fill="#fff"/><rect x="{x}" y="{y}" width="{ww}" height="{hh}" rx="2" fill="#9fc6dd"/><path d="M{x+ww/2} {y}V{y+hh}M{x} {y+hh/2}H{x+ww}" stroke="#fff" stroke-width="3"/>'
+        return f'<rect x="{x-3}" y="{y-3}" width="{ww+6}" height="{hh+6}" rx="3" fill="#fff"/><rect x="{x}" y="{y}" width="{ww}" height="{hh}" rx="2" fill="#bddcdc"/><path d="M{x+ww/2} {y}V{y+hh}M{x} {y+hh/2}H{x+ww}" stroke="#fff" stroke-width="3"/>'
     if kind == "gable":
         x, y, bw, bh = 190, horizon - 150, 420, 170
         o.append(f'<ellipse cx="400" cy="{horizon+32}" rx="260" ry="18" fill="#000" opacity=".12"/>')
@@ -62,9 +63,9 @@ def scene(seed, hue, kind="gable", water=False, w=800, h=600, label=""):
         o.append(f'<ellipse cx="400" cy="{horizon+32}" rx="290" ry="18" fill="#000" opacity=".12"/>')
         o.append(f'<rect x="{x}" y="{horizon-120}" width="360" height="150" fill="{body}"/>')
         o.append(f'<rect x="{x+90}" y="{horizon-215}" width="360" height="96" fill="#37424f"/>')
-        o.append(f'<rect x="{x+110}" y="{horizon-198}" width="320" height="62" fill="#9fc6dd" opacity=".95"/>')
+        o.append(f'<rect x="{x+110}" y="{horizon-198}" width="320" height="62" fill="#bddcdc" opacity=".95"/>')
         o.append(f'<path d="M{x+110+80} {horizon-198}V{horizon-136}M{x+110+160} {horizon-198}V{horizon-136}M{x+110+240} {horizon-198}V{horizon-136}" stroke="#fff" stroke-width="3"/>')
-        o.append(f'<rect x="{x+20}" y="{horizon-98}" width="200" height="100" fill="#9fc6dd" opacity=".95"/><path d="M{x+120} {horizon-98}V{horizon+2}" stroke="#fff" stroke-width="3"/>')
+        o.append(f'<rect x="{x+20}" y="{horizon-98}" width="200" height="100" fill="#bddcdc" opacity=".95"/><path d="M{x+120} {horizon-98}V{horizon+2}" stroke="#fff" stroke-width="3"/>')
         o.append(f'<rect x="{x+250}" y="{horizon-90}" width="44" height="92" rx="3" fill="{door}"/>')
         o.append(f'<rect x="{x+300}" y="{horizon-120}" width="150" height="8" fill="#5b3a2e"/><rect x="{x+300}" y="{horizon-112}" width="150" height="130" fill="{body}" opacity=".0"/>')
     else:  # tall / condo
@@ -74,7 +75,7 @@ def scene(seed, hue, kind="gable", water=False, w=800, h=600, label=""):
         for rr in range(4):
             for cc in range(3):
                 wx, wy = x + 26 + cc * 80, horizon - 252 + rr * 72
-                o.append(f'<rect x="{wx}" y="{wy}" width="54" height="42" fill="#9fc6dd"/><rect x="{wx-6}" y="{wy+44}" width="66" height="7" fill="#fff"/>')
+                o.append(f'<rect x="{wx}" y="{wy}" width="54" height="42" fill="#bddcdc"/><rect x="{wx-6}" y="{wy+44}" width="66" height="7" fill="#fff"/>')
         o.append(f'<rect x="{x+100}" y="{horizon-60}" width="60" height="90" rx="3" fill="{door}"/>')
     if kind != "tall":
         for tx in (70, 720):
@@ -87,11 +88,11 @@ def landscape(seed, hue, kind, label=""):
     w, h = 800, 500
     r = random.Random(seed)
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" role="img" aria-label="{E(label)}">',
-         f'<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{_hsl(hue,60,78)}"/><stop offset="1" stop-color="{_hsl(hue+20,75,94)}"/></linearGradient></defs>',
+         f'<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{_hsl(26 + hue % 28,80,84)}"/><stop offset="1" stop-color="{_hsl(36 + hue % 28,95,95)}"/></linearGradient></defs>',
          f'<rect width="{w}" height="{h}" fill="url(#s)"/><circle cx="{r.randint(100,700)}" cy="100" r="42" fill="#fbd45f" opacity=".9"/>']
     hz = 300
     if kind in ("beach", "bay"):
-        o.append(f'<rect y="{hz-40}" width="{w}" height="260" fill="{_hsl(hue+5,55,50)}"/>')
+        o.append(f'<rect y="{hz-40}" width="{w}" height="260" fill="{_hsl(190,38,48)}"/>')
         for i in range(5):
             y = hz - 20 + i * 22
             o.append(f'<path d="M0 {y} q50 -12 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="3"/>')
@@ -116,7 +117,7 @@ def landscape(seed, hue, kind, label=""):
         o.append(f'<path d="M0 {hz} Q400 {hz-24} {w} {hz} V{h} H0Z" fill="#9cc473"/><rect y="{h-70}" width="{w}" height="70" fill="#8a8f98"/><rect y="{h-38}" width="{w}" height="4" fill="#fff" opacity=".8"/>')
         for i in range(3):
             x = 60 + i * 250; body = r.choice(["#f6f0e4", "#e3edf2", "#ecdfc9", "#f4dccf"]); roof = r.choice(["#37424f", "#5b3a2e", "#2f4358"])
-            o.append(f'<rect x="{x}" y="{hz-60}" width="190" height="90" fill="{body}"/><path d="M{x-12} {hz-58} L{x+95} {hz-130} L{x+202} {hz-58}Z" fill="{roof}"/><rect x="{x+80}" y="{hz-8}" width="30" height="38" rx="2" fill="#c8202f"/><rect x="{x+20}" y="{hz-40}" width="34" height="30" fill="#9fc6dd"/><rect x="{x+136}" y="{hz-40}" width="34" height="30" fill="#9fc6dd"/>')
+            o.append(f'<rect x="{x}" y="{hz-60}" width="190" height="90" fill="{body}"/><path d="M{x-12} {hz-58} L{x+95} {hz-130} L{x+202} {hz-58}Z" fill="{roof}"/><rect x="{x+80}" y="{hz-8}" width="30" height="38" rx="2" fill="#c8202f"/><rect x="{x+20}" y="{hz-40}" width="34" height="30" fill="#bddcdc"/><rect x="{x+136}" y="{hz-40}" width="34" height="30" fill="#bddcdc"/>')
             o.append(f'<rect x="{x+205}" y="{hz-10}" width="8" height="40" fill="#6b4a36"/><circle cx="{x+209}" cy="{hz-26}" r="26" fill="#4d7a37"/>')
     o.append("</svg>")
     return "".join(o)
@@ -214,7 +215,7 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
 <meta name="description" content="{E(desc)}">
 {robots}
 <link rel="canonical" href="{url}">
-<meta name="theme-color" content="#0c2340">
+<meta name="theme-color" content="#a8192a">
 <meta name="geo.region" content="US-NJ"><meta name="geo.placename" content="Northfield, New Jersey">
 <meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{BRAND}"><meta property="og:title" content="{E(full_title)}">
 <meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{SITE_URL}{og_image}">

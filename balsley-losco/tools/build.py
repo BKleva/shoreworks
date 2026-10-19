@@ -44,11 +44,11 @@ def og(path):
     except Exception:
         return
     W, H = 1200, 630
-    im = Image.new("RGB", (W, H), "#0c2340")
+    im = Image.new("RGB", (W, H), "#a8192a")
     d = ImageDraw.Draw(im)
     for y in range(H):
         t = y / H
-        d.line([(0, y), (W, y)], fill=(int(12 + 35 * t), int(35 + 85 * t), int(64 + 105 * t)))
+        d.line([(0, y), (W, y)], fill=(int(111 + 99 * t), int(15 + 52 * t), int(24 + 23 * t)))
     d.ellipse([880, 70, 1080, 270], fill=(242, 182, 50))
     d.polygon([(0, 560), (300, 520), (600, 565), (900, 520), (1200, 560), (1200, 630), (0, 630)], fill=(255, 255, 255))
     def f(n, bold=True):
@@ -60,7 +60,7 @@ def og(path):
     d.text((130, 135), "BL", font=f(48), fill="white", anchor="mm")
     d.text((70, 250), "Balsley Losco", font=f(88), fill="white")
     d.text((70, 360), "Real Estate", font=f(88), fill=(242, 182, 50))
-    d.text((70, 480), "Homes for sale in Atlantic & Cape May Counties, NJ  ·  Since 1954", font=f(30, False), fill=(215, 228, 242))
+    d.text((70, 480), "Homes for sale in Atlantic & Cape May Counties, NJ  ·  Since 1954", font=f(30, False), fill=(255, 231, 213))
     im.save(path, optimize=True)
 
 # ------------------------------------------------------------------ pages
@@ -73,11 +73,14 @@ def home():
 <div class="f"><label for="hb">Beds</label><select id="hb" name="beds"><option value="">Any</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></div>
 <button class="btn" type="submit">Search</button></form>'''
     chips = "".join(f'<a class="chip" href="/homes-for-sale/{t["slug"]}/">{E(t["name"])}</a>' for t in TOWNS[:7]) + '<a class="chip" href="/open-houses/">Open houses</a><a class="chip" href="/waterfront-homes/">Waterfront</a>'
-    vis = scene(3, 205, "modern", True, label="Illustration of a bayfront home")
+    hl = [x for x in LISTINGS if x["type"] != "Rental"][:6]
+    slides = "".join(f'<div class="slide{" on" if i == 0 else ""}"><img src="/assets/img/l-{l["slug"]}.svg" alt="{E(l["title"])} — {E(l["addr"])}, {E(town_of(l)["name"])}, NJ" width="800" height="600"{"" if i == 0 else " loading=lazy"}></div>' for i, l in enumerate(hl))
+    floats = "".join(f'<a class="float{" on" if i == 0 else ""}" href="/listing/{l["slug"]}/"><b>{lprice(l)}</b><span>{E(l["addr"])} · {E(town_of(l)["name"])}</span></a>' for i, l in enumerate(hl))
+    dots = "".join(f'<button type="button" aria-label="Show home {i+1} of {len(hl)}"{" aria-current=true" if i == 0 else ""}></button>' for i in range(len(hl)))
     hero = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div><span class="eyebrow" style="color:var(--gold)">Atlantic &amp; Cape May Counties, NJ</span>
 <h1>Find your place on the <em>Jersey Shore.</em></h1>
 <p class="lead">Search homes, condos and land for sale from Northfield to Ocean City — backed by a locally owned team that has helped neighbors move since {FOUNDED}.</p></div>
-<div class="hero-visual" aria-hidden="true"><div class="art">{vis}</div><div class="float"><b>$1,895,000</b><span>418 Bay Shore Dr · Somers Point</span></div></div></div>
+<div class="hero-visual" data-rotator role="region" aria-roledescription="carousel" aria-label="Featured homes"><div class="art">{slides}</div>{floats}<div class="dots">{dots}</div></div></div>
 {search}<div class="quick">{chips}</div></div>{hero_art()}</section>'''
     strip = f'''<section class="strip" aria-label="About us"><div class="wrap"><div><b>{FOUNDED}</b><span>Locally owned since</span></div><div><b>{len(AGENTS)}+</b><span>Local agents on our roster</span></div><div><b>2</b><span>Offices: Northfield &amp; Somers Point</span></div><div><b>{len(TOWNS)}</b><span>Communities we guide you through</span></div></div></section>'''
     featured = "".join(lcard(l) for l in [x for x in LISTINGS if x["type"] != "Rental"][:6])
@@ -266,7 +269,7 @@ def calculator():
 <div class="row"><div><label for="c-flood">Flood insurance / year ($)</label><input type="number" id="c-flood" value="0" step="50"></div><div><label for="c-hoa">HOA / month ($)</label><input type="number" id="c-hoa" value="0" step="10"></div></div>
 <p class="muted" style="font-size:.82rem;margin:0">Defaults are illustrative only. Rates, taxes and insurance vary by property and lender — NJ property taxes in particular differ widely by town.</p></div>
 <div class="out" aria-live="polite"><p style="margin:0;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem">Estimated monthly payment</p><div class="big" id="o-total">$0</div><div class="bar" id="o-bar"></div>
-<div class="lg"><span><i><span class="dot" style="background:#f2b632"></span>Principal &amp; interest</i><b id="o-pi"></b></span><span><i><span class="dot" style="background:#c8202f"></span>Property tax</i><b id="o-t"></b></span><span><i><span class="dot" style="background:#58a6d4"></span>Insurance (home + flood)</i><b id="o-i"></b></span><span><i><span class="dot" style="background:#9fb3c8"></span>HOA</i><b id="o-h"></b></span></div>
+<div class="lg"><span><i><span class="dot" style="background:#f2b632"></span>Principal &amp; interest</i><b id="o-pi"></b></span><span><i><span class="dot" style="background:#c8202f"></span>Property tax</i><b id="o-t"></b></span><span><i><span class="dot" style="background:#7d1019"></span>Insurance (home + flood)</i><b id="o-i"></b></span><span><i><span class="dot" style="background:#d9c7a8"></span>HOA</i><b id="o-h"></b></span></div>
 <hr style="border:0;border-top:1px solid #ffffff33;margin:20px 0"><p style="margin:0 0 4px">Loan amount: <b id="o-loan" style="color:#fff"></b></p><p style="margin:0 0 18px">Down payment: <b id="o-dp" style="color:#fff"></b></p><a class="btn gold block" href="/buy/pre-approval/">Get pre-approved</a></div></div>
 <div class="prose" style="margin-top:50px"><h2>How to use this mortgage calculator</h2><p>Enter a home price, down payment and rate to see your estimated monthly payment, including property taxes, homeowners insurance and — for shore homes — flood insurance. Remember that closing costs are separate; read our <a href="/guides/new-jersey-closing-costs-and-transfer-fees/">New Jersey closing cost guide</a>.</p></div></div></section>'''
     return layout("Mortgage Calculator — NJ Monthly Payment Estimator", "Estimate your monthly mortgage payment including New Jersey property taxes, homeowners insurance and flood insurance with this free calculator.", "/buy/mortgage-calculator/", main,
