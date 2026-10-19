@@ -82,7 +82,7 @@
     ,{
       "name": "PumpkinCars",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8092", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\pumpkin-cars"],
+      "runtimeArgs": ["-m", "http.server", "8092", "--directory", "C:\\Users\\bklev\\OneDrive\\Pumpkin Cars"],
       "port": 8092
     }
     ,{
@@ -90,6 +90,36 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8093", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\shopping-by-the-shore"],
       "port": 8093
+    }
+    ,{
+      "name": "NonnasGrille",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8094", "--directory", "C:\\Users\\bklev\\OneDrive\\Nonnas Grille"],
+      "port": 8094
+    }
+    ,{
+      "name": "WellBeingFitness",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8095", "--directory", "C:\\Users\\bklev\\OneDrive\\WellBeing Fitness"],
+      "port": 8095
+    }
+    ,{
+      "name": "TiltonMarket",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8096", "--directory", "C:\\Users\\bklev\\OneDrive\\Tilton Market"],
+      "port": 8096
+    }
+    ,{
+      "name": "SquaresAndFare",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8097", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\squares-and-fare"],
+      "port": 8097
+    }
+    ,{
+      "name": "ScottiCuts",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "cd /d C:/Users/bklev/OneDrive/Shorefind/scotticuts && netlify dev --offline --port 8098 --no-open"],
+      "port": 8098
     }
     ,{
       "name": "ReviewCollector",

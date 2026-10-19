@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /account/
+Disallow: /agent-portal/
+Disallow: /thanks/
+Disallow: /search/?*
+
+Sitemap: https://www.blhomes.com/sitemap.xml

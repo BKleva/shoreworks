@@ -1,0 +1,74 @@
+# Balsley Losco Real Estate — static site (built by tools/build.py into /public)
+[build]
+  publish = "public"
+  command = "python tools/build.py"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Old blhomes.com URLs -> new equivalents (preserve SEO equity at cutover)
+[[redirects]]
+  from = "/agents.php"
+  to = "/agents/"
+  status = 301
+[[redirects]]
+  from = "/contact.php"
+  to = "/contact/"
+  status = 301
+[[redirects]]
+  from = "/recruit.php"
+  to = "/careers/"
+  status = 301
+[[redirects]]
+  from = "/fair.php"
+  to = "/fair-housing/"
+  status = 301
+[[redirects]]
+  from = "/privacy.php"
+  to = "/privacy/"
+  status = 301
+[[redirects]]
+  from = "/terms.php"
+  to = "/terms/"
+  status = 301
+[[redirects]]
+  from = "/index.php"
+  to = "/search/"
+  status = 301
+[[redirects]]
+  from = "/seller/valuation/*"
+  to = "/sell/home-value/"
+  status = 301
+[[redirects]]
+  from = "/resources/about-our-company"
+  to = "/about/"
+  status = 301
+[[redirects]]
+  from = "/resources/office-locations"
+  to = "/offices/"
+  status = 301
+[[redirects]]
+  from = "/resources/tips-for-home-buying"
+  to = "/buy/"
+  status = 301
+[[redirects]]
+  from = "/resources/mortgage-calculator"
+  to = "/buy/mortgage-calculator/"
+  status = 301
+[[redirects]]
+  from = "/resources/hear-from-our-agents"
+  to = "/agents/"
+  status = 301
+[[redirects]]
+  from = "/exclusives.php"
+  to = "/search/"
+  status = 301
