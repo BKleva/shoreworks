@@ -222,7 +222,7 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
 <meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Pacifico&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
 {ld}
 </head>
