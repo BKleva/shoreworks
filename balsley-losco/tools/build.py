@@ -255,25 +255,52 @@ def agents_index():
     return layout("Real Estate Agents in Northfield & Somers Point NJ", f"Meet the {len(AGENTS)}+ agents of Balsley Losco Real Estate. Find a local REALTOR® for buying or selling in Atlantic and Cape May Counties.", "/agents/", main,
                   hero=page_hero("Find a local agent", f"{len(AGENTS)} experienced agents serving Atlantic and Cape May Counties.", cr), schema=[crumb_schema(cr)], active="Agents", prio="0.9", freq="weekly")
 
+def agent_areas(a):
+    """Towns an agent serves: towns of their own listings (most active first), padded with neighboring towns; default set otherwise."""
+    mine = [l for l in LISTINGS if (l.get("agent") or "").lower() == a["name"].lower()]
+    counts = {}
+    for l in mine:
+        if l["town"]: counts[l["town"]] = counts.get(l["town"], 0) + 1
+    order = [s for s, _ in sorted(counts.items(), key=lambda kv: -kv[1])]
+    if not order: return ["linwood", "northfield", "somers-point", "margate", "ventnor", "egg-harbor-township", "galloway"], mine
+    i = 0
+    while len(order) < 3 and i < len(order):
+        for n in TOWN[order[i]]["nearby"]:
+            if n not in order: order.append(n)
+        i += 1
+    return order[:7], mine
+
 def agent_page(a):
     cr = [("Home", "/"), ("Agents", "/agents/"), (a["name"], f"/agents/{a['slug']}/")]
     off = OFFICES[0]
-    ph = (f'<img src="{E(a["photo"])}" alt="{E(a["name"])}, {E(a["role"])}" width="640" height="640" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{{className:\'avatar\',textContent:\'{initials(a["name"])}\'}}))">' if a["photo"] else f'<div class="avatar" style="font-size:6rem">{initials(a["name"])}</div>')
+    first = a["name"].split()[0]
+    areas, mine = agent_areas(a)
+    area_names = [TOWN[s]["name"] for s in areas]
+    bg = (mine[0]["img"] if mine and mine[0]["img"] else None) or town_photo(TOWN[areas[0]]) or "/assets/img/placeholder.svg"
+    ph = (f'<img src="{E(a["photo"])}" alt="{E(a["name"])}, {E(a["role"])}" width="300" height="300" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{{className:\'avatar\',textContent:\'{initials(a["name"])}\'}}))">' if a["photo"] else f'<div class="avatar">{initials(a["name"])}</div>')
     langs = ", ".join(x.strip() for x in a["lang"].split(",") if x.strip()) or "English"
-    chips = "".join(f'<a class="chip dk" href="/homes-for-sale/{t["slug"]}/">{E(t["name"])}</a> ' for t in TOWNS)
-    others = "".join(acard(x) for x in AGENTS if x is not a and x["photo"])[:0]
-    main = f'''<section class="sec" style="padding-top:40px"><div class="wrap"><div class="ap"><div><div class="photo">{ph}</div></div>
-<div><span class="eyebrow">{E(a["role"])}</span><h1 style="font-size:2.6rem">{E(a["name"])}</h1><p class="lead">{E(a["name"])} is part of the Balsley Losco Real Estate team in Northfield, NJ, helping buyers and sellers across Atlantic and Cape May Counties.</p>
-<dl class="dl" style="max-width:560px"><div><dt>Brokerage</dt><dd>{BRAND}</dd></div><div><dt>Office</dt><dd>{off["street"]}, {off["city"]}, NJ {off["zip"]}</dd></div><div><dt>Office phone</dt><dd><a href="tel:{off["tel"]}">{off["phone"]}</a></dd></div><div><dt>Languages</dt><dd>{E(langs)}</dd></div></dl>
-<p style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#contact">Contact {E(a["name"].split()[0])}</a><a class="btn ghost" href="tel:{off["tel"]}">Call the office</a><a class="btn ghost" href="/search/">Search homes</a></p>
-<h2 style="font-size:1.4rem;margin-top:34px">Areas we serve</h2><p>{chips}</p></div></div></div></section>
-<section class="sec tint" id="contact"><div class="wrap"><div class="cols2"><div><span class="eyebrow">Get in touch</span><h2>Work with {E(a["name"].split()[0])}</h2><p>Share what you're looking for and {E(a["name"].split()[0])} will follow up. Whether you're buying your first home, selling, or just exploring, there's no obligation.</p><ul class="checks"><li>Local knowledge of Atlantic and Cape May Counties</li><li>Backed by a brokerage serving the area since {FOUNDED}</li><li>Access to every listing in the MLS</li></ul></div>
-<div class="panel">{form("agent-contact", field("Your name", "name", "text", True, "", "name") + field("Email", "email", "email", True, "", "email") + field("Phone", "phone", "tel", False, "", "tel") + '<div><label for="am2">How can we help?</label><textarea id="am2" name="message"></textarea></div>', "Send message", hidden={"agent": a["name"], "agent_id": a["id"]})}</div></div></div></section>'''
+    wave = '<svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 C240 10 480 110 760 70 S1200 20 1440 80 V120 H0Z" fill="#fff" opacity=".55"/><path d="M0 90 C260 40 520 120 800 86 S1240 50 1440 96 V120 H0Z" fill="#fff"/></svg>'
+    hero = f"""<section class="hero home agent"><div class="hero-bg"><div class="slide on"><img src="{E(bg)}" alt="" width="1200" height="800" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=&#39;/assets/img/placeholder.svg&#39;"></div><div class="hero-ov"></div></div>
+<div class="wrap hero-c"><div class="aph">{ph}</div><span class="eyebrow">{E(a["role"])} · Balsley Losco Real Estate</span><h1>{E(a["name"])}</h1>
+<p class="lead">Helping buyers and sellers in {E(", ".join(area_names[:-1]) + (" and " if len(area_names) > 1 else "") + area_names[-1])} — backed by a locally owned brokerage serving Atlantic and Cape May Counties since {FOUNDED}.</p>
+<div class="acta"><a class="btn light" href="#contact">Contact {E(first)}</a><a class="btn ghost-w" href="tel:{off["tel"]}">Call {off["phone"]}</a></div></div>{wave}</section>"""
+    facts = f"""<div class="wrap"><div class="afacts"><div><small>Brokerage</small><b>{BRAND}</b></div><div><small>Office</small><b>{off["street"]}, {off["city"]}, NJ</b></div><div><small>Office phone</small><b><a href="tel:{off["tel"]}">{off["phone"]}</a></b></div><div><small>Languages</small><b>{E(langs)}</b></div></div></div>"""
+    n_big = 3 if len(areas) >= 3 else len(areas)
+    tiles = "".join(tile(TOWN[s], big=i < n_big) for i, s in enumerate(areas))
+    homes = ""
+    if mine:
+        homes = f"""<section class="sec tint"><div class="wrap">{head("Listings", f"Homes Listed by {E(first)}", f"Current Balsley Losco listings represented by {E(a['name'])}.", f'<a class="btn" href="/search/">Search all homes</a>')}<div class="grid g3">{"".join(lcard(l) for l in mine[:9])}</div></div></section>"""
+    main = f"""{facts}
+<section class="sec"><div class="wrap">{head("Explore Atlantic &amp; Cape May Counties", "Featured Communities", "Find your place across the Jersey Shore with curated area searches for island beaches, bayfront neighborhoods, and mainland communities.")}
+<div class="tiles">{tiles}</div></div></section>
+{homes}
+<section class="sec{"" if mine else " tint"}" id="contact"><div class="wrap"><div class="cols2"><div><span class="eyebrow">Get in touch</span><h2>Work with {E(first)}</h2><p>Share what you're looking for and {E(first)} will follow up. Whether you're buying your first home, selling, or just exploring, there's no obligation.</p><ul class="checks"><li>Local knowledge of {E(", ".join(area_names[:3]))} and nearby communities</li><li>Backed by a brokerage serving the area since {FOUNDED}</li><li>Access to every listing in the MLS</li></ul><p><a class="btn ghost" href="/search/">Search homes</a></p></div>
+<div class="panel">{form("agent-contact", field("Your name", "name", "text", True, "", "name") + field("Email", "email", "email", True, "", "email") + field("Phone", "phone", "tel", False, "", "tel") + '<div><label for="am2">How can we help?</label><textarea id="am2" name="message"></textarea></div>', "Send message", hidden={"agent": a["name"], "agent_id": a["id"]})}</div></div></div></section>"""
     sch = [crumb_schema(cr), {"@context": "https://schema.org", "@type": "RealEstateAgent", "@id": f"{SITE_URL}/agents/{a['slug']}/#agent", "name": a["name"], "jobTitle": a["role"], "url": f"{SITE_URL}/agents/{a['slug']}/",
            **({"image": a["photo"]} if a["photo"] else {}), "telephone": off["tel"], "worksFor": {"@id": SITE_URL + "/#org"}, "parentOrganization": {"@id": SITE_URL + "/#org"},
            "address": {"@type": "PostalAddress", "streetAddress": off["street"], "addressLocality": off["city"], "addressRegion": "NJ", "postalCode": off["zip"], "addressCountry": "US"},
-           "knowsLanguage": [x.strip() for x in a["lang"].split(",") if x.strip()] or ["English"], "areaServed": [t["name"] + ", NJ" for t in TOWNS]}]
-    return layout(f"{a['name']} – Northfield NJ Real Estate Agent", f"Contact {a['name']}, {a['role']} with Balsley Losco Real Estate in Northfield, NJ. Local expert for buying and selling homes in Atlantic and Cape May Counties.", f"/agents/{a['slug']}/", main, schema=sch, active="Agents", prio="0.5", freq="monthly")
+           "knowsLanguage": [x.strip() for x in a["lang"].split(",") if x.strip()] or ["English"], "areaServed": [n + ", NJ" for n in area_names]}]
+    return layout(f"{a['name']} – Northfield NJ Real Estate Agent", f"Contact {a['name']}, {a['role']} with Balsley Losco Real Estate. Serving {', '.join(area_names[:3])} and nearby Atlantic and Cape May County communities.", f"/agents/{a['slug']}/", main, schema=sch, active="Agents", prio="0.5", freq="monthly", home=True, hero=hero)
 
 def buy_hub():
     cr = [("Home", "/"), ("Buy", "/buy/")]
