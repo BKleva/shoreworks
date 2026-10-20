@@ -459,7 +459,7 @@ body.home .burger span{background:#fff}
 .hero-bg .slide.on{opacity:1}
 .hero-bg .slide img{width:100%;height:100%;object-fit:cover}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,6,12,.66) 0%,rgba(40,6,12,.22) 36%,rgba(40,6,12,.5) 100%);pointer-events:none}
-.hero.home .hero-c{position:relative;z-index:2;text-align:center;padding-top:190px;padding-bottom:180px}
+.hero.home .hero-c{position:relative;z-index:2;text-align:center;padding-top:215px;padding-bottom:180px}
 .hero.home .eyebrow{color:#fff;opacity:.92}
 .hero.home h1{color:#fff;max-width:17ch;margin:0 auto 18px;font-size:clamp(2.4rem,5vw,3.9rem);text-shadow:0 2px 22px rgba(0,0,0,.4)}
 .hero.home .lead{color:#fff;margin:0 auto 36px;text-align:center;max-width:620px;opacity:.96;text-shadow:0 1px 10px rgba(0,0,0,.35)}
@@ -543,3 +543,12 @@ body.home .burger span{background:#fff}
   .learn{height:260px}.learn-card{padding:18px 26px;font-size:1rem}
   .hero.home .hero-c{padding-top:120px;padding-bottom:130px}
 }
+
+/* real Balsley Losco logo */
+.brand img{height:62px;width:auto;display:block}
+.site-footer .brand img{height:84px}
+body.home .site-header .wrap{align-items:flex-start;padding-top:14px}
+body.home .brand img{height:150px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35))}
+body.home .nav{margin-top:44px}
+body.home .burger{margin-top:40px}
+@media (max-width:900px){body.home .brand img{height:84px}body.home .nav{margin-top:0}.brand img{height:52px}}

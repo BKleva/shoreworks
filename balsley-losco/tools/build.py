@@ -40,6 +40,7 @@ def build_art():
         open(os.path.join(img, f"t-{t['slug']}.svg"), "w", encoding="utf-8").write(landscape(i * 11 + 5, t["hue"], tk[t["slug"]], f"Illustration of {t['name']}, NJ"))
     for i, a in enumerate(ARTICLES):
         open(os.path.join(img, f"a-{a['slug']}.svg"), "w", encoding="utf-8").write(landscape(i * 13 + 2, a["hue"], ["suburb", "beach", "farm", "bay"][i % 4], a["title"]))
+    shutil.copy(os.path.join(ROOT, "tools", "brand", "logo-bl.png"), os.path.join(img, "logo-bl.png"))
     open(os.path.join(img, "logo.svg"), "w", encoding="utf-8").write(logo(128).replace('class="brand-mark" ', '').replace('aria-hidden="true"', 'role="img" aria-label="Balsley Losco Real Estate"'))
     open(os.path.join(OUT, "favicon.svg"), "w", encoding="utf-8").write(logo(64).replace('class="brand-mark" ', ''))
     og(os.path.join(img, "og-default.png"))

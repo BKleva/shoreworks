@@ -27,6 +27,8 @@ def write(path, content):
 # ---------------------------------------------------------------- SVG art
 from art import scene, landscape, hero_art, _hsl
 
+LOGO_IMG = '<img src="/assets/img/logo-bl.png" alt="Balsley Losco Realty" width="470" height="250">'
+
 def logo(size=46):
     return (f'<svg class="brand-mark" width="{size}" height="{size}" viewBox="0 0 64 64" aria-hidden="true">'
             '<circle cx="32" cy="32" r="30" fill="#f2b632"/><circle cx="32" cy="32" r="25" fill="#c8202f"/>'
@@ -60,7 +62,7 @@ def org_schema():
         "@context": "https://schema.org",
         "@graph": [
             {"@type": ["RealEstateAgent", "LocalBusiness"], "@id": SITE_URL + "/#org", "name": BRAND, "alternateName": ["Balsley Losco", "BL Homes"],
-             "url": SITE_URL + "/", "logo": SITE_URL + "/assets/img/logo.svg", "image": SITE_URL + "/assets/img/og-default.png",
+             "url": SITE_URL + "/", "logo": SITE_URL + "/assets/img/logo-bl.png", "image": SITE_URL + "/assets/img/og-default.png",
              "telephone": hq["tel"], "foundingDate": str(FOUNDED), "slogan": "Trust the Name You Know", "address": addr(hq),
              "geo": {"@type": "GeoCoordinates", "latitude": hq["lat"], "longitude": hq["lng"]},
              "areaServed": [{"@type": "City", "name": t["name"] + ", NJ"} for t in TOWNS],
@@ -135,7 +137,7 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
 <a class="skip" href="#main">Skip to main content</a>
 {topbar}
 <header class="site-header"><div class="wrap">
-<a class="brand" href="/" aria-label="{BRAND} home">{logo()}<span class="brand-name">Balsley Losco<small>Real Estate · Since {FOUNDED}</small></span></a>
+<a class="brand" href="/" aria-label="{BRAND} home">{LOGO_IMG}</a>
 <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
 <nav class="nav" id="nav" aria-label="Main"><ul>{nav_html(active)}</ul>
 <div class="nav-cta"><a class="phone" href="tel:{ho['tel']}">{PHONE}</a><a class="btn sm ghost" href="/account/">Sign in</a><a class="btn sm" href="/sell/home-value/">Free home value</a></div></nav>
@@ -154,7 +156,7 @@ def footer_html():
     offs = "".join(f'<p><b style="color:#fff">{E(o["name"].split("– ")[1])}</b><br>{E(o["street"])}<br>{E(o["city"])}, {o["state"]} {o["zip"]}<br><a href="tel:{o["tel"]}">{o["phone"]}</a></p>' for o in OFFICES)
     return f'''<footer class="site-footer"><div class="wrap">
 <div class="fgrid">
-<div><a class="brand" href="/">{logo(42)}<span class="brand-name">Balsley Losco<small>Real Estate</small></span></a>
+<div><a class="brand" href="/">{LOGO_IMG}</a>
 <p style="margin-top:16px">Locally owned and operated since {FOUNDED}. Trust the name you know.</p>
 <p><a href="https://www.facebook.com/blrealty" rel="noopener me" target="_blank">Facebook</a></p></div>
 <div><h4>Buy</h4><ul><li><a href="/search/">Search homes</a></li><li><a href="/open-houses/">Open houses</a></li><li><a href="/condos-for-sale/">Condos for sale</a></li><li><a href="/waterfront-homes/">Waterfront homes</a></li><li><a href="/buy/mortgage-calculator/">Mortgage calculator</a></li><li><a href="/buy/pre-approval/">Get pre-approved</a></li></ul></div>
