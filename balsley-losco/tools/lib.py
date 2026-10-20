@@ -270,7 +270,7 @@ def acard(a):
     langs = f'<p class="langs">Also speaks: {E(a["lang"])}</p>' if a["lang"] and a["lang"].strip() != "English" else ""
     return (f'<article class="card acard" data-name="{E(a["name"].lower())}" data-role="{E(a["role"].lower())}" data-lang="{E(a["lang"].lower())}"><div class="ph">{ph}</div>'
             f'<div class="body"><h3>{E(a["name"])}</h3><p class="role">{E(a["role"])}</p>{langs}'
-            f'<div class="actions"><a class="btn sm ghost" href="/agents/{a["slug"]}/">View profile</a></div></div></article>')
+            f'<div class="actions"><a class="btn sm ghost" href="/agents/{a["slug"]}/" aria-label="Visit the site of {a["name"]}">Visit my site</a></div></div></article>')
 
 AGENTS = []
 def load_agents():
