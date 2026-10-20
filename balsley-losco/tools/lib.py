@@ -14,7 +14,9 @@ def slugify(s):
     return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
 
 TOWN = {t["slug"]: t for t in TOWNS}
-def town_of(l): return TOWN[l["town"]]
+def town_of(l):
+    base = TOWN.get(l["town"], dict(slug="", name=l["city"], county="", tagline=""))
+    return dict(base, zip=l["zip"] or base.get("zip", ""), lat=l["lat"], lng=l["lng"])
 
 def write(path, content):
     p = os.path.join(OUT, path.strip("/"), "index.html") if not path.endswith((".xml", ".txt", ".svg", ".json", ".html", ".toml", "_headers")) else os.path.join(OUT, path.strip("/"))
@@ -108,7 +110,7 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
     foot = footer_html()
     mbar = "" if bare else f'<div class="mobilebar"><a class="btn sm navy" href="tel:{ho["tel"]}">Call us</a><a class="btn sm" href="/search/">Search homes</a></div>'
     leaflet_css = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">' if maps else ""
-    leaflet_js = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>' if maps else ""
+    leaflet_js = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js" defer></script>' if maps else ""
     return f'''<!doctype html>
 <html lang="en-US">
 <head>
@@ -168,7 +170,7 @@ def footer_html():
 def page_hero(h1, lead="", crumbs=None, eyebrow="", extra="", small=True):
     cr = crumbs_html(crumbs) if crumbs else ""
     return (f'<section class="hero{" small" if small else ""}">{cr}<div class="wrap">'
-            f'{f"<span class=eyebrow style=color:var(--gold)>{E(eyebrow)}</span>" if eyebrow else ""}<h1>{h1}</h1>'
+            f'{f"<span class=eyebrow style=color:var(--red)>{E(eyebrow)}</span>" if eyebrow else ""}<h1>{h1}</h1>'
             f'{f"<p class=lead>{lead}</p>" if lead else ""}{extra}</div>{hero_art()}</section>')
 
 # ---------------------------------------------------------------- components
@@ -189,8 +191,7 @@ def field(label, name, typ="text", req=False, ph="", ac=""):
 def lprice(l): return money(l["price"]) + ("/mo" if l["type"] == "Rental" else "")
 
 def ll(l):
-    t = town_of(l); r = random.Random(LISTINGS.index(l) * 31 + 7)
-    return round(t["lat"] + r.uniform(-.008, .008), 5), round(t["lng"] + r.uniform(-.011, .011), 5)
+    return round(l["lat"], 5), round(l["lng"], 5)
 
 def short_price(l):
     p = l["price"]
@@ -203,14 +204,16 @@ def lcard(l):
     t = town_of(l)
     tag = ""
     if l.get("open"): tag = '<span class="tag open">Open house</span>'
+    elif l["status"] == "Reduced": tag = '<span class="tag new">Price reduced</span>'
     elif l["status"] == "New": tag = '<span class="tag new">New</span>'
+    elif l.get("label"): tag = f'<span class="tag">{E(l["label"])}</span>'
     baths = ("%g" % l["baths"])
     facts = f'<li><b>{l["beds"]}</b> beds</li><li><b>{baths}</b> baths</li><li><b>{l["sqft"]:,}</b> sqft</li>' + (f'<li><b>{l["lot"]}</b> acres</li>' if l["lot"] else "")
     search = f'{l["addr"]} {t["name"]} {t["zip"]} {l["type"]} {l["title"]}'.lower()
     lat, lng = ll(l)
     return (f'<article class="card lcard" data-slug="{l["slug"]}" data-price="{l["price"]}" data-label="{short_price(l)}" data-lat="{lat}" data-lng="{lng}" data-beds="{l["beds"]}" data-baths="{l["baths"]}" data-sqft="{l["sqft"]}" '
-            f'data-type="{l["type"]}" data-town="{t["slug"]}" data-wf="{int(l["wf"])}" data-open="{int(bool(l.get("open")))}" data-new="{int(l["status"]=="New")}" data-search="{E(search)}">'
-            f'<div class="img"><img src="/assets/img/l-{l["slug"]}.svg" alt="{E(l["title"])} — {E(l["addr"])}, {E(t["name"])}, NJ" width="800" height="600" loading="lazy">{tag}</div>'
+            f'data-type="{l["type"]}" data-town="{t["slug"]}" data-wf="{int(l["wf"])}" data-open="{int(bool(l.get("open")))}" data-new="{int(l["status"] in ("New", "Reduced"))}" data-search="{E(search)}">'
+            f'<div class="img"><img src="{E(l["img"])}" alt="{E(l["title"])} — {E(l["addr"])}, {E(t["name"])}, NJ" width="800" height="600" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=&#39;/assets/img/placeholder.svg&#39;">{tag}</div>'
             f'<div class="body"><div class="prow"><div class="price">{lprice(l)}</div><button class="fav" type="button" aria-pressed="false" aria-label="Save {E(l["addr"])}" data-fav="{l["slug"]}">{HEART}</button></div>'
             f'<ul class="facts">{facts}</ul><p class="addr">{E(l["addr"])}, {E(t["name"])}, NJ {t["zip"]}</p></div>'
             f'<a class="cover" href="/listing/{l["slug"]}/">View {E(l["addr"])}, {E(t["name"])}</a></article>')
@@ -231,17 +234,17 @@ def filter_bar():
             f'<label class="sr" for="f-type">Home type</label><select id="f-type" class="sel"><option value="">Home type</option><option>Single Family</option><option>Condo</option><option>Townhouse</option><option>Multi-Family</option><option>Rental</option></select>'
             f'<button type="button" class="sel more-btn" id="f-more" aria-expanded="false">More filters</button>'
             f'<button type="button" class="btn dark sm" id="save-search">Save search</button>'
-            f'<div class="ml-more" id="ml-more" hidden><label><input type="checkbox" id="f-wf"> Waterfront / water access</label><label><input type="checkbox" id="f-open"> Open houses</label><label><input type="checkbox" id="f-new"> New listings</label><button type="button" class="btn ghost sm" id="f-reset">Reset all</button></div></form>')
+            f'<div class="ml-more" id="ml-more" hidden><label><input type="checkbox" id="f-wf"> Waterfront / water access</label><label><input type="checkbox" id="f-open"> Open houses</label><label><input type="checkbox" id="f-new"> New / price reduced</label><button type="button" class="btn ghost sm" id="f-reset">Reset all</button></div></form>')
 
 def maplist(ls, heading="homes", full=False, center=None, zoom=11):
     cx, cy = center or (39.40, -74.55)
     cards = "".join(lcard(l) for l in ls)
     return (f'<section class="ml{" full" if full else ""}" data-maplist data-view="list" data-center="{cx},{cy},{zoom}">{filter_bar() if full else ""}'
             f'<div class="ml-body"><div class="ml-map" role="region" aria-label="Map of homes"></div>'
-            f'<aside class="ml-list" aria-label="Homes for sale"><div class="ml-head"><h2><span id="count">{len(ls)}</span> {heading}</h2>'
+            f'<aside class="ml-list" aria-label="Homes for sale"><div class="ml-head"><h2><span id="count">{len([x for x in ls if x["type"] != "Rental"]) if full else len(ls)}</span> {heading}</h2>'
             f'<div><label class="sr" for="sort">Sort</label><select id="sort" class="sel"><option value="rec">Sort: Recommended</option><option value="plh">Price: low to high</option><option value="phl">Price: high to low</option><option value="beds">Most bedrooms</option><option value="sqft">Largest</option></select></div></div>'
             f'<div class="ml-cards" id="results">{cards}</div><p class="empty" id="empty"><b>No homes match those filters.</b><br>Try widening your search or <a href="/contact/">ask an agent</a> about off-market homes.</p>'
-            f'<p class="note" style="margin-top:18px">Demo listings and pin locations are shown for design purposes. The live MLS/IDX feed replaces them at launch.</p></aside></div>'
+            f'<p class="note" style="margin-top:18px">Listings are a snapshot from the Balsley Losco website (October 2026). Pin locations are approximate. The live MLS/IDX feed keeps listings, photos and map pins current at launch.</p></aside></div>'
             f'<div class="ml-toggle" role="group" aria-label="View"><button type="button" data-mlview="list" aria-pressed="true">List</button><button type="button" data-mlview="map" aria-pressed="false">Map</button></div></section>')
 
 def tcard(t):

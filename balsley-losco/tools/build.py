@@ -8,6 +8,18 @@ TODAY = datetime.date.today().isoformat()
 ISLAND = {"ventnor", "margate", "brigantine", "ocean-city"}
 SP_OFFICE = {"somers-point", "ocean-city", "linwood", "margate"}
 
+def pick_listings(n):
+    """Showcase picks: highest-priced for-sale listing per town, then fill."""
+    sale = sorted([x for x in LISTINGS if x["type"] != "Rental" and x["img"] and x["town"]], key=lambda x: -x["price"])
+    out, seen = [], set()
+    for x in sale:
+        if x["town"] not in seen and x["price"] < 4000000: out.append(x); seen.add(x["town"])
+        if len(out) >= n: break
+    for x in sale:
+        if len(out) >= n: break
+        if x not in out and x["price"] < 4000000: out.append(x)
+    return out
+
 def clean():
     for d in ("assets/img",):
         shutil.rmtree(os.path.join(OUT, d), ignore_errors=True)
@@ -21,13 +33,7 @@ def clean():
 # ------------------------------------------------------------------ art + static files
 def build_art():
     img = os.path.join(OUT, "assets", "img")
-    kinds = {"Condo": "tall", "Rental": "tall", "Multi-Family": "gable"}
-    for i, l in enumerate(LISTINGS):
-        k = kinds.get(l["type"]) or ("modern" if l["year"] >= 2015 and l["price"] > 700000 else "gable")
-        t = town_of(l)
-        for n, (kk, sd) in enumerate([(k, i), ("gable" if k != "gable" else "modern", i + 50), ("tall" if k != "tall" else "gable", i + 90)]):
-            name = f"l-{l['slug']}.svg" if n == 0 else f"l-{l['slug']}-{n+1}.svg"
-            open(os.path.join(img, name), "w", encoding="utf-8").write(scene(sd * 7 + 3, l["hue"], kk, l["wf"], label=f"{l['title']} in {t['name']}, NJ"))
+    open(os.path.join(img, "placeholder.svg"), "w", encoding="utf-8").write(scene(11, 18, "gable", False, label="Photo coming soon"))
     tk = {"northfield": "suburb", "linwood": "suburb", "egg-harbor-township": "suburb", "hamilton-township": "farm", "galloway": "farm", "ventnor": "beach",
           "hammonton": "farm", "somers-point": "bay", "margate": "beach", "absecon": "suburb", "brigantine": "beach", "ocean-city": "beach"}
     for i, t in enumerate(TOWNS):
@@ -73,17 +79,18 @@ def home():
 <div class="f"><label for="hb">Beds</label><select id="hb" name="beds"><option value="">Any</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></div>
 <button class="btn" type="submit">Search</button></form>'''
     chips = "".join(f'<a class="chip" href="/homes-for-sale/{t["slug"]}/">{E(t["name"])}</a>' for t in TOWNS[:7]) + '<a class="chip" href="/open-houses/">Open houses</a><a class="chip" href="/waterfront-homes/">Waterfront</a>'
-    hl = [x for x in LISTINGS if x["type"] != "Rental"][:6]
-    slides = "".join(f'<div class="slide{" on" if i == 0 else ""}"><img src="/assets/img/l-{l["slug"]}.svg" alt="{E(l["title"])} — {E(l["addr"])}, {E(town_of(l)["name"])}, NJ" width="800" height="600"{"" if i == 0 else " loading=lazy"}></div>' for i, l in enumerate(hl))
+    picks = pick_listings(12)
+    hl = picks[:6]
+    slides = "".join(f'<div class="slide{" on" if i == 0 else ""}"><img src="{E(l["img"])}" alt="{E(l["title"])} — {E(l["addr"])}, {E(town_of(l)["name"])}, NJ" width="800" height="600"{"" if i == 0 else " loading=lazy"} referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=&#39;/assets/img/placeholder.svg&#39;"></div>' for i, l in enumerate(hl))
     floats = "".join(f'<a class="float{" on" if i == 0 else ""}" href="/listing/{l["slug"]}/"><b>{lprice(l)}</b><span>{E(l["addr"])} · {E(town_of(l)["name"])}</span></a>' for i, l in enumerate(hl))
     dots = "".join(f'<button type="button" aria-label="Show home {i+1} of {len(hl)}"{" aria-current=true" if i == 0 else ""}></button>' for i in range(len(hl)))
-    hero = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div><span class="eyebrow" style="color:var(--gold)">Atlantic &amp; Cape May Counties, NJ</span>
+    hero = f'''<section class="hero"><div class="wrap"><div class="hero-grid"><div><span class="eyebrow" style="color:var(--red)">Atlantic &amp; Cape May Counties, NJ</span>
 <h1>Find your place on the <em>Jersey Shore.</em></h1>
 <p class="lead">Search homes, condos and land for sale from Northfield to Ocean City — backed by a locally owned team that has helped neighbors move since {FOUNDED}.</p></div>
 <div class="hero-visual" data-rotator role="region" aria-roledescription="carousel" aria-label="Featured homes"><div class="art">{slides}{floats}</div><div class="dots">{dots}</div></div></div>
 {search}<div class="quick">{chips}</div></div>{hero_art()}</section>'''
     strip = f'''<section class="strip" aria-label="About us"><div class="wrap"><div><b>{FOUNDED}</b><span>Locally owned since</span></div><div><b>{len(AGENTS)}+</b><span>Local agents on our roster</span></div><div><b>2</b><span>Offices: Northfield &amp; Somers Point</span></div><div><b>{len(TOWNS)}</b><span>Communities we guide you through</span></div></div></section>'''
-    featured = "".join(lcard(l) for l in [x for x in LISTINGS if x["type"] != "Rental"][:6])
+    featured = "".join(lcard(l) for l in picks[6:12])
     towns = "".join(tcard(t) for t in TOWNS[:9])
     steps = '''<div class="grid g3"><div class="card pcard body"><div class="num">1</div><h3>Search &amp; save</h3><p>Filter by town, price, bedrooms and property type. Save favorite homes and searches to your free account.</p></div>
 <div class="card pcard body"><div class="num">2</div><h3>Get pre-approved</h3><p>Know your budget before you tour. Our partner lenders offer low rates and local underwriting to keep closings on track.</p></div>
@@ -92,10 +99,10 @@ def home():
     art = "".join(f'<a class="card arcard" href="/guides/{a["slug"]}/"><div class="img"><img src="/assets/img/a-{a["slug"]}.svg" alt="" width="800" height="500" loading="lazy"></div><div class="body"><div class="meta">{a["read"]} min read</div><h3>{E(a["title"])}</h3></div></a>' for a in ARTICLES[:3])
     main = f'''{strip}
 <section class="sec"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Fresh on the market</span><h2>Featured homes for sale</h2></div><a class="btn ghost" href="/search/">See all homes</a></div>
-<div class="grid g3">{featured}</div><p class="note" style="margin-top:22px">Demo listings are shown for design purposes. The live MLS/IDX feed replaces them at launch.</p></div></section>
+<div class="grid g3">{featured}</div><p class="note" style="margin-top:22px">Listings are a snapshot from the Balsley Losco website (October 2026). The live MLS/IDX feed keeps them current at launch.</p></div></section>
 <section class="sec tint"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Explore by community</span><h2>Homes for sale across Atlantic &amp; Cape May Counties</h2></div><a class="btn ghost" href="/homes-for-sale/">All areas</a></div><div class="grid g3">{towns}</div></div></section>
 <section class="sec"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">How it works</span><h2>Your path from search to keys</h2></div></div>{steps}</div></section>
-<section class="sec sea"><div class="wrap"><div class="band"><div><span class="eyebrow" style="color:var(--gold)">Thinking of selling?</span><h2>What's your home worth today?</h2><p>Get a free, no-obligation valuation from a local agent who knows your street — not just an algorithm.</p><a class="btn gold" href="/sell/home-value/">Get my free home value</a></div>
+<section class="sec sea"><div class="wrap"><div class="band"><div><span class="eyebrow" style="color:var(--red)">Thinking of selling?</span><h2>What's your home worth today?</h2><p>Get a free, no-obligation valuation from a local agent who knows your street — not just an algorithm.</p><a class="btn gold" href="/sell/home-value/">Get my free home value</a></div>
 <div class="panel" style="color:var(--ink)"><h3>Instant listing alerts</h3><p class="muted">New listings and price drops straight to your inbox.</p>{form("alerts-home", field("Email", "email", "email", True, "you@email.com", "email") + '<div><label for="am">Looking in</label><select id="am" name="area">' + "".join(f"<option>{E(t['name'])}</option>" for t in TOWNS) + '</select></div>', "Send me alerts", consent=False)}</div></div></div></section>
 <section class="sec"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Meet the team</span><h2>Local agents who know the neighborhood</h2></div><a class="btn ghost" href="/agents/">All {len(AGENTS)} agents</a></div><div class="grid g6">{ag}</div></div></section>
 <section class="sec tint"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Guides</span><h2>Buyer &amp; seller resources</h2></div><a class="btn ghost" href="/guides/">All guides</a></div><div class="grid g3">{art}</div></div></section>
@@ -104,7 +111,7 @@ def home():
     return layout("Homes for Sale in Atlantic & Cape May County NJ", "Search homes for sale in Northfield, Linwood, Somers Point, Margate, Ventnor and more. Balsley Losco Real Estate — locally owned since 1954. Free home valuation and listing alerts.", "/", main, schema=sch, hero=hero, prio="1.0", freq="daily")
 
 def search_page():
-    main = '<h1 class="sr">Search homes for sale in Atlantic &amp; Cape May Counties, NJ</h1>' + maplist(LISTINGS, "homes for sale", full=True)
+    main = '<h1 class="sr">Search homes for sale in Atlantic &amp; Cape May Counties, NJ</h1>' + maplist(LISTINGS, "homes for sale", full=True, center=(39.40, -74.56), zoom=11)
     seo = ('<section class="sec tint"><div class="wrap prose"><h2>Homes for sale in Atlantic &amp; Cape May Counties</h2><p>Search every active listing from Northfield, Linwood and Somers Point to Margate, Ventnor, Brigantine and Ocean City. '
            'Use the map to explore neighborhoods, filter by price, bedrooms and home type, and save your search to get alerts when new homes hit the market. '
            'Looking in a specific town? Browse our <a href="/homes-for-sale/">local area guides</a>, or <a href="/contact/">talk to an agent</a>.</p></div></section>')
@@ -162,38 +169,57 @@ def category(path, title, h1, lead, desc, flt, intro_html, faqs, active="Buy", e
 <section class="sec"><div class="wrap narrow"><span class="eyebrow">FAQ</span><h2>Common questions</h2>{faq_html(faqs)}</div></section>'''
     return layout(title, desc, path, main, hero=page_hero(h1, lead, cr), schema=[crumb_schema(cr), faq_schema(faqs), itemlist(ls, h1)], active=active, prio="0.8", freq="weekly", maps=True)
 
+def gallery_urls(l):
+    base = re.sub(r"-1\.jpg.*$", "", l["img"])
+    return [l["img"], base + "-2.jpg", base + "-3.jpg"] if l["img"].endswith("-1.jpg") else [l["img"]]
+
 def listing_page(l):
     t = town_of(l)
-    cr = [("Home", "/"), ("Search", "/search/"), (t["name"], f"/homes-for-sale/{t['slug']}/"), (l["addr"], f"/listing/{l['slug']}/")]
+    cr = [("Home", "/"), ("Search", "/search/")]
+    if l["town"]: cr.append((t["name"], f"/homes-for-sale/{t['slug']}/"))
+    cr.append((l["addr"], f"/listing/{l['slug']}/"))
     baths = "%g" % l["baths"]
-    imgs = [f"/assets/img/l-{l['slug']}.svg", f"/assets/img/l-{l['slug']}-2.svg", f"/assets/img/l-{l['slug']}-3.svg"]
-    alts = [f"{l['title']} — front exterior", f"{l['addr']} — alternate view", f"{l['addr']} — neighborhood view"]
-    gal = f'<div class="gal"><img src="{imgs[0]}" alt="{E(alts[0])}" width="800" height="600"><div class="side"><img src="{imgs[1]}" alt="{E(alts[1])}" width="800" height="600" loading="lazy"><img src="{imgs[2]}" alt="{E(alts[2])}" width="800" height="600" loading="lazy"></div></div>'
-    dl = [("Property type", l["type"]), ("Year built", l["year"]), ("Lot size", f"{l['lot']} acres" if l["lot"] else "—"), ("Waterfront", "Yes" if l["wf"] else "No"),
-          ("Listing office", BRAND), ("MLS #", "SAMPLE-" + str(1000 + LISTINGS.index(l)))]
+    imgs = gallery_urls(l)
+    hide = "this.style.display='none'"
+    def im(u, a, lazy):
+        return f'<img src="{E(u)}" alt="{E(a)}" width="800" height="600" referrerpolicy="no-referrer" onload="this.closest(&#39;.gal&#39;).classList.add(&#39;multi&#39;)" onerror="{hide}">'
+    first = f'<img src="{E(imgs[0])}" alt="{E(l["title"])} — {E(l["addr"])}, {E(t["name"])}, NJ" width="800" height="600" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'/assets/img/placeholder.svg\'">'
+    side = "".join(im(u, f"{l['addr']} — photo {i+2}", True) for i, u in enumerate(imgs[1:]))
+    gal = f'<div class="gal">{first}<div class="side">{side}</div></div>' if side else f'<div class="gal one">{first}</div>'
+    dl = [("Property type", l["type"]), ("Year built", l["year"] or "—"), ("Lot size", f"{l['lot']} acres" if l["lot"] else "—"), ("Waterfront / water views", "Yes" if l["wf"] else "—"),
+          ("Neighborhood", (l.get("feats") or [""])[0].replace("Neighborhood: ", "") if (l.get("feats") and l["feats"][0].startswith("Neighborhood")) else "—"), ("MLS #", l["mls"] or "—"), ("Listing office", BRAND)]
     dl_html = "".join(f"<div><dt>{a}</dt><dd>{E(b)}</dd></div>" for a, b in dl)
-    similar = [x for x in LISTINGS if x is not l and (x["town"] == l["town"] or x["type"] == l["type"])][:3]
+    similar = [x for x in LISTINGS if x is not l and x["type"] == l["type"] and (x["town"] == l["town"] or abs(x["price"] - l["price"]) < l["price"] * .3)][:3]
     sim = "".join(lcard(x) for x in similar)
     money_l = lprice(l)
+    ag = next((a for a in AGENTS if a["name"].lower() == (l.get("agent") or "").lower()), None)
+    agent_html = ""
+    if ag:
+        ph = f'<img src="{E(ag["photo"])}" alt="" width="64" height="64" referrerpolicy="no-referrer" style="width:64px;height:64px;border-radius:50%;object-fit:cover">' if ag["photo"] else f'<div class="avatar" style="width:64px;height:64px;border-radius:50%;font-size:1.2rem">{initials(ag["name"])}</div>'
+        agent_html = f'<a href="/agents/{ag["slug"]}/" style="display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;margin-bottom:18px">{ph}<span><small class="muted">Listed by</small><br><b>{E(ag["name"])}</b><br><small class="muted">{E(ag["role"])}</small></span></a>'
+    about = f'<h3 style="margin-top:30px">About {E(t["name"])}</h3><p>{E(t["tagline"])} <a href="/homes-for-sale/{t["slug"]}/">Explore homes for sale in {E(t["name"])}</a>.</p>' if l["town"] else ""
+    feats = "".join(f"<li>{E(f)}</li>" for f in l["feats"]) or "<li>Contact us for full details</li>"
+    lat, lng = ll(l)
     main = f'''<div class="wrap" style="padding-top:22px">{gal}
 <div class="ld"><div><span class="eyebrow">{E(l["type"])} for {"rent" if l["type"]=="Rental" else "sale"} · {E(t["name"])}, NJ</span><h1 style="font-size:2.1rem">{E(l["addr"])}, {E(t["name"])}, NJ {t["zip"]}</h1><div class="price">{money_l}</div>
-<div class="keyfacts"><div><b>{l["beds"]}</b><span>Beds</span></div><div><b>{baths}</b><span>Baths</span></div><div><b>{l["sqft"]:,}</b><span>Sq ft</span></div><div><b>{l["year"]}</b><span>Built</span></div></div>
+<div class="keyfacts"><div><b>{l["beds"]}</b><span>Beds</span></div><div><b>{baths}</b><span>Baths</span></div><div><b>{l["sqft"]:,}</b><span>Sq ft</span></div><div><b>{l["year"] or "—"}</b><span>Built</span></div></div>
 <h2 style="font-size:1.6rem">{E(l["title"])}</h2><p>{E(l["desc"])}</p>
-<h3>Features</h3><ul class="checks">{"".join(f"<li>{E(f)}</li>" for f in l["feats"])}</ul>
+<h3>Highlights</h3><ul class="checks">{feats}</ul>
 <h3>Property details</h3><dl class="dl">{dl_html}</dl>
-<h3 style="margin-top:30px">Location</h3><div class="ml-map static" data-pin="{ll(l)[0]},{ll(l)[1]}" data-label="{short_price(l)}" role="region" aria-label="Map showing {E(l["addr"])}"></div>
-<h3 style="margin-top:30px">About {E(t["name"])}</h3><p>{E(t["tagline"])} <a href="/homes-for-sale/{t["slug"]}/">Explore homes for sale in {E(t["name"])}</a>.</p>
-{"" if l["type"]=="Rental" else f'<p><a class="btn ghost" href="/buy/mortgage-calculator/?price={l["price"]}">Estimate your monthly payment</a></p>'}
-<p class="note">Demo listing for design purposes — not an actual property for sale.</p></div>
-<aside class="sticky"><div class="panel"><h3>Ask about this home</h3>{form("listing-inquiry", field("Name", "name", "text", True, "", "name") + field("Email", "email", "email", True, "", "email") + field("Phone", "phone", "tel", False, "", "tel") + '<div><label for="msg">Message</label><textarea id="msg" name="message">I&#39;d like more information about %s, %s.</textarea></div>' % (E(l["addr"]), E(t["name"])), "Request info", hidden={"listing": l["addr"] + ", " + t["name"], "url": f"/listing/{l['slug']}/"})}
+<h3 style="margin-top:30px">Location</h3><div class="ml-map static" data-pin="{lat},{lng}" data-label="{short_price(l)}" role="region" aria-label="Map showing {E(l["addr"])}"></div>
+{about}
+{"" if l["type"]=="Rental" else f'<p style="margin-top:22px"><a class="btn ghost" href="/buy/mortgage-calculator/?price={l["price"]}">Estimate your monthly payment</a></p>'}
+<p class="note">Listing information from the Balsley Losco website, October 2026 snapshot. Deemed reliable but not guaranteed; the live MLS/IDX feed keeps details and photos current.</p></div>
+<aside class="sticky"><div class="panel">{agent_html}<h3>Ask about this home</h3>{form("listing-inquiry", field("Name", "name", "text", True, "", "name") + field("Email", "email", "email", True, "", "email") + field("Phone", "phone", "tel", False, "", "tel") + '<div><label for="msg">Message</label><textarea id="msg" name="message">I&#39;d like more information about %s, %s.</textarea></div>' % (E(l["addr"]), E(t["name"])), "Request info", hidden={"listing": l["addr"] + ", " + t["name"], "mls": l["mls"], "agent": l.get("agent", ""), "url": f"/listing/{l['slug']}/"})}
 <p style="margin:16px 0 0;text-align:center"><a href="tel:{OFFICES[0]["tel"]}"><b>Call {PHONE}</b></a></p></div></aside></div>
 <div class="sec" style="padding-bottom:20px"><h2>Similar homes</h2><div class="grid g3">{sim}</div></div></div>'''
+    about_obj = {"@type": "House" if l["type"] == "Single Family" else "Accommodation", "address": {"@type": "PostalAddress", "streetAddress": l["addr"], "addressLocality": t["name"], "addressRegion": "NJ", "postalCode": t["zip"], "addressCountry": "US"},
+                 "numberOfBedrooms": l["beds"], "numberOfBathroomsTotal": l["baths"], "geo": {"@type": "GeoCoordinates", "latitude": lat, "longitude": lng}}
+    if l["sqft"]: about_obj["floorSize"] = {"@type": "QuantitativeValue", "value": l["sqft"], "unitCode": "FTK"}
+    if l["year"]: about_obj["yearBuilt"] = l["year"]
     sch = [crumb_schema(cr), {"@context": "https://schema.org", "@type": "RealEstateListing", "name": f"{l['title']} — {l['addr']}, {t['name']}, NJ", "url": f"{SITE_URL}/listing/{l['slug']}/",
-           "description": l["desc"], "image": [SITE_URL + i for i in imgs], "datePosted": TODAY,
-           "offers": {"@type": "Offer", "price": l["price"], "priceCurrency": "USD", "availability": "https://schema.org/InStock", "seller": {"@id": SITE_URL + "/#org"}},
-           "about": {"@type": "House" if l["type"] in ("Single Family",) else "Accommodation", "address": {"@type": "PostalAddress", "streetAddress": l["addr"], "addressLocality": t["name"], "addressRegion": "NJ", "postalCode": t["zip"], "addressCountry": "US"},
-                     "numberOfBedrooms": l["beds"], "numberOfBathroomsTotal": l["baths"], "floorSize": {"@type": "QuantitativeValue", "value": l["sqft"], "unitCode": "FTK"}, "yearBuilt": l["year"],
-                     "geo": {"@type": "GeoCoordinates", "latitude": t["lat"], "longitude": t["lng"]}}}]
+           "description": l["desc"], "image": imgs, "datePosted": TODAY,
+           "offers": {"@type": "Offer", "price": l["price"], "priceCurrency": "USD", "availability": "https://schema.org/InStock", "seller": {"@id": SITE_URL + "/#org"}}, "about": about_obj}]
     return layout(f"{l['addr']}, {t['name']}, NJ — {money_l}", f"{l['beds']} bed, {baths} bath {l['type'].lower()} at {l['addr']}, {t['name']}, NJ {t['zip']} for {money_l}. {l['title']}. Photos, details and showing requests.", f"/listing/{l['slug']}/", main, schema=sch, active="Buy", prio="0.7", freq="weekly", maps=True)
 
 def agents_index():
@@ -205,7 +231,7 @@ def agents_index():
 <div><label class="sr" for="al">Language</label><select id="al"><option value="">Any language</option>{"".join(f"<option>{x}</option>" for x in sorted({l.strip() for a in AGENTS for l in a["lang"].split(",") if l.strip()}))}</select></div><span class="muted" id="acount">{len(AGENTS)} agents</span></div>
 <div class="letters" aria-label="Jump by first letter">{letters}</div>
 <div class="grid g4" id="agrid">{cards}</div><p class="empty" id="aempty">No agents match that search. <a href="/contact/">Contact the office</a> and we'll connect you with the right person.</p></div></section>
-<section class="sec tint"><div class="wrap"><div class="band"><div><h2>Not sure who to call?</h2><p>Tell us what you're looking for and we'll match you with an agent who knows your area, price range and timeline.</p><a class="btn gold" href="/contact/?topic=match">Match me with an agent</a></div><div><p style="margin:0">Prefer to talk? Call our Northfield office at <a style="color:#fff" href="tel:{OFFICES[0]['tel']}"><b>{PHONE}</b></a> or our Somers Point office at <a style="color:#fff" href="tel:{OFFICES[1]['tel']}"><b>{OFFICES[1]['phone']}</b></a>.</p></div></div></div></section>'''
+<section class="sec tint"><div class="wrap"><div class="band"><div><h2>Not sure who to call?</h2><p>Tell us what you're looking for and we'll match you with an agent who knows your area, price range and timeline.</p><a class="btn gold" href="/contact/?topic=match">Match me with an agent</a></div><div><p style="margin:0">Prefer to talk? Call our Northfield office at <a style="color:var(--red-d)" href="tel:{OFFICES[0]['tel']}"><b>{PHONE}</b></a> or our Somers Point office at <a style="color:var(--red-d)" href="tel:{OFFICES[1]['tel']}"><b>{OFFICES[1]['phone']}</b></a>.</p></div></div></div></section>'''
     return layout("Real Estate Agents in Northfield & Somers Point NJ", f"Meet the {len(AGENTS)}+ agents of Balsley Losco Real Estate. Find a local REALTOR® for buying or selling in Atlantic and Cape May Counties.", "/agents/", main,
                   hero=page_hero("Find a local agent", f"{len(AGENTS)} experienced agents serving Atlantic and Cape May Counties.", cr), schema=[crumb_schema(cr)], active="Agents", prio="0.9", freq="weekly")
 
@@ -255,7 +281,7 @@ def calculator():
 <p class="muted" style="font-size:.82rem;margin:0">Defaults are illustrative only. Rates, taxes and insurance vary by property and lender — NJ property taxes in particular differ widely by town.</p></div>
 <div class="out" aria-live="polite"><p style="margin:0;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem">Estimated monthly payment</p><div class="big" id="o-total">$0</div><div class="bar" id="o-bar"></div>
 <div class="lg"><span><i><span class="dot" style="background:#f2b632"></span>Principal &amp; interest</i><b id="o-pi"></b></span><span><i><span class="dot" style="background:#c8202f"></span>Property tax</i><b id="o-t"></b></span><span><i><span class="dot" style="background:#7d1019"></span>Insurance (home + flood)</i><b id="o-i"></b></span><span><i><span class="dot" style="background:#d9c7a8"></span>HOA</i><b id="o-h"></b></span></div>
-<hr style="border:0;border-top:1px solid #ffffff33;margin:20px 0"><p style="margin:0 0 4px">Loan amount: <b id="o-loan" style="color:#fff"></b></p><p style="margin:0 0 18px">Down payment: <b id="o-dp" style="color:#fff"></b></p><a class="btn gold block" href="/buy/pre-approval/">Get pre-approved</a></div></div>
+<hr style="border:0;border-top:1px solid #ffffff33;margin:20px 0"><p style="margin:0 0 4px">Loan amount: <b id="o-loan" style="color:var(--red-d)"></b></p><p style="margin:0 0 18px">Down payment: <b id="o-dp" style="color:var(--red-d)"></b></p><a class="btn gold block" href="/buy/pre-approval/">Get pre-approved</a></div></div>
 <div class="prose" style="margin-top:50px"><h2>How to use this mortgage calculator</h2><p>Enter a home price, down payment and rate to see your estimated monthly payment, including property taxes, homeowners insurance and — for shore homes — flood insurance. Remember that closing costs are separate; read our <a href="/guides/new-jersey-closing-costs-and-transfer-fees/">New Jersey closing cost guide</a>.</p></div></div></section>'''
     return layout("Mortgage Calculator — NJ Monthly Payment Estimator", "Estimate your monthly mortgage payment including New Jersey property taxes, homeowners insurance and flood insurance with this free calculator.", "/buy/mortgage-calculator/", main,
                   hero=page_hero("Mortgage calculator", "Estimate your monthly payment, taxes and insurance.", cr), schema=[crumb_schema(cr)], active="Buy", prio="0.8")
@@ -298,7 +324,7 @@ def valuation():
 def rentals():
     faqs = [("How do I apply for a rental?", "Browse available rentals, then submit the online rental application through our secure leasing portal. A Balsley Losco agent will follow up on next steps."),
             ("Do you manage rental properties?", "Contact our office to discuss rental listings and property owner services in Atlantic and Cape May Counties.")]
-    extra = f'''<section class="sec"><div class="wrap"><div class="band"><div><h2>Ready to apply?</h2><p>Complete your rental application securely online through our leasing partner.</p><a class="btn gold" href="https://secure2.ntnonline.com/securelease/default.cfm?propcode=BL1630&amp;unit=9498" rel="noopener" target="_blank">Start rental application</a></div><div><p style="margin:0">Property owner? <a style="color:#fff" href="/contact/?topic=landlord"><b>Ask about listing your rental →</b></a></p></div></div></div></section>'''
+    extra = f'''<section class="sec"><div class="wrap"><div class="band"><div><h2>Ready to apply?</h2><p>Complete your rental application securely online through our leasing partner.</p><a class="btn gold" href="https://secure2.ntnonline.com/securelease/default.cfm?propcode=BL1630&amp;unit=9498" rel="noopener" target="_blank">Start rental application</a></div><div><p style="margin:0">Property owner? <a style="color:var(--red-d)" href="/contact/?topic=landlord"><b>Ask about listing your rental →</b></a></p></div></div></div></section>'''
     return category("/rentals/", "Rentals in Atlantic & Cape May County NJ", "Rentals", "Apartments, condos and homes for rent from Northfield to Ocean City.", "Search apartments, condos and houses for rent in Atlantic and Cape May Counties, NJ. Apply online with Balsley Losco Real Estate.", lambda l: l["type"] == "Rental",
                     "<h2>Renting in Atlantic County</h2><p>Whether you want a year-round apartment near Bay Avenue or a seasonal shore rental, our agents can match you with available rentals and walk you through the application and lease process. Browse the available rentals above, or <a href=\"/search/?type=Rental\">search all rentals</a>.</p>", faqs, "Rent", extra)
 
@@ -378,7 +404,7 @@ def account():
 <div class="tab on" id="tab-saved"><div class="grid g3" id="saved-grid"></div><p class="empty" id="saved-empty" style="display:block">You haven't saved any homes yet. Tap the heart on any listing. <a href="/search/">Start searching</a></p></div>
 <div class="tab" id="tab-searches"><div id="searches"></div><p class="empty" id="searches-empty" style="display:block">No saved searches. Use “Save search” on the <a href="/search/">search page</a>.</p></div>
 <div class="tab" id="tab-alerts"><div class="panel" style="max-width:560px"><h3>Email alert preferences</h3><div class="form"><div class="consent"><label><input type="checkbox" id="al-new" checked> New listings that match my saved searches</label><label><input type="checkbox" id="al-price" checked> Price reductions on saved homes</label><label><input type="checkbox" id="al-open"> Open house announcements</label><label><input type="checkbox" id="al-mkt"> Monthly market reports</label></div><button class="btn" type="button" id="al-save">Save preferences</button></div></div></div></div></div></section>'''
-    data = json.dumps({l["slug"]: {"addr": l["addr"], "town": town_of(l)["name"], "price": lprice(l), "beds": l["beds"], "baths": l["baths"], "sqft": l["sqft"]} for l in LISTINGS})
+    data = json.dumps({l["slug"]: {"addr": l["addr"], "town": town_of(l)["name"], "price": lprice(l), "beds": l["beds"], "baths": l["baths"], "sqft": l["sqft"], "img": l["img"]} for l in LISTINGS})
     return layout("Sign In — Saved Homes & Searches", "Sign in to Balsley Losco to view your saved homes, saved searches and listing alerts.", "/account/", main + f'<script>window.BL_LISTINGS={data};</script>',
                   hero=page_hero("My account", "Saved homes, searches and alerts.", cr), noindex=True, in_sitemap=False)
 

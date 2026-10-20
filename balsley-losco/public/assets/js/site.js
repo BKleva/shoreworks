@@ -96,13 +96,13 @@
 
   $$('[data-maplist]').forEach(function (root) {
     var results = $('#results', root), cards = $$('.lcard', results), list = $('.ml-list', root), mapEl = $('.ml-map', root);
-    var full = !!$('#f-q', root), sortEl = $('#sort', root), map = null, layer = null, programmatic = false, moveOpt = null;
+    var first = true, full = !!$('#f-q', root), sortEl = $('#sort', root), map = null, layer = null, programmatic = false, moveOpt = null;
     cards.forEach(function (c, i) { c.dataset.i = i; });
     var c0 = (root.dataset.center || '39.4,-74.55,10').split(',').map(Number);
 
     if (window.L && mapEl) {
       map = baseMap(mapEl, [c0[0], c0[1]], c0[2], true);
-      layer = L.layerGroup().addTo(map);
+      layer = (L.markerClusterGroup ? L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 42, iconCreateFunction: function (cl) { return L.divIcon({ className: 'mcwrap', html: '<div class="mc">' + cl.getChildCount() + '</div>', iconSize: [38, 38] }); } }) : L.layerGroup()).addTo(map);
       cards.forEach(function (card) {
         var m = L.marker([+card.dataset.lat, +card.dataset.lng], { icon: pinIcon(card.dataset.label), riseOnHover: true });
         m.on('click', function () { setOn(card, true); list.scrollTo({ top: Math.max(0, card.offsetTop - 90), behavior: 'smooth' }); if (window.innerWidth <= 900) setView('list'); });
@@ -161,7 +161,9 @@
       if (map) {
         layer.clearLayers(); var pts = [];
         cards.forEach(function (c) { if (c.style.display !== 'none') { layer.addLayer(c._m); pts.push([+c.dataset.lat, +c.dataset.lng]); } });
-        if (keepView !== true && pts.length) { programmatic = true; map.fitBounds(pts, { padding: [70, 70], maxZoom: 14, animate: false }); setTimeout(function () { programmatic = false; }, 60); }
+        var skipFit = first && full && !location.search;
+        first = false;
+        if (keepView !== true && pts.length && !skipFit) { programmatic = true; map.fitBounds(pts, { padding: [70, 70], maxZoom: 14, animate: false }); setTimeout(function () { programmatic = false; }, 60); }
       }
     }
 
@@ -248,7 +250,7 @@
       $('#hello').textContent = 'Hi, ' + u.name.split(' ')[0];
       var s = saved(), L = window.BL_LISTINGS || {}, g2 = $('#saved-grid');
       g2.innerHTML = s.filter(function (k) { return L[k]; }).map(function (k) {
-        var l = L[k]; return '<article class="card lcard"><div class="img"><img src="/assets/img/l-' + k + '.svg" alt="" width="800" height="600"><button class="fav" data-fav="' + k + '" aria-pressed="true" aria-label="Remove ' + l.addr + '"><svg viewBox="0 0 24 24"><path d="M12 21s-8-4.9-9.5-10C1.400 7.500 3.800 4.500 7 4.500c2 0 3.700 1 5 2.800 1.300-1.800 3-2.800 5-2.800 3.200 0 5.600 3 4.500 6.500C20 16.100 12 21 12 21z"/></svg></button></div><div class="body"><div class="price">' + l.price + '</div><p class="addr">' + l.addr + '</p><p class="town">' + l.town + ', NJ</p><ul class="facts"><li><b>' + l.beds + '</b> bd</li><li><b>' + l.baths + '</b> ba</li><li><b>' + l.sqft.toLocaleString() + '</b> sf</li></ul></div><a class="cover" href="/listing/' + k + '/">View</a></article>';
+        var l = L[k]; return '<article class="card lcard"><div class="img"><img src="' + l.img + '" alt="" width="800" height="600" referrerpolicy="no-referrer"><button class="fav" data-fav="' + k + '" aria-pressed="true" aria-label="Remove ' + l.addr + '"><svg viewBox="0 0 24 24"><path d="M12 21s-8-4.9-9.5-10C1.400 7.500 3.800 4.500 7 4.500c2 0 3.700 1 5 2.800 1.300-1.800 3-2.800 5-2.800 3.200 0 5.600 3 4.500 6.500C20 16.100 12 21 12 21z"/></svg></button></div><div class="body"><div class="price">' + l.price + '</div><p class="addr">' + l.addr + '</p><p class="town">' + l.town + ', NJ</p><ul class="facts"><li><b>' + l.beds + '</b> bd</li><li><b>' + l.baths + '</b> ba</li><li><b>' + l.sqft.toLocaleString() + '</b> sf</li></ul></div><a class="cover" href="/listing/' + k + '/">View</a></article>';
       }).join('');
       $('#saved-empty').style.display = s.length ? 'none' : 'block';
       var ss = store.get('bl_searches', []);

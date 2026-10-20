@@ -93,57 +93,10 @@ TOWNS = [
          best_for=["Second-home buyers", "Investors", "Families"], nearby=["somers-point", "margate", "linwood"]),
 ]
 
-# sample listings -- replace with the live IDX/MLS feed in production
-LISTINGS = [
-    dict(slug="bayfront-contemporary-somers-point", addr="418 Bay Shore Drive", town="somers-point", price=1895000, beds=5, baths=4.5, sqft=4100, lot=0.31, year=2019, type="Single Family", status="New", wf=True, hue=210, open="Sun 1–3 PM",
-         title="Bayfront contemporary with private dock",
-         desc="Wake up to open bay views in this elevated bayfront contemporary. A wall of glass opens the main living area to a wraparound deck, and the private dock is steps from the water. The chef's kitchen, primary suite with bay-view balcony and finished lower level make this an easy retreat or year-round home.",
-         feats=["Private dock and boat lift", "Elevated construction", "Primary suite with balcony", "Chef's kitchen with quartz island", "Two-car garage"]),
-    dict(slug="coastal-colonial-linwood", addr="26 Oak Hollow Road", town="linwood", price=849900, beds=4, baths=3, sqft=2850, lot=0.28, year=1996, type="Single Family", status="Active", wf=False, hue=140, open="",
-         title="Updated colonial on a quiet Linwood street",
-         desc="This light-filled colonial sits on a quiet street close to Shore Road. Hardwood floors, a renovated kitchen and a first-floor office make everyday living easy, and the fenced backyard is ready for summer evenings. Move-in condition with room to grow.",
-         feats=["Renovated kitchen", "First-floor office", "Fenced backyard", "Central air", "Walk to local shops"]),
-    dict(slug="starter-ranch-northfield", addr="1204 Burton Avenue", town="northfield", price=359000, beds=3, baths=1.5, sqft=1280, lot=0.17, year=1962, type="Single Family", status="New", wf=False, hue=205, open="Sat 11 AM–1 PM",
-         title="Move-in ready ranch near Birch Grove Park",
-         desc="A well-kept three-bedroom ranch on a friendly Northfield block. Refinished floors, an updated bath and a bright eat-in kitchen mean there is nothing to do but unpack. Minutes to the Parkway, Expressway and island beaches.",
-         feats=["Refinished hardwood floors", "Eat-in kitchen", "Updated bath", "Detached garage", "Near parks and schools"]),
-    dict(slug="oceanside-condo-margate", addr="9400 Atlantic Avenue, Unit 3B", town="margate", price=699000, beds=2, baths=2, sqft=1350, lot=0, year=2008, type="Condo", status="Active", wf=True, hue=185, open="",
-         title="Oceanside condo, two blocks to the beach",
-         desc="A bright two-bedroom, two-bath condominium two blocks from the Margate beach. Open living area, a private balcony and a deeded parking space make this an easy-care shore escape.",
-         feats=["Private balcony", "Deeded parking space", "In-unit laundry", "Elevator building", "Two blocks to the beach"]),
-    dict(slug="new-construction-egg-harbor-township", addr="112 Harvest Lane", town="egg-harbor-township", price=525000, beds=4, baths=2.5, sqft=2400, lot=0.22, year=2024, type="Single Family", status="New", wf=False, hue=170, open="",
-         title="New construction with open floor plan",
-         desc="Brand-new four-bedroom home in a growing Egg Harbor Township neighborhood. Open living and dining, a modern kitchen, a first-floor flex room and a spacious primary suite. Built to current energy standards.",
-         feats=["Open floor plan", "First-floor flex room", "Primary suite with walk-in closet", "Energy-efficient construction", "Two-car garage"]),
-    dict(slug="river-view-ranch-mays-landing", addr="75 River Bend Road", town="hamilton-township", price=439000, beds=3, baths=2, sqft=1850, lot=0.9, year=1988, type="Single Family", status="Active", wf=False, hue=95, open="Sun 12–2 PM",
-         title="Ranch on nearly an acre near the Great Egg Harbor River",
-         desc="Spread out on almost an acre with room for a workshop, garden and plenty of parking. This one-level ranch features a vaulted living room, a sunroom and a spacious primary suite, minutes from the river and Mays Landing.",
-         feats=["Almost one acre", "Vaulted living room", "Sunroom", "Detached workshop", "Near the river"]),
-    dict(slug="townhome-galloway", addr="31 Smithville Commons", town="galloway", price=315000, beds=3, baths=2.5, sqft=1650, lot=0, year=2012, type="Townhouse", status="Active", wf=False, hue=190, open="",
-         title="Three-bedroom townhome near Stockton",
-         desc="Low-maintenance townhome living near Stockton University and Historic Smithville. Three bedrooms, two and a half baths, a one-car garage and a private patio, with lawn care and exterior maintenance handled by the association.",
-         feats=["One-car garage", "Private patio", "Association handles lawn care", "Near Stockton University", "Central air"]),
-    dict(slug="duplex-investment-ventnor", addr="5106 Ventnor Avenue", town="ventnor", price=589000, beds=5, baths=3, sqft=2400, lot=0.1, year=1951, type="Multi-Family", status="Active", wf=False, hue=200, open="",
-         title="Two-unit investment property blocks from the beach",
-         desc="Two spacious units on Ventnor Avenue, a short walk from the boardwalk. Great for an owner-occupant or an investor looking for steady seasonal and year-round rental demand.",
-         feats=["Two separate units", "Separate utilities", "Walk to the boardwalk", "Off-street parking", "Strong rental history"]),
-    dict(slug="farmhouse-hammonton", addr="640 Bellevue Avenue", town="hammonton", price=479000, beds=4, baths=2, sqft=2300, lot=2.4, year=1925, type="Single Family", status="Active", wf=False, hue=60, open="",
-         title="Restored farmhouse on 2.4 acres",
-         desc="A beautifully restored 1925 farmhouse on 2.4 acres, just outside downtown Hammonton. Original woodwork, a wraparound porch and a modern kitchen blend character with comfort, and the barn is ready for hobbies or storage.",
-         feats=["2.4 acres", "Wraparound porch", "Original woodwork", "Barn and outbuildings", "Minutes to downtown Hammonton"]),
-    dict(slug="beach-block-cottage-brigantine", addr="14 Seaview Court", town="brigantine", price=779000, beds=3, baths=2, sqft=1700, lot=0.12, year=2015, type="Single Family", status="New", wf=True, hue=195, open="Sat 1–3 PM",
-         title="Elevated cottage a short walk to the beach",
-         desc="A sunny elevated cottage with a covered deck and outdoor shower, only steps from the beach. Open living space, a bright kitchen and ample storage under the home.",
-         feats=["Elevated construction", "Covered deck and outdoor shower", "Under-house parking", "Walk to the beach", "Turn-key furnishings available"]),
-    dict(slug="vacation-home-ocean-city", addr="826 Wesley Avenue", town="ocean-city", price=1250000, beds=4, baths=3, sqft=2200, lot=0.08, year=2017, type="Single Family", status="Active", wf=True, hue=210, open="",
-         title="Vacation home between the boardwalk and the bay",
-         desc="Ideal as a family getaway or rental, this four-bedroom Ocean City home puts the boardwalk and the bay within an easy walk. Open living, rooftop deck and an outdoor shower.",
-         feats=["Rooftop deck", "Outdoor shower", "Strong rental potential", "Walk to the boardwalk", "Off-street parking"]),
-    dict(slug="rental-apartment-somers-point", addr="320 Maryland Avenue, Apt 2", town="somers-point", price=2100, beds=2, baths=1, sqft=950, lot=0, year=1985, type="Rental", status="Active", wf=False, hue=215, open="",
-         title="Two-bedroom apartment near the bay (rental)",
-         desc="A cheerful two-bedroom apartment in Somers Point, close to Bay Avenue and the causeway. Off-street parking and in-unit laundry hookups. Monthly rent shown.",
-         feats=["Off-street parking", "Laundry hookups", "Near Bay Avenue", "Pet policy: ask agent", "Available now"]),
-]
+# real listings scraped from blhomes.com (see tools/import_listings.py); replace with the live IDX/MLS feed in production
+import json as _json, os as _os
+_LP = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "listings.json")
+LISTINGS = _json.load(open(_LP, encoding="utf-8")) if _os.path.exists(_LP) else []
 
 ARTICLES = [
     dict(slug="how-to-buy-a-home-in-atlantic-county-nj", title="How to Buy a Home in Atlantic County, NJ: A 9-Step Guide", date="2026-09-02", read=7,
