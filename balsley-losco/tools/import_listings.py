@@ -64,6 +64,8 @@ def main(raw):
             h = (abs(hash(slug)) % 1000) / 1000.0
             lat, lng = round(cen[0] + (h - .5) * .012, 5), round(cen[1] + (((h * 7) % 1) - .5) * .014, 5); approx = True
             moved.append(r["addr"] + ", " + city)
+        if (r.get("zip") or "")[:3] in ("086", "087", "088", "077"):  # Mercer / Monmouth / Ocean county zips
+            continue
         if lat is not None and lat > 39.8:  # outside the Atlantic / Cape May service area (e.g. Mercer County)
             continue
         out.append(dict(slug=slug, mls=r.get("mls", ""), addr=r["addr"].strip(), city=city, zip=r.get("zip", ""), town=town, price=price, beds=beds, baths=baths, sqft=sqft, lot=lot, year=year,

@@ -865,8 +865,8 @@
 ],
 "img": "https://d36xftgacqn2p.cloudfront.net/listingphotos141/612931-1.jpg",
 "agent": "Catherine Colfver",
-"lat": 39.38121,
-"lng": -74.61697,
+"lat": 39.38031,
+"lng": -74.61032,
 "approx": true,
 "old": "/property/141-612931-138-saint-andrews-dr-egg-harbor-township-NJ-08234"
 },
@@ -1639,37 +1639,6 @@
 "lng": -74.4956546,
 "approx": false,
 "old": "/property/382-NJAC2024532-505-e-oslo-court-absecon-NJ-08205"
-},
-{
-"slug": "141-crest-ave-hamilton-township-11519",
-"mls": "611519",
-"addr": "141 Crest Ave.",
-"city": "Hamilton Township",
-"zip": "08690",
-"town": "hamilton-township",
-"price": 499000,
-"beds": 3,
-"baths": 1.5,
-"sqft": 0,
-"lot": 0.0,
-"year": 1948,
-"type": "Single Family",
-"status": "Active",
-"wf": false,
-"open": "",
-"label": "Primary On Main",
-"title": "3-bedroom single family in Hamilton Township",
-"desc": "Welcome to 141 Crest Avenue, Hamilton NJ - Where Comfort Meets Exceptional Outdoor Living! Beautifully maintained and inviting, this charming 3-bedroom, 1.5 bath home offers comfort, functionality, and an exceptional outdoor living experience in the heart of Mercer County. Featuring a beautiful sunroom with wood burning stove, Living Room, Dining Room with hardwood flooring, Eat-In Kitchen with center island, spacious two-car garage and full basement providing valuable storage space with built in shelving, this home provides ample storage and versatile space to accommodate a variety of needs. Step inside to discover a warm and welcoming interior with well-proportioned rooms and plenty of natural light. The three bedrooms offer comfortable living space, while the convenient 1.5 baths provide functionality for everyday living. The full basement presents endless possibilities for storage, a recreation area, home office, hobby space, or future finishing potential. The attached two-car…",
-"feats": [
-"Style: Ranch",
-"Built in 1948"
-],
-"img": "https://d36xftgacqn2p.cloudfront.net/listingphotos141/611519-1.jpg",
-"agent": "Valerie Gentile",
-"lat": 39.44814,
-"lng": -74.73056,
-"approx": true,
-"old": "/property/141-611519-141-crest-ave-hamilton-township-NJ-08690"
 },
 {
 "slug": "1900-oak-ave-northfield-06282",

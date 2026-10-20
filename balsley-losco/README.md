@@ -5,19 +5,22 @@ Every page is real HTML (no JS needed to read content) so search engines index i
 
 ## Build & preview
 ```
-python tools/build.py          # regenerates ./public (≈246 indexable pages + sitemap.xml + robots.txt)
+python tools/build.py          # regenerates ./public (≈245 indexable pages + sitemap.xml + robots.txt)
 python -m http.server 8199 --directory public
 ```
 Content lives in `tools/data.py` (towns, listings, guides, FAQs, offices) and `tools/agents.json` (76-agent roster).
 Layout/pages are in `tools/lib.py` and `tools/build.py`; styles/JS in `public/assets/`.
 
+## Design
+Visual style modeled on aweighre.com (photo-banner home with wavy edge, centered section headings, photo tiles for communities, a "learn about" band, text community cards) in Balsley Losco red & gold — headings Montserrat, body Open Sans. The accent color is one variable (`--head` in `public/assets/css/site.css`) if you'd rather swap to navy.
+
 ## What's included
-- **Public:** home, Compass-style map + list search (Leaflet/OpenStreetMap, clustered price pins, filters, sort, save search, favorites), 12 town landing pages, condo / waterfront / open-house / rental landing pages, 125 real listing detail pages with photo galleries and the listing agent, agent directory + 76 profiles, buy hub, mortgage calculator, pre-approval, sell hub, free home valuation, about, offices (+2 pages), careers, commercial, contact, 7 buyer/seller guides, legal pages, HTML site map.
+- **Public:** home, Compass-style map + list search (Leaflet/OpenStreetMap, clustered price pins, filters, sort, save search, favorites), 12 town landing pages, condo / waterfront / open-house / rental landing pages, 124 real listing detail pages with photo galleries and the listing agent, agent directory + 76 profiles, buy hub, mortgage calculator, pre-approval, sell hub, free home valuation, about, offices (+2 pages), careers, commercial, contact, 7 buyer/seller guides, legal pages, HTML site map.
 - **Portals:** client account (`/account/` — saved homes, saved searches, alert prefs) and agent portal (`/agent-portal/` — leads, listings, open houses, tools). Both are noindex demo UIs backed by localStorage.
 - **SEO:** unique title/description/canonical per page, Open Graph + Twitter cards, JSON-LD (RealEstateAgent + LocalBusiness with both offices, WebSite SearchAction, BreadcrumbList, FAQPage, ItemList, RealEstateListing, Article, agent profiles, Place), semantic headings, crawlable internal links, `sitemap.xml`, `robots.txt`, 301 redirect map from old `.php` URLs (`netlify.toml`).
 
 ## Before launch (placeholders to replace)
-1. **Listings are a snapshot of the live site** (125 listings scraped from blhomes.com on 2026-10-19 into `tools/listings.json` with `tools/import_listings.py`; addresses geocoded with OpenStreetMap Nominatim). Photos hot-link the brokerage's listing CDN. Replace with the live MLS/IDX feed (the old site's data comes via Bright MLS, Cape May County MLS and others) and confirm the brokerage's MLS display rules; keep listing JSON-LD in sync with the feed.
+1. **Listings are a snapshot of the live site** (124 listings scraped from blhomes.com on 2026-10-19 into `tools/listings.json` with `tools/import_listings.py`; addresses geocoded with OpenStreetMap Nominatim). Photos hot-link the brokerage's listing CDN. Replace with the live MLS/IDX feed (the old site's data comes via Bright MLS, Cape May County MLS and others) and confirm the brokerage's MLS display rules; keep listing JSON-LD in sync with the feed.
 2. **Legal text.** `/privacy/`, `/terms/` are drafts; use the brokerage's approved language and required MLS disclaimers (footer `LEGAL` in `tools/lib.py`).
 3. **Forms** use Netlify Forms (`data-netlify`). Set notification emails in Netlify. Account/agent portals need a real auth + CRM backend.
 4. **Agent photos** hot-link from the existing site's CDN (with initials fallback). Copy them into `public/assets/agents/` before the old site is retired. Agent bios/contact details were not copied — add per-agent bios and direct lines/emails with each agent's consent.

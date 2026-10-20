@@ -94,7 +94,7 @@ LEGAL = ("Listing information is deemed reliable but not guaranteed and should b
          "Listing data appears in part through participating MLS programs, including the Cape May County MLS, a voluntary cooperative exchange of property listing data between licensed real estate brokerage firms, and is provided through licensing agreements. "
          "Information is provided for consumers' personal, non-commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing.")
 
-def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og_image="/assets/img/og-default.png", hero=None, prio="0.6", freq="monthly", in_sitemap=True, og_type="website", bare=False, maps=False):
+def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og_image="/assets/img/og-default.png", hero=None, prio="0.6", freq="monthly", in_sitemap=True, og_type="website", bare=False, maps=False, home=False):
     url = SITE_URL + path
     full_title = title if SHORT in title else f"{title} | {SHORT}"
     if len(desc) > 160:
@@ -105,7 +105,7 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
     ld = "".join(f'<script type="application/ld+json">{json.dumps(g, ensure_ascii=False, separators=(",", ":"))}</script>' for g in graph)
     robots = '<meta name="robots" content="noindex,nofollow">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">'
     ho = OFFICES[0]
-    topbar = "" if bare else f'''<div class="topbar"><div class="wrap"><span>Serving Atlantic &amp; Cape May Counties since {FOUNDED}</span>
+    topbar = "" if True else f'''<div class="topbar"><div class="wrap"><span>Serving Atlantic &amp; Cape May Counties since {FOUNDED}</span>
 <span class="tb-links"><a href="tel:{ho['tel']}">{PHONE}</a><a href="/account/">Sign in</a><a href="/agent-portal/">Agent portal</a></span></div></div>'''
     foot = footer_html()
     mbar = "" if bare else f'<div class="mobilebar"><a class="btn sm navy" href="tel:{ho["tel"]}">Call us</a><a class="btn sm" href="/search/">Search homes</a></div>'
@@ -127,18 +127,18 @@ def layout(title, desc, path, main, *, schema=None, noindex=False, active="", og
 <meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700;800&display=swap">
 {leaflet_css}<link rel="stylesheet" href="/assets/css/site.css">
 {ld}
 </head>
-<body{' class="app"' if bare else ''}>
+<body{' class="app"' if bare else ' class="home"' if home else ''}>
 <a class="skip" href="#main">Skip to main content</a>
 {topbar}
 <header class="site-header"><div class="wrap">
 <a class="brand" href="/" aria-label="{BRAND} home">{logo()}<span class="brand-name">Balsley Losco<small>Real Estate · Since {FOUNDED}</small></span></a>
 <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
 <nav class="nav" id="nav" aria-label="Main"><ul>{nav_html(active)}</ul>
-<div class="nav-cta"><a class="btn sm ghost" href="/account/">Sign in</a><a class="btn sm" href="/sell/home-value/">Free home value</a></div></nav>
+<div class="nav-cta"><a class="phone" href="tel:{ho['tel']}">{PHONE}</a><a class="btn sm ghost" href="/account/">Sign in</a><a class="btn sm" href="/sell/home-value/">Free home value</a></div></nav>
 </div></header>
 {hero or ""}
 <main id="main">{main}</main>
@@ -208,7 +208,7 @@ def lcard(l):
     elif l["status"] == "New": tag = '<span class="tag new">New</span>'
     elif l.get("label"): tag = f'<span class="tag">{E(l["label"])}</span>'
     baths = ("%g" % l["baths"])
-    facts = f'<li><b>{l["beds"]}</b> beds</li><li><b>{baths}</b> baths</li><li><b>{l["sqft"]:,}</b> sqft</li>' + (f'<li><b>{l["lot"]}</b> acres</li>' if l["lot"] else "")
+    facts = f'<li><b>{l["beds"]}</b> beds</li><li><b>{baths}</b> baths</li>' + (f'<li><b>{l["sqft"]:,}</b> sqft</li>' if l["sqft"] else "") + (f'<li><b>{l["lot"]}</b> acres</li>' if l["lot"] else "")
     search = f'{l["addr"]} {t["name"]} {t["zip"]} {l["type"]} {l["title"]}'.lower()
     lat, lng = ll(l)
     return (f'<article class="card lcard" data-slug="{l["slug"]}" data-price="{l["price"]}" data-label="{short_price(l)}" data-lat="{lat}" data-lng="{lng}" data-beds="{l["beds"]}" data-baths="{l["baths"]}" data-sqft="{l["sqft"]}" '
