@@ -350,6 +350,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--p500);bo
   .section{padding:3.5rem 0}
 }
 @media (max-width:560px){
+  /* "I'll handle the groceries." is ~11.5× the font size wide; scale so the longest rotating phrase stays on one line */
+  .hero h1{font-size:calc((100vw - 32px) / 11.8)}
+  .hero h1 .line2{white-space:nowrap}
   .wizard{padding:1.2rem 1rem 1.4rem;border-radius:22px}
   .track li button span{display:none}
   .grid2{grid-template-columns:1fr}
