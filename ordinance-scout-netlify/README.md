@@ -1,17 +1,19 @@
 # Outdoor Impact Ordinance Scout (Netlify)
 
-Password-protected web app: county ordinance / master-plan scouting (Monmouth, Ocean, Bergen, Morris) plus the
-Roadside Map (vacant / commercial / industrial parcels within a set distance of NJ state highways, Garden State Parkway excluded).
+Password-protected web app: township-level ordinance / master-plan scouting (Monmouth, Ocean, Bergen, Morris, Essex) plus a
+bulk mail tool: upload a prospect list (CSV, Excel or pasted rows) and print labels, envelopes or merged letters (`public/mail.html`).
 
 Live: https://outdoor-impact-ordinance-scout.netlify.app  (admin: https://app.netlify.com/projects/outdoor-impact-ordinance-scout)
 
 ## How it is built
 - `public/` – the pages (`login.html`, `index.html`, `static/*`).
 - `netlify/edge-functions/gate.ts` – the password gate in front of every page and API call.
-- `netlify/functions/` – the API (`ordinance-api`, `roadside-api`, `login`, `logout`, `me`), background jobs
-  (`crawl-source-background`, `roadside-refresh-background`, `roadside-enrich-background`) and two schedules
-  (`crawl-schedule` weekly re-crawl, `roadside-schedule` refresh when data is older than 2 days; both check daily).
-- `netlify/lib/` – shared code (keyword rules `analyzer.mjs`, township tagging, crawler, geometry, roadside engine).
+- `netlify/functions/` – the API (`ordinance-api`, `login`, `logout`, `me`), the background crawl job
+  (`crawl-source-background`) and a schedule (`crawl-schedule`, weekly re-crawl, checked daily).
+- `netlify/lib/` – shared code (keyword rules `analyzer.mjs`, township tagging, crawler).
+- The mail page reads and prints in the browser (the Excel reader is loaded from a CDN only when an .xlsx file is chosen).
+  `netlify/functions/mail-api.mjs` stores what it must remember between visits and devices: the letter settings, the signature,
+  the prospect list and the log of who has been mailed (stored as short hashes, not names).
 - Data lives in Netlify Blobs (no database to run).
 
 ## Login
@@ -22,7 +24,7 @@ One user. Settings are Netlify environment variables (never in the repo):
 | `OI_LOGIN_EMAIL` | the login email |
 | `OI_PASS_HASH` | salted scrypt hash of the password (secret) |
 | `SESSION_SECRET` | signs the session cookie (secret) |
-| `INTERNAL_KEY` | lets scheduled jobs start background jobs (secret) |
+| `INTERNAL_KEY` | lets the scheduled crawl start background jobs (secret) |
 
 **Change the password**
 ```
@@ -46,5 +48,4 @@ Create `.env` with the four variables above, then `netlify dev`.
 
 ## Limits worth knowing
 - Blocked sites (eCode360, some NJ state pages) refuse automated access; use the Import tab for those documents.
-- Business names/emails come from OpenStreetMap and are sparse.
-- Sync functions have ~10 s; long work (crawl, county reload, business lookup) runs as background functions.
+- Sync functions have ~10 s; long work (the crawl) runs as background functions.

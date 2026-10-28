@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 import * as cheerio from 'cheerio';
 import robotsParser from 'robots-parser';
 import { extractText, getDocumentProxy } from 'unpdf';
-import { analyze, normalize } from './analyzer.mjs';
+import { analyze, docBasis, normalize } from './analyzer.mjs';
 import { townFor, townIndex } from './towns.mjs';
 import { getJSON, setJSON, setText, del } from './store.mjs';
 
@@ -178,7 +178,7 @@ export class Crawler {
       } else if (!r.kind) {
         await this.report(`  x ${r.err}: ${url}`);
         const status = /blocks|robots/.test(r.err) ? 'blocked' : 'error';
-        byUrl.set(url, { id: docId(url), url, title: '', doc_type: 'other', status, error: r.err, chars: 0, fetched_at: new Date().toISOString(), findings: [] });
+        byUrl.set(url, { id: docId(url), url, title: '', doc_type: 'other', status, error: r.err, chars: 0, fetched_at: new Date().toISOString(), township: src.muni || null, findings: [] });
         links = [];
       } else {
         const text = r.text || '';
@@ -189,8 +189,8 @@ export class Crawler {
           has_links: d_ok(jsOnly), findings: [] };
         if (r.kind === 'html' && r.links.length && !jsOnly) await setJSON(`links/${docId(url)}`, r.links.slice(0, 500));
         const hash = sha1(text);
-        if (old && old.content_hash === hash && old.status === 'ok') d.findings = old.findings;
-        else if (d.status === 'ok') d.findings = await this.findingsFor(d, text, src.county);
+        if (old && old.content_hash === hash && old.status === 'ok' && (old.township ?? null) === (src.muni ?? old.township ?? null)) { d.findings = old.findings; d.township = old.township ?? null; }
+        else if (d.status === 'ok') d.findings = await analyzeDoc(d, text, src.county, src.muni || null);
         if (d.status === 'ok') await setText(`text/${d.id}`, text);
         d.content_hash = hash;
         byUrl.set(url, d);
@@ -215,12 +215,15 @@ export class Crawler {
     await this.report(`= ${partial ? 'paused (time/stop)' : 'done'}: ${fetched} page(s) fetched`, { force: true });
     return { partial };
   }
+}
 
-  async findingsFor(d, text, county) {
-    const found = analyze(text);
-    const idx = county ? townIndex(normalize(text), county, d.title, d.url) : { def: null, pos: [], names: [] };
-    return found.map((f) => ({ ...f, township: townFor(idx, f.position) }));
-  }
+/** Findings for one document; each is tagged with a township. A document from a town's own source belongs to that town. */
+export async function analyzeDoc(d, text, county, forcedTown = null) {
+  d.basis = docBasis(d.doc_type, text);
+  const found = analyze(text, d.basis);
+  const idx = county ? townIndex(normalize(text), county, d.title, d.url) : { def: null, pos: [], names: [] };
+  d.township = forcedTown || idx.def || null;   // the town this document is about, when it is about exactly one
+  return found.map((f) => ({ ...f, township: forcedTown || townFor(idx, f.position) }));
 }
 
 /** Remove a source's stored documents and text. */

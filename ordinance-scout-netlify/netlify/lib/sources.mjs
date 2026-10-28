@@ -2,13 +2,24 @@
 import seeds from '../data/seeds.mjs';
 import { getJSON, setJSON } from './store.mjs';
 
+import { townList } from './towns.mjs';
+
+function seedToSource(seed, id) {
+  const [county, townName] = seed.scope.split(':');
+  const t = townName ? townList().find((x) => x.county === county && x.name === townName) : null;
+  return { id, county, muni_id: t?.id ?? null, muni: t?.label ?? null, label: seed.label, url: seed.url, kind: seed.kind, max_pages: seed.max_pages, created_at: new Date().toISOString() };
+}
+
 export async function loadSources() {
   let list = await getJSON('sources');
-  if (!list) {
-    list = seeds.map((s, i) => ({ id: i + 1, county: s.scope.split(':')[0], label: s.label, url: s.url, kind: s.kind, max_pages: s.max_pages,
-      created_at: new Date().toISOString() }));
-    await setJSON('sources', list);
+  const offered = new Set((await getJSON('sources_offered')) || (list ? list.map((s) => s.url) : []));
+  if (!list) list = [];
+  let changed = false;
+  for (const seed of seeds) {   // starter sources added in later releases (e.g. Essex County) are appended once; deleted ones stay deleted
+    if (offered.has(seed.url) || list.some((s) => s.url === seed.url)) { offered.add(seed.url); continue; }
+    list.push(seedToSource(seed, Math.max(0, ...list.map((s) => s.id)) + 1)); offered.add(seed.url); changed = true;
   }
+  if (changed || !(await getJSON('sources'))) { await setJSON('sources', list); await setJSON('sources_offered', [...offered]); }
   return list;
 }
 export const saveSources = (list) => setJSON('sources', list);

@@ -2,9 +2,15 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const STATUS = {
-  prohibited: "Prohibited", mixed: "Mixed: review", restricted: "Restricted / scenic",
-  scenic: "Scenic language", permitted: "Permitted", no_signal: "No signal", no_data: "No data yet",
+  restrictive: "Restrictive", leaning: "Leans against (policy)", mixed: "Mixed: review", conditional: "Allowed with rules",
+  welcoming: "Welcoming", no_signal: "No signal", no_data: "No data yet",
 };
+/* the + / alert indicator for a result */
+const INDICATOR = { welcoming: ["plus", "+"], conditional: ["plus", "+"], restrictive: ["alert", "\u26A0"], leaning: ["alert", "\u26A0"] };
+const indicator = status => status === "mixed" ? `<span class="ind plus" title="Permits billboards in some places">+</span><span class="ind alert" title="Prohibits them elsewhere">\u26A0</span>`
+  : INDICATOR[status] ? `<span class="ind ${INDICATOR[status][0]}">${INDICATOR[status][1]}</span>` : "";
+const STANCE = { positive: ["plus", "+", "Welcoming"], negative: ["alert", "\u26A0", "Discourages"], neutral: ["neutral", "~", "Regulated"] };
+const SCOPE = { all_zones: "every district", some_zones: "some districts" };
 const TYPE = { ordinance: "Ordinance", master_plan: "Master plan", other: "Other" };
 let county = "", statusFilter = "", findOffset = 0, lastOverview = null, munis = [];
 
@@ -39,8 +45,7 @@ function hl(text, extra) {
 function showTab(name) {
   $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
   $$(".tab").forEach(t => t.classList.toggle("on", t.id === "tab-" + name));
-  $("#countyBar").style.display = ["import", "roadside"].includes(name) ? "none" : "";
-  if (name === "roadside" && window.initRoadside) window.initRoadside();
+  $("#countyBar").style.display = name === "import" ? "none" : "";
   if (name === "overview") loadOverview();
   if (name === "findings") loadFindings(true);
   if (name === "sources") loadSources();
@@ -59,32 +64,23 @@ $("#countyBar").addEventListener("click", e => {
 async function loadOverview() {
   const d = await api("/api/overview?" + qs({ county }));
   lastOverview = d;
-  const townMode = d.rows.length > 0;
-  $("#muniCard").hidden = !townMode;
-  const counts = townMode ? d.summary : Object.fromEntries(Object.keys(STATUS).map(s => [s, d.county_level.filter(c => c.status === s).length]));
+  const counts = d.summary;
   $("#tiles").innerHTML = Object.keys(STATUS).map(s => `
     <button class="tile s-${s} ${statusFilter === s ? "on" : ""}" data-s="${s}">
       <span class="n">${counts[s] || 0}</span><span class="t">${STATUS[s]}</span></button>`).join("");
-  $("#countyLevel").innerHTML = d.county_level.filter(c => !county || c.county === county).map(c => `
-    <div class="cl click" data-county="${esc(c.county)}"><b>${esc(c.county)} County</b>
-      <div><span class="badge s-${c.status}">${STATUS[c.status]}</span></div>
-      <small>${c.docs} county document(s). ${esc(c.reason)}</small></div>`).join("");
   renderMuniTable();
 }
-$("#countyLevel").addEventListener("click", e => {
-  const c = e.target.closest(".cl"); if (!c) return;
-  const chip = $(`#countyBar .chip[data-county="${c.dataset.county}"]`); if (chip) chip.click();
-  showTab("findings");
-});
 function renderMuniTable() {
-  const rows = lastOverview.rows.filter(r => !statusFilter || r.status === statusFilter);
+  const needle = ($("#townFind").value || "").trim().toLowerCase();
+  const rows = lastOverview.rows.filter(r => (!statusFilter || r.status === statusFilter) && (!needle || `${r.name} ${r.kind} ${r.county}`.toLowerCase().includes(needle)));
+  $("#townCount").textContent = `${rows.length} of ${lastOverview.rows.length} townships`;
   $("#muniTable tbody").innerHTML = rows.length ? rows.map(r => `
     <tr class="click" data-id="${r.id}">
       <td><b>${esc(r.name)}</b> <span class="muted">${esc(r.kind)}</span></td><td>${esc(r.county)}</td>
-      <td><span class="badge s-${r.status}">${STATUS[r.status]}</span></td>
+      <td style="white-space:nowrap">${indicator(r.status)}<span class="badge s-${r.status}">${STATUS[r.status]}</span></td>
       <td>${esc(r.reason)}${r.blocked ? ` <span class="tag">${r.blocked} blocked/failed</span>` : ""}</td>
       <td class="num">${r.ordinances}</td><td class="num">${r.master_plans}</td><td class="num">${r.sources}</td></tr>`).join("")
-    : `<tr><td colspan="7" class="empty">No municipalities match.</td></tr>`;
+    : `<tr><td colspan="7" class="empty">No townships match.</td></tr>`;
 }
 $("#tiles").addEventListener("click", e => {
   const t = e.target.closest(".tile"); if (!t) return;
@@ -92,16 +88,19 @@ $("#tiles").addEventListener("click", e => {
   $$("#tiles .tile").forEach(x => x.classList.toggle("on", x.dataset.s === statusFilter));
   renderMuniTable();
 });
+$("#townFind").addEventListener("input", renderMuniTable);
 $("#muniTable tbody").addEventListener("click", e => { const tr = e.target.closest("tr.click"); if (tr) openMuni(tr.dataset.id); });
 
 /* ---------- drawer ---------- */
 function findCard(f, withMuni) {
+  const st = STANCE[f.stance];
   return `<div class="find f-${f.category}">
     <div class="meta">${withMuni ? `<b>${esc(f.township || muniName(f))}</b><span class="muted">${esc(f.county)} County</span>${f.township ? "" : `<span class="tag">no town named</span>`}` : ""}
-      <span class="badge" style="background:var(--cb);color:var(--c)">${esc(window.CATS[f.category])}</span>
-      <span class="tag">${TYPE[f.doc_type] || f.doc_type}</span>
+      ${st ? `<span class="ind ${st[0]}" title="${st[2]}">${st[1]}</span>` : ""}<span class="badge" style="background:var(--cb);color:var(--c)">${esc(window.CATS[f.category])}</span>
+      ${f.basis === "ordinance" ? `<span class="tag verified">ordinance text</span>` : f.basis === "master_plan" ? `<span class="tag policy">master plan / policy</span>` : `<span class="tag">${TYPE[f.doc_type] || f.doc_type}</span>`}
+      ${SCOPE[f.scope] && (f.category === "prohibited" || f.category === "no_signage") ? `<span class="tag">${SCOPE[f.scope]}</span>` : ""}
       ${f.strong ? `<span class="tag strong">explicit wording</span>` : ""}
-      ${f.near_billboard ? "" : `<span class="tag">not tied to billboard text</span>`}</div>
+</div>
     <p>${hl(f.snippet)}</p>
     <div class="src">${esc(f.title || "")} &middot; ${/^https?:/.test(f.url) ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.url)}</a>` : esc(f.url)}</div></div>`;
 }
@@ -110,9 +109,9 @@ async function openMuni(id) {
   $("#dTitle").innerHTML = `${esc(d.muni.name)} ${esc(d.muni.kind)} <span class="muted" style="font-weight:500">${esc(d.muni.county)} County</span>`;
   const groups = {};
   d.findings.forEach(f => (groups[f.category] ||= []).push(f));
-  const order = ["prohibited", "scenic", "regulated", "permitted", "state_law", "land_restriction"];
+  const order = ["prohibited", "no_signage", "permitted", "regulated", "scenic"];
   $("#dBody").innerHTML = `
-    <p><span class="badge s-${d.status}">${STATUS[d.status]}</span> &nbsp;${esc(d.reason)}</p>
+    <p>${indicator(d.status)}<span class="badge s-${d.status}">${STATUS[d.status]}</span> &nbsp;${esc(d.reason)}</p>
     <div class="row wrap-row" style="margin:.8rem 0"><button class="btn primary" id="dCrawl" ${d.sources.length ? "" : "disabled"}>Crawl this town</button>
       <button class="btn ghost" id="dAdd">Add source / import</button></div>
     <h4>Documents (${d.docs.length})</h4>
@@ -139,7 +138,7 @@ async function loadTowns() {
 }
 async function loadFindings(reset) {
   if (reset) { findOffset = 0; await loadTowns(); }
-  const p = { county, town: $("#fTown").value, category: $("#fCat").value, doc_type: $("#fType").value, q: $("#fText").value.trim(),
+  const p = { county, town: $("#fTown").value, category: $("#fCat").value, stance: $("#fStance").value, basis: $("#fBasis").value, doc_type: $("#fType").value, q: $("#fText").value.trim(),
     near: $("#fNear").checked ? 1 : "", strong: $("#fStrong").checked ? 1 : "", limit: 60, offset: findOffset };
   const d = await api("/api/findings?" + qs(p));
   const html = d.rows.map(f => findCard(f, true)).join("");
@@ -147,9 +146,9 @@ async function loadFindings(reset) {
   findOffset += d.rows.length;
   $("#moreFind").hidden = findOffset >= d.total;
   $("#moreFind").textContent = `Load more (${d.total - findOffset} left)`;
-  $("#exportBtn").href = "/api/export.csv?" + qs({ county, category: p.category, doc_type: p.doc_type, near: p.near, strong: p.strong });
+  $("#exportBtn").href = "/api/export.csv?" + qs({ county, town: p.town, category: p.category, stance: p.stance, basis: p.basis, doc_type: p.doc_type, near: p.near, strong: p.strong });
 }
-["fCat", "fTown", "fType", "fNear", "fStrong"].forEach(id => $("#" + id).addEventListener("change", () => loadFindings(true)));
+["fCat", "fTown", "fType", "fStance", "fBasis", "fNear", "fStrong"].forEach(id => $("#" + id).addEventListener("change", () => loadFindings(true)));
 let ft; $("#fText").addEventListener("input", () => { clearTimeout(ft); ft = setTimeout(() => loadFindings(true), 300); });
 $("#moreFind").addEventListener("click", () => loadFindings(false));
 
@@ -171,11 +170,10 @@ $(".quick").addEventListener("click", e => { const b = e.target.closest(".chip")
 /* ---------- sources & crawl ---------- */
 async function fillMuniSelects() {
   if (fillMuniSelects.done) return; fillMuniSelects.done = true;
-  munis = [];   // county-level only: no town list to load
-  const counties = window.COUNTIES;
-  const opts = counties.map(c => `<option value="c${esc(c)}">${esc(c)} County</option>`).join("");
+  munis = (await api("/api/municipalities")).rows;
+  const opts = window.COUNTIES.map(c => `<optgroup label="${esc(c)} County"><option value="c${esc(c)}">${esc(c)} County (county-wide page or document)</option>`
+    + munis.filter(m => m.county === c).map(m => `<option value="m${m.id}">${esc(m.name)} ${esc(m.kind)}</option>`).join("") + `</optgroup>`).join("");
   $("#srcMuni").innerHTML = opts; $("#impMuni").innerHTML = opts;
-
 }
 const scope = v => v.startsWith("m") ? { muni_id: +v.slice(1) } : { county: v.slice(1) };
 
@@ -246,7 +244,7 @@ $("#impForm").addEventListener("submit", async e => {
 /* ---------- boot ---------- */
 fillMuniSelects().then(() => {
   const start = location.hash.slice(1);
-  showTab(["overview", "findings", "search", "sources", "roadside", "import"].includes(start) ? start : "overview");
+  showTab(["overview", "findings", "search", "sources", "import"].includes(start) ? start : "overview");
   pollCrawl();
 });
 

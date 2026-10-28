@@ -1,4 +1,4 @@
-// generated from the Python app; edit here
+// starter sources; scope is a county, or "County:Town" for a document about one town
 export default [
  {
   "scope": "Monmouth",
@@ -97,5 +97,54 @@ export default [
   "url": "https://bchapeweb.co.bergen.nj.us/planning/ordinance.asp",
   "kind": "ordinance",
   "max_pages": 60
+ },
+ {
+  "scope": "Essex",
+  "label": "Essex County Division of Planning (also keeps every town's master plan and zoning ordinance on file)",
+  "url": "https://www.ecdpw.org/division_of_planning.php",
+  "kind": "master_plan",
+  "max_pages": 40
+ },
+ {
+  "scope": "Essex",
+  "label": "Essex County Planning Board",
+  "url": "https://www.ecdpw.org/essex_county_planning_board.php",
+  "kind": "master_plan",
+  "max_pages": 40
+ },
+ {
+  "scope": "Essex:Nutley",
+  "label": "Nutley 2022 Master Plan Reexamination Report (PDF)",
+  "url": "https://www.nutleynj.org/media/Government%20/2022%20Master%20Plan%20Reexamination.pdf",
+  "kind": "master_plan",
+  "max_pages": 1
+ },
+ {
+  "scope": "Essex:Roseland",
+  "label": "Roseland 2020 Master Plan Reexamination Report (PDF)",
+  "url": "https://www.roselandnj.org/DocumentCenter/View/1901/Roseland-Master-Plan-Reexamination---December-2020-PDF",
+  "kind": "master_plan",
+  "max_pages": 1
+ },
+ {
+  "scope": "Essex:Millburn",
+  "label": "Millburn master plan background studies and elements (PDF)",
+  "url": "https://sueadler.com/wp-content/uploads/2013/05/Millburn-Master-Plan-Copy.pdf",
+  "kind": "master_plan",
+  "max_pages": 1
+ },
+ {
+  "scope": "Essex:Montclair",
+  "label": "Montclair Conservation Master Plan Element (PDF)",
+  "url": "https://www.montclairnjusa.org/files/sharedassets/public/v/1/government/departments/planning-and-community-development/documents/conservation-element2.pdf",
+  "kind": "master_plan",
+  "max_pages": 1
+ },
+ {
+  "scope": "Essex:Verona",
+  "label": "Verona ordinance 2021-01 as amended (PDF)",
+  "url": "https://www.veronanj.org/media/Council%20Docs/2021/APPROVED%20ORDINANCES/2021-01-AMENDED%20final.pdf",
+  "kind": "ordinance",
+  "max_pages": 1
  }
 ];

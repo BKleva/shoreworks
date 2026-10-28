@@ -1,4 +1,4 @@
-# Outdoor Impact Ordinance Scout + Roadside Map — its own Netlify project. Password protected.
+# Outdoor Impact Ordinance Scout + Print Mail — its own Netlify project. Password protected.
 [build]
   publish = "public"
   command = ""

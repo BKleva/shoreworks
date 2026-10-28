@@ -40,7 +40,7 @@
   table.list { width: 100%; border-collapse: collapse; font-size: .8rem; }
   .list th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--dimmer); padding: .35rem .4rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: #fff; }
   .list td { padding: .3rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .listwrap { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 9px; }
+  .listwrap { max-height: 460px; overflow: auto; border: 1px solid var(--line); border-radius: 9px; }
   .tag { font-size: .68rem; font-weight: 600; padding: .05rem .4rem; border-radius: 6px; background: #edf0f6; color: #5b6478; }
   .tag.bad { background: #fff3dc; color: #b26a00; }
   #sheet { zoom: .62; } #sheet .page, #sheet .env { box-shadow: 0 2px 12px rgba(16,26,51,.18); margin: 0 0 18px; background: #fff; }
@@ -68,6 +68,27 @@
   .letter .qr { position: absolute; left: .9in; bottom: .6in; display: flex; align-items: center; gap: .16in; }
   .letter .qr img { width: 1.05in; height: 1.05in; display: block; }     /* qr.png, 500 px = 476 dpi */
   .letter .qr span { font-size: 10pt; line-height: 1.35; max-width: 3in; white-space: pre-line; color: #000; }
+  .drop { border: 2px dashed var(--line); border-radius: 12px; padding: 1.1rem; text-align: center; background: #fafcff; color: var(--ink); }
+  .drop.over { border-color: var(--blue); background: #eef4ff; }
+  .mapgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .7rem; }
+  .mapgrid .fld { margin-bottom: .4rem; } .mapgrid select { padding: .25rem .4rem; font-size: .8rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .3rem; margin: -.2rem 0 .7rem; }
+  .chip { font-size: .72rem; font-weight: 600; padding: .15rem .55rem; border-radius: 999px; background: #eef4ff; color: var(--blue-dark); border: 1px solid #cfe0ff; cursor: pointer; }
+  .chip:hover { background: #dbe8ff; }
+  .savestate { font-size: .75rem; font-weight: 600; padding: .2rem .6rem; border-radius: 999px; background: rgba(255,255,255,.14); color: #dce8ff; }
+  .savestate.saved { color: #a8f0c0; } .savestate.offline { background: #fff3dc; color: #8a5200; }
+  .linkbtn { background: none; border: 0; color: var(--blue-dark); cursor: pointer; font-size: .74rem; text-decoration: underline; padding: 0; }
+  .tag.ok { background: #e3f6ea; color: #0a7a3b; } .nowrap { white-space: nowrap; }
+  .list td:last-child { min-width: 8rem; }
+  .list th select { display: block; margin-top: .25rem; padding: .15rem .3rem; font-size: .75rem; font-weight: 600; text-transform: none; letter-spacing: 0; width: auto; }
+  .list td.biz { min-width: 9rem; }
+  .list td.cell2 { max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .list th .maptag { display: block; font-size: .62rem; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--blue-dark); }
+  .list th { white-space: nowrap; }
+  .colpick { margin: 0 0 .5rem; font-size: .8rem; } .colpick summary { cursor: pointer; font-weight: 600; color: var(--ink); } .colpick .chks { margin: .4rem 0; }
+  .colview { width: 100%; border-collapse: collapse; font-size: .75rem; margin-top: .3rem; } .colview td { padding: .15rem .35rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  code { background: #edf0f6; padding: 0 .25rem; border-radius: 4px; font-size: .78rem; }
+  .row > input[type=search] { min-width: 0; }
   @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
   @media print {
     body { background: #fff; } header.top, .controls, .screen-only { display: none !important; }
@@ -79,25 +100,44 @@
 <body>
 <header class="top">
   <div><span class="name">Outdoor Impact</span><span class="sub">Ordinance Scout &middot; Print mail</span></div>
-  <a class="back" href="/#roadside">&larr; Back to Roadside Map</a>
+  <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap"><span id="saveState" class="savestate loading">Loading…</span><a class="back" href="/">&larr; Back to Ordinance Scout</a></div>
 </header>
 
 <div class="layout">
   <div class="controls">
     <div class="panel">
-      <h2>1 &middot; Who gets mail</h2>
-      <div class="chks" id="counties"></div>
-      <div class="row">
-        <label class="fld">From road edge (ft)<input id="min" type="number" min="0" value="0"></label>
-        <label class="fld">Back to (ft)<input id="max" type="number" min="25" value="300"></label>
+      <h2>1 &middot; Import prospects</h2>
+      <div id="drop" class="drop">
+        <b>Drop a CSV or Excel file here</b>
+        <div class="muted" style="margin:.25rem 0 .5rem">.csv, .xlsx or .xls, one prospect per row</div>
+        <label class="btn" style="cursor:pointer">Choose a file<input type="file" id="file" accept=".csv,.tsv,.txt,.xlsx,.xls,.xlsm" hidden></label>
       </div>
-      <div class="chks" id="classes"></div>
-      <div class="chks">
-        <label><input type="checkbox" id="skipSame"> Skip tax bills that go to the property itself</label>
+      <details style="margin-top:.6rem"><summary class="muted" style="cursor:pointer">Or paste rows from Excel / Google Sheets</summary>
+        <textarea id="paste" rows="5" style="margin-top:.4rem" placeholder="Copy the cells (include the header row) and paste them here"></textarea>
+        <button class="btn" id="pasteGo" type="button" style="margin-top:.4rem">Load pasted rows</button>
+      </details>
+      <div class="muted" style="margin-top:.5rem"><a href="#" id="tpl">Download a CSV template</a> with the column names that match automatically.</div>
+
+      <div id="loaded" hidden>
+        <div class="tip" id="loadedNote"></div>
+        <div class="chks" style="margin:.6rem 0 0"><label><input type="checkbox" id="hasHeader" checked> First row is a header (column names)</label>
+          <button class="btn" id="clearList" type="button" style="padding:.25rem .7rem">Clear list</button></div>
+        <details id="mapBox" open style="margin-top:.5rem"><summary style="cursor:pointer;font-weight:600;color:var(--ink);font-size:.85rem">Match your columns</summary>
+          <div class="muted" style="margin:.3rem 0">Matched automatically from your column names. Change any that are wrong.</div>
+          <div class="mapgrid" id="mapGrid"></div>
+          <div class="muted" id="mapNote" style="margin-top:.4rem"></div>
+          <details style="margin-top:.4rem"><summary class="muted" style="cursor:pointer">How each column in your file was read</summary><div id="colView"></div></details>
+        </details>
+      </div>
+
+      <div class="chks" style="margin-top:.8rem">
         <label><input type="checkbox" id="skipBad" checked> Skip incomplete addresses</label>
-        <label><input type="checkbox" id="exact" checked> <b>Print the tax bill address exactly as recorded</b> (no abbreviating or reformatting)</label>
+        <label><input type="checkbox" id="skipDup" checked> Skip duplicate rows (same name and address)</label>
+        <label><input type="checkbox" id="skipMailed" checked> <b>Skip people already mailed</b></label>
+        <label><input type="checkbox" id="exact" checked> <b>Print addresses exactly as written in my file</b> (no abbreviating or reformatting)</label>
       </div>
-      <div class="muted" id="refsNote"></div>
+      <label class="fld">Order
+        <select id="sort"><option value="zip">By ZIP code (the order a mail house wants)</option><option value="file">Same order as my file</option></select></label>
     </div>
 
     <div class="panel">
@@ -108,14 +148,15 @@
           <option value="envelopes">Envelopes (#10, address printed on envelope)</option>
           <option value="letters">Letters (address positioned for a #10 window envelope)</option>
         </select></label>
-      <label class="fld">Addressee line (owner names are not in the public record)
+      <label class="fld">Addressee line
         <select id="addressee">
-          <option value="owner">PROPERTY OWNER</option>
+          <option value="file">Name and company from my file</option>
+          <option value="owner">PROPERTY OWNER (same on every piece)</option>
           <option value="ownerOf">OWNER OF {property address}</option>
-          <option value="owneroccupant">CURRENT PROPERTY OWNER / LANDOWNER</option>
-          <option value="custom">Custom…</option>
+          <option value="custom">Custom&hellip;</option>
           <option value="none">(none)</option>
         </select></label>
+      <label class="fld" id="fallbackWrap">When a row has no name or company, use<input id="fallback" placeholder="PROPERTY OWNER"></label>
       <label class="fld" id="customWrap" hidden>Custom addressee line<input id="custom" placeholder="e.g. LANDOWNER"></label>
       <label class="fld" id="startWrap">Start at label # (for a partly used sheet)<input id="start" type="number" min="1" max="30" value="1"></label>
       <label class="fld">Return address
@@ -135,8 +176,10 @@
             <label class="fld" style="margin-top:.5rem">Typed name in a handwriting style (used when no drawing is saved)<input id="sigName" value="Colton Lacovara"></label>
           </details>
         </div>
-        <label class="fld">Letter text <span class="muted">(tokens: {{property_address}} {{properties}} {{town}} {{county}} {{signature}})</span>
-          <textarea id="body" rows="9"></textarea></label>
+        <label class="fld">Letter text <span class="muted">(merge fields: click one below to insert it; <code>{{first_name|Property Owner}}</code> gives a fallback for rows where it is empty)</span>
+          <textarea id="body" rows="10"></textarea></label>
+        <div class="chips" id="tokens"></div>
+        <button class="linkbtn" id="resetBody" type="button" style="margin:-.3rem 0 .7rem">Restore the standard letter text</button>
         <label class="fld">Date on letter<input id="date" type="text"></label>
       </div>
     </div>
@@ -145,22 +188,26 @@
       <h2>3 &middot; Print</h2>
       <div class="count" id="count">0</div>
       <div class="muted" id="countSub">mail pieces</div>
+      <div class="muted" id="mailedInfo" style="margin-top:.35rem"></div>
       <div class="row" style="margin-top:.8rem">
         <button class="btn primary" id="print">Print</button>
         <button class="btn" id="test">Print a 3-piece test</button>
       </div>
-      <button class="btn" id="csv" style="margin-top:.6rem">Download addresses (CSV)</button>
+      <button class="btn" id="markAll" style="margin-top:.6rem" title="Records these recipients as mailed without printing">Mark these as mailed</button>
+      <button class="btn" id="csv" style="margin-top:.6rem">Download the mailing list (CSV)</button>
       <div class="tip" id="tip"></div>
     </div>
   </div>
 
   <div>
+    <div class="tip screen-only" id="mailedBar" hidden style="margin:0 0 1rem"></div>
     <div class="panel screen-only">
       <h2>Recipients <span class="muted" id="listNote"></span></h2>
-      <div class="row" style="margin-bottom:.5rem"><button class="btn" id="all">Select all</button><button class="btn" id="none">Select none</button></div>
-      <div class="listwrap"><table class="list" id="list"><thead><tr><th></th><th>Mailing address</th><th>Properties (parcels)</th></tr></thead><tbody></tbody></table></div>
+      <div class="row" style="margin-bottom:.5rem"><input id="listFind" type="search" placeholder="Search business, site address or mailing address&hellip;" aria-label="Search the list"><button class="btn" id="all" style="flex:none">Select all</button><button class="btn" id="none" style="flex:none">Select none</button></div>
+      <details id="colPick" class="colpick" hidden><summary>Columns shown <span class="muted" id="colPickNote"></span></summary><div id="colChecks" class="chks"></div><button class="linkbtn" id="colAll" type="button">Show all columns</button></details>
+      <div class="listwrap"><table class="list" id="list"><thead></thead><tbody></tbody></table></div>
     </div>
-    <div class="screen-only muted" style="margin:.2rem 0 .6rem">Preview (scaled down). What prints is full size.</div>
+    <div class="screen-only muted" id="previewNote" style="margin:.2rem 0 .6rem">Preview (scaled down). What prints is full size.</div>
     <div id="sheet"></div>
   </div>
 </div>
@@ -168,23 +215,33 @@
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const COUNTIES = ['Monmouth', 'Ocean', 'Bergen', 'Morris'];
-const CLASSES = { '1': 'Vacant land', '4A': 'Commercial', '4B': 'Industrial' };
 const STATES = { ALABAMA: 'AL', ALASKA: 'AK', ARIZONA: 'AZ', ARKANSAS: 'AR', CALIFORNIA: 'CA', COLORADO: 'CO', CONNECTICUT: 'CT', DELAWARE: 'DE', 'DISTRICT OF COLUMBIA': 'DC',
   FLORIDA: 'FL', GEORGIA: 'GA', HAWAII: 'HI', IDAHO: 'ID', ILLINOIS: 'IL', INDIANA: 'IN', IOWA: 'IA', KANSAS: 'KS', KENTUCKY: 'KY', LOUISIANA: 'LA', MAINE: 'ME', MARYLAND: 'MD',
   MASSACHUSETTS: 'MA', MICHIGAN: 'MI', MINNESOTA: 'MN', MISSISSIPPI: 'MS', MISSOURI: 'MO', MONTANA: 'MT', NEBRASKA: 'NE', NEVADA: 'NV', 'NEW HAMPSHIRE': 'NH', 'NEW JERSEY': 'NJ',
   'NEW MEXICO': 'NM', 'NEW YORK': 'NY', 'NORTH CAROLINA': 'NC', 'NORTH DAKOTA': 'ND', OHIO: 'OH', OKLAHOMA: 'OK', OREGON: 'OR', PENNSYLVANIA: 'PA', 'RHODE ISLAND': 'RI',
   'SOUTH CAROLINA': 'SC', 'SOUTH DAKOTA': 'SD', TENNESSEE: 'TN', TEXAS: 'TX', UTAH: 'UT', VERMONT: 'VT', VIRGINIA: 'VA', WASHINGTON: 'WA', 'WEST VIRGINIA': 'WV', WISCONSIN: 'WI',
   WYOMING: 'WY', 'PUERTO RICO': 'PR' };
+const ABBR = new Set(Object.values(STATES));
 const norm = (x) => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-const q = new URLSearchParams(location.search);
+const normKey = (x) => String(x || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+const flat = (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// browser storage can be blocked or full: every use is guarded
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
+  raw(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  setRaw(k, v) { try { localStorage.setItem(k, v); } catch { /* too big to remember: still works this session */ } },
+  del(k) { try { localStorage.removeItem(k); } catch { /* ignore */ } },
+};
+
 const LOGO = '<div class="logo"><img src="/static/mail/oilogo.jpg" alt="Outdoor Impact"></div>';
 const qrBlock = () => `<div class="qr"><img src="/static/mail/qr.png" alt="QR code">${$('qrText').value.trim() ? `<span>${esc($('qrText').value.trim())}</span>` : ''}</div>`;
-const DEFAULT_BODY = `Dear Property Owner,
+const DEFAULT_BODY = `Dear {{first_name|Property Owner}},
 
 Outdoor Impact works with New Jersey landowners who want passive income from their land. We develop premium billboard structures on private property and pay the landowner.
 
-Your property at {{property_address}} in {{town}} sits along a state highway, which is why I am writing. If you would like to talk about what a billboard could mean for this property, please call or email me. There is no obligation.
+I am writing about your property at {{site_address|your property}}. If you would like to talk about what a billboard could mean for this land, please call or email me. There is no obligation.
 
 Sincerely,
 
@@ -194,140 +251,413 @@ Co-Owner & Senior Property Consultant
 
 {{signature}}`;
 
-// ---- address cleanup: the tax record stores some states spelled out and ZIPs as 9 digits ----
+// ---------- the columns we know how to use, and the header names that match them automatically ----------
+const FIELDS = [
+  { k: 'name', label: 'Full name', syn: ['name', 'fullname', 'contact', 'contactname', 'owner', 'ownername', 'prospect', 'recipient', 'landowner', 'propertyowner'] },
+  { k: 'first', label: 'First name', syn: ['first', 'firstname', 'fname', 'givenname'] },
+  { k: 'last', label: 'Last name', syn: ['last', 'lastname', 'lname', 'surname', 'familyname'] },
+  { k: 'company', label: 'Business name', syn: ['businessname', 'business', 'company', 'companyname', 'bizname', 'dba', 'tradename', 'organization', 'org', 'entity', 'llc', 'tenant'] },
+  { k: 'street', label: 'Street address', syn: ['street', 'streetaddress', 'address', 'address1', 'addr', 'addressline1', 'mailingaddress', 'mailaddress', 'street1', 'mailingstreet', 'taxaddress'] },
+  { k: 'street2', label: 'Suite / unit / line 2', syn: ['address2', 'street2', 'addressline2', 'suite', 'unit', 'apt', 'apartment', 'suiteunit'] },
+  { k: 'city', label: 'City', syn: ['city', 'mailingcity', 'citytown'] },
+  { k: 'state', label: 'State', syn: ['state', 'st', 'province', 'mailingstate'] },
+  { k: 'zip', label: 'ZIP code', syn: ['zip', 'zipcode', 'postalcode', 'postal', 'zip5', 'postcode', 'mailingzip'] },
+  { k: 'csz', label: 'City, state ZIP (one column)', syn: ['citystatezip', 'citystate', 'csz'] },
+  { k: 'full', label: 'Whole address (one column)', syn: ['fulladdress', 'wholeaddress', 'completeaddress', 'mailingaddressfull'] },
+  { k: 'prop', label: 'Site address', syn: ['siteaddress', 'site', 'sitelocation', 'propertyaddress', 'property', 'propaddress', 'parcel', 'location', 'propertylocation', 'propertystreet'] },
+  { k: 'town', label: 'Site town (for the letter)', syn: ['sitetown', 'sitecity', 'propertytown', 'propertycity', 'propcity', 'town', 'municipality'] },
+];
+const TEMPLATE = [['First Name', 'Last Name', 'Company', 'Street Address', 'Suite/Unit', 'City', 'State', 'ZIP', 'Property Address', 'Property Town', 'Notes'],
+  ['Jane', 'Sample', '', '123 Example Rd', '', 'Somewhere', 'NJ', '07000', '456 Route 9', 'Somewhere', 'Replace these two example rows'],
+  ['', '', 'Sample Holdings LLC', '99 Placeholder Ave', 'Suite 4', 'Elsewhere', 'NJ', '07001', '12 Highway Dr', 'Elsewhere', '']];
+
+// ---------- reading a file: CSV / TSV by hand, Excel through SheetJS (loaded only when needed) ----------
+function parseDelimited(text) {
+  text = text.replace(/^﻿/, '');
+  const first = text.split(/\r?\n/, 1)[0] || '';
+  const counts = [['\t', (first.match(/\t/g) || []).length], [',', (first.match(/,/g) || []).length], [';', (first.match(/;/g) || []).length]].sort((a, b) => b[1] - a[1]);
+  const delim = counts[0][1] ? counts[0][0] : ',';
+  const rows = []; let row = [], cur = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) { if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else inQ = false; } else cur += c; }
+    else if (c === '"' && cur === '') inQ = true;
+    else if (c === delim) { row.push(cur); cur = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cur); cur = ''; rows.push(row); row = []; }
+    else cur += c;
+  }
+  if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+  return rows;
+}
+const cleanGrid = (g) => g.map((r) => r.map((c) => String(c ?? '').replace(/\s+/g, ' ').trim())).filter((r) => r.some((c) => c !== ''));
+function decode(buf) {
+  const b = new Uint8Array(buf);
+  if (b[0] === 0xFF && b[1] === 0xFE) return new TextDecoder('utf-16le').decode(b);   // Excel "Unicode Text"
+  if (b[0] === 0xFE && b[1] === 0xFF) return new TextDecoder('utf-16be').decode(b);
+  const body = b[0] === 0xEF && b[1] === 0xBB && b[2] === 0xBF ? b.subarray(3) : b;   // drop a UTF-8 byte-order mark
+  try { return new TextDecoder('utf-8', { fatal: true }).decode(body); } catch { return new TextDecoder('windows-1252').decode(body); }   // Excel's "CSV" is often not UTF-8
+}
+let xlsxLoading = null;
+function ensureXlsx() {
+  if (window.XLSX) return Promise.resolve();
+  xlsxLoading ||= new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload = res; s.onerror = () => rej(new Error('Could not load the Excel reader. Save the sheet as CSV and upload that instead.')); document.head.appendChild(s);
+  });
+  return xlsxLoading;
+}
+async function readFile(f) {
+  if (f.size > 25e6) throw new Error('That file is over 25 MB. Split it into smaller lists.');
+  const ext = f.name.split('.').pop().toLowerCase(), buf = await f.arrayBuffer();
+  if (['xlsx', 'xls', 'xlsm'].includes(ext)) {
+    await ensureXlsx();
+    const wb = XLSX.read(new Uint8Array(buf), { type: 'array' });
+    const name = wb.SheetNames.find((n) => wb.Sheets[n] && wb.Sheets[n]['!ref']);
+    if (!name) throw new Error('That workbook has no data.');
+    return { grid: cleanGrid(XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1, raw: false, defval: '' })), sheet: wb.SheetNames.length > 1 ? name : '' };
+  }
+  return { grid: cleanGrid(parseDelimited(decode(buf))), sheet: '' };
+}
+
+// ---------- address pieces ----------
+const STATE_NAMES = Object.keys(STATES).sort((a, b) => b.length - a.length).map((n) => n.replace(/ /g, '\\s+')).join('|');
+const ZIP_RE = '(\\d{5}(?:-?\\d{4})?)';
+function parseCsz(s) {   // "Eatontown, NJ 07724", "New Brunswick NJ 08901", "Eatontown, New Jersey 07724"
+  s = String(s || '').trim();
+  let m = s.match(new RegExp('^(.*?)[,\\s]+([A-Za-z]{2})\\.?\\s*' + ZIP_RE + '?$'));
+  if (m && ABBR.has(m[2].toUpperCase())) return { city: m[1].replace(/,\s*$/, '').trim(), state: m[2].toUpperCase(), zip: m[3] || '' };
+  m = s.match(new RegExp('^(.*?)[,\\s]+(' + STATE_NAMES + ')\\.?\\s*' + ZIP_RE + '?$', 'i'));
+  if (m) return { city: m[1].replace(/,\s*$/, '').trim(), state: STATES[m[2].toUpperCase().replace(/\s+/g, ' ')] || m[2], zip: m[3] || '' };
+  return { city: s, state: '', zip: '' };
+}
+function parseFull(s) {   // "123 Main St, Eatontown, NJ 07724"
+  const parts = String(s || '').split(',').map((x) => x.trim()).filter(Boolean);
+  if (parts.length >= 3) return { street: parts.slice(0, -2).join(', '), ...parseCsz(parts.slice(-2).join(', ')) };
+  if (parts.length === 2) return { street: parts[0], ...parseCsz(parts[1]) };
+  return { street: s, city: '', state: '', zip: '' };
+}
+
+// ---------- address cleanup (used for the "complete?" check, and for printing when exact mode is off) ----------
 function fmtAddr(p, exact) {
-  // What the tax record says, untouched except for trimming stray spaces at the ends.
   const rawStreet = String(p.mail_street || '').trim(), rawCs = String(p.mail_city_state || '').trim(), rawZip = String(p.mail_zip || '').trim();
-  // A cleaned-up reading of the same fields, used to decide whether the address is mailable (and, only if you turn exact mode off, what prints).
   const line1c = rawStreet.toUpperCase().replace(/\s+/g, ' ');
-  const cs = rawCs.toUpperCase().replace(/\s+/g, ' ').replace(/\s+N\.? ?J\.?$/, ' NJ');   // "EATONTOWN N J" -> "EATONTOWN NJ"
+  const cs = rawCs.toUpperCase().replace(/\s+/g, ' ').replace(/\s+N\.? ?J\.?$/, ' NJ');
   let zip = rawZip.replace(/\s+/g, ''), city = cs, st = '';
   const m = cs.match(/^(.*?),\s*(.+)$/);
   if (m) { city = m[1].trim(); st = m[2].trim(); }
-  else { const m2 = cs.match(/^(.*\S)\s+([A-Z]{2})$/); if (m2) { city = m2[1].trim(); st = m2[2]; } }   // the record often omits the comma: "CAMDEN NJ"
-  st = st.replace(/^N\.?\s*J\.?$/, 'NJ');   // "N J"
-  st = st.replace(/\.$/, '');   // "PA."
+  else { const m2 = cs.match(/^(.*\S)\s+([A-Z]{2})$/); if (m2) { city = m2[1].trim(); st = m2[2]; } }
+  st = st.replace(/^N\.?\s*J\.?$/, 'NJ').replace(/\.$/, '');
   const zm = st.match(/^(.*?)\s*(\d{5}(?:-?\d{4})?)$/);
   if (zm) { st = zm[1].trim(); if (zip.replace(/\D/g, '').length < 5) zip = zm[2]; }
   st = STATES[st] || st;
   zip = zip.replace(/[^0-9-]/g, '');
   if (/^\d{9}$/.test(zip)) zip = zip.slice(0, 5) + '-' + zip.slice(5);
   if (/^\d{5}-0000$/.test(zip)) zip = zip.slice(0, 5);
-  if (/^0{5}/.test(zip)) zip = '';   // 00000 is a placeholder in the tax record, not a real ZIP
-  const complete = !!(line1c && city && /^[A-Z]{2}$/.test(st) && /^\d{5}(-\d{4})?$/.test(zip)) && !/UNKNOWN/.test(line1c + ' ' + cs);
+  if (/^0{5}/.test(zip)) zip = '';
+  const complete = !!(line1c && city && /^[A-Z]{2}$/.test(st) && /^\d{5}(-\d{4})?$/.test(zip));
   const cleaned2 = [city && st ? `${city}, ${st}` : city || st, zip].filter(Boolean).join(' ');
   return exact
     ? { line1: rawStreet, line2: [rawCs, rawZip].filter(Boolean).join(' '), complete, city: rawCs, st: '', zip: rawZip, rawStreet, rawCs, rawZip }
     : { line1: line1c, line2: cleaned2, complete, city, st, zip, rawStreet, rawCs, rawZip };
 }
 
-let all = [], recipients = [];
-let sigUrl = '';   // blob URL of the uploaded signature image, created once so thousands of letters share it
+// ---------- saving: everything is kept on the server (and mirrored in this browser) ----------
+const syncUi = { state: 'loading' };
+function setSync(state, msg) {
+  syncUi.state = state;
+  const el = $('saveState');
+  el.textContent = msg || { saved: 'All changes saved', saving: 'Saving…', offline: 'Not saved to the server: kept in this browser', loading: 'Loading…' }[state];
+  el.className = 'savestate ' + state;
+}
+async function apiCall(path, method = 'GET', payload, keepalive = false) {
+  const r = await fetch('/api/mail/' + path, { method, keepalive, headers: payload !== undefined ? { 'Content-Type': 'application/json' } : undefined, body: payload !== undefined ? JSON.stringify(payload) : undefined });
+  if (r.status === 401) { location.href = '/login?next=' + encodeURIComponent(location.pathname); throw new Error('Signed out'); }
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || 'Save failed (' + r.status + ')');
+  return j;
+}
+const timers = {}, dirty = new Set(), ops = [];   // ops: mailed / unmailed changes waiting to reach the server, in order
+function later(kind, ms, fn) {
+  dirty.add(kind); clearTimeout(timers[kind]); setSync('saving');
+  timers[kind] = setTimeout(async () => {
+    try { await fn(); dirty.delete(kind); if (!dirty.size) setSync('saved'); }
+    catch (e) { setSync('offline', 'Not saved' + (e.message && e.message !== 'Failed to fetch' ? ': ' + e.message : ' (offline)') + '. Will retry; kept in this browser.'); timers[kind] = setTimeout(() => later(kind, 0, fn), 12000); }
+  }, ms);
+}
+let dateCustom = false;
+const settingsObj = () => ({ ret: $('ret').value, body: $('body').value, addressee: $('addressee').value, custom: $('custom').value, fallback: $('fallback').value, format: $('format').value,
+  start: $('start').value, logo: $('logo').checked, qr: $('qr').checked, qrText: $('qrText').value, sigOn: $('sigOn').checked, sigName: $('sigName').value,
+  skipBad: $('skipBad').checked, skipDup: $('skipDup').checked, skipMailed: $('skipMailed').checked, exact: $('exact').checked, sort: $('sort').value,
+  date: dateCustom ? $('date').value : '', off: [...off] });
+async function saveSettings() { const o = settingsObj(); store.set('oi_mail2', o); await apiCall('settings', 'PUT', o); }
+const queueSettings = () => later('settings', 700, saveSettings);
+const save = queueSettings;
+async function saveProspects() {
+  store.set('oi_prospects', data);
+  if (!data) { await apiCall('prospects', 'DELETE'); return; }
+  const body = JSON.stringify(data);
+  if (body.length > 5.4e6) throw new Error('this list is too large to save to the server (split it into smaller files)');
+  await apiCall('prospects', 'PUT', data);
+}
+const queueProspects = () => later('prospects', 1200, saveProspects);
+function saveSignature(dataUrl) { later('signature', 0, () => apiCall('signature', 'PUT', { data_url: dataUrl || null })); }
+async function flushOps() { while (ops.length) { const o = ops[0]; if (o.kind === 'mark') await apiCall('mailed', 'POST', { batch: o.batch, items: o.items }); else await apiCall('unmail', 'POST', { ids: o.ids }); ops.shift(); } }
+const queueOp = (o) => { ops.push(o); later('mailed', 0, flushOps); };
+// closing the tab in the middle of a save: send the small stuff one last time
+addEventListener('pagehide', () => { if (dirty.has('settings')) { try { fetch('/api/mail/settings', { method: 'PUT', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(settingsObj()) }); } catch { /* best effort */ } } });
+
+// ---------- who has been mailed ----------
+function hash(str) {   // 53-bit hash, so the log stores short codes instead of names and addresses
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+const mailed = new Map();      // person code -> [when, batch id, address code]
+const addrCount = new Map();   // address code -> how many mailed people were at it
+let batches = {};
+function indexMailed() { addrCount.clear(); for (const v of mailed.values()) if (v[2]) addrCount.set(v[2], (addrCount.get(v[2]) || 0) + 1); }
+const day = (iso) => new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+function stamp(r) {
+  r.mailed = r.id ? mailed.get(r.id) || null : null;
+  r.addrMailed = !r.mailed && r.hasWho && r.ah && (addrCount.get(r.ah) || 0) > 0;   // a different name at an address that was mailed
+}
+function restamp() { recipients.forEach(stamp); touch(); }
+function markRecipients(list, meta) {
+  const at = new Date().toISOString(), id = 'b' + Date.now().toString(36), items = [];
+  for (const r of list) { if (!r.id) continue; mailed.set(r.id, [at, id, r.ah]); items.push([r.id, r.ah]); }
+  if (!items.length) return 0;
+  batches[id] = { at, format: meta.format, label: meta.label, n: items.length };
+  indexMailed(); restamp(); renderList(); render(); mailedInfo();
+  for (let i = 0; i < items.length; i += 4000) queueOp({ kind: 'mark', batch: { id, at, format: meta.format, label: meta.label }, items: items.slice(i, i + 4000) });
+  return items.length;
+}
+function unmarkRecipients(list) {
+  const ids = list.map((r) => r.id).filter((x) => x && mailed.has(x));
+  ids.forEach((x) => mailed.delete(x));
+  indexMailed(); restamp(); renderList(); render(); mailedInfo();
+  for (let i = 0; i < ids.length; i += 4000) queueOp({ kind: 'unmark', ids: ids.slice(i, i + 4000) });
+}
+function mailedInfo() {
+  const n = mailed.size, nb = Object.keys(batches).length, last = Object.values(batches).map((b) => b.at).sort().pop();
+  const here = recipients.filter((r) => r.mailed).length;
+  $('mailedInfo').innerHTML = n ? `${n.toLocaleString()} people mailed so far in ${nb} batch${nb === 1 ? '' : 'es'}${last ? ', last ' + day(last) : ''}.${here ? ` <b>${here.toLocaleString()}</b> in this list ${here === 1 ? 'was' : 'were'} mailed before.` : ''}` : 'Nobody has been marked as mailed yet.';
+}
+
+// ---------- state ----------
+let data = null;        // { file, sheet, hasHeader, grid, map, at }
+let tbl = { headers: [], rows: [] };
+let recipients = [];
+const off = new Set();  // rows the user unticked, by row number, so they stay unticked while options change
+let sigUrl = '';
 function setSig(blob) { if (sigUrl) URL.revokeObjectURL(sigUrl); sigUrl = blob ? URL.createObjectURL(blob) : ''; $('sigNote').textContent = sigUrl ? 'Using the saved signature (drawn or uploaded). It stays saved in this browser.' : 'No drawn signature saved yet, so letters show the typed name in a handwriting style. Draw one above and press "Use this signature".'; }
 const sigHtml = () => `<div class="sig">${sigUrl ? `<img src="${sigUrl}" alt="Signature">` : `<span class="script">${esc($('sigName').value)}</span>`}</div>`;
 
-function setup() {
-  const want = (q.get('county') || '').split(',').filter(Boolean);
-  $('counties').innerHTML = COUNTIES.map((c) => `<label><input type="checkbox" value="${c}" ${(!want.length || want.includes(c)) ? 'checked' : ''}> ${c}</label>`).join('');
-  const wantCls = (q.get('classes') || '').split(',').filter(Boolean);
-  $('classes').innerHTML = Object.entries(CLASSES).map(([k, v]) => `<label><input type="checkbox" value="${k}" ${(!wantCls.length || wantCls.includes(k)) ? 'checked' : ''}> ${v}</label>`).join('');
-  if (q.get('min_ft')) $('min').value = q.get('min_ft');
-  if (q.get('max_ft')) $('max').value = q.get('max_ft');
-  const refs = (q.get('refs') || '').split(',').filter(Boolean);
-  $('refsNote').textContent = refs.length ? `Only highways: ${refs.join(', ')} (from the map)` : 'All state highways in the chosen counties.';
-  const saved = JSON.parse(localStorage.getItem('oi_mail') || '{}');
-  $('ret').value = saved.ret ?? ''; $('body').value = (saved.body && !saved.body.includes('[Your name]')) ? saved.body : DEFAULT_BODY;   // old placeholder text is replaced
-  $('sigOn').checked = saved.sigOn ?? true; $('sigName').value = saved.sigName ?? 'Colton Lacovara';
-  $('addressee').value = saved.addressee ?? 'owner'; $('custom').value = saved.custom ?? ''; $('format').value = saved.format ?? 'labels'; $('logo').checked = saved.logo ?? true; $('qr').checked = saved.qr ?? true; $('qrText').value = saved.qrText ?? 'Scan to learn more\noutdoorimpactllc.com';
-  $('date').value = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  for (const id of ['min', 'max', 'skipSame', 'skipBad', 'exact']) $(id).addEventListener('input', rebuild);
-  $('counties').addEventListener('change', load); $('classes').addEventListener('change', rebuild);
-  for (const id of ['format', 'addressee', 'custom', 'ret', 'body', 'date', 'start', 'logo', 'qr', 'qrText', 'sigOn', 'sigName']) $(id).addEventListener('input', () => { save(); render(); });
-  $('print').addEventListener('click', () => doPrint(false)); $('test').addEventListener('click', () => doPrint(true));
-  $('all').addEventListener('click', () => { recipients.forEach((r) => r.on = true); renderList(); render(); });
-  $('none').addEventListener('click', () => { recipients.forEach((r) => r.on = false); renderList(); render(); });
-  $('csv').addEventListener('click', downloadCsv);
-  initPad();
-  $('sigFile').addEventListener('change', (e) => {
-    const f = e.target.files[0]; if (!f) return;
-    if (f.size > 1.5e6) { alert('Choose an image under 1.5 MB.'); e.target.value = ''; return; }
-    const fr = new FileReader();
-    fr.onload = () => { try { localStorage.setItem('oi_sig', fr.result); } catch { /* too big to remember: still works this session */ } setSig(f); render(); };
-    fr.readAsDataURL(f);
-  });
-  $('sigClear').addEventListener('click', () => { localStorage.removeItem('oi_sig'); $('sigFile').value = ''; setSig(null); render(); });
-  const storedSig = localStorage.getItem('oi_sig');
-  if (storedSig) fetch(storedSig).then((r) => r.blob()).then((b) => { setSig(b); render(); }); else setSig(null);
-  $('list').querySelector('tbody').addEventListener('change', (e) => { const i = e.target.dataset.i; if (i != null) { recipients[i].on = e.target.checked; render(); } });
-  load();
+const colName = (i) => { let s = ''; for (i++; i > 0; i = Math.floor((i - 1) / 26)) s = String.fromCharCode(65 + ((i - 1) % 26)) + s; return 'Column ' + s; };
+
+function autoMap(headers) {
+  const hk = headers.map(flat), used = new Set(), map = {};
+  for (const f of FIELDS) { const i = hk.findIndex((h, j) => !used.has(j) && f.syn.includes(h)); if (i >= 0) { map[f.k] = i; used.add(i); } }
+  const find = (k, re) => { if (map[k] != null) return; const i = hk.findIndex((h, j) => !used.has(j) && re.test(h)); if (i >= 0) { map[k] = i; used.add(i); } };
+  find('street', /^(?!.*(email|prop|site|web|business)).*address/); find('zip', /zip|postal/); find('city', /city/); find('state', /^state/);
+  const NOT = '(?!.*(address|addr|street|city|state|zip|postal|phone|tel|fax|email|web|url|site|propert))';   // a business "address" is an address, not the name
+  find('company', new RegExp('^' + NOT + '(?=.*(business|company|biz|dba|organi[sz]ation|entity|firm|tenant|account))'));
+  find('prop', /^(?!.*(mail|tax|bill|email|web|url|phone)).*(site|propert|parcel|location)/);
+  find('first', /^(first|fname|given)/); find('last', /^(last|lname|surname|family)/);
+  find('name', /^(?!.*(business|company|email|file|user))(.*(contact|owner|landowner|person)|name)/);
+  find('street2', /(address|addr|street)\w*(2|two)|suite|unit|apt/);
+  if (map.city == null && map.town != null) { map.city = map.town; delete map.town; }   // a single "Town" column is the mailing city
+  return map;
 }
 
-const save = () => localStorage.setItem('oi_mail', JSON.stringify({ ret: $('ret').value, body: $('body').value, addressee: $('addressee').value, custom: $('custom').value, format: $('format').value, logo: $('logo').checked, qr: $('qr').checked, qrText: $('qrText').value, sigOn: $('sigOn').checked, sigName: $('sigName').value }));
-
-async function load() {
-  const cs = [...$('counties').querySelectorAll('input:checked')].map((i) => i.value);
-  $('count').textContent = '…'; $('countSub').textContent = 'loading parcels';
-  const parts = await Promise.all(cs.map(async (c) => {
-    const r = await fetch('/api/roadside/results?county=' + c);
-    if (r.status === 401) { location.href = '/login?next=' + encodeURIComponent(location.pathname + location.search); return []; }
-    return (await r.json()).features.map((f) => f.properties);
-  }));
-  all = parts.flat();
-  rebuild();
-}
-
-function rebuild() {
-  const min = +$('min').value || 0, max = +$('max').value || 300;
-  const cls = [...$('classes').querySelectorAll('input:checked')].map((i) => i.value);
-  const refs = (q.get('refs') || '').split(',').filter(Boolean);
-  const groups = new Map();
-  for (const p of all) {
-    if (p.edge_min_ft < min || p.edge_min_ft > max || !cls.includes(p.prop_class)) continue;
-    if (refs.length && !p.route.split(', ').some((r) => refs.includes(r))) continue;
-    const a = fmtAddr(p, $('exact').checked);
-    if (!a.line1) continue;
-    // one piece per distinct address; only case and repeated spaces are ignored, so "1-2 Main St" and "12 Main St" stay separate
-    const key = [a.rawStreet, a.rawCs, a.rawZip].map((x) => x.toUpperCase().replace(/\s+/g, ' ')).join('|');
-    const g = groups.get(key) || { key, a, same: false, parcels: [], on: true };
-    g.parcels.push(p);
-    if (norm(p.mail_street) === norm(p.prop_loc)) g.same = true;
-    groups.set(key, g);
+// no usable header names (or a header row that is really data): work out the columns from what is in them
+function guessByContent(map, rows, width) {
+  const sample = rows.slice(0, 50), used = new Set(Object.values(map));
+  const frac = (i, re) => (sample.length ? sample.filter((r) => re.test(String(r[i] || ''))).length / sample.length : 0);
+  const pick = (k, re, min) => {
+    if (map[k] != null) return;
+    let best = -1, bf = 0;
+    for (let i = 0; i < width; i++) { if (used.has(i)) continue; const f = frac(i, re); if (f > bf) { bf = f; best = i; } }
+    if (best >= 0 && bf >= min) { map[k] = best; used.add(best); }
+  };
+  pick('zip', /^\d{4,5}(-\d{4})?$/, 0.7); pick('state', new RegExp('^(' + [...ABBR].join('|') + ')\.?$', 'i'), 0.7); pick('street', /^(\d+[\w-]*\s+\S|p\.?\s?o\.?\s*box)/i, 0.6);
+  if (map.state != null && map.city == null && map.state > 0 && !used.has(map.state - 1)) { map.city = map.state - 1; used.add(map.city); }
+  if (map.street != null && map.name == null && map.first == null) {
+    const before = []; for (let i = 0; i < map.street; i++) if (!used.has(i)) before.push(i);
+    if (before.length >= 2) { map.first = before[0]; map.last = before[1]; } else if (before.length === 1) map.name = before[0];
   }
-  recipients = [...groups.values()].sort((x, y) => (x.a.zip || '').localeCompare(y.a.zip || '') || x.a.line1.localeCompare(y.a.line1)); // sorted by ZIP, the order a mail house wants
-  renderList(); render();
 }
 
-const eligible = () => recipients.filter((r) => r.on && !($('skipSame').checked && r.same) && !($('skipBad').checked && !r.a.complete));
+const HEADER_WORDS = new Set(FIELDS.flatMap((f) => f.syn));
+const headerHits = (row) => row.filter((c) => { const h = flat(c); return h && (HEADER_WORDS.has(h) || /business|company|address|street|city|state|zip|postal|site|phone|email|owner|contact|name$/.test(h)); }).length;
+const looksLikeHeader = (row) => { const n = row.filter((c) => c !== '').length; return n >= 2 && headerHits(row) >= 2 && headerHits(row) / n >= 0.4; };
+function headerRowAt(grid) {   // titles, notes or an Excel "sep=," line can sit above the real header
+  if (looksLikeHeader(grid[0])) return 0;
+  for (let i = 1; i < Math.min(10, grid.length); i++) if (looksLikeHeader(grid[i])) return i;
+  return 0;
+}
 
+function useGrid(grid, file, sheet) {
+  const skip = headerRowAt(grid);
+  if (skip) grid = grid.slice(skip);
+  data = { file, sheet, skipped: skip, hasHeader: true, grid, map: null, at: Date.now() };
+  off.clear(); $('hasHeader').checked = true; queueSettings();
+  prepare();
+}
+function prepare() {
+  const g = data.grid, width = Math.max(...g.map((r) => r.length));
+  const headers = data.hasHeader ? Array.from({ length: width }, (_, i) => g[0][i] || colName(i)) : Array.from({ length: width }, (_, i) => colName(i));
+  tbl = { headers, rows: (data.hasHeader ? g.slice(1) : g).map((r) => Array.from({ length: width }, (_, i) => r[i] ?? '')) };
+  data.map = autoMap(headers); data.mapVersion = 2;
+  if (data.map.street == null && data.map.full == null) guessByContent(data.map, tbl.rows, width);
+  persist(); showLoaded(); renderMapping(); rebuild();
+}
+let persistMsg = '';
+function persist() { queueProspects(); }
+
+// ---------- records ----------
+const COMPANY_WORDS = /\b(llc|l\.l\.c|inc|corp|corporation|co|company|trust|estate|holdings?|properties|partners|partnership|lp|llp|ltd|realty|group|associates|enterprises|foundation|church|association|bank|fund|investments?|development|developers|builders|management|ventures?|family)\b/i;
+const TITLES = /^(mr|mrs|ms|miss|mx|dr|prof|rev|hon|sir|fr|capt|col|gen|lt|sgt|mr\.|mrs\.|ms\.|dr\.|prof\.|rev\.|hon\.)$/i;
+function guessFirst(name, company) {   // only for people: "Dr. Ann Lee" -> Ann, "Lee, Ann" -> Ann; companies give nothing
+  if (!name || company || COMPANY_WORDS.test(name)) return '';
+  let n = name.trim();
+  if (/^[^,]+,\s*\S/.test(n)) n = n.split(',')[1].trim();
+  const w = n.split(/\s+/).filter((x) => !TITLES.test(x.replace(/\.$/, '')));
+  return w.length >= 1 && w.length <= 4 && /^[A-Za-z'’-]+$/.test(w[0]) ? w[0] : '';
+}
+function buildRecords() {
+  const m = data.map, g = (r, k) => (m[k] != null && m[k] >= 0 ? String(r[m[k]] ?? '').trim() : '');
+  return tbl.rows.map((r, idx) => {
+    let street = g(r, 'street'), street2 = g(r, 'street2'), city = g(r, 'city'), state = g(r, 'state'), zip = g(r, 'zip');
+    const csz = g(r, 'csz'), full = g(r, 'full');
+    if (full && !street) { const p = parseFull(full); street = p.street; city = city || p.city; state = state || p.state; zip = zip || p.zip; }
+    if (csz && !city) { const p = parseCsz(csz); city = p.city; state = state || p.state; zip = zip || p.zip; }
+    if (/^\d{4}$/.test(zip)) zip = '0' + zip;   // Excel drops the leading zero of New Jersey ZIPs
+    const first = g(r, 'first'), last = g(r, 'last'), company = g(r, 'company');
+    const name = g(r, 'name') || [first, last].filter(Boolean).join(' ');
+    const a = fmtAddr({ mail_street: street, mail_city_state: city && state ? `${city}, ${state}` : city || state, mail_zip: zip }, $('exact').checked);
+    if (street2) a.line1 += '\n' + ($('exact').checked ? street2 : street2.toUpperCase());
+    const vals = {};
+    tbl.headers.forEach((h, i) => { const k = normKey(h); if (k && r[i] !== '') vals[k] ||= r[i]; });
+    const firstName = first || guessFirst(name, company);
+    Object.assign(vals, { name, full_name: name, first_name: firstName, last_name: last, company, business_name: company, street, street2, city, state, zip,
+      property_address: g(r, 'prop'), site_address: g(r, 'prop'), town: g(r, 'town') || city, county: vals.county || '' });
+    const dupKey = [name, company, street, street2, city, state, zip].map(norm).join('|');
+    const addrKey = street ? [street, street2, city, state, zip].map(norm).join('|') : '';   // who was mailed is remembered by these, as short codes
+    const hasWho = !!(norm(name) || norm(company));
+    const id = hasWho ? hash(dupKey) : addrKey ? hash('A|' + addrKey) : '', ah = addrKey ? hash('A|' + addrKey) : '';
+    return { idx, name, company, prop: g(r, 'prop'), a, vals, dupKey, id, ah, hasWho, mailed: null, addrMailed: false, on: !off.has(idx), dup: false,
+      cells: r, text: r.join(' ').toLowerCase() };
+  });
+}
+function rebuild() {
+  if (!data) { recipients = []; touch(); renderHead(); renderColPick(); renderList(); render(); return; }
+  recipients = buildRecords();
+  const seen = new Set();
+  for (const r of recipients) { if (seen.has(r.dupKey)) r.dup = true; else seen.add(r.dupKey); stamp(r); }
+  touch();
+  if ($('sort').value === 'zip') recipients.sort((x, y) => (x.a.zip || '').localeCompare(y.a.zip || '') || x.a.line1.localeCompare(y.a.line1) || x.idx - y.idx);
+  renderHead(); renderColPick(); renderList(); render(); mapNote(); tokenChips();
+}
+
+// ---------- the "match your columns" box ----------
+function showLoaded() {
+  $('loaded').hidden = !data;
+  if (!data) return;
+  $('loadedNote').innerHTML = `<b>${esc(data.file)}</b>${data.sheet ? ` (sheet ${esc(data.sheet)})` : ''}: ${tbl.rows.length.toLocaleString()} prospects, ${tbl.headers.length} columns.${data.skipped ? ` Skipped ${data.skipped} line${data.skipped === 1 ? '' : 's'} above the column names.` : ''}${esc(persistMsg)}`;
+}
+function renderMapping() {
+  $('mapGrid').innerHTML = FIELDS.map((f) => `<label class="fld">${f.label}<select data-f="${f.k}"><option value="-1">(none)</option>${tbl.headers.map((h, i) => `<option value="${i}" ${data.map[f.k] === i ? 'selected' : ''}>${esc(h)}</option>`).join('')}</select></label>`).join('');
+}
+function mapNote() {
+  const m = data.map, has = (k) => m[k] != null && m[k] >= 0;
+  const addrOk = has('full') || (has('street') && (has('csz') || (has('city') && has('state') && has('zip'))));
+  const missing = [];
+  if (!has('full') && !has('street')) missing.push('street address');
+  if (!has('full') && !has('csz')) { if (!has('city')) missing.push('city'); if (!has('state')) missing.push('state'); if (!has('zip')) missing.push('ZIP'); }
+  $('mapNote').innerHTML = addrOk ? '<span style="color:#0a7a3b;font-weight:600">&#10003; Address columns found.</span>' + (has('name') || has('first') || has('company') ? '' : ' No name or company column, so the addressee line uses the fallback.')
+    : `<span class="warn">Still needed: ${missing.join(', ')}. Pick the column for each above.</span>`;
+  const bad = recipients.filter((r) => !r.a.complete).length, dups = recipients.filter((r) => r.dup).length;
+  const usedBy = {};
+  for (const f of FIELDS) { const i = m[f.k]; if (i != null && i >= 0) (usedBy[i] ||= []).push(f.label); }
+  $('colView').innerHTML = '<table class="colview">' + tbl.headers.map((h, i) => {
+    const sample = (tbl.rows.slice(0, 25).map((r) => r[i]).find((v) => v) || '').slice(0, 30);
+    return `<tr><td class="muted">${esc(colName(i).slice(7))}</td><td><b>${esc(h)}</b></td><td>${usedBy[i] ? '&rarr; ' + esc(usedBy[i].join(', ')) : '<span class="muted">not used</span>'}</td><td class="muted">${esc(sample)}</td></tr>`;
+  }).join('') + '</table>';
+  $('mapNote').innerHTML += ` ${recipients.length.toLocaleString()} rows: ${(recipients.length - bad).toLocaleString()} with a complete address${bad ? `, <span class="warn">${bad.toLocaleString()} incomplete</span>` : ''}${dups ? `, ${dups.toLocaleString()} duplicate${dups === 1 ? '' : 's'}` : ''}.`;
+}
+function tokenChips() {
+  const std = ['first_name', 'last_name', 'full_name', 'business_name', 'street', 'city', 'state', 'zip', 'site_address', 'town'];
+  const extra = [...new Set(tbl.headers.map(normKey).filter((k) => k && !std.includes(k) && !['company', 'property_address'].includes(k)))].slice(0, 20);
+  $('tokens').innerHTML = [...std, ...extra].map((k) => `<button class="chip" type="button" data-tok="${esc(k)}">${esc(k)}</button>`).join('');
+}
+function mergeText(t, r) {
+  return t.replace(/\{\{\s*([^{}|]+?)\s*(?:\|([^{}]*))?\}\}/g, (all, key, fb) => {
+    const k = normKey(key);
+    if (k === 'signature') return all;
+    const v = r.vals[k];
+    return v ? v : (fb ?? '').trim();
+  });
+}
+
+// ---------- recipients table: the columns are the file's own columns, in the file's order ----------
+const LIST_CAP = 500;
+let sentFilter = 'all';
+const matchesFind = (r) => { const f = $('listFind').value.trim().toLowerCase(); return (!f || r.text.includes(f)) && (sentFilter === 'all' || (sentFilter === 'mailed' ? !!r.mailed : !r.mailed)); };
+const hiddenCols = () => new Set((data && data.hidden) || []);
+const visibleCols = () => { const h = hiddenCols(); return tbl.headers.map((_, i) => i).filter((i) => !h.has(i)); };
+function fieldTags() { const t = {}; if (data && data.map) for (const f of FIELDS) { const i = data.map[f.k]; if (i != null && i >= 0) (t[i] ||= []).push(f.label); } return t; }
+function renderHead() {
+  const th = $('list').tHead, tags = fieldTags();
+  th.innerHTML = '<tr><th></th>' + visibleCols().map((i) => `<th>${esc(tbl.headers[i])}${tags[i] ? `<span class="maptag" title="Read as this">&rarr; ${esc(tags[i].join(', '))}</span>` : ''}</th>`).join('')
+    + `<th>Sent mail<select id="listShow" aria-label="Filter by sent mail"><option value="all">All</option><option value="mailed">Sent</option><option value="new">Not sent</option></select></th></tr>`;
+  $('listShow').value = sentFilter;
+}
+function renderColPick() {
+  $('colPick').hidden = !data;
+  if (!data) return;
+  const h = hiddenCols();
+  $('colChecks').innerHTML = tbl.headers.map((t, i) => `<label><input type="checkbox" data-col="${i}" ${h.has(i) ? '' : 'checked'}> ${esc(t)}</label>`).join('');
+  $('colPickNote').textContent = `(${visibleCols().length} of ${tbl.headers.length})`;
+}
 function renderList() {
-  const tb = $('list').querySelector('tbody');
-  tb.innerHTML = recipients.length ? recipients.map((r, i) => `<tr><td><input type="checkbox" data-i="${i}" ${r.on ? 'checked' : ''}></td>
-    <td><b>${esc(r.a.line1)}</b><br>${esc(r.a.line2)} ${r.a.complete ? '' : '<span class="tag bad">incomplete</span>'} ${r.same ? '<span class="tag">property itself</span>' : ''}</td>
-    <td>${esc(r.parcels.slice(0, 3).map((p) => p.prop_loc + ' (' + p.muni + ')').join('; '))}${r.parcels.length > 3 ? ` <span class="muted">+${r.parcels.length - 3} more</span>` : ''}</td></tr>`).join('')
-    : '<tr><td colspan="3" class="empty">No parcels match.</td></tr>';
+  const tb = $('list').querySelector('tbody'), shown = [], cols = visibleCols(), span = cols.length + 2;
+  recipients.forEach((r, i) => { if (matchesFind(r)) shown.push([r, i]); });
+  const cell = (v) => (v ? `<td class="cell2" title="${esc(v)}">${esc(v)}</td>` : '<td class="muted">&mdash;</td>');
+  tb.innerHTML = shown.length ? shown.slice(0, LIST_CAP).map(([r, i]) => `<tr><td><input type="checkbox" data-i="${i}" ${r.on ? 'checked' : ''}></td>`
+    + cols.map((c) => cell(r.cells[c])).join('')
+    + `<td class="nowrap">${r.mailed ? `<span class="tag ok" title="${esc((batches[r.mailed[1]] || {}).label || '')}">&#10003; Sent ${esc(day(r.mailed[0]))}</span> <button class="linkbtn" type="button" data-unmark="${i}">Unmark</button>`
+      : `<span class="muted">Not sent</span> <button class="linkbtn" type="button" data-mark="${i}">Mark as sent</button>`}`
+    + `${r.addrMailed ? '<br><span class="tag bad" title="A different name at this address was sent mail before">address sent before</span>' : ''}${r.a.complete ? '' : '<br><span class="tag bad" title="Needs a street, city, state and ZIP">incomplete address</span>'}${r.dup ? '<br><span class="tag bad">duplicate row</span>' : ''}</td></tr>`).join('')
+    + (shown.length > LIST_CAP ? `<tr><td colspan="${span}" class="muted">Showing the first ${LIST_CAP} of ${shown.length.toLocaleString()}. Use the search box or the Sent mail filter to narrow it.</td></tr>` : '')
+    : `<tr><td colspan="${span}" class="empty">${data ? 'No prospects match.' : 'Upload a prospect list to begin.'}</td></tr>`;
 }
 
-function addresseeLine(r) {
-  const m = $('addressee').value;
-  if (m === 'owner') return 'PROPERTY OWNER';
-  if (m === 'ownerOf') return 'OWNER OF ' + (r.parcels[0].prop_loc || 'PROPERTY').toUpperCase();
-  if (m === 'owneroccupant') return 'CURRENT PROPERTY OWNER / LANDOWNER';
-  if (m === 'custom') return ($('custom').value || '').toUpperCase();
-  return '';
+// ---------- what is eligible (cached: typing in the letter must not re-scan thousands of rows) ----------
+let elig = null, stats = null;
+function touch() { elig = null; stats = null; }
+const eligible = () => (elig ||= recipients.filter((r) => r.on && !($('skipBad').checked && !r.a.complete) && !($('skipDup').checked && r.dup) && !($('skipMailed').checked && r.mailed)));
+const getStats = () => (stats ||= { bad: recipients.filter((r) => r.on && !r.a.complete).length, dups: recipients.filter((r) => r.on && r.dup).length, mailed: recipients.filter((r) => r.on && r.mailed).length });
+
+// ---------- the printed text ----------
+function addresseeLines(r) {
+  const m = $('addressee').value, up = (s) => (s || '').toUpperCase();
+  if (m === 'file') {
+    const lines = [r.name, r.company].filter(Boolean).map((s) => ($('exact').checked ? s : up(s)));
+    return lines.length ? lines : [up($('fallback').value.trim() || 'PROPERTY OWNER')];
+  }
+  if (m === 'owner') return ['PROPERTY OWNER'];
+  if (m === 'ownerOf') return ['OWNER OF ' + up(r.prop || 'PROPERTY')];
+  if (m === 'custom') return $('custom').value.trim() ? [up($('custom').value.trim())] : [];
+  return [];
 }
-const block = (r) => [addresseeLine(r), r.a.line1, r.a.line2].filter(Boolean).join('\n');
+const block = (r) => [...addresseeLines(r), r.a.line1, r.a.line2].filter(Boolean).join('\n');
+const addresseeText = (r) => addresseeLines(r).join(' / ');
 
 function letterBody(r) {
-  const props = r.parcels.slice(0, 4).map((p) => p.prop_loc).join('; ') + (r.parcels.length > 4 ? ` and ${r.parcels.length - 4} more` : '');
-  const t = $('body').value.replace(/\{\{property_address\}\}/g, r.parcels[0].prop_loc || 'your property').replace(/\{\{properties\}\}/g, props)
-    .replace(/\{\{town\}\}/g, titleCase(r.parcels[0].muni)).replace(/\{\{county\}\}/g, r.parcels[0].county + ' County');
+  const t = mergeText($('body').value, r);
   return t.split(/\n{2,}/).map((para) => para.trim() === '{{signature}}' ? ($('sigOn').checked ? sigHtml() : '') : `<p>${esc(para).replace(/\n/g, '<br>')}</p>`).join('');
-}
-const titleCase = (s) => String(s || '').toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase()).replace(/\bTwp\b/, 'Township').replace(/\bBoro\b/, 'Borough');
-
-function pieces(testOnly) {
-  const list = eligible();
-  return testOnly ? list.slice(0, 3) : list;
 }
 
 function initPad() {
@@ -360,25 +690,33 @@ function initPad() {
     out.getContext('2d').drawImage(pad, x0 - m, y0 - m, cw, ch, 0, 0, cw, ch);   // cropped to the ink, transparent background
     out.toBlob((blob) => {
       const fr = new FileReader();
-      fr.onload = () => { try { localStorage.setItem('oi_sig', fr.result); } catch { /* still works this session */ } };
+      fr.onload = () => { store.setRaw('oi_sig', fr.result); saveSignature(fr.result); };
       fr.readAsDataURL(blob);
-      setSig(blob); $('sigOn').checked = true; save(); render();
+      setSig(blob); $('sigOn').checked = true; queueSettings(); render();
     }, 'image/png');
   });
 }
 
-function render(testOnly) {
-  const list = pieces(testOnly);
-  const fmt = $('format').value;
-  $('customWrap').hidden = $('addressee').value !== 'custom';
+// ---------- the preview and the print run ----------
+const PREVIEW = { labels: 60, envelopes: 10, letters: 6 };
+let preview = [];   // the recipients behind the pieces currently on screen
+function render(mode = 'preview') {
+  const fmt = $('format').value, all = eligible();
+  const list = mode === 'all' ? all : mode === 'test' ? all.slice(0, 3) : all.slice(0, PREVIEW[fmt]);
+  preview = list;
+  $('customWrap').hidden = $('addressee').value !== 'custom'; $('fallbackWrap').hidden = $('addressee').value !== 'file';
   $('startWrap').hidden = fmt !== 'labels'; $('letterOpts').hidden = fmt !== 'letters';
-  const n = eligible().length;
-  $('count').textContent = n.toLocaleString();
-  const skippedBad = recipients.filter((r) => r.on && !r.a.complete).length;
-  $('countSub').innerHTML = `mail pieces (${recipients.length.toLocaleString()} unique tax addresses, ${all.length ? '' : 'no '}parcels loaded)` + ($('skipBad').checked && skippedBad ? ` &middot; <span class="warn">${skippedBad} incomplete skipped</span>` : '');
-  $('listNote').textContent = `· ${recipients.length.toLocaleString()} unique tax addresses, one piece each`;
-  const ret = $('ret').value.trim();
-  const pages = document.createElement('div');
+  $('count').textContent = all.length.toLocaleString();
+  const st = getStats();
+  const tooLong = fmt === 'labels' ? all.filter((r) => block(r).split('\n').length > 5).length : 0;
+  $('countSub').innerHTML = `mail pieces from ${recipients.length.toLocaleString()} prospects`
+    + ($('skipBad').checked && st.bad ? ` &middot; <span class="warn">${st.bad.toLocaleString()} incomplete address${st.bad === 1 ? '' : 'es'} skipped</span>` : '')
+    + ($('skipDup').checked && st.dups ? ` &middot; ${st.dups.toLocaleString()} duplicate${st.dups === 1 ? '' : 's'} skipped` : '')
+    + ($('skipMailed').checked && st.mailed ? ` &middot; <b>${st.mailed.toLocaleString()} already mailed, skipped</b>` : '')
+    + (tooLong ? ` &middot; <span class="warn">${tooLong} have more than 5 lines and will not fit a label</span>` : '');
+  $('listNote').textContent = data ? `· ${recipients.length.toLocaleString()} prospects` : '';
+  $('markAll').disabled = !all.length; $('markAll').textContent = `Mark these ${all.length.toLocaleString()} as mailed`;
+  const ret = $('ret').value.trim(), pages = document.createElement('div');
   if (fmt === 'labels') {
     const start = Math.max(1, Math.min(30, +$('start').value || 1)), cells = Array(start - 1).fill('').concat(list.map((r) => block(r)));
     for (let i = 0; i < Math.max(cells.length, 1); i += 30) {
@@ -392,14 +730,25 @@ function render(testOnly) {
     setPage('9.5in 4.125in');
     $('tip').textContent = 'Feed #10 envelopes in landscape. In the print dialog choose paper size #10 (or Custom 9.5 x 4.125 in), Scale 100%, Margins: None.';
   } else {
-    pages.innerHTML = list.map((r) => `<div class="page letter${$('logo').checked ? ' with-logo' : ''}">${$('logo').checked ? LOGO : ''}${ret ? `<div class="ret">${esc(ret)}</div>` : ''}<div class="date">${esc($('date').value)}</div><div class="addr">${esc(block(r))}</div><div class="body">${letterBody(r)}</div>${$('qr').checked ? qrBlock() : ''}</div>`).join('');
+    pages.innerHTML = list.map((r, i) => `<div class="page letter${$('logo').checked ? ' with-logo' : ''}" data-i="${i}">${$('logo').checked ? LOGO : ''}${ret ? `<div class="ret">${esc(ret)}</div>` : ''}<div class="date">${esc($('date').value)}</div><div class="addr">${esc(block(r))}</div><div class="body">${letterBody(r)}</div>${$('qr').checked ? qrBlock() : ''}</div>`).join('');
     setPage('letter');
     $('tip').textContent = 'Print on letter paper, tri-fold, and use a #10 double-window envelope: the return address and the recipient address show through the windows. Scale 100%, Margins: None.';
   }
-  $('tip').textContent += $('exact').checked ? ' Addresses print exactly as they appear on the tax record.' : ' Addresses are cleaned up for USPS (states abbreviated, ZIP+4 formatted).';
+  $('tip').textContent += $('exact').checked ? ' Addresses print exactly as written in your file.' : ' Addresses are cleaned up for USPS (capitals, states abbreviated, ZIP+4 formatted).';
   $('sheet').replaceChildren(...pages.childNodes);
-  if (!list.length) $('sheet').innerHTML = '<div class="empty">Nothing to print yet. Pick recipients on the left.</div>';
-  $('print').disabled = $('test').disabled = !list.length;
+  if (!list.length) $('sheet').innerHTML = `<div class="empty">${data ? 'Nothing to print. Tick recipients above, or check the skip options on the left.' : 'Upload a prospect list on the left to see the mail pieces here.'}</div>`;
+  $('previewNote').textContent = mode === 'preview' && all.length > list.length ? `Preview (scaled down) of the first ${list.length} of ${all.length.toLocaleString()} pieces. Print includes all ${all.length.toLocaleString()}.` : 'Preview (scaled down). What prints is full size.';
+  $('print').disabled = $('test').disabled = !all.length;
+}
+// typing in the letter only touches the letter text on the pieces on screen: no rebuild, no recount, no image reloads
+function renderBodies() {
+  if ($('format').value !== 'letters') return;
+  const date = $('date').value;
+  $('sheet').querySelectorAll('.letter').forEach((el) => {
+    const r = preview[+el.dataset.i]; if (!r) return;
+    el.querySelector('.body').innerHTML = letterBody(r);
+    el.querySelector('.date').textContent = date;
+  });
 }
 
 function setPage(size) {
@@ -407,20 +756,178 @@ function setPage(size) {
   s.textContent = `@page { size: ${size}; margin: 0; }`;
 }
 
+const FORMAT_NAME = { labels: 'Labels', envelopes: 'Envelopes', letters: 'Letters' };
 function doPrint(testOnly) {
-  render(testOnly);
-  setTimeout(() => { window.print(); setTimeout(() => render(false), 500); }, 150);
+  const list = testOnly ? eligible().slice(0, 3) : eligible().slice();
+  render(testOnly ? 'test' : 'all');
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => render(), 300);
+    if (!testOnly && list.length) askMailed(list);
+  }, 150);
 }
+// the browser cannot tell whether the pages really printed, so ask
+let pendingMail = null;
+function askMailed(list) {
+  pendingMail = { list, format: $('format').value };
+  const n = list.length;
+  $('mailedBar').hidden = false;
+  $('mailedBar').innerHTML = `<b>${n.toLocaleString()} piece${n === 1 ? '' : 's'} went to the printer.</b> Did they go out in the mail? Marking them as mailed keeps you from mailing the same people twice.
+    <div class="row" style="margin-top:.5rem"><button class="btn primary" id="mbYes" type="button">Yes, mark them as mailed</button><button class="btn" id="mbNo" type="button">Not yet</button></div>`;
+  $('mailedBar').scrollIntoView({ block: 'nearest' });
+}
+function markLabel() { return `${FORMAT_NAME[$('format').value]} · ${data ? data.file : 'list'}`; }
 
 function downloadCsv() {
-  const rows = [['Addressee', 'Street (as recorded)', 'City / state (as recorded)', 'ZIP (as recorded)', 'Address as printed (street, city / state ZIP)', 'Properties (parcels on this tax bill)', 'Towns', 'County']];
-  for (const r of eligible()) rows.push([addresseeLine(r), r.a.rawStreet, r.a.rawCs, r.a.rawZip, [r.a.line1, r.a.line2].join(', '),
-    r.parcels.map((p) => p.prop_loc).join('; '), [...new Set(r.parcels.map((p) => titleCase(p.muni)))].join('; '), r.parcels[0].county]);
+  const rows = [['Business name', 'Site address', 'Addressee', 'Address as printed', 'Street', 'City / state', 'ZIP', 'Sent mail', ...tbl.headers.map((h) => 'File: ' + h)]];
+  const byIdx = new Map(tbl.rows.map((r, i) => [i, r]));
+  for (const r of eligible()) rows.push([r.company, r.prop, addresseeText(r), [r.a.line1.replace(/\n/g, ', '), r.a.line2].join(', '), r.a.rawStreet, r.a.rawCs, r.a.rawZip, r.mailed ? 'Sent ' + day(r.mailed[0]) : 'Not sent', ...byIdx.get(r.idx)]);
   const csv = rows.map((r) => r.map((c) => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'mailing-list.csv'; a.click();
+  download(csv, 'mailing-list.csv');
+}
+function download(text, name) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + text], { type: 'text/csv' })); a.download = name; a.click();
 }
 
-setup();
+// ---------- wiring ----------
+const debounce = (fn, ms) => { let t; return () => { clearTimeout(t); t = setTimeout(fn, ms); }; };
+async function takeFile(f) {
+  if (!f) return;
+  try {
+    const { grid, sheet } = await readFile(f);
+    if (!grid.length) throw new Error('No rows found in that file.');
+    useGrid(grid, f.name, sheet);
+  } catch (e) { alert(e.message || 'Could not read that file.'); }
+}
+const restoreTable = () => {
+  const g = data.grid, width = Math.max(...g.map((r) => r.length));
+  tbl = { headers: Array.from({ length: width }, (_, i) => (data.hasHeader ? g[0][i] : '') || colName(i)), rows: (data.hasHeader ? g.slice(1) : g).map((r) => Array.from({ length: width }, (_, i) => r[i] ?? '')) };
+  data.map ||= autoMap(tbl.headers);
+  if (data.mapVersion !== 2) {   // a list saved by an older version: fill in columns the newer matching can find, keeping every choice already made
+    const fresh = autoMap(tbl.headers); let changed = false;
+    for (const k of Object.keys(fresh)) if (data.map[k] == null) { data.map[k] = fresh[k]; changed = true; }
+    data.mapVersion = 2; if (changed) queueProspects();
+  }
+};
+
+function wire() {
+  const rerender = debounce(() => render(), 150);
+  let raf = 0;
+  const bodiesSoon = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderBodies(); }); };
+  $('body').addEventListener('input', () => { bodiesSoon(); queueSettings(); });
+  $('date').addEventListener('input', () => { dateCustom = true; bodiesSoon(); queueSettings(); });
+  $('resetBody').addEventListener('click', () => { if (!confirm('Replace the letter text with the standard letter?')) return; $('body').value = DEFAULT_BODY; renderBodies(); queueSettings(); });
+  for (const id of ['ret', 'qrText', 'sigName', 'custom', 'fallback', 'start']) $(id).addEventListener('input', () => { queueSettings(); rerender(); });
+  for (const id of ['format', 'addressee', 'logo', 'qr', 'sigOn']) $(id).addEventListener('input', () => { queueSettings(); render(); });
+  for (const id of ['skipBad', 'skipDup', 'skipMailed']) $(id).addEventListener('input', () => { queueSettings(); touch(); renderList(); render(); });
+  for (const id of ['exact', 'sort']) $(id).addEventListener('input', () => { queueSettings(); rebuild(); });
+  $('print').addEventListener('click', () => doPrint(false)); $('test').addEventListener('click', () => doPrint(true));
+  const setAll = (on) => { recipients.forEach((r) => { if (matchesFind(r)) { r.on = on; on ? off.delete(r.idx) : off.add(r.idx); } }); touch(); renderList(); render(); queueSettings(); };
+  $('all').addEventListener('click', () => setAll(true)); $('none').addEventListener('click', () => setAll(false));
+  $('listFind').addEventListener('input', debounce(renderList, 120)); $('list').tHead.addEventListener('input', (e) => { if (e.target.id === 'listShow') { sentFilter = e.target.value; renderList(); } });
+  $('colChecks').addEventListener('change', (e) => {
+    const i = e.target.dataset.col; if (i == null) return;
+    const h = hiddenCols(); e.target.checked ? h.delete(+i) : h.add(+i);
+    data.hidden = [...h]; queueProspects(); renderHead(); renderList(); $('colPickNote').textContent = `(${visibleCols().length} of ${tbl.headers.length})`;
+  });
+  $('colAll').addEventListener('click', () => { data.hidden = []; queueProspects(); renderColPick(); renderHead(); renderList(); });
+  $('csv').addEventListener('click', downloadCsv);
+  $('markAll').addEventListener('click', () => {
+    const list = eligible(); if (!list.length) return;
+    if (confirm(`Mark these ${list.length.toLocaleString()} recipients as mailed? You can unmark any of them from the list.`)) markRecipients(list, { format: $('format').value, label: markLabel() });
+  });
+  $('mailedBar').addEventListener('click', (e) => {
+    if (e.target.id === 'mbYes' && pendingMail) { const n = markRecipients(pendingMail.list, { format: pendingMail.format, label: markLabel() }); $('mailedBar').innerHTML = `<b>&#10003; ${n.toLocaleString()} recipients marked as mailed.</b> They will be skipped next time.`; pendingMail = null; setTimeout(() => { $('mailedBar').hidden = true; }, 4000); }
+    if (e.target.id === 'mbNo') { pendingMail = null; $('mailedBar').hidden = true; }
+  });
+  const tb = $('list').querySelector('tbody');
+  tb.addEventListener('change', (e) => {
+    const i = e.target.dataset.i; if (i == null) return;
+    const r = recipients[i]; r.on = e.target.checked; r.on ? off.delete(r.idx) : off.add(r.idx); touch(); render(); queueSettings();
+  });
+  tb.addEventListener('click', (e) => {
+    const m = e.target.closest('[data-mark]'), u = e.target.closest('[data-unmark]');
+    if (m) markRecipients([recipients[m.dataset.mark]], { format: 'manual', label: 'Marked by hand' });
+    if (u) unmarkRecipients([recipients[u.dataset.unmark]]);
+  });
+
+  // importing
+  $('file').addEventListener('change', (e) => { takeFile(e.target.files[0]); e.target.value = ''; });
+  const drop = $('drop');
+  ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => takeFile(e.dataTransfer.files[0]));
+  $('pasteGo').addEventListener('click', () => {
+    const grid = cleanGrid(parseDelimited($('paste').value));
+    if (!grid.length) { alert('Paste the cells from your spreadsheet first (including the header row).'); return; }
+    useGrid(grid, 'Pasted rows', ''); $('paste').value = '';
+  });
+  $('tpl').addEventListener('click', (e) => { e.preventDefault(); download(TEMPLATE.map((r) => r.map((c) => `"${c}"`).join(',')).join('\r\n'), 'prospects-template.csv'); });
+  $('hasHeader').addEventListener('change', () => { data.hasHeader = $('hasHeader').checked; off.clear(); queueSettings(); prepare(); });
+  $('clearList').addEventListener('click', () => {
+    if (!confirm('Remove this prospect list from the page? The mailed history is kept.')) return;
+    data = null; off.clear(); tbl = { headers: [], rows: [] }; $('loaded').hidden = true; $('tokens').innerHTML = ''; queueProspects(); queueSettings(); rebuild(); mailedInfo();
+  });
+  $('mapGrid').addEventListener('change', (e) => {
+    const k = e.target.dataset.f; if (!k) return;
+    const v = +e.target.value; if (v < 0) delete data.map[k]; else data.map[k] = v;
+    persist(); showLoaded(); rebuild(); mailedInfo();
+  });
+  $('tokens').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-tok]'); if (!b) return;
+    const ta = $('body'), at = ta.selectionStart ?? ta.value.length, ins = `{{${b.dataset.tok}}}`;
+    ta.value = ta.value.slice(0, at) + ins + ta.value.slice(ta.selectionEnd ?? at); ta.focus(); ta.selectionStart = ta.selectionEnd = at + ins.length;
+    renderBodies(); queueSettings();
+  });
+
+  // signature
+  initPad();
+  $('sigFile').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    if (f.size > 1.5e6) { alert('Choose an image under 1.5 MB.'); e.target.value = ''; return; }
+    const fr = new FileReader();
+    fr.onload = () => { store.setRaw('oi_sig', fr.result); saveSignature(fr.result); setSig(f); render(); };
+    fr.readAsDataURL(f);
+  });
+  $('sigClear').addEventListener('click', () => { store.del('oi_sig'); saveSignature(null); $('sigFile').value = ''; setSig(null); render(); });
+}
+
+// ---------- start: load everything that was saved, then switch the page on ----------
+async function boot() {
+  $('body').disabled = $('ret').disabled = true;
+  const get = async (p) => { try { return await apiCall(p); } catch (e) { if (e.message === 'Signed out') throw e; return undefined; } };   // undefined: could not reach the server
+  const [srvS, srvSig, srvP, srvM] = await Promise.all(['settings', 'signature', 'prospects', 'mailed'].map(get));
+  const reachable = srvS !== undefined && srvM !== undefined;
+  const hasSrv = !!(srvS && srvS.saved_at);
+  const old = store.get('oi_mail') || {};   // the earlier version kept its choices in this browser: they are copied up on first visit (its map-based letter text is not)
+  const saved = hasSrv ? srvS : (store.get('oi_mail2') || { ...old, body: undefined });
+  $('ret').value = saved.ret ?? ''; $('body').value = saved.body || DEFAULT_BODY;
+  $('sigOn').checked = saved.sigOn ?? true; $('sigName').value = saved.sigName ?? 'Colton Lacovara';
+  $('addressee').value = ['file', 'owner', 'ownerOf', 'custom', 'none'].includes(saved.addressee) ? saved.addressee : 'file';
+  $('custom').value = saved.custom ?? ''; $('fallback').value = saved.fallback ?? 'PROPERTY OWNER'; $('format').value = saved.format ?? 'labels'; $('start').value = saved.start || 1;
+  $('logo').checked = saved.logo ?? true; $('qr').checked = saved.qr ?? true; $('qrText').value = saved.qrText ?? 'Scan to learn more\noutdoorimpactllc.com';
+  $('skipBad').checked = saved.skipBad ?? true; $('skipDup').checked = saved.skipDup ?? true; $('skipMailed').checked = saved.skipMailed ?? true; $('exact').checked = saved.exact ?? true; $('sort').value = saved.sort ?? 'zip';
+  dateCustom = !!saved.date; $('date').value = saved.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  (saved.off || []).forEach((i) => off.add(i));
+
+  if (srvM && srvM.m) { for (const [k, v] of Object.entries(srvM.m)) mailed.set(k, v); batches = srvM.b || {}; indexMailed(); }
+
+  try {
+    if (srvSig && srvSig.data_url) { setSig(await (await fetch(srvSig.data_url)).blob()); store.setRaw('oi_sig', srvSig.data_url); }
+    else { const ls = store.raw('oi_sig'); if (ls) { setSig(await (await fetch(ls)).blob()); if (reachable) saveSignature(ls); } else setSig(null); }
+  } catch { setSig(null); }
+
+  if (srvP && Array.isArray(srvP.grid) && srvP.grid.length) data = srvP;
+  else { const lp = store.get('oi_prospects'); if (lp && Array.isArray(lp.grid) && lp.grid.length) { data = lp; if (reachable) queueProspects(); } }
+  if (data) { $('hasHeader').checked = data.hasHeader !== false; restoreTable(); showLoaded(); renderMapping(); }
+  if (!hasSrv && reachable) queueSettings();
+
+  wire();
+  $('body').disabled = $('ret').disabled = false;
+  rebuild(); mailedInfo();
+  if (!dirty.size) reachable ? setSync('saved') : setSync('offline', 'Could not reach the server: changes are kept in this browser only, and the mailed history may be incomplete');
+}
+boot();
 </script>
 </body>
 </html>

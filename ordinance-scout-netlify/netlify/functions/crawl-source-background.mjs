@@ -1,7 +1,7 @@
 // Background function (15 min budget): crawl one website's sources, or re-scan stored text with the current rules.
 import { requireAuth } from '../lib/auth.mjs';
 import { getJSON, getText, setJSON } from '../lib/store.mjs';
-import { Crawler } from '../lib/crawl.mjs';
+import { Crawler, analyzeDoc } from '../lib/crawl.mjs';
 import { loadSources } from '../lib/sources.mjs';
 
 export default async (req) => {
@@ -41,7 +41,7 @@ async function rescan(src, crawler) {
   for (const d of rec.docs) {
     if (d.status !== 'ok') continue;
     const text = await getText(`text/${d.id}`);
-    if (text) d.findings = await crawler.findingsFor(d, text, rec.county);
+    if (text) d.findings = await analyzeDoc(d, text, rec.county, src.muni || null);
   }
   await setJSON(`docs/${src.id}`, rec);
 }

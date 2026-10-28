@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1628'/%3E%3Crect x='5' y='11' width='22' height='9' rx='1.5' fill='%232f6fed'/%3E%3Crect x='15' y='20' width='2' height='7' fill='%232f6fed'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -20,8 +19,8 @@
       <button data-tab="findings">Findings</button>
       <button data-tab="search">Search</button>
       <button data-tab="sources">Sources &amp; Crawl</button>
-      <button data-tab="roadside">Roadside Map</button>
       <button data-tab="import">Import</button>
+      <a class="navlink" href="/mail.html">Print mail</a>
       <button id="signOut" class="signout" title="Sign out">Sign out</button>
     </nav>
   </div>
@@ -31,7 +30,7 @@
   <div class="filters" id="countyBar">
     <span class="lbl">County</span>
     <button class="chip on" data-county="">All counties</button>
-    <button class="chip" data-county="Monmouth">Monmouth</button><button class="chip" data-county="Ocean">Ocean</button><button class="chip" data-county="Bergen">Bergen</button><button class="chip" data-county="Morris">Morris</button>
+    <button class="chip" data-county="Monmouth">Monmouth</button><button class="chip" data-county="Ocean">Ocean</button><button class="chip" data-county="Bergen">Bergen</button><button class="chip" data-county="Morris">Morris</button><button class="chip" data-county="Essex">Essex</button>
     <span class="spacer"></span>
     <a class="btn ghost" id="exportBtn" href="/api/export.csv">Export CSV</a>
   </div>
@@ -39,20 +38,22 @@
   <!-- OVERVIEW -->
   <section id="tab-overview" class="tab on">
     <div class="tiles" id="tiles"></div>
-    <div id="countyLevel" class="county-level"></div>
+    <div class="townbar"><input id="townFind" type="search" placeholder="Find a township…" aria-label="Find a township"><span class="muted" id="townCount"></span></div>
     <div class="card" id="muniCard">
       <table class="grid" id="muniTable">
-        <thead><tr><th>Municipality</th><th>County</th><th>Result</th><th>Why</th><th class="num">Ordinances</th><th class="num">Master plans</th><th class="num">Sources</th></tr></thead>
+        <thead><tr><th>Township</th><th>County</th><th>Billboards</th><th>Why</th><th class="num">Ordinances</th><th class="num">Master plans</th><th class="num">Sources</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
-    <p class="note">County-level scouting for Monmouth, Ocean, Bergen and Morris. Keyword matches from collected text, meant to point you at language worth reading. Confirm with the municipal clerk, planning board, or a land-use attorney before advising a client.</p>
+    <p class="note">Results are by township. A township's result comes from the passages tagged to it: documents about that town, plus county documents that name it. Townships showing "No data yet" have no document of their own collected, so add that town's ordinance or master plan on the Sources tab or with Import. <b>+</b> means the ordinance welcomes billboards; <b>&#9888;</b> means it discourages them. Only actual ordinance text sets a firm result: wording found only in a master plan is shown as &ldquo;leaning&rdquo; because it is policy, not law. Keyword matches only; confirm with the municipal clerk, planning board, or a land-use attorney before advising a client.</p>
   </section>
 
   <!-- FINDINGS -->
   <section id="tab-findings" class="tab">
     <div class="filters">
-      <select id="fCat"><option value="">All categories</option><option value="prohibited">Billboards prohibited</option><option value="scenic">Scenic / visual preservation</option><option value="regulated">Regulated (conditions, spacing, size)</option><option value="permitted">Billboards permitted</option><option value="state_law">State / federal sign law</option><option value="land_restriction">Land restriction overlay</option></select>
+      <select id="fCat"><option value="">All categories</option><option value="prohibited">Billboards prohibited</option><option value="no_signage">Signs prohibited (no signage)</option><option value="permitted">Billboards permitted</option><option value="regulated">Billboards regulated (conditions, spacing, size)</option><option value="scenic">Discourages signs / protects views (policy)</option></select>
+      <select id="fStance"><option value="">Both + and alert</option><option value="positive">+ Welcoming only</option><option value="negative">Alert (discourages) only</option></select>
+      <select id="fBasis"><option value="">Any source</option><option value="ordinance">Ordinance text only (verified)</option><option value="master_plan">Master plan / policy only</option></select>
       <select id="fTown"><option value="">All townships</option></select>
       <select id="fType"><option value="">Ordinances + master plans</option><option value="ordinance">Ordinances only</option><option value="master_plan">Master plans only</option></select>
       <input id="fText" type="search" placeholder="Filter passages by word…">
@@ -124,53 +125,6 @@
   </section>
 
 
-  <!-- ROADSIDE MAP -->
-  <section id="tab-roadside" class="tab">
-    <div class="rs-grid">
-      <div class="card pad rs-controls">
-        <h3>Parcels along state highways</h3>
-        <p class="hint">Pick a county and highway(s), set how far back from the road edge, and fetch every matching parcel. Garden State Parkway and single-family homes are always excluded.</p>
-        <label class="fld">County <select id="rsCounty"></select></label>
-        <label class="fld">Highways <span class="muted">(none selected = all in county)</span>
-          <select id="rsRoutes" multiple size="7"></select></label>
-        <div class="row">
-          <label class="fld">From edge (ft) <input id="rsMin" type="number" min="0" max="1500" value="0"></label>
-          <label class="fld">Back to (ft) <input id="rsMax" type="number" min="25" max="1500" value="300"></label>
-        </div>
-        <div class="rs-presets"><button class="chip" data-r="0,125">0–125 ft</button><button class="chip" data-r="125,300">125–300 ft</button><button class="chip" data-r="0,300">0–300 ft</button></div>
-        <input id="rsMaxRange" type="range" min="25" max="1000" step="25" value="300" aria-label="Distance back from road edge">
-        <fieldset class="rs-classes"><legend>Property types</legend><div id="rsClasses"></div></fieldset>
-        <div class="row wrap-row" style="margin-top:.8rem">
-          <button class="btn primary" id="rsFetch">Refresh data</button>
-          <a class="btn ghost" id="rsMail" href="/mail.html" target="_blank" rel="noopener" title="Print labels, envelopes or letters addressed to the tax bill addresses of these parcels">Print mail</a>
-          <a class="btn ghost" id="rsExport" href="/api/roadside/export.csv">Export CSV</a>
-        </div>
-        <p class="hint" id="rsFresh" style="margin:0"></p>
-        <pre class="log" id="rsLog" style="max-height:150px">Pick a county to begin.</pre>
-      </div>
-      <div class="rs-mapwrap">
-        <div id="rsMap"></div>
-        <div class="rs-legend" id="rsLegend"></div>
-      </div>
-    </div>
-    <div class="rs-wide">
-    <div class="rs-toolbar">
-      <input id="rsFilter" type="search" placeholder="Search these parcels: town, address, business, highway…">
-      <label class="chk"><input type="checkbox" id="rsInView" checked> Only parcels in the map view</label>
-      <label class="chk"><input type="checkbox" id="rsAutoBiz" checked> Auto-look up businesses for the area I'm viewing</label>
-      <button class="btn ghost" id="rsBizNow">Look up businesses in this view</button>
-      <span class="muted" id="rsBizStatus"></span>
-      <span class="muted" id="rsCount"></span>
-    </div>
-    <div class="card rs-tablewrap"><table class="grid" id="rsTable">
-      <thead><tr><th>Town</th><th>Property address</th><th>Tax bill mailing address</th><th>Type</th><th>Business(es)</th><th>Email</th><th>Phone / website</th><th class="num">Acres</th><th class="num">Ft from edge</th><th>Hwy</th></tr></thead>
-      <tbody></tbody></table>
-      <div class="pager"><button class="btn ghost" id="rsMore" hidden>Show more</button></div>
-    </div>
-    </div>
-    <p class="note">Sources: NJ Office of GIS parcel + MOD-IV tax data (public record; owner names are blank in the public layer, the tax mailing address is not), OpenStreetMap for highways and business listings. Emails come only from OpenStreetMap listings, so many parcels will have none. Distances are from an estimated pavement edge (lanes &times; 6 ft from the centerline). Verify before outreach; follow CAN-SPAM for email and NJ Daniel's Law for any personal address.</p>
-  </section>
-
   <!-- IMPORT -->
   <section id="tab-import" class="tab">
     <div class="card pad narrow">
@@ -195,9 +149,7 @@
 </aside>
 <div id="toast" class="toast" hidden></div>
 
-<script>window.CATS = {"prohibited": "Billboards prohibited", "scenic": "Scenic / visual preservation", "regulated": "Regulated (conditions, spacing, size)", "permitted": "Billboards permitted", "state_law": "State / federal sign law", "land_restriction": "Land restriction overlay"}; window.COUNTIES = ["Monmouth", "Ocean", "Bergen", "Morris"];</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>window.CATS = {"prohibited": "Billboards prohibited", "no_signage": "Signs prohibited (no signage)", "permitted": "Billboards permitted", "regulated": "Billboards regulated (conditions, spacing, size)", "scenic": "Discourages signs / protects views (policy)"}; window.COUNTIES = ["Monmouth", "Ocean", "Bergen", "Morris", "Essex"];</script>
 <script src="/static/app.js"></script>
-<script src="/static/roadside.js"></script>
 </body>
 </html>

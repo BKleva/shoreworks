@@ -202,5 +202,29 @@ export default {
   "Victory Gardens Borough",
   "Washington Township",
   "Wharton Borough"
+ ],
+ "Essex": [
+  "Belleville Township",
+  "Bloomfield Township",
+  "Caldwell Borough",
+  "Cedar Grove Township",
+  "East Orange City",
+  "Essex Fells Borough",
+  "Fairfield Township",
+  "Glen Ridge Borough",
+  "Irvington Township",
+  "Livingston Township",
+  "Maplewood Township",
+  "Millburn Township",
+  "Montclair Township",
+  "Newark City",
+  "North Caldwell Borough",
+  "Nutley Township",
+  "Orange City",
+  "Roseland Borough",
+  "South Orange Village",
+  "Verona Township",
+  "West Caldwell Township",
+  "West Orange Township"
  ]
 };

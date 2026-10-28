@@ -1,15 +1,16 @@
 // Ordinance side of the API: overview, findings, townships, search, sources, crawl control, import, CSV export.
 import { requireAuth } from '../lib/auth.mjs';
 import { CATEGORY_LABELS, analyze, normalize, rollup, snippet } from '../lib/analyzer.mjs';
-import { COUNTIES, townFor, townIndex } from '../lib/towns.mjs';
+import { COUNTIES, townList } from '../lib/towns.mjs';
 import { del, getJSON, getText, keys, setJSON, setText } from '../lib/store.mjs';
-import { classify, docId, dropSourceData, htmlText, pdfText } from '../lib/crawl.mjs';
+import { analyzeDoc, classify, docId, dropSourceData, htmlText, pdfText } from '../lib/crawl.mjs';
 import { loadSources, saveSources, startCrawl } from '../lib/sources.mjs';
 
 const json = (data, status = 200) => Response.json(data, { status });
 const err = (msg, status = 400) => json({ error: msg }, status);
-const STATUS_ORDER = ['prohibited', 'mixed', 'restricted', 'scenic', 'permitted', 'no_signal', 'no_data'];
-const CAT_RANK = { prohibited: 0, scenic: 1, regulated: 2, permitted: 3 };
+const STATUS_ORDER = ['restrictive', 'leaning', 'mixed', 'conditional', 'welcoming', 'no_signal', 'no_data'];
+const CAT_RANK = { prohibited: 0, no_signage: 1, scenic: 2, regulated: 3, permitted: 4 };
+const STANCE_RANK = { negative: 0, positive: 1, neutral: 2 };
 
 /** All stored documents (from every source and manual import), each tagged with its county. */
 async function allDocs() {
@@ -20,6 +21,19 @@ const findingsOf = (docs) => docs.filter((d) => d.status === 'ok').flatMap((d) =
   id: `${d.id}-${i}`, ...f, county: d.county, muni_id: null, muni_name: null, muni_kind: null,
   doc_id: d.id, url: d.url, title: d.title, doc_type: d.doc_type })));
 
+/** One row of the township table: what the findings tagged to this town (plus its own documents) say. */
+function townRow(t, docs, findings, sources) {
+  const mine = findings.filter((f) => f.county === t.county && f.township === t.label);
+  const docIds = new Set(mine.map((f) => f.doc_id));
+  const own = docs.filter((d) => d.county === t.county && d.township === t.label);
+  const ok = docs.filter((d) => d.county === t.county && d.status === 'ok' && (d.township === t.label || docIds.has(d.id)));
+  let [status, reason, basis] = rollup(mine, ok.length);
+  if (!ok.length) reason = 'No documents about this town yet. Only county-wide documents are collected so far; add its ordinance or master plan on the Sources tab.';
+  return { ...t, status, reason, basis, ordinances: ok.filter((d) => (d.basis || d.doc_type) === 'ordinance').length, master_plans: ok.filter((d) => (d.basis || d.doc_type) === 'master_plan').length,
+    blocked: own.filter((d) => d.status !== 'ok').length, sources: sources.filter((x) => x.muni_id === t.id).length,
+    counts: Object.fromEntries(Object.keys(CATEGORY_LABELS).map((c) => [c, mine.filter((f) => f.category === c).length])) };
+}
+
 async function pool(items, n, fn) {
   const out = new Array(items.length); let i = 0;
   await Promise.all(Array.from({ length: Math.min(n, items.length) }, async () => { while (i < items.length) { const k = i++; out[k] = await fn(items[k]); } }));
@@ -27,15 +41,17 @@ async function pool(items, n, fn) {
 }
 
 function filterFindings(all, q) {
-  let rows = all;
+  let rows = all.filter((f) => f.township);   // town level only: passages not tied to a specific town are left out
   if (q.get('county')) rows = rows.filter((f) => f.county === q.get('county'));
   if (q.get('town')) rows = rows.filter((f) => f.township === q.get('town'));
   if (q.get('category')) rows = rows.filter((f) => f.category === q.get('category'));
+  if (q.get('stance')) rows = rows.filter((f) => f.stance === q.get('stance'));
+  if (q.get('basis')) rows = rows.filter((f) => f.basis === q.get('basis'));
   if (q.get('doc_type')) rows = rows.filter((f) => f.doc_type === q.get('doc_type'));
   if (q.get('near') === '1') rows = rows.filter((f) => f.near_billboard);
   if (q.get('strong') === '1') rows = rows.filter((f) => f.strong);
   if (q.get('q')) rows = rows.filter((f) => f.snippet.toLowerCase().includes(q.get('q').toLowerCase()));
-  return rows.sort((a, b) => (CAT_RANK[a.category] ?? 4) - (CAT_RANK[b.category] ?? 4) || b.strong - a.strong || b.near_billboard - a.near_billboard
+  return rows.sort((a, b) => (a.basis === 'ordinance' ? 0 : 1) - (b.basis === 'ordinance' ? 0 : 1) || (STANCE_RANK[a.stance] ?? 3) - (STANCE_RANK[b.stance] ?? 3) || (CAT_RANK[a.category] ?? 5) - (CAT_RANK[b.category] ?? 5) || b.strong - a.strong || b.near_billboard - a.near_billboard
     || String(a.township || '').localeCompare(String(b.township || '')));
 }
 
@@ -60,16 +76,30 @@ export default async (req) => {
   const denied = requireAuth(req);
   if (denied) return denied;
   const url = new URL(req.url), path = url.pathname.replace(/\/+$/, ''), q = url.searchParams, m = req.method;
+  let mm;
 
   if (path === '/api/overview') {
     const docs = (await allDocs()).filter((d) => !q.get('county') || d.county === q.get('county'));
-    const county_level = COUNTIES.filter((c) => !q.get('county') || c === q.get('county')).map((c) => {
-      const cd = docs.filter((d) => d.county === c && d.status === 'ok');
-      const [status, reason] = rollup(findingsOf(cd), cd.length);
-      return { county: c, docs: cd.length, status, reason };
-    });
-    const summary = Object.fromEntries(STATUS_ORDER.map((s) => [s, county_level.filter((c) => c.status === s).length]));
-    return json({ rows: [], county_level, summary });
+    const findings = findingsOf(docs), sources = await loadSources();
+    // the main view is by township
+    const rows = townList().filter((t) => !q.get('county') || t.county === q.get('county')).map((t) => townRow(t, docs, findings, sources))
+      .sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status) || a.county.localeCompare(b.county) || a.name.localeCompare(b.name));
+    const summary = Object.fromEntries(STATUS_ORDER.map((st) => [st, rows.filter((r) => r.status === st).length]));
+    return json({ rows, summary });
+  }
+
+  if (path === '/api/municipalities') return json({ rows: townList() });
+
+  mm = path.match(/^\/api\/muni\/(\d+)$/);
+  if (mm) {
+    const t = townList().find((x) => x.id === Number(mm[1]));
+    if (!t) return err('Unknown township', 404);
+    const docs = await allDocs(), findings = findingsOf(docs.filter((d) => d.county === t.county)), sources = await loadSources();
+    const row = townRow(t, docs, findings, sources), mine = findings.filter((f) => f.township === t.label);
+    const ids = new Set(mine.map((f) => f.doc_id));
+    const tdocs = docs.filter((d) => d.county === t.county && (d.township === t.label || ids.has(d.id)))
+      .map((d) => ({ id: d.id, url: d.url, title: d.title, doc_type: d.doc_type, status: d.status, error: d.error, chars: d.chars, fetched_at: d.fetched_at, findings: (d.findings || []).filter((f) => f.township === t.label).length }));
+    return json({ muni: t, docs: tdocs, findings: mine, status: row.status, reason: row.reason, sources: sources.filter((x) => x.muni_id === t.id) });
   }
 
   if (path === '/api/findings') {
@@ -84,7 +114,7 @@ export default async (req) => {
       if (!f.township || (q.get('county') && f.county !== q.get('county'))) continue;
       const k = `${f.county}|${f.township}`;
       const r = by.get(k) || { township: f.township, county: f.county, n: 0, prohibited: 0, permitted: 0 };
-      r.n++; if (f.category === 'prohibited') r.prohibited++; if (f.category === 'permitted') r.permitted++;
+      r.n++; if (f.category === 'prohibited' || f.category === 'no_signage') r.prohibited++; if (f.category === 'permitted') r.permitted++;
       by.set(k, r);
     }
     return json({ rows: [...by.values()].sort((a, b) => a.county.localeCompare(b.county) || a.township.localeCompare(b.township)) });
@@ -92,9 +122,11 @@ export default async (req) => {
 
   if (path === '/api/export.csv') {
     const rows = filterFindings(findingsOf(await allDocs()), q);
-    const body = csv([['County', 'Township', 'Category', 'Rule', 'Explicit wording', 'Near billboard text', 'Doc type', 'Document', 'URL', 'Passage'],
-      ...rows.map((r) => [r.county, r.township || '(no town named)', CATEGORY_LABELS[r.category], r.rule, r.strong ? 'yes' : '', r.near_billboard ? 'yes' : '',
-        r.doc_type, r.title, r.url, r.snippet])]);
+    const SIGN = { positive: '+ welcoming', negative: 'ALERT: discourages', neutral: 'regulated' };
+    const body = csv([['County', 'Township', 'Indicator', 'Category', 'Rule', 'Applies to', 'Source is', 'Explicit wording', 'Doc type', 'Document', 'URL', 'Passage'],
+      ...rows.map((r) => [r.county, r.township || '(no town named)', SIGN[r.stance] || '', CATEGORY_LABELS[r.category], r.rule,
+        { all_zones: 'every district', some_zones: 'some districts', unspecified: 'not stated' }[r.scope] || '', r.basis === 'ordinance' ? 'ordinance text' : r.basis === 'master_plan' ? 'master plan / policy' : 'other',
+        r.strong ? 'yes' : '', r.doc_type, r.title, r.url, r.snippet])]);
     return new Response(body, { headers: { 'content-type': 'text/csv', 'content-disposition': 'attachment; filename=outdoor-impact-ordinance-findings.csv' } });
   }
 
@@ -118,7 +150,8 @@ export default async (req) => {
   if (path === '/api/sources' && m === 'GET') {
     const docsBy = new Map();
     for (const k of await keys('docs/')) { const r = await getJSON(k); if (r) docsBy.set(r.source_id, r); }
-    const rows = (await loadSources()).map((s) => ({ ...s, scope_county: s.county, muni_name: null, muni_kind: null,
+    const towns = townList();
+    const rows = (await loadSources()).map((s) => ({ ...s, scope_county: s.county, muni_name: towns.find((t) => t.id === s.muni_id)?.name ?? null, muni_kind: towns.find((t) => t.id === s.muni_id)?.kind ?? null,
       docs: docsBy.get(s.id)?.docs.length || 0, last_crawled: docsBy.get(s.id)?.last_crawled || null }));
     return json({ rows: rows.sort((a, b) => a.county.localeCompare(b.county) || a.label.localeCompare(b.label)) });
   }
@@ -126,15 +159,16 @@ export default async (req) => {
     const d = await req.json();
     const u = String(d.url || '').trim();
     if (!/^https?:\/\/\S+$/.test(u)) return err('Enter a full http(s) URL');
-    if (!COUNTIES.includes(d.county)) return err('Pick one of the four counties');
+    const town = d.muni_id ? townList().find((t) => t.id === Number(d.muni_id)) : null;
+    if (!town && !COUNTIES.includes(d.county)) return err('Pick a county or a township');
     const list = await loadSources();
     const id = Math.max(0, ...list.map((s) => s.id)) + 1;
-    list.push({ id, county: d.county, label: String(d.label || u).slice(0, 120), url: u, kind: ['ordinance', 'master_plan'].includes(d.kind) ? d.kind : 'auto',
+    list.push({ id, county: town ? town.county : d.county, muni_id: town?.id ?? null, muni: town?.label ?? null, label: String(d.label || u).slice(0, 120), url: u, kind: ['ordinance', 'master_plan'].includes(d.kind) ? d.kind : 'auto',
       max_pages: Math.min(Number(d.max_pages) || 40, 300), created_at: new Date().toISOString() });
     await saveSources(list);
     return json({ id });
   }
-  let mm = path.match(/^\/api\/sources\/(\d+)$/);
+  mm = path.match(/^\/api\/sources\/(\d+)$/);
   if (mm && m === 'DELETE') {
     const id = Number(mm[1]);
     await saveSources((await loadSources()).filter((s) => s.id !== id));
@@ -147,7 +181,7 @@ export default async (req) => {
     const status = await crawlStatus();
     if (status.running) return err('A crawl is already running', 409);
     const list = await loadSources();
-    let ids = d.source_ids?.length ? d.source_ids.map(Number) : d.county ? list.filter((s) => s.county === d.county).map((s) => s.id) : list.map((s) => s.id);
+    let ids = d.source_ids?.length ? d.source_ids.map(Number) : d.muni_id ? list.filter((s) => s.muni_id === Number(d.muni_id)).map((s) => s.id) : d.county ? list.filter((s) => s.county === d.county).map((s) => s.id) : list.map((s) => s.id);
     ids = ids.filter((i) => list.some((s) => s.id === i));
     if (!ids.length) return err('No sources to crawl. Add source URLs first.');
     const r = await startCrawl(url.origin, ids, { force: !!d.force });
@@ -176,17 +210,17 @@ export default async (req) => {
 
   if (path === '/api/import' && m === 'POST') {
     const form = await req.formData();
-    const county = form.get('county');
-    if (!COUNTIES.includes(county)) return err('Pick one of the four counties');
+    const town = form.get('muni_id') ? townList().find((t) => t.id === Number(form.get('muni_id'))) : null;
+    const county = town ? town.county : form.get('county');
+    if (!COUNTIES.includes(county)) return err('Pick a county or a township');
     const kind = form.get('kind') || 'auto';
-    const key = `docs/manual-${county}`;
-    const rec = (await getJSON(key)) || { source_id: `manual-${county}`, county, docs: [] };
+    const key = town ? `docs/manual-${county}-${town.id}` : `docs/manual-${county}`;
+    const rec = (await getJSON(key)) || { source_id: key.slice(5), county, docs: [] };
     const added = [];
     const add = async (name, url, text) => {
       const d = { id: docId(url), url, title: name, doc_type: classify(url, name, text, kind), status: 'ok', error: null, chars: text.length,
         fetched_at: new Date().toISOString(), has_links: true, findings: [] };
-      const idx = townIndex(normalize(text), county, name, '');
-      d.findings = analyze(text).map((f) => ({ ...f, township: townFor(idx, f.position) }));
+      d.findings = await analyzeDoc(d, text, county, town?.label || null);
       await setText(`text/${d.id}`, text);
       rec.docs = [...rec.docs.filter((x) => x.id !== d.id), d];
       added.push({ name, findings: d.findings.length });
@@ -212,6 +246,6 @@ export default async (req) => {
 };
 
 export const config = {
-  path: ['/api/overview', '/api/findings', '/api/townships', '/api/export.csv', '/api/search', '/api/sources', '/api/sources/:id',
+  path: ['/api/overview', '/api/municipalities', '/api/muni/:id', '/api/findings', '/api/townships', '/api/export.csv', '/api/search', '/api/sources', '/api/sources/:id',
     '/api/crawl', '/api/crawl/status', '/api/crawl/stop', '/api/rescan', '/api/docs/:id', '/api/import'],
 };

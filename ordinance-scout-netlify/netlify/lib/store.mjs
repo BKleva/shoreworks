@@ -15,7 +15,7 @@ export async function keys(prefix) {
   return out;
 }
 
-// ---- background-job status (crawl / roadside), polled by the page ----
+// ---- background-job status (crawl), polled by the page ----
 export async function jobState(name) {
   return (await getJSON(`job/${name}`)) || { running: false, log: [], pages: 0, skipped: 0, current: '', sources_total: 0, sources_done: 0, done: 0, total: 0, saved: 0, county: null, stop: false };
 }

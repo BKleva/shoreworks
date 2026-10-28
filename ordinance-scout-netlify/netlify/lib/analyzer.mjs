@@ -8,16 +8,14 @@ const BB = String.raw`(?:billboards?|off[- ]?(?:premises?|site)\s+(?:signs?|adve
 const BB_RE = new RegExp(BB, 'i');
 const NEAR_RE = new RegExp(BB + String.raw`|\bsigns?\b|\bsignage\b`, 'i');
 
-export const PROHIBITED = 'prohibited', SCENIC = 'scenic', REGULATED = 'regulated', PERMITTED = 'permitted',
-  STATE = 'state_law', OVERLAY = 'land_restriction';
+export const PROHIBITED = 'prohibited', NO_SIGNAGE = 'no_signage', SCENIC = 'scenic', REGULATED = 'regulated', PERMITTED = 'permitted';
 
 export const CATEGORY_LABELS = {
   [PROHIBITED]: 'Billboards prohibited',
-  [SCENIC]: 'Scenic / visual preservation',
-  [REGULATED]: 'Regulated (conditions, spacing, size)',
+  [NO_SIGNAGE]: 'Signs prohibited (no signage)',
   [PERMITTED]: 'Billboards permitted',
-  [STATE]: 'State / federal sign law',
-  [OVERLAY]: 'Land restriction overlay',
+  [REGULATED]: 'Billboards regulated (conditions, spacing, size)',
+  [SCENIC]: 'Discourages signs / protects views (policy)',
 };
 
 const NOT_QUANT = String.raw`(?!\s*(?:more|less|closer|greater|fewer|larger|taller|higher|lower|smaller|sign\s+shall\s+exceed))`;
@@ -36,6 +34,12 @@ const RULES = [
     BB + String.raw`[^.;]{0,60}?not\s+(?:a\s+)?(?:permitted|allowed)\s+(?:principal\s+|accessory\s+)?(?:use|in\s+any)`, true),
   rule(PROHIBITED, 'off the premises, not permitted in any zone',
     BB + String.raw`[^.;]{0,150}?(?:not\s+(?:be\s+)?permitted|prohibited|not\s+allowed)\s+in\s+(?:any|all|every)\s+(?:zone|zoning|district)s?`, true),
+
+  // ---- Signs prohibited in general (not only billboards) ----
+  rule(NO_SIGNAGE, 'signage / signs prohibited',
+    String.raw`\b(?:signage|signs?)\s+(?:of\s+any\s+(?:kind|type|description)\s+)?(?:is|are|shall\s+be)\s+(?:hereby\s+|strictly\s+|expressly\s+)?(?:prohibited|forbidden|not\s+(?:be\s+)?permitted|not\s+allowed)(?:\s+(?:in|on|within|along)\s+[^.;]{0,80})?`, true),
+  rule(NO_SIGNAGE, 'no signs shall be erected / displayed',
+    String.raw`\bno\s+(?:signs?|signage)\s+(?:of\s+any\s+(?:kind|type|description)\s+)?(?:shall|will|may)\s+be\s+(?:erected|placed|posted|displayed|installed|permitted|allowed)\s+(?:in|within|along)\s+(?=[^.;]{0,80}?\b(?:zones?|districts?|corridors?|areas?|overlay|township|borough|town|city|municipality|highways?|routes?|roadways?|right[- ]of[- ]way)\b)[^.;]{0,80}`, true),
 
   // ---- Scenic / visual preservation ----
   rule(SCENIC, 'scenic highway / corridor / view',
@@ -73,14 +77,6 @@ const RULES = [
     BB + String.raw`[^.;]{0,60}?\b(?:are|is|shall\s+be|may\s+be|shall\s+only\s+be)\s+(?:a\s+)?(?:permitted|allowed|conditionally\s+permitted)(?!\s+use\s+variance)`),
   rule(PERMITTED, 'permitted use list includes billboards',
     String.raw`permitted\s+(?:principal\s+)?uses?[^.]{0,300}?` + BB),
-
-  // ---- State / federal ----
-  rule(STATE, 'NJ roadside sign control',
-    String.raw`N\.?J\.?A\.?C\.?\s*16:41C|Roadside\s+Sign\s+Control|Outdoor\s+Advertising\s+(?:Control|Act)|Highway\s+Beautification\s+Act|N\.?J\.?S\.?A\.?\s*27:5`),
-
-  // ---- Land-restriction overlays that also bite landowners ----
-  rule(OVERLAY, 'Highlands / Green Acres / farmland preservation',
-    String.raw`Highlands\s+(?:Water\s+Protection|Preservation\s+Area|Planning\s+Area|Region|Council|Act)|Green\s+Acres|farmland\s+preservation|conservation\s+easement`),
 ];
 
 const NEGATION_BEFORE = /(?:\bnot|\bno|\bnever|\bun)\s*(?:be\s+)?$/i;
@@ -105,8 +101,37 @@ export function snippet(text, start, end) {
   return (a > 0 ? '… ' : '') + text.slice(a, b).trim() + (b < text.length ? ' …' : '');
 }
 
-/** Findings for one document's raw text. */
-export function analyze(raw) {
+const ALL_ZONES = /\b(?:any|all|every)\s+(?:zone|zoning|district|zone\s+district)s?\b|\bthroughout\s+the\s+(?:township|borough|town|city|municipality|village)\b|\bwithin\s+the\s+(?:township|borough|town|city|municipality|village)\b/i;
+const SOME_ZONES = /\b(?:only|limited\s+to|restricted\s+to|except)\b|(?:in|within)\s+(?:the\s+)?[A-Z0-9][\w-]*\s+(?:zone|district)/;
+
+// "No sign, including billboards, shall exceed 250 sq ft", "No billboard ... on a right-of-way": limits on size or placement, not a ban
+const RESTRICTS = /\b(?:exceed\w*|except|unless|provided|that\s+(?:are|is)|which|painted|attached|overhang\w*|right[- ]of[- ]way|within\s+\d|closer\s+than|more\s+than|per\s+lot|any\s+lot|a\s+lot|each\s+(?:side|face)|square\s+feet|feet)\b/i;
+// a modifier before "signs" ("illuminated signs are not permitted", "freestanding signs ...") means a type of sign, not signs in general
+const SIGN_MODIFIER_OK = /^(?:all|any|the|of|and|such|these|those|no|that|nor|or|other|signs?|signage|prohibited|following)$/i;
+const NOT_MORE = /\b(?:no\s+more\s+than|not\s+more\s+than|more\s+than|only\s+one|one\s+\(1\)|maximum\s+of)\b[^.;]{0,25}$/i;
+
+function stanceOf(cat, ruleName) {
+  if (cat === PERMITTED) return 'positive';
+  if (cat === REGULATED) return ruleName.startsWith('conditional use') ? 'positive' : 'neutral';
+  return 'negative'; // prohibited, no_signage, scenic (policy that discourages signs)
+}
+
+/** What kind of document this is, judged from its own wording (the file name alone is not reliable).
+ *  'ordinance' = actual code text; 'master_plan' = policy / planning document; 'other'. */
+export function docBasis(docType, text) {
+  if (docType === 'ordinance') return 'ordinance';
+  const t = text.length > 400000 ? text.slice(0, 400000) : text;
+  const law = (t.match(/§|\bbe\s+it\s+ordained\b|\bshall\s+be\s+unlawful\b|\bviolations?\s+and\s+penalt|\bpermitted\s+(?:principal\s+)?uses?\b|\bconditional\s+uses?\b|\bchapter\s+\d+[\s.:-]|\barticle\s+[ivxlc\d]+\b|\bordinance\s+no\.?/gi) || []).length;
+  const plan = (t.match(/\bgoals?\b|\bobjectives?\b|\brecommend\w*|\bvision\b|\bre-?examination\b|\bmaster\s+plan\b/gi) || []).length;
+  const adopted = (t.match(/\bOrdinance:?\s*(?:No\.?\s*)?\d{2,4}-\d+|Public\s+Hearing\s+Date|Date\s+Adoption\s+Filed|\bAdopted\s+(?:on|date)/gi) || []).length;
+  if (adopted >= 4) return 'ordinance';   // a record of adopted ordinances
+  if (law >= 25 && law > plan) return 'ordinance';
+  if (docType === 'master_plan' || plan >= 8) return 'master_plan';
+  return docType === 'other' && law >= 10 ? 'ordinance' : 'other';
+}
+
+/** Findings for one document's raw text. `basis` is docBasis(...). */
+export function analyze(raw, basis = 'other') {
   const text = normalize(raw);
   const hits = [];
   for (const r of RULES) {
@@ -127,35 +152,65 @@ export function analyze(raw) {
     const matched = text.slice(start, end);
     if (cat === PERMITTED && NEGATION_BEFORE.test(text.slice(Math.max(0, start - 25), start))) continue;
     if (cat === PERMITTED && /\bnot\b/i.test(matched)) continue;
+    let cat2 = cat, rname = r.name, strong = r.strong;
+    if (cat === NO_SIGNAGE) {
+      const pre = text.slice(Math.max(0, start - 30), start).replace(/\s+$/, '');
+      const w = /([A-Za-z-]+)$/.exec(pre);
+      if (w && !SIGN_MODIFIER_OK.test(w[1])) continue;
+    }
+    if (cat === PERMITTED && NOT_MORE.test(text.slice(Math.max(0, start - 45), start))) continue;
+    if (cat === PROHIBITED && r.name !== 'listed among prohibited signs') {   // a list of banned signs may itself contain "except ..."
+      const sentence = matched + ' ' + text.slice(end, end + 120).split(/[.;]/)[0];
+      if (RESTRICTS.test(sentence)) { cat2 = REGULATED; rname = 'restricts size or placement of billboards'; strong = false; }
+    }
     const win = text.slice(Math.max(0, start - 400), Math.min(text.length, end + 400));
-    const near = cat === SCENIC || cat === OVERLAY ? BB_RE.test(win) : true;
+    const near = cat === SCENIC ? BB_RE.test(win) : true;
+    if (cat === SCENIC && !near) continue;
+    if (cat2 !== cat && (counts[cat2] || 0) >= MAX_PER_CATEGORY) continue;   // scenery language only counts when it sits next to billboard wording
+    const around = text.slice(Math.max(0, start - 60), Math.min(text.length, end + 80));
     out.push({
-      category: cat, rule: r.name, strong: r.strong ? 1 : 0, near_billboard: near ? 1 : 0,
+      category: cat2, rule: rname, strong: strong ? 1 : 0, near_billboard: near ? 1 : 0,
+      stance: stanceOf(cat2, rname), basis,
+      scope: ALL_ZONES.test(around) ? 'all_zones' : SOME_ZONES.test(around) ? 'some_zones' : 'unspecified',
       position: start, snippet: snippet(text, start, end), match: matched.slice(0, 200),
     });
     lastPos[cat] = start;
-    counts[cat] = (counts[cat] || 0) + 1;
+    counts[cat2] = (counts[cat2] || 0) + 1;
   }
   return out;
 }
 
-/** One county's findings -> a single status. */
+const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+
+function readFindings(list) {
+  return {
+    ban: list.filter((f) => f.category === PROHIBITED),
+    nosign: list.filter((f) => f.category === NO_SIGNAGE),
+    allow: list.filter((f) => f.category === PERMITTED || (f.category === REGULATED && f.stance === 'positive')),
+    rules: list.filter((f) => f.category === REGULATED),
+    policy: list.filter((f) => f.category === SCENIC),
+  };
+}
+
+/** One township's (or county's) findings -> a verdict.
+ *  Returns [status, reason, basis]. status is one of
+ *    welcoming (+)  conditional (+, with rules)  restrictive (alert)  mixed (+ and alert)  leaning (alert, policy only)  no_signal  no_data
+ *  Only actual ordinance text can make a town "restrictive"/"welcoming"; master-plan wording alone is reported as policy. */
 export function rollup(findings, docCount) {
-  if (docCount === 0) return ['no_data', 'No documents collected yet'];
-  if (!findings.length) return ['no_signal', 'Documents collected, no billboard language found'];
-  const by = {};
-  for (const f of findings) (by[f.category] ||= []).push(f);
-  const prohibited = by[PROHIBITED] || [], permitted = by[PERMITTED] || [], regulated = by[REGULATED] || [];
-  const scenicBb = (by[SCENIC] || []).filter((x) => x.near_billboard);
-  if (prohibited.length && permitted.length) return ['mixed', 'Both prohibition and permission language found — read the snippets'];
-  if (prohibited.length) return ['prohibited', `${prohibited.length} prohibition passage(s)`];
-  if (regulated.length || scenicBb.length) {
-    const bits = [];
-    if (regulated.length) bits.push(`${regulated.length} regulation passage(s)`);
-    if (scenicBb.length) bits.push(`${scenicBb.length} scenic-preservation passage(s) near sign/billboard text`);
-    return ['restricted', bits.join('; ')];
+  if (docCount === 0) return ['no_data', 'No documents yet', 'none'];
+  const ord = readFindings(findings.filter((f) => f.basis === 'ordinance'));
+  const pol = readFindings(findings.filter((f) => f.basis !== 'ordinance'));
+
+  if (ord.ban.length && ord.allow.length) return ['mixed', `Ordinance text both prohibits billboards (${plural(ord.ban.length, 'passage')}) and permits them (${plural(ord.allow.length, 'passage')}), probably by area. Read the passages.`, 'ordinance'];
+  if (ord.ban.length) return ['restrictive', `Ordinance text prohibits billboards (${plural(ord.ban.length, 'passage')})${ord.ban.some((f) => f.scope === 'all_zones') ? ', in every district' : ''}.`, 'ordinance'];
+  if (ord.allow.length) return ['welcoming', `Ordinance text permits billboards (${plural(ord.allow.length, 'passage')}).`, 'ordinance'];
+  if (ord.rules.length) return ['conditional', `Ordinance text regulates billboards (spacing, size or conditions), so they are allowed with rules (${plural(ord.rules.length, 'passage')}).`, 'ordinance'];
+  if (ord.nosign.length) return ['leaning', `Ordinance text prohibits signs in some areas (${plural(ord.nosign.length, 'passage')}); not billboard-specific.`, 'ordinance'];
+
+  if (pol.ban.length || pol.nosign.length || pol.policy.length) {
+    const n = pol.ban.length + pol.nosign.length + pol.policy.length;
+    return ['leaning', `Master plan / policy wording discourages signs or billboards (${plural(n, 'passage')}). Not ordinance text, so the actual law is unconfirmed.`, 'master_plan'];
   }
-  if (permitted.length) return ['permitted', `${permitted.length} permission passage(s)`];
-  if (by[SCENIC]) return ['scenic', 'Scenic/visual language, not tied to billboards'];
-  return ['no_signal', 'Only state-law or overlay references found'];
+  if (pol.allow.length || pol.rules.length) return ['conditional', `Planning documents mention billboards being allowed or regulated (${plural(pol.allow.length + pol.rules.length, 'passage')}); the ordinance itself is unconfirmed.`, 'master_plan'];
+  return ['no_signal', 'Documents collected, but none has billboard or sign-prohibition wording. The sign ordinance itself may not be among them.', 'none'];
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Outdoor Impact Ordinance Scout + Roadside Map (password protected, Netlify)",
+  "description": "Outdoor Impact Ordinance Scout + Print Mail (password protected, Netlify)",
   "dependencies": {
     "@netlify/blobs": "^8.1.0",
     "cheerio": "^1.0.0",
