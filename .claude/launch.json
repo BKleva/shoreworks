@@ -4,128 +4,298 @@
     {
       "name": "Shoreworks Dev",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8080"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8080"
+      ],
       "port": 8080
     },
     {
       "name": "WebDesignSite",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8081", "--directory", "C:\\Users\\bklev\\OneDrive\\Shore Works Web Solutions"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8081",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Shore Works Web Solutions"
+      ],
       "port": 8081
-    }
-    ,{
+    },
+    {
       "name": "WaxPacksThrowbacks",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8082", "--directory", "C:\\Users\\bklev\\OneDrive\\Wax, Packs, & Throwbacks"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8082",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Wax, Packs, & Throwbacks"
+      ],
       "port": 8082
-    }
-    ,{
+    },
+    {
       "name": "360Auto",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8083", "--directory", "C:\\Users\\bklev\\OneDrive\\360 Auto"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8083",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\360 Auto"
+      ],
       "port": 8083
-    }
-    ,{
+    },
+    {
       "name": "RosesGardenGrill",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8084", "--directory", "C:\\Users\\bklev\\OneDrive\\Roses"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8084",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Roses"
+      ],
       "port": 8084
-    }
-    ,{
+    },
+    {
       "name": "360AutoV2",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8085", "--directory", "C:\\Users\\bklev\\OneDrive\\360 Auto\\version2"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8085",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\360 Auto\\version2"
+      ],
       "port": 8085
-    }
-    ,{
+    },
+    {
       "name": "EuroMarket",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8086", "--directory", "C:\\Users\\bklev\\OneDrive\\Euro Market"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8086",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Euro Market"
+      ],
       "port": 8086
-    }
-    ,{
+    },
+    {
       "name": "ChicBoutique",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8087", "--directory", "C:\\Users\\bklev\\OneDrive\\Chic"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8087",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Chic"
+      ],
       "port": 8087
-    }
-    ,{
+    },
+    {
       "name": "OutdoorImpact",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8088", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\outdoor-impact"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8088",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Shorefind\\outdoor-impact"
+      ],
       "port": 8088
-    }
-    ,{
+    },
+    {
       "name": "OutdoorImpactScoutNetlify",
       "runtimeExecutable": "cmd",
-      "runtimeArgs": ["/c", "cd /d C:/Users/bklev/OneDrive/Shorefind/ordinance-scout-netlify && netlify dev --port 8899 --no-open"],
+      "runtimeArgs": [
+        "/c",
+        "cd /d C:/Users/bklev/OneDrive/Shorefind/ordinance-scout-netlify && netlify dev --port 8899 --no-open"
+      ],
       "port": 8899
-    }
-    ,{
+    },
+    {
       "name": "OutdoorImpactScout",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["C:\\Users\\bklev\\OneDrive\\Shorefind\\ordinance-scout\\app.py"],
+      "runtimeArgs": [
+        "C:\\Users\\bklev\\OneDrive\\Shorefind\\ordinance-scout\\app.py"
+      ],
       "port": 5057
-    }
-    ,{
+    },
+    {
       "name": "ThomasLacovara",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8089", "--directory", "C:\\Users\\bklev\\OneDrive\\Thomas Lacovara Public Adjusters"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8089",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Thomas Lacovara Public Adjusters"
+      ],
       "port": 8089
-    }
-    ,{
+    },
+    {
       "name": "WillysLandscaping",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8091", "--directory", "C:\\Users\\bklev\\OneDrive\\Willys Landscaping"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8091",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Willys Landscaping"
+      ],
       "port": 8091
-    }
-    ,{
+    },
+    {
       "name": "PumpkinCars",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8092", "--directory", "C:\\Users\\bklev\\OneDrive\\Pumpkin Cars"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8092",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Pumpkin Cars"
+      ],
       "port": 8092
-    }
-    ,{
+    },
+    {
       "name": "ShoppingByTheShore",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8093", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\shopping-by-the-shore"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8093",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Shorefind\\shopping-by-the-shore"
+      ],
       "port": 8093
-    }
-    ,{
+    },
+    {
       "name": "NonnasGrille",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8094", "--directory", "C:\\Users\\bklev\\OneDrive\\Nonnas Grille"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8094",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Nonnas Grille"
+      ],
       "port": 8094
-    }
-    ,{
+    },
+    {
       "name": "WellBeingFitness",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8095", "--directory", "C:\\Users\\bklev\\OneDrive\\WellBeing Fitness"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8095",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\WellBeing Fitness"
+      ],
       "port": 8095
-    }
-    ,{
+    },
+    {
       "name": "TiltonMarket",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8096", "--directory", "C:\\Users\\bklev\\OneDrive\\Tilton Market"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8096",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Tilton Market"
+      ],
       "port": 8096
-    }
-    ,{
+    },
+    {
       "name": "SquaresAndFare",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8097", "--directory", "C:\\Users\\bklev\\OneDrive\\Shorefind\\squares-and-fare"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8097",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Shorefind\\squares-and-fare"
+      ],
       "port": 8097
-    }
-    ,{
+    },
+    {
       "name": "ScottiCuts",
       "runtimeExecutable": "cmd",
-      "runtimeArgs": ["/c", "cd /d C:/Users/bklev/OneDrive/Shorefind/scotticuts && netlify dev --offline --port 8098 --no-open"],
+      "runtimeArgs": [
+        "/c",
+        "cd /d C:/Users/bklev/OneDrive/ScottiCuts && netlify dev --offline --port 8098 --no-open"
+      ],
       "port": 8098
-    }
-    ,{
+    },
+    {
+      "name": "SlingerFit",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8099",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Slinger Fit"
+      ],
+      "port": 8099
+    },
+    {
+      "name": "ChestersPastryPantry",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8100",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Chesters Pastry Pantry"
+      ],
+      "port": 8100
+    },
+    {
       "name": "ReviewCollector",
       "runtimeExecutable": "netlify",
-      "runtimeArgs": ["dev", "--dir", "review-collector", "--functions", "review-collector/netlify/functions", "--port", "8090", "--no-open"],
+      "runtimeArgs": [
+        "dev",
+        "--dir",
+        "review-collector",
+        "--functions",
+        "review-collector/netlify/functions",
+        "--port",
+        "8090",
+        "--no-open"
+      ],
       "port": 8090
+    },
+    {
+      "name": "BalsleyLosco",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8199",
+        "--directory",
+        "C:\\Users\\bklev\\OneDrive\\Balsley Losco\\public"
+      ],
+      "port": 8199
+    },
+    {
+      "name": "WaxPackShop",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "cd /d C:/Users/bklev/OneDrive/Wax Pack Shop && netlify dev --offline --port 8230 --no-open"
+      ],
+      "port": 8230
+    },
+    {
+      "name": "CastellaniCampaigns",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:\\Users\\bklev\\OneDrive\\Castellani Campaigns\\server.mjs"
+      ],
+      "port": 8210
     }
   ]
 }
