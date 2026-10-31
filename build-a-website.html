@@ -210,13 +210,10 @@ footer p{font-size:12px;color:#888}
 .hbf-screen{position:relative;overflow:hidden;aspect-ratio:4/3}
 .hbf-slide{position:absolute;inset:0;opacity:0;animation:hbf-fade 20s linear infinite}
 .hbf-slide:nth-child(1){animation-delay:0s}
-.hbf-slide:nth-child(2){animation-delay:-16s}
-.hbf-slide:nth-child(3){animation-delay:-12s}
-.hbf-slide:nth-child(4){animation-delay:-8s}
-.hbf-slide:nth-child(5){animation-delay:-4s}
-.hbf-slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.hbf-slide:nth-child(2){animation-delay:-15s}
+.hbf-slide:nth-child(3){animation-delay:-10s}
+.hbf-slide:nth-child(4){animation-delay:-5s}
 @keyframes hbf-fade{0%,3%{opacity:0}6%,23%{opacity:1}26%,100%{opacity:0}}
-.hbf-label{position:absolute;bottom:10px;left:10px;background:rgba(13,61,84,.85);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:600;padding:4px 9px;border-radius:6px;letter-spacing:.04em;pointer-events:none}
 
 /* HERO TICKER BAND */
 .hero-ticker-band{background:#071D2A;border-top:1px solid rgba(75,184,184,.12);border-bottom:1px solid rgba(75,184,184,.12);padding:1.25rem 0}
@@ -340,20 +337,260 @@ footer p{font-size:12px;color:#888}
           <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="hbf-url">waxpacksandthrowbacks.com</span></div>
         </div>
         <div class="hbf-screen">
-          <div class="hbf-slide"><img src="assets/portfolio-screens/wpt.jpg" alt="Wax, Packs &amp; Throwbacks"><div class="hbf-label">Wax, Packs &amp; Throwbacks</div></div>
-          <div class="hbf-slide"><img src="assets/portfolio-screens/thomas-lacovara.jpg" alt="Thomas Lacovara Public Adjusters"><div class="hbf-label">Thomas Lacovara &amp; Associates</div></div>
-          <div class="hbf-slide"><img src="assets/portfolio-screens/outdoor-impact.jpg" alt="Outdoor Impact LLC"><div class="hbf-label">Outdoor Impact LLC</div></div>
-          <div class="hbf-slide"><img src="assets/portfolio-screens/roses-garden-grill.jpg" alt="Rose's Garden Grill"><div class="hbf-label">Rose's Garden Grill</div></div>
-          <div class="hbf-slide"><img src="assets/portfolio-screens/twin-cleans.jpg" alt="Twin Cleans"><div class="hbf-label">Twin Cleans</div></div>
+
+          <!-- SLIDE 1: Code Editor -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#0D1117;font-family:monospace;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:#161B22;display:flex;align-items:stretch;height:26px;border-bottom:1px solid #30363D;flex-shrink:0">
+              <div style="background:#0D1117;padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
+                <span style="width:8px;height:8px;border-radius:2px;background:#E34C26;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.75)">hero-section.html</span>
+                <span style="font-size:8px;color:rgba(255,255,255,.2)">×</span>
+              </div>
+              <div style="padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
+                <span style="width:8px;height:8px;border-radius:2px;background:#1572B6;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">styles.css</span>
+              </div>
+              <div style="padding:0 12px;display:flex;align-items:center;gap:6px">
+                <span style="width:8px;height:8px;border-radius:2px;background:#89D185;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">deploy.sh</span>
+              </div>
+            </div>
+            <div style="display:flex;flex:1;overflow:hidden">
+              <div style="width:34px;background:#161B22;padding:8px 0;text-align:right;flex-shrink:0;border-right:1px solid rgba(255,255,255,.05)">
+                <div style="font-size:8px;color:rgba(255,255,255,.2);padding:0 6px;line-height:2">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+              </div>
+              <div style="padding:8px 12px;font-size:9px;line-height:2;flex:1;overflow:hidden">
+                <div><span style="color:#6A9955">/* Shore Works Web Solutions */</span></div>
+                <div>&nbsp;</div>
+                <div><span style="color:#4EC9B0">&lt;section</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-section"</span><span style="color:#4EC9B0">&gt;</span></div>
+                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;div</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-inner"</span><span style="color:#4EC9B0">&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;span</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"eyebrow"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">// web design · south jersey</span><span style="color:#4EC9B0">&lt;/span&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;h1&gt;</span><span style="color:rgba(255,255,255,.75)">Your Website,</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(255,255,255,.75)">Built</span> <span style="color:#DCDCAA">&lt;em&gt;</span><span style="color:#4BB8B8">Right.</span><span style="color:#DCDCAA">&lt;/em&gt;</span><span style="color:#4EC9B0">&lt;/h1&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;p</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-sub"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.45)">Custom-built for local business.</span><span style="color:#4EC9B0">&lt;/p&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;a</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"btn-primary"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">Start Your Project →</span><span style="color:#4EC9B0">&lt;/a&gt;</span></div>
+                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;/div&gt;</span></div>
+                <div><span style="color:#4EC9B0">&lt;/section&gt;</span><span style="display:inline-block;width:2px;height:12px;background:#4BB8B8;vertical-align:middle;animation:blink .85s step-end infinite;margin-left:2px"></span></div>
+              </div>
+            </div>
+            <div style="height:54px;background:#0A0F14;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0">
+              <div style="background:#1C2128;height:18px;display:flex;align-items:center;padding:0 8px;gap:14px">
+                <span style="font-size:7.5px;color:rgba(255,255,255,.6);font-weight:600">TERMINAL</span>
+                <span style="font-size:7.5px;color:rgba(255,255,255,.2)">OUTPUT</span>
+              </div>
+              <div style="padding:4px 10px">
+                <div style="font-size:8px"><span style="color:#4EC9B0">$</span> <span style="color:rgba(255,255,255,.55)">netlify deploy --prod --site shoreworksnj</span></div>
+                <div style="font-size:8px;color:#4BB8B8">✓ Deploy complete · Live at <span style="text-decoration:underline">shoreworksnj.com</span></div>
+              </div>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 2: Shore Works Shop (Pricing) -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#fff;overflow:hidden;font-family:'Space Grotesk',sans-serif;display:flex;flex-direction:column">
+            <div style="background:#0D3D54;display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:32px;flex-shrink:0">
+              <span style="color:#fff;font-weight:800;font-size:11px">Shore<em style="font-style:italic;color:#4BB8B8">works</em> <span style="font-size:8.5px;font-weight:400;color:rgba(75,184,184,.7)">Shop</span></span>
+              <div style="display:flex;gap:14px;align-items:center">
+                <span style="font-size:8.5px;color:rgba(255,255,255,.45)">Packages</span>
+                <span style="font-size:8.5px;color:rgba(255,255,255,.45)">Add-ons</span>
+                <span style="font-size:8.5px;color:rgba(255,255,255,.45)">About</span>
+                <span style="font-size:8.5px;color:#4BB8B8;font-weight:600">Cart (0)</span>
+              </div>
+            </div>
+            <div style="background:#EDE5D4;padding:11px 14px 10px;flex-shrink:0">
+              <div style="font-size:7.5px;color:#4BB8B8;letter-spacing:.12em;font-weight:700;text-transform:uppercase;margin-bottom:3px">Web Design Packages</div>
+              <div style="font-size:13px;font-weight:700;color:#0D3D54;font-family:'Playfair Display',serif;line-height:1.2">Built for local business.</div>
+              <div style="font-size:8px;color:#667788;margin-top:2px">No monthly fees. No fluff. Just results.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:8px 8px 0;flex:1">
+              <div style="border:1px solid #E8E3D8;border-radius:7px;overflow:hidden;display:flex;flex-direction:column">
+                <div style="background:#F5F0E8;padding:8px;text-align:center">
+                  <div style="font-size:7.5px;font-weight:700;color:#0D3D54;letter-spacing:.05em;text-transform:uppercase">Starter</div>
+                  <div style="font-size:17px;font-weight:800;color:#0D3D54;margin:2px 0">$799</div>
+                  <div style="font-size:7px;color:#889">one-time</div>
+                </div>
+                <div style="padding:8px;flex:1">
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Mobile-first design</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ 5 pages</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Contact form</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:8px">✓ Domain setup</div>
+                  <div style="background:#4BB8B8;border-radius:100px;text-align:center;padding:5px;font-size:8px;font-weight:700;color:#fff">Get Started</div>
+                </div>
+              </div>
+              <div style="border:2px solid #0D3D54;border-radius:7px;overflow:hidden;box-shadow:0 4px 14px rgba(13,61,84,.18);display:flex;flex-direction:column">
+                <div style="background:#4BB8B8;padding:3px;text-align:center">
+                  <div style="font-size:6.5px;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase">MOST POPULAR</div>
+                </div>
+                <div style="background:#0D3D54;padding:8px;text-align:center">
+                  <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.05em;text-transform:uppercase">Business Pro</div>
+                  <div style="font-size:17px;font-weight:800;color:#fff;margin:2px 0">$1,499</div>
+                  <div style="font-size:7px;color:rgba(255,255,255,.4)">one-time</div>
+                </div>
+                <div style="padding:8px;flex:1">
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Everything in Starter</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ CMS / Blog</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Analytics</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:8px">✓ SEO package</div>
+                  <div style="background:#0D3D54;border-radius:100px;text-align:center;padding:5px;font-size:8px;font-weight:700;color:#fff">Choose Plan</div>
+                </div>
+              </div>
+              <div style="border:1px solid #E8E3D8;border-radius:7px;overflow:hidden;display:flex;flex-direction:column">
+                <div style="background:#F5F0E8;padding:8px;text-align:center">
+                  <div style="font-size:7.5px;font-weight:700;color:#0D3D54;letter-spacing:.05em;text-transform:uppercase">E-Commerce</div>
+                  <div style="font-size:17px;font-weight:800;color:#0D3D54;margin:2px 0">$2,299</div>
+                  <div style="font-size:7px;color:#889">one-time</div>
+                </div>
+                <div style="padding:8px;flex:1">
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Full online store</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Inventory mgmt</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Payment gateway</div>
+                  <div style="font-size:7.5px;color:#445;margin-bottom:8px">✓ Order tracking</div>
+                  <div style="background:#4BB8B8;border-radius:100px;text-align:center;padding:5px;font-size:8px;font-weight:700;color:#fff">Get Started</div>
+                </div>
+              </div>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 3: Blank Website Wireframe -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px">
+            <div style="background:#D5D0C9;border-radius:4px 4px 0 0;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-bottom:0">
+              <div style="width:44px;height:7px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="background:#4BB8B8;border-radius:100px;padding:3px 9px;font-size:7px;font-weight:700;color:#fff">CTA →</div>
+              </div>
+            </div>
+            <div style="border:2px dashed #B5B0A9;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.3)">
+              <div style="width:28px;height:28px;border-radius:50%;border:2px dashed #999;display:flex;align-items:center;justify-content:center;font-size:13px;color:#999">⛶</div>
+              <div style="font-size:7.5px;color:#999;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Hero Section</div>
+              <div style="display:flex;gap:5px">
+                <div style="background:#0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#fff;font-weight:700">Primary CTA</div>
+                <div style="border:1.5px solid #0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#0D3D54;font-weight:700">Secondary</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:5px">
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="background:#0D3D54;border-radius:4px;padding:8px 10px;margin-top:5px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="width:80px;height:5px;background:rgba(255,255,255,.35);border-radius:2px;margin-bottom:4px"></div>
+                <div style="width:60px;height:4px;background:rgba(255,255,255,.18);border-radius:2px"></div>
+              </div>
+              <div style="background:#4BB8B8;border-radius:100px;padding:4px 11px;font-size:7.5px;font-weight:700;color:#fff">Get Started</div>
+            </div>
+            <div style="background:#D5D0C9;border-radius:0 0 4px 4px;height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-top:5px">
+              <div style="width:44px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="display:flex;gap:5px"><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div></div>
+            </div>
+            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
+              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 4: Report Dashboard -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#fff;overflow:hidden;font-family:'Space Grotesk',sans-serif;display:flex">
+            <div style="width:86px;background:#0D3D54;display:flex;flex-direction:column;flex-shrink:0;padding:12px 0">
+              <div style="padding:0 10px 10px;border-bottom:1px solid rgba(255,255,255,.1)">
+                <div style="font-weight:800;font-size:8px;color:#fff;line-height:1">Shore<em style="color:#4BB8B8;font-style:italic">works</em></div>
+                <div style="font-size:6px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.05em">ANALYTICS</div>
+              </div>
+              <div style="padding:10px 10px 0">
+                <div style="font-size:6px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">REPORTS</div>
+                <div style="background:rgba(75,184,184,.15);border-left:2px solid #4BB8B8;padding:4px 6px;border-radius:0 3px 3px 0;margin-bottom:3px">
+                  <span style="font-size:7px;color:#4BB8B8;font-weight:600">📊 Traffic</span>
+                </div>
+                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">🎯 Leads</span></div>
+                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">⭐ Reviews</span></div>
+                <div style="padding:4px 6px"><span style="font-size:7px;color:rgba(255,255,255,.4)">📄 Pages</span></div>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:11px 12px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px">
+                <div>
+                  <div style="font-size:10.5px;font-weight:700;color:#0D3D54">Performance Report</div>
+                  <div style="font-size:7px;color:#889">October 2026 · shoreworksnj.com</div>
+                </div>
+                <div style="background:#EDE5D4;border-radius:4px;padding:3px 7px;font-size:7px;color:#0D3D54;font-weight:600">↓ Export PDF</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:7px">
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">1,284</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Visitors</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 12%</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">47</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Leads</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 8%</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">3.2%</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Bounce</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↓ good</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">5.0★</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Google</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">14 reviews</div>
+                </div>
+              </div>
+              <div style="background:#F9F9F7;border:1px solid #E8E3D8;border-radius:5px;padding:6px 7px;margin-bottom:6px">
+                <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:5px">Monthly Traffic</div>
+                <svg viewBox="0 0 200 44" style="width:100%;display:block;overflow:visible">
+                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10" stroke="#4BB8B8" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10 200,44 0,44" fill="rgba(75,184,184,.12)" stroke="none"/>
+                  <text x="0" y="44" font-size="5" fill="#aaa" font-family="sans-serif">May</text>
+                  <text x="30" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jun</text>
+                  <text x="62" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jul</text>
+                  <text x="95" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Aug</text>
+                  <text x="127" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Sep</text>
+                  <text x="161" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Oct</text>
+                </svg>
+              </div>
+              <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:4px">Recent Activity</div>
+              <div style="border-left:2px solid #4BB8B8;padding-left:6px;margin-bottom:3px">
+                <div style="font-size:7.5px;color:#334">New contact form submission</div>
+                <div style="font-size:6.5px;color:#aaa">2 hours ago</div>
+              </div>
+              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px;margin-bottom:3px">
+                <div style="font-size:7.5px;color:#334">Google review posted ★★★★★</div>
+                <div style="font-size:6.5px;color:#aaa">Yesterday</div>
+              </div>
+              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px">
+                <div style="font-size:7.5px;color:#334">Traffic spike: 89 visitors (Thursday)</div>
+                <div style="font-size:6.5px;color:#aaa">3 days ago</div>
+              </div>
+            </div>
+          </div></div>
+
         </div>
       </div>
       <script>
       (function(){
-        var urls=['waxpacksandthrowbacks.com','thomaslacovarapublicadjuster.com','outdoorimpactllc.com','rosesgardengrillnf.com','twin-cleans.netlify.app'];
+        var urls=['shoreworksnj.com','shop.shoreworksnj.com','design.shoreworksnj.com','reports.shoreworksnj.com'];
         var el=document.getElementById('hbf-url');
         if(!el)return;
         var i=0;
-        setInterval(function(){i=(i+1)%urls.length;el.textContent=urls[i];},4000);
+        setInterval(function(){i=(i+1)%4;el.textContent=urls[i];},5000);
       })();
       </script>
     </div>
