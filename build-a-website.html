@@ -197,7 +197,26 @@ footer p{font-size:12px;color:#888}
 .hero-section .btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
 .cursor-blink{display:inline-block;width:3px;height:.78em;background:#4BB8B8;margin-left:4px;vertical-align:middle;animation:blink .85s step-end infinite;border-radius:1px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.hero-browser{width:100%;height:auto;display:block;border-radius:14px;box-shadow:0 32px 80px rgba(0,0,0,.55),0 0 0 1px rgba(75,184,184,.18)}
+.hero-browser-frame{border-radius:14px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(75,184,184,.2);background:#162534;width:100%}
+.hbf-chrome{background:#162534;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+.hbf-dots{display:flex;gap:6px}
+.hbf-dot{width:11px;height:11px;border-radius:50%}
+.hbf-dot:nth-child(1){background:#FF5F56}
+.hbf-dot:nth-child(2){background:#FFBD2E}
+.hbf-dot:nth-child(3){background:#27C93F}
+.hbf-bar{flex:1;background:#0D2030;border-radius:5px;padding:5px 10px;display:flex;align-items:center;gap:6px;max-width:360px}
+.hbf-lock{font-size:9px;color:rgba(75,184,184,.5)}
+.hbf-url{font-family:monospace;font-size:10px;color:rgba(75,184,184,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbf-screen{position:relative;overflow:hidden;aspect-ratio:4/3}
+.hbf-slide{position:absolute;inset:0;opacity:0;animation:hbf-fade 20s linear infinite}
+.hbf-slide:nth-child(1){animation-delay:0s}
+.hbf-slide:nth-child(2){animation-delay:-16s}
+.hbf-slide:nth-child(3){animation-delay:-12s}
+.hbf-slide:nth-child(4){animation-delay:-8s}
+.hbf-slide:nth-child(5){animation-delay:-4s}
+.hbf-slide img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+@keyframes hbf-fade{0%,3%{opacity:0}6%,23%{opacity:1}26%,100%{opacity:0}}
+.hbf-label{position:absolute;bottom:10px;left:10px;background:rgba(13,61,84,.85);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:600;padding:4px 9px;border-radius:6px;letter-spacing:.04em;pointer-events:none}
 
 /* HERO TICKER BAND */
 .hero-ticker-band{background:#071D2A;border-top:1px solid rgba(75,184,184,.12);border-bottom:1px solid rgba(75,184,184,.12);padding:1.25rem 0}
@@ -315,256 +334,28 @@ footer p{font-size:12px;color:#888}
       </div>
     </div>
     <div class="hero-browser-wrap">
-      <svg class="hero-browser" viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <clipPath id="hb-clip"><rect width="520" height="340" rx="12"/></clipPath>
-          <pattern id="hb-dot" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(75,184,184,.14)"/></pattern>
-          <style>
-            .hb-scr{opacity:0}
-            .hb-s1{animation:hb-fade 15s linear 0s infinite}
-            .hb-s2{animation:hb-fade 15s linear -10s infinite}
-            .hb-s3{animation:hb-fade 15s linear -5s infinite}
-            @keyframes hb-fade{0%{opacity:0}3.33%,30%{opacity:1}33.33%,100%{opacity:0}}
-          </style>
-        </defs>
-        <g clip-path="url(#hb-clip)">
-          <rect width="520" height="340" fill="#0F1E2A"/>
-
-          <!-- SCREEN 1: E-COMMERCE SHOP -->
-          <g class="hb-scr hb-s1">
-            <rect y="38" width="520" height="302" fill="#fff"/>
-            <!-- site nav -->
-            <rect y="38" width="520" height="30" fill="#0D3D54"/>
-            <rect x="16" y="47" width="64" height="7" rx="2" fill="rgba(255,255,255,.85)"/>
-            <rect x="350" y="50" width="28" height="4" rx="2" fill="rgba(255,255,255,.38)"/>
-            <rect x="388" y="50" width="28" height="4" rx="2" fill="rgba(255,255,255,.38)"/>
-            <rect x="426" y="50" width="28" height="4" rx="2" fill="rgba(255,255,255,.38)"/>
-            <rect x="462" y="43" width="42" height="16" rx="8" fill="#4BB8B8"/>
-            <rect x="470" y="48" width="26" height="4" rx="2" fill="rgba(255,255,255,.88)"/>
-            <!-- hero band -->
-            <rect y="68" width="520" height="72" fill="#EDE5D4"/>
-            <rect x="24" y="81" width="118" height="12" rx="3" fill="#0D3D54" opacity=".78"/>
-            <rect x="24" y="98" width="88" height="7" rx="2" fill="#0D3D54" opacity=".32"/>
-            <rect x="24" y="112" width="80" height="18" rx="5" fill="#4BB8B8"/>
-            <rect x="34" y="118" width="60" height="5" rx="2" fill="rgba(255,255,255,.9)"/>
-            <ellipse cx="430" cy="104" rx="55" ry="28" fill="rgba(75,184,184,.14)"/>
-            <ellipse cx="458" cy="95" rx="34" ry="20" fill="rgba(75,184,184,.1)"/>
-            <!-- label -->
-            <rect x="24" y="152" width="72" height="5" rx="2" fill="#0D3D54" opacity=".38"/>
-            <!-- 3 product cards -->
-            <rect x="16" y="162" width="152" height="158" rx="8" fill="#F9F9F7" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="16" y="162" width="152" height="82" rx="8" fill="#4BB8B8" opacity=".22"/>
-            <circle cx="92" cy="201" r="20" fill="rgba(75,184,184,.25)" stroke="rgba(75,184,184,.45)" stroke-width="1.2"/>
-            <rect x="79" y="197" width="26" height="3.5" rx="1.5" fill="rgba(75,184,184,.7)"/>
-            <rect x="82" y="204" width="20" height="3" rx="1.5" fill="rgba(75,184,184,.5)"/>
-            <rect x="24" y="254" width="78" height="6" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="24" y="265" width="48" height="14" rx="4" fill="#4BB8B8" opacity=".9"/>
-            <rect x="28" y="270" width="40" height="4" rx="2" fill="rgba(255,255,255,.8)"/>
-            <rect x="24" y="284" width="134" height="24" rx="6" fill="#0D3D54"/>
-            <rect x="45" y="292" width="94" height="5" rx="2" fill="rgba(255,255,255,.7)"/>
-
-            <rect x="184" y="162" width="152" height="158" rx="8" fill="#F9F9F7" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="184" y="162" width="152" height="82" rx="8" fill="#D4C5A8" opacity=".6"/>
-            <circle cx="260" cy="201" r="20" fill="rgba(180,150,100,.28)" stroke="rgba(180,150,100,.45)" stroke-width="1.2"/>
-            <rect x="247" y="197" width="26" height="3.5" rx="1.5" fill="rgba(160,130,80,.7)"/>
-            <rect x="250" y="204" width="20" height="3" rx="1.5" fill="rgba(160,130,80,.5)"/>
-            <rect x="192" y="254" width="78" height="6" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="192" y="265" width="48" height="14" rx="4" fill="#4BB8B8" opacity=".9"/>
-            <rect x="196" y="270" width="40" height="4" rx="2" fill="rgba(255,255,255,.8)"/>
-            <rect x="192" y="284" width="134" height="24" rx="6" fill="#0D3D54"/>
-            <rect x="213" y="292" width="94" height="5" rx="2" fill="rgba(255,255,255,.7)"/>
-
-            <rect x="352" y="162" width="152" height="158" rx="8" fill="#F9F9F7" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="352" y="162" width="152" height="82" rx="8" fill="#1A3A4A" opacity=".65"/>
-            <circle cx="428" cy="201" r="20" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1.2"/>
-            <rect x="415" y="197" width="26" height="3.5" rx="1.5" fill="rgba(255,255,255,.4)"/>
-            <rect x="418" y="204" width="20" height="3" rx="1.5" fill="rgba(255,255,255,.3)"/>
-            <rect x="360" y="254" width="78" height="6" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="360" y="265" width="48" height="14" rx="4" fill="#4BB8B8" opacity=".9"/>
-            <rect x="364" y="270" width="40" height="4" rx="2" fill="rgba(255,255,255,.8)"/>
-            <rect x="360" y="284" width="134" height="24" rx="6" fill="#0D3D54"/>
-            <rect x="381" y="292" width="94" height="5" rx="2" fill="rgba(255,255,255,.7)"/>
-          </g>
-
-          <!-- SCREEN 2: RESTAURANT -->
-          <g class="hb-scr hb-s2">
-            <rect y="38" width="520" height="302" fill="#07141C"/>
-            <rect y="38" width="520" height="178" fill="url(#hb-dot)"/>
-            <!-- nav -->
-            <rect y="38" width="520" height="30" fill="rgba(0,0,0,.35)"/>
-            <rect x="16" y="47" width="65" height="7" rx="2" fill="rgba(255,255,255,.8)"/>
-            <rect x="340" y="50" width="28" height="4" rx="2" fill="rgba(255,255,255,.32)"/>
-            <rect x="378" y="50" width="28" height="4" rx="2" fill="rgba(255,255,255,.32)"/>
-            <rect x="416" y="50" width="28" height="4" rx="2" fill="rgba(255,255,255,.32)"/>
-            <rect x="452" y="43" width="52" height="16" rx="4" fill="#4BB8B8" opacity=".85"/>
-            <rect x="460" y="48" width="36" height="5" rx="2" fill="rgba(255,255,255,.88)"/>
-            <!-- eyebrow -->
-            <rect x="24" y="82" width="28" height="1.5" fill="#4BB8B8" opacity=".65"/>
-            <rect x="57" y="80" width="62" height="4.5" rx="1.5" fill="rgba(75,184,184,.62)"/>
-            <!-- headline -->
-            <rect x="24" y="95" width="235" height="15" rx="3" fill="rgba(255,255,255,.88)"/>
-            <rect x="24" y="116" width="185" height="15" rx="3" fill="rgba(255,255,255,.88)"/>
-            <!-- sub -->
-            <rect x="24" y="140" width="150" height="5" rx="2" fill="rgba(255,255,255,.32)"/>
-            <rect x="24" y="150" width="118" height="5" rx="2" fill="rgba(255,255,255,.22)"/>
-            <!-- buttons -->
-            <rect x="24" y="163" width="96" height="22" rx="5" fill="#4BB8B8"/>
-            <rect x="34" y="170" width="76" height="5" rx="2" fill="rgba(255,255,255,.9)"/>
-            <rect x="130" y="163" width="96" height="22" rx="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.2"/>
-            <rect x="140" y="170" width="76" height="5" rx="2" fill="rgba(255,255,255,.45)"/>
-            <!-- decorative dish image (right) -->
-            <rect x="318" y="70" width="186" height="122" rx="8" fill="#0F2838" opacity=".8" stroke="rgba(75,184,184,.15)" stroke-width="1"/>
-            <ellipse cx="411" cy="131" rx="52" ry="38" fill="rgba(75,184,184,.07)"/>
-            <ellipse cx="411" cy="127" rx="36" ry="26" fill="rgba(75,184,184,.12)" stroke="rgba(75,184,184,.2)" stroke-width="1"/>
-            <ellipse cx="411" cy="127" rx="20" ry="14" fill="rgba(75,184,184,.2)"/>
-            <rect x="370" y="86" width="82" height="4" rx="2" fill="rgba(255,255,255,.28)"/>
-            <rect x="380" y="94" width="62" height="3" rx="1.5" fill="rgba(255,255,255,.14)"/>
-            <!-- menu section -->
-            <rect y="216" width="520" height="124" fill="#F5F0E8"/>
-            <rect x="24" y="224" width="72" height="8" rx="2" fill="#0D3D54" opacity=".8"/>
-            <rect x="24" y="236" width="112" height="4.5" rx="1.5" fill="#0D3D54" opacity=".28"/>
-            <!-- 4 menu cards -->
-            <rect x="14" y="246" width="114" height="82" rx="7" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="14" y="246" width="114" height="38" rx="7" fill="#2E5D6C" opacity=".52"/>
-            <rect x="20" y="291" width="70" height="5" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="20" y="300" width="50" height="4" rx="2" fill="#4BB8B8" opacity=".9"/>
-            <rect x="20" y="309" width="82" height="3.5" rx="1.5" fill="#0D3D54" opacity=".18"/>
-
-            <rect x="138" y="246" width="114" height="82" rx="7" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="138" y="246" width="114" height="38" rx="7" fill="#8B5E3C" opacity=".52"/>
-            <rect x="144" y="291" width="70" height="5" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="144" y="300" width="50" height="4" rx="2" fill="#4BB8B8" opacity=".9"/>
-            <rect x="144" y="309" width="82" height="3.5" rx="1.5" fill="#0D3D54" opacity=".18"/>
-
-            <rect x="262" y="246" width="114" height="82" rx="7" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="262" y="246" width="114" height="38" rx="7" fill="#2E7D52" opacity=".5"/>
-            <rect x="268" y="291" width="70" height="5" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="268" y="300" width="50" height="4" rx="2" fill="#4BB8B8" opacity=".9"/>
-            <rect x="268" y="309" width="82" height="3.5" rx="1.5" fill="#0D3D54" opacity=".18"/>
-
-            <rect x="386" y="246" width="114" height="82" rx="7" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
-            <rect x="386" y="246" width="114" height="38" rx="7" fill="#5B3A6A" opacity=".52"/>
-            <rect x="392" y="291" width="70" height="5" rx="2" fill="#0D3D54" opacity=".7"/>
-            <rect x="392" y="300" width="50" height="4" rx="2" fill="#4BB8B8" opacity=".9"/>
-            <rect x="392" y="309" width="82" height="3.5" rx="1.5" fill="#0D3D54" opacity=".18"/>
-          </g>
-
-          <!-- SCREEN 3: CODE EDITOR -->
-          <g class="hb-scr hb-s3">
-            <rect y="38" width="520" height="302" fill="#0D1117"/>
-            <!-- tab bar -->
-            <rect y="38" width="520" height="24" fill="#161B22"/>
-            <rect y="38" width="108" height="24" fill="#0D1117"/>
-            <rect x="108" y="56" width="1" height="6" fill="#30363D"/>
-            <rect x="9" y="46" width="8" height="9" rx="1.5" fill="#E34C26" opacity=".75"/>
-            <rect x="21" y="49" width="55" height="4" rx="1.5" fill="rgba(255,255,255,.72)"/>
-            <rect x="108" y="38" width="92" height="24" fill="#161B22"/>
-            <rect x="114" y="46" width="8" height="9" rx="1.5" fill="#1572B6" opacity=".65"/>
-            <rect x="126" y="49" width="46" height="4" rx="1.5" fill="rgba(255,255,255,.32)"/>
-            <rect x="200" y="38" width="92" height="24" fill="#161B22"/>
-            <rect x="206" y="46" width="8" height="9" rx="1.5" fill="#F7DF1E" opacity=".65"/>
-            <rect x="218" y="49" width="46" height="4" rx="1.5" fill="rgba(255,255,255,.32)"/>
-            <!-- line numbers -->
-            <rect y="62" width="38" height="224" fill="#161B22" opacity=".45"/>
-            <!-- line number ticks (14px apart, starting at y=72) -->
-            <rect x="9" y="72" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="86" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="100" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="114" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="128" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="142" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="156" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="170" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="184" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="198" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="212" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="226" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="240" width="20" height="3" rx="1" fill="rgba(255,255,255,.2)"/>
-            <rect x="9" y="254" width="20" height="3" rx="1" fill="rgba(75,184,184,.55)"/>
-            <!-- code lines — syntax coloring: teal=tags, blue=attrs, orange=values, green=comments, yellow=text -->
-            <!-- line 1: comment -->
-            <rect x="44" y="70" width="148" height="4" rx="1.5" fill="#6A9955" opacity=".88"/>
-            <!-- line 2: <section class="hero"> -->
-            <rect x="44" y="84" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="57" y="84" width="40" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="101" y="84" width="26" height="4" rx="1.5" fill="#9CDCFE"/>
-            <rect x="131" y="84" width="52" height="4" rx="1.5" fill="#CE9178"/>
-            <rect x="187" y="84" width="8" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 3: <div class="hero-tag"> -->
-            <rect x="58" y="98" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="71" y="98" width="20" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="95" y="98" width="26" height="4" rx="1.5" fill="#9CDCFE"/>
-            <rect x="125" y="98" width="72" height="4" rx="1.5" fill="#CE9178"/>
-            <rect x="201" y="98" width="8" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 4: text -->
-            <rect x="72" y="112" width="134" height="4" rx="1.5" fill="rgba(255,255,255,.62)"/>
-            <!-- line 5: </div> -->
-            <rect x="58" y="126" width="30" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 6: <h1>Beautiful websites</h1> -->
-            <rect x="58" y="140" width="20" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="82" y="140" width="108" height="4" rx="1.5" fill="rgba(255,255,255,.72)"/>
-            <rect x="194" y="140" width="24" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 7: <em>real results</em> -->
-            <rect x="72" y="154" width="14" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="89" y="154" width="72" height="4" rx="1.5" fill="#DCDCAA"/>
-            <rect x="165" y="154" width="24" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 8: <p class="hero-sub"> -->
-            <rect x="58" y="168" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="71" y="168" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="85" y="168" width="26" height="4" rx="1.5" fill="#9CDCFE"/>
-            <rect x="115" y="168" width="68" height="4" rx="1.5" fill="#CE9178"/>
-            <rect x="187" y="168" width="8" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 9: long text -->
-            <rect x="72" y="182" width="205" height="4" rx="1.5" fill="rgba(255,255,255,.48)"/>
-            <!-- line 10: </p> -->
-            <rect x="58" y="196" width="22" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 11: <div class="hero-btns"> -->
-            <rect x="58" y="210" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="71" y="210" width="20" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="95" y="210" width="26" height="4" rx="1.5" fill="#9CDCFE"/>
-            <rect x="125" y="210" width="82" height="4" rx="1.5" fill="#CE9178"/>
-            <rect x="211" y="210" width="8" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 12: <a class="btn-primary"> -->
-            <rect x="72" y="224" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="85" y="224" width="10" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="99" y="224" width="26" height="4" rx="1.5" fill="#9CDCFE"/>
-            <rect x="129" y="224" width="78" height="4" rx="1.5" fill="#CE9178"/>
-            <rect x="211" y="224" width="8" height="4" rx="1.5" fill="#4EC9B0"/>
-            <!-- line 13: text -->
-            <rect x="86" y="238" width="82" height="4" rx="1.5" fill="rgba(255,255,255,.65)"/>
-            <!-- line 14: </a> — cursor line, highlighted -->
-            <rect x="44" y="250" width="476" height="14" fill="rgba(75,184,184,.055)"/>
-            <rect x="72" y="253" width="22" height="4" rx="1.5" fill="#4EC9B0"/>
-            <rect x="98" y="250" width="2" height="12" rx="1" fill="#4BB8B8">
-              <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
-            </rect>
-            <!-- terminal panel -->
-            <rect y="286" width="520" height="54" fill="#0A0F14"/>
-            <rect y="286" width="520" height="18" fill="#1C2128"/>
-            <rect x="8" y="292" width="65" height="4" rx="1.5" fill="rgba(255,255,255,.6)"/>
-            <rect x="82" y="292" width="46" height="4" rx="1.5" fill="rgba(255,255,255,.2)"/>
-            <rect x="8" y="311" width="10" height="5" rx="1.5" fill="#4EC9B0" opacity=".8"/>
-            <rect x="22" y="312" width="100" height="4" rx="1.5" fill="rgba(255,255,255,.52)"/>
-            <rect x="127" y="311" width="7" height="5" rx="0" fill="rgba(255,255,255,.75)">
-              <animate attributeName="opacity" values="0.75;0;0.75" dur="1.2s" begin="0.3s" repeatCount="indefinite"/>
-            </rect>
-            <rect x="8" y="322" width="185" height="3.5" rx="1.5" fill="rgba(75,184,184,.38)"/>
-            <rect x="8" y="330" width="128" height="3.5" rx="1.5" fill="rgba(255,255,255,.18)"/>
-          </g>
-
-          <!-- BROWSER CHROME (always on top) -->
-          <rect width="520" height="38" fill="#162534"/>
-          <path d="M0 12 Q0 0 12 0 L508 0 Q520 0 520 12 L520 38 L0 38 Z" fill="#162534"/>
-          <circle cx="20" cy="19" r="5.5" fill="#FF5F56"/>
-          <circle cx="37" cy="19" r="5.5" fill="#FFBD2E"/>
-          <circle cx="54" cy="19" r="5.5" fill="#27C93F"/>
-          <rect x="72" y="10" width="296" height="18" rx="4" fill="#0D2030"/>
-          <rect x="78" y="14" width="5" height="5" rx="1" fill="none" stroke="rgba(75,184,184,.52)" stroke-width="1"/>
-          <path d="M79.5 14.5 Q80.5 12 81.5 14.5" fill="none" stroke="rgba(75,184,184,.52)" stroke-width="1"/>
-          <rect x="91" y="17" width="140" height="4" rx="1.5" fill="rgba(75,184,184,.38)"/>
-        </g>
-        <rect width="520" height="340" rx="12" fill="none" stroke="rgba(75,184,184,.2)" stroke-width="1.5"/>
-      </svg>
+      <div class="hero-browser-frame">
+        <div class="hbf-chrome">
+          <div class="hbf-dots"><span class="hbf-dot"></span><span class="hbf-dot"></span><span class="hbf-dot"></span></div>
+          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="hbf-url">waxpacksandthrowbacks.com</span></div>
+        </div>
+        <div class="hbf-screen">
+          <div class="hbf-slide"><img src="assets/portfolio-screens/wpt.jpg" alt="Wax, Packs &amp; Throwbacks"><div class="hbf-label">Wax, Packs &amp; Throwbacks</div></div>
+          <div class="hbf-slide"><img src="assets/portfolio-screens/thomas-lacovara.jpg" alt="Thomas Lacovara Public Adjusters"><div class="hbf-label">Thomas Lacovara &amp; Associates</div></div>
+          <div class="hbf-slide"><img src="assets/portfolio-screens/outdoor-impact.jpg" alt="Outdoor Impact LLC"><div class="hbf-label">Outdoor Impact LLC</div></div>
+          <div class="hbf-slide"><img src="assets/portfolio-screens/roses-garden-grill.jpg" alt="Rose's Garden Grill"><div class="hbf-label">Rose's Garden Grill</div></div>
+          <div class="hbf-slide"><img src="assets/portfolio-screens/twin-cleans.jpg" alt="Twin Cleans"><div class="hbf-label">Twin Cleans</div></div>
+        </div>
+      </div>
+      <script>
+      (function(){
+        var urls=['waxpacksandthrowbacks.com','thomaslacovarapublicadjuster.com','outdoorimpactllc.com','rosesgardengrillnf.com','twin-cleans.netlify.app'];
+        var el=document.getElementById('hbf-url');
+        if(!el)return;
+        var i=0;
+        setInterval(function(){i=(i+1)%urls.length;el.textContent=urls[i];},4000);
+      })();
+      </script>
     </div>
   </div>
 </section>
@@ -1173,4 +964,5 @@ window.addEventListener('scroll', function(){
 
 </body>
 </html>
+
 
