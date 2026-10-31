@@ -3,639 +3,782 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Shore Real Estate Group — Michael Petretta</title>
+<title>Michael Petretta's The Shore Real Estate Group</title>
+<meta name="description" content="Buy, sell or rent at the Jersey Shore with Michael Petretta and The Shore Real Estate Group, Keller Williams Realty Jersey Shore. Schedule a free consultation online.">
+<meta name="theme-color" content="#0b2a3c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b2a3c'/%3E%3Cpath d='M4 20c4-4 7 4 12 0s8 4 12 0' stroke='%2362d2c4' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='10' r='4' fill='%23ffb870'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --navy: #0D2B3E;
-    --navy-mid: #1A4A63;
-    --blue: #2A6D8F;
-    --teal: #1A8F8F;
-    --teal-light: #4AABAB;
-    --sand: #F0E8D5;
-    --sand-light: #FAF6EE;
-    --warm-white: #FDFCF9;
-    --text: #1C2529;
-    --muted: #5E7480;
-    --border: #E2D9C8;
-    --serif: 'Cormorant Garamond', Georgia, serif;
+    --navy: #0b2a3c;
+    --navy-2: #123c55;
+    --sea: #1f8a8a;
+    --sea-light: #62d2c4;
+    --sand: #f3ead8;
+    --sand-2: #faf5ea;
+    --paper: #fffdf8;
+    --coral: #e8704f;
+    --coral-dark: #cf5a3a;
+    --sun: #ffb870;
+    --text: #1b2a33;
+    --muted: #5a707c;
+    --line: #e5dac5;
+    --serif: 'Fraunces', Georgia, serif;
     --sans: 'DM Sans', system-ui, sans-serif;
+    --nav-h: 76px;
   }
-  html { scroll-behavior: smooth; }
-  body { font-family: var(--sans); color: var(--text); background: var(--warm-white); line-height: 1.6; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+  body { font-family: var(--sans); color: var(--text); background: var(--paper); line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; border-radius: 4px; }
+  .skip { position: absolute; left: -999px; top: 8px; background: #fff; padding: 8px 14px; z-index: 300; border-radius: 6px; }
+  .skip:focus { left: 8px; }
 
   /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2.5rem; height: 70px;
-    background: rgba(13,43,62,.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,.07);
-    transition: background .3s, box-shadow .3s;
-  }
-  nav.scrolled { background: rgba(13,43,62,.98); box-shadow: 0 2px 24px rgba(0,0,0,.22); }
-  .nav-logo { display: flex; flex-direction: column; gap: 1px; text-decoration: none; }
-  .nav-logo-main { font-family: var(--serif); font-size: 19px; font-weight: 600; color: #fff; letter-spacing: .04em; line-height: 1; }
-  .nav-logo-sub { font-size: 9px; color: rgba(255,255,255,.45); letter-spacing: .18em; text-transform: uppercase; }
-  .nav-links { display: flex; align-items: center; gap: 2rem; }
-  .nav-links a { color: rgba(255,255,255,.72); text-decoration: none; font-size: 13px; font-weight: 400; letter-spacing: .03em; transition: color .2s; }
-  .nav-links a:hover { color: #fff; }
-  .nav-links a.active { color: var(--teal-light); }
-  .nav-cta { background: var(--teal); color: #fff !important; padding: 8px 20px; border-radius: 4px; font-weight: 500; transition: background .2s !important; }
-  .nav-cta:hover { background: var(--teal-light) !important; color: #fff !important; }
-  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-  .nav-hamburger span { width: 22px; height: 1.5px; background: rgba(255,255,255,.8); border-radius: 2px; transition: all .3s; }
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 0 clamp(1rem, 4vw, 2.5rem); border-bottom: 1px solid rgba(255,255,255,.08); transition: box-shadow .3s; }
+  .nav::before { content: ''; position: absolute; inset: 0; z-index: -1; background: rgba(11,42,60,.55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
+  .nav.scrolled { box-shadow: 0 6px 30px rgba(0,0,0,.2); }
+  .nav.scrolled::before { background: rgba(11,42,60,.96); }
+  .logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: #fff; flex-shrink: 0; }
+  .logo-mark { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(145deg, var(--sea), var(--navy-2)); display: grid; place-items: center; border: 1px solid rgba(255,255,255,.18); }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-text b { font-family: var(--serif); font-weight: 600; font-size: 1.12rem; letter-spacing: .01em; }
+  .logo-text small { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-top: 3px; }
+  .menu { display: flex; align-items: center; gap: clamp(.9rem, 1.8vw, 1.7rem); list-style: none; }
+  .menu a { text-decoration: none; color: rgba(255,255,255,.78); font-size: .88rem; font-weight: 500; position: relative; padding: 6px 0; transition: color .2s; white-space: nowrap; }
+  .menu a:hover, .menu a.active { color: #fff; }
+  .menu a:not(.menu-cta)::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--sea-light); transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+  .menu a:not(.menu-cta):hover::after, .menu a.active:not(.menu-cta)::after { transform: scaleX(1); }
+  .menu .menu-cta { background: var(--coral); color: #fff; padding: 9px 18px; border-radius: 999px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; transition: background .2s, transform .15s; }
+  .menu .menu-cta:hover { background: var(--coral-dark); transform: translateY(-1px); }
+  .menu .menu-cta.active { box-shadow: 0 0 0 3px rgba(232,112,79,.35); }
+  .ext { font-size: .7em; opacity: .6; margin-left: 2px; }
+  .burger { display: none; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; background: transparent; cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 5px; }
+  .burger span { width: 20px; height: 2px; background: #fff; border-radius: 2px; transition: transform .3s, opacity .3s; }
+  .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; border-radius: 999px; font: 600 .95rem var(--sans); text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: transform .15s, background .2s, border-color .2s, box-shadow .2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-coral { background: var(--coral); color: #fff; box-shadow: 0 8px 22px rgba(232,112,79,.35); }
+  .btn-coral:hover { background: var(--coral-dark); }
+  .btn-ghost { border-color: rgba(255,255,255,.4); color: #fff; }
+  .btn-ghost:hover { background: rgba(255,255,255,.1); border-color: #fff; }
+  .btn-navy { background: var(--navy); color: #fff; }
+  .btn-navy:hover { background: var(--navy-2); }
+  .btn-line { border-color: var(--navy); color: var(--navy); }
+  .btn-line:hover { background: var(--navy); color: #fff; }
 
   /* ── HERO ── */
-  .hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    position: relative; overflow: hidden;
-    background: linear-gradient(160deg, #0D2B3E 0%, #1A4A63 35%, #1A6A7A 60%, #2A7A6A 80%, #1A5A4A 100%);
-  }
-  .hero::before {
-    content: ''; position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 65% 40%, rgba(74,171,171,.18) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 80% at 20% 70%, rgba(26,143,143,.12) 0%, transparent 50%);
-  }
-  .hero-ocean {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 38%;
-    background: linear-gradient(to top, rgba(26,74,99,.85) 0%, rgba(26,106,122,.5) 40%, transparent 100%);
-  }
-  .hero-waves {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 120px; overflow: hidden;
-  }
-  .hero-waves svg { width: 200%; height: 100%; animation: wave-drift 18s linear infinite; }
-  @keyframes wave-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .hero-inner {
-    position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 8rem 2.5rem 5rem;
-    display: grid; grid-template-columns: 1fr 420px; gap: 4rem; align-items: center;
-  }
-  .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 1.25rem; }
-  .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 400; color: #fff; line-height: 1.1; margin-bottom: 1.5rem; }
-  .hero h1 em { font-style: italic; color: var(--teal-light); }
-  .hero-sub { font-size: 16px; color: rgba(255,255,255,.65); line-height: 1.7; max-width: 480px; margin-bottom: 2.5rem; }
-  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary { display: inline-flex; align-items: center; gap: 6px; background: var(--teal); color: #fff; text-decoration: none; padding: 13px 26px; border-radius: 4px; font-size: 13px; font-weight: 500; letter-spacing: .04em; transition: background .2s, transform .15s; }
-  .btn-primary:hover { background: var(--teal-light); transform: translateY(-1px); }
-  .btn-outline-white { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid rgba(255,255,255,.35); color: #fff; text-decoration: none; padding: 13px 26px; border-radius: 4px; font-size: 13px; font-weight: 400; letter-spacing: .04em; transition: border-color .2s, background .2s; }
-  .btn-outline-white:hover { border-color: rgba(255,255,255,.7); background: rgba(255,255,255,.07); }
+  .hero { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; color: #fff; background: linear-gradient(180deg, #0b2a3c 0%, #14506b 38%, #2c8c94 62%, #f5c28b 88%, #ffd9a8 100%); isolation: isolate; }
+  .hero-sun { position: absolute; width: min(46vw, 460px); aspect-ratio: 1; border-radius: 50%; right: 8%; bottom: 20%; background: radial-gradient(circle, #fff3d6 0%, #ffd08a 40%, rgba(255,184,112,0) 70%); filter: blur(2px); z-index: -1; animation: glow 7s ease-in-out infinite alternate; }
+  @keyframes glow { to { transform: scale(1.08); opacity: .85; } }
+  .hero-stars { position: absolute; inset: 0 0 45% 0; z-index: -1; background-image: radial-gradient(1.5px 1.5px at 12% 22%, #fff, transparent), radial-gradient(1.5px 1.5px at 30% 12%, #fff, transparent), radial-gradient(1px 1px at 52% 28%, #fff, transparent), radial-gradient(1.5px 1.5px at 70% 10%, #fff, transparent), radial-gradient(1px 1px at 88% 24%, #fff, transparent), radial-gradient(1px 1px at 22% 36%, #fff, transparent); opacity: .55; }
+  .hero-waves { position: absolute; left: 0; right: 0; bottom: 0; height: 190px; z-index: 0; pointer-events: none; }
+  .hero-waves svg { position: absolute; bottom: 0; left: 0; width: 200%; height: 100%; }
+  .wave-a { animation: drift 26s linear infinite; }
+  .wave-b { animation: drift 38s linear infinite reverse; opacity: .9; }
+  @keyframes drift { to { transform: translateX(-50%); } }
+  .hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1180px; margin: 0 auto; padding: calc(var(--nav-h) + 4rem) clamp(1.25rem, 4vw, 2.5rem) 9rem; display: grid; grid-template-columns: 1.15fr .85fr; gap: 3.5rem; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .74rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--sea-light); margin-bottom: 1.25rem; }
+  .eyebrow::before { content: ''; width: 28px; height: 2px; background: currentColor; }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.8rem, 6.4vw, 5.4rem); line-height: 1.02; letter-spacing: -.02em; margin-bottom: 1.4rem; }
+  .hero h1 em { font-style: italic; color: var(--sun); font-weight: 500; }
+  .hero-sub { font-size: 1.12rem; color: rgba(255,255,255,.82); max-width: 520px; margin-bottom: 2.2rem; }
+  .hero-sub em { color: #fff; font-style: italic; font-weight: 500; }
+  .hero-btns { display: flex; gap: .9rem; flex-wrap: wrap; }
+  .hero-note { margin-top: 1.6rem; font-size: .88rem; color: rgba(255,255,255,.7); display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .hero-note a { color: #fff; font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4); }
+  .hero-note a:hover { border-color: #fff; }
 
-  .hero-card {
-    background: rgba(255,255,255,.07); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.13); border-radius: 16px; padding: 2rem;
-  }
-  .hero-card-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 1.25rem; }
-  .hero-card-form { display: flex; flex-direction: column; gap: .85rem; }
-  .hero-card-form select, .hero-card-form input {
-    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
-    color: #fff; border-radius: 6px; padding: 11px 14px; font-family: var(--sans); font-size: 13px; outline: none;
-    transition: border-color .2s;
-  }
-  .hero-card-form select:focus, .hero-card-form input:focus { border-color: var(--teal-light); }
-  .hero-card-form select option { background: #1A4A63; color: #fff; }
-  .hero-card-form input::placeholder { color: rgba(255,255,255,.4); }
-  .hero-card-form .btn-primary { width: 100%; justify-content: center; font-size: 14px; padding: 14px; }
-
-  /* ── STATS STRIP ── */
-  .stats-strip { background: var(--navy); padding: 1.75rem 2.5rem; }
-  .stats-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; gap: 5rem; }
-  .stat { text-align: center; }
-  .stat-num { font-family: var(--serif); font-size: 2.4rem; font-weight: 600; color: var(--teal-light); line-height: 1; }
-  .stat-label { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-top: .35rem; }
+  /* quick-start card in hero */
+  .quick { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); border-radius: 22px; padding: 1.75rem; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 30px 70px rgba(5,25,38,.35); }
+  .quick h2 { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin-bottom: .3rem; }
+  .quick p { font-size: .88rem; color: rgba(255,255,255,.72); margin-bottom: 1.2rem; }
+  .quick-list { display: grid; gap: .65rem; }
+  .quick-item { display: flex; align-items: center; gap: .9rem; padding: .9rem 1rem; border-radius: 14px; background: rgba(255,255,255,.1); border: 1px solid transparent; text-decoration: none; transition: background .2s, border-color .2s, transform .15s; }
+  .quick-item:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.35); transform: translateX(3px); }
+  .quick-item .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(98,210,196,.2); color: var(--sea-light); flex-shrink: 0; }
+  .quick-item b { display: block; font-size: .98rem; }
+  .quick-item span { font-size: .8rem; color: rgba(255,255,255,.65); }
+  .quick-item .arr { margin-left: auto; opacity: .6; }
+  .quick-item.sched { background: var(--coral); }
+  .quick-item.sched:hover { background: var(--coral-dark); }
+  .quick-item.sched .ic { background: rgba(255,255,255,.22); color: #fff; }
+  .quick-item.sched span { color: rgba(255,255,255,.85); }
 
   /* ── SECTIONS ── */
-  section { padding: 5rem 2.5rem; }
-  .section-inner { max-width: 1100px; margin: 0 auto; }
-  .section-tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; }
-  h2 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: var(--navy); line-height: 1.2; }
-  h2 em { font-style: italic; color: var(--teal); }
-  .lead { font-size: 17px; color: var(--muted); line-height: 1.75; max-width: 620px; }
+  section { padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 4vw, 2.5rem); }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .tag { display: inline-flex; align-items: center; gap: .6rem; font-size: .74rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--sea); margin-bottom: 1rem; }
+  .tag::before { content: ''; width: 22px; height: 2px; background: currentColor; }
+  h2.title, .hero h1 { text-wrap: balance; }
+  h2.title { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4.2vw, 3.3rem); line-height: 1.1; letter-spacing: -.015em; color: var(--navy); }
+  h2.title em { font-style: italic; color: var(--sea); font-weight: 500; }
+  .lead { font-size: 1.1rem; color: var(--muted); max-width: 640px; margin-top: 1.1rem; }
+  .center { text-align: center; }
+  .center .lead { margin-left: auto; margin-right: auto; }
+  .center .tag { justify-content: center; }
 
-  /* ── ABOUT / TRUST ── */
-  .about-section { background: var(--sand-light); }
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-  .about-visual { position: relative; }
-  .about-photo {
-    width: 100%; aspect-ratio: 4/5; border-radius: 16px; overflow: hidden;
-    background: linear-gradient(135deg, #2A6D8F 0%, #1A8F8F 40%, #0D5A5A 70%, #1A4A63 100%);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .about-photo-inner { text-align: center; color: rgba(255,255,255,.35); font-family: var(--serif); font-size: 1.1rem; font-style: italic; }
-  .about-badge {
-    position: absolute; bottom: -20px; right: -20px;
-    background: var(--navy); color: #fff; border-radius: 12px; padding: 1.25rem 1.5rem;
-    box-shadow: 0 8px 32px rgba(13,43,62,.3);
-  }
-  .about-badge-num { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--teal-light); line-height: 1; }
-  .about-badge-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-top: .3rem; }
-  .about-text h2 { margin-bottom: 1.25rem; }
-  .about-text .lead { margin-bottom: 2rem; }
-  .about-checks { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem; }
-  .about-check { display: flex; align-items: center; gap: .75rem; font-size: 14px; color: var(--text); }
-  .about-check::before { content: ''; width: 18px; height: 18px; border-radius: 50%; background: var(--teal); flex-shrink: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 12px; background-repeat: no-repeat; background-position: center; }
+  /* intro / paths */
+  .intro { background: var(--sand-2); }
+  .paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .path { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 2rem; text-decoration: none; display: flex; flex-direction: column; overflow: hidden; transition: transform .25s, box-shadow .25s, border-color .25s; }
+  .path::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--c, var(--sea)); }
+  .path:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(11,42,60,.12); border-color: transparent; }
+  .path .ic { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 1.3rem; background: color-mix(in srgb, var(--c, var(--sea)) 14%, #fff); color: var(--c, var(--sea)); }
+  .path h3 { font-family: var(--serif); font-weight: 600; font-size: 1.7rem; color: var(--navy); margin-bottom: .6rem; }
+  .path p { color: var(--muted); font-size: .98rem; flex: 1; }
+  .path .more { margin-top: 1.4rem; font-weight: 600; font-size: .92rem; color: var(--c, var(--sea)); display: inline-flex; gap: 6px; align-items: center; transition: gap .2s; }
+  .path:hover .more { gap: 12px; }
+  .pledge { margin: 3.5rem auto 0; max-width: 820px; text-align: center; font-family: var(--serif); font-size: clamp(1.25rem, 2.4vw, 1.7rem); font-style: italic; color: var(--navy); line-height: 1.4; }
+  .pledge::before, .pledge::after { content: ''; display: block; width: 56px; height: 2px; background: var(--sea); margin: 0 auto 1.4rem; }
+  .pledge::after { margin: 1.4rem auto 0; }
 
-  /* ── SERVICES ── */
-  .services-section { background: var(--warm-white); }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; margin-top: 3rem; }
-  .service-card { border: 1.5px solid var(--border); border-radius: 14px; padding: 2rem; background: #fff; transition: border-color .2s, box-shadow .2s, transform .2s; }
-  .service-card:hover { border-color: var(--teal-light); box-shadow: 0 8px 32px rgba(26,143,143,.1); transform: translateY(-3px); }
-  .service-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
-  .service-card h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; color: var(--navy); margin-bottom: .75rem; }
-  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-  .service-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--teal); text-decoration: none; letter-spacing: .03em; }
-  .service-link:hover { gap: 10px; }
-  .service-link::after { content: '→'; transition: margin-left .2s; }
-
-  /* ── PROCESS ── */
-  .process-section { background: var(--navy); }
-  .process-section h2 { color: #fff; }
-  .process-section h2 em { color: var(--teal-light); }
-  .process-section .lead { color: rgba(255,255,255,.55); }
-  .process-section .section-tag { color: var(--teal-light); }
-  .process-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3.5rem; position: relative; }
-  .process-steps::before { content: ''; position: absolute; top: 28px; left: calc(16.67% + 1rem); right: calc(16.67% + 1rem); height: 1px; background: rgba(74,171,171,.25); }
-  .process-step { text-align: center; }
-  .process-num { width: 56px; height: 56px; border-radius: 50%; background: rgba(74,171,171,.15); border: 1.5px solid rgba(74,171,171,.3); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1.3rem; color: var(--teal-light); margin: 0 auto 1.25rem; position: relative; z-index: 1; }
-  .process-step h3 { font-family: var(--serif); font-size: 1.25rem; color: #fff; margin-bottom: .6rem; font-weight: 400; }
-  .process-step p { font-size: 13.5px; color: rgba(255,255,255,.48); line-height: 1.7; }
-
-  /* ── VALUES ── */
-  .values-section { background: var(--sand); }
-  .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-top: 3rem; }
-  .value-item { padding: 1.75rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(13,43,62,.06); }
-  .value-num { font-family: var(--serif); font-size: 3rem; font-weight: 600; color: var(--teal-light); opacity: .4; line-height: 1; margin-bottom: .75rem; }
-  .value-item h3 { font-family: var(--serif); font-size: 1.25rem; color: var(--navy); margin-bottom: .6rem; }
-  .value-item p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  /* split service sections */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 5.5rem); align-items: center; }
+  .split.flip .split-copy { order: 2; }
+  .split-copy .lead { margin-bottom: 1.6rem; }
+  .steps { list-style: none; counter-reset: s; display: grid; gap: 1rem; margin: 1.8rem 0 2rem; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 44px 1fr; gap: 1rem; align-items: start; }
+  .steps li::before { content: counter(s); width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: #fff; background: var(--c, var(--sea)); }
+  .steps b { display: block; color: var(--navy); font-size: 1.02rem; }
+  .steps span { color: var(--muted); font-size: .94rem; }
+  .panel { border-radius: 26px; padding: clamp(1.75rem, 3vw, 2.6rem); position: relative; overflow: hidden; }
+  .panel h3 { font-family: var(--serif); font-weight: 500; font-size: 1.7rem; line-height: 1.2; margin-bottom: 1.3rem; }
+  .panel ul { list-style: none; display: grid; gap: 1rem; }
+  .panel li { display: grid; grid-template-columns: 28px 1fr; gap: .8rem; font-size: .98rem; }
+  .panel li svg { margin-top: 3px; }
+  .panel-dark { background: linear-gradient(155deg, var(--navy) 0%, var(--navy-2) 100%); color: #fff; }
+  .panel-dark li { color: rgba(255,255,255,.85); }
+  .panel-dark li svg { color: var(--sea-light); }
+  .panel-dark::after { content: ''; position: absolute; width: 280px; height: 280px; right: -90px; top: -90px; border-radius: 50%; background: radial-gradient(circle, rgba(98,210,196,.3), transparent 65%); }
+  .panel-sand { background: var(--sand); }
+  .panel-sand li { color: var(--text); }
+  .panel-sand li svg { color: var(--coral); }
+  .sellers { background: var(--paper); }
+  .buyers { background: var(--sand-2); --c: var(--sea); }
+  .sellers { --c: var(--navy-2); }
+  .rentals { background: var(--paper); --c: var(--coral); }
+  .rentals .badge { display: inline-flex; align-items: center; gap: .6rem; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: .8rem 1.1rem; font-size: .92rem; margin-bottom: 1.6rem; box-shadow: 0 6px 20px rgba(11,42,60,.06); }
+  .rentals .badge svg { color: var(--coral); flex-shrink: 0; }
+  .owner-box { margin-top: 1.5rem; padding: 1.2rem 1.4rem; border-radius: 16px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); }
+  .owner-box b { display: block; font-family: var(--serif); font-size: 1.15rem; font-weight: 500; margin-bottom: .3rem; }
+  .owner-box a { color: var(--sun); font-weight: 600; }
 
   /* ── SCHEDULE ── */
-  .schedule-section { background: var(--warm-white); }
-  .schedule-grid { display: grid; grid-template-columns: 1fr 480px; gap: 4rem; align-items: start; margin-top: 3rem; }
-  .schedule-info h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--navy); margin-bottom: .75rem; }
-  .schedule-info p { font-size: 14.5px; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
-  .schedule-meta { display: flex; flex-direction: column; gap: .85rem; }
-  .schedule-meta-item { display: flex; align-items: flex-start; gap: .85rem; }
-  .schedule-meta-icon { width: 36px; height: 36px; background: var(--sand); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-  .schedule-meta-text { font-size: 13.5px; }
-  .schedule-meta-text strong { display: block; color: var(--navy); font-weight: 500; margin-bottom: 1px; }
-  .schedule-meta-text span { color: var(--muted); }
+  .schedule { background: linear-gradient(180deg, var(--navy) 0%, #0e3550 100%); color: #fff; position: relative; overflow: hidden; }
+  .schedule::before { content: ''; position: absolute; width: 700px; height: 700px; left: -250px; top: -250px; border-radius: 50%; background: radial-gradient(circle, rgba(98,210,196,.16), transparent 65%); }
+  .schedule .wrap { position: relative; }
+  .schedule h2.title { color: #fff; }
+  .schedule h2.title em { color: var(--sun); }
+  .schedule .tag { color: var(--sea-light); }
+  .schedule .lead { color: rgba(255,255,255,.72); }
+  .sched-grid > * { min-width: 0; }
+  .sched-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 4rem); margin-top: 3rem; align-items: start; }
+  .sched-side { display: grid; gap: 1rem; position: sticky; top: calc(var(--nav-h) + 1.5rem); }
+  .sched-point { display: grid; grid-template-columns: 48px 1fr; gap: 1rem; padding: 1.1rem 1.2rem; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); }
+  .sched-point .ic { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; background: rgba(98,210,196,.16); color: var(--sea-light); }
+  .sched-point b { display: block; font-size: 1rem; }
+  .sched-point span { color: rgba(255,255,255,.65); font-size: .9rem; }
+  .sched-point a { color: var(--sun); font-weight: 600; text-decoration: none; }
+  .sched-point a:hover { text-decoration: underline; }
+  .book { background: #fff; color: var(--text); border-radius: 26px; padding: clamp(1.4rem, 3vw, 2.2rem); box-shadow: 0 40px 80px rgba(2,15,24,.4); }
+  .book-step { margin-bottom: 1.6rem; }
+  .book-label { display: flex; align-items: center; gap: .6rem; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--navy); margin-bottom: .8rem; }
+  .book-label i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: .75rem; letter-spacing: 0; }
+  .choice { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+  .choice label { cursor: pointer; }
+  .choice input, .slots input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice span { display: flex; flex-direction: column; align-items: center; gap: .3rem; text-align: center; padding: .9rem .4rem; border-radius: 14px; border: 2px solid var(--line); font-weight: 600; font-size: .9rem; color: var(--muted); transition: all .2s; }
+  .choice span svg { color: var(--muted); transition: color .2s; }
+  .choice label:hover span { border-color: var(--sea); }
+  .choice input:checked + span { border-color: var(--sea); background: rgba(31,138,138,.08); color: var(--navy); }
+  .choice input:checked + span svg { color: var(--sea); }
+  .choice input:focus-visible + span, .slots input:focus-visible + span, .days input:focus-visible + span { outline: 3px solid var(--coral); outline-offset: 2px; }
+  .days-wrap { position: relative; }
+  .days { display: flex; gap: .5rem; overflow-x: auto; padding: 4px 2px 10px; scroll-snap-type: x proximity; scrollbar-width: thin; }
+  .days label { cursor: pointer; scroll-snap-align: start; flex: 0 0 auto; }
+  .days input { position: absolute; opacity: 0; pointer-events: none; }
+  .days span { display: flex; flex-direction: column; align-items: center; min-width: 64px; padding: .7rem .4rem; border-radius: 14px; border: 2px solid var(--line); transition: all .2s; line-height: 1.2; }
+  .days span small { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
+  .days span b { font-size: 1.35rem; color: var(--navy); font-family: var(--serif); }
+  .days span em { font-style: normal; font-size: .68rem; color: var(--muted); }
+  .days label:hover span { border-color: var(--sea); }
+  .days input:checked + span { background: var(--navy); border-color: var(--navy); }
+  .days input:checked + span small, .days input:checked + span em { color: rgba(255,255,255,.75); }
+  .days input:checked + span b { color: #fff; }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: .5rem; }
+  .slots label { cursor: pointer; }
+  .slots span { display: block; text-align: center; padding: .65rem .3rem; border-radius: 12px; border: 2px solid var(--line); font-weight: 600; font-size: .9rem; color: var(--navy); transition: all .2s; }
+  .slots label:hover span { border-color: var(--sea); }
+  .slots input:checked + span { background: var(--sea); border-color: var(--sea); color: #fff; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+  .field { display: flex; flex-direction: column; gap: .35rem; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .field input, .field textarea, .field select { font: 1rem var(--sans); padding: .8rem .95rem; border-radius: 12px; border: 2px solid var(--line); background: var(--sand-2); color: var(--text); width: 100%; transition: border-color .2s, background .2s; }
+  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--sea); background: #fff; }
+  .field textarea { resize: vertical; min-height: 76px; }
+  .field.err input { border-color: var(--coral); }
+  .book-summary { margin: 1.4rem 0 1rem; padding: .95rem 1.1rem; border-radius: 14px; background: var(--sand-2); border: 1px dashed var(--line); font-size: .93rem; color: var(--navy); display: flex; gap: .7rem; align-items: center; }
+  .book-summary svg { color: var(--sea); flex-shrink: 0; }
+  .book-go { width: 100%; font-size: 1.02rem; padding: 16px; }
+  .fine { font-size: .76rem; color: var(--muted); margin-top: .9rem; line-height: 1.5; }
+  .confirm { display: none; text-align: center; padding: 1rem .5rem; }
+  .confirm.show { display: block; animation: pop .5s ease; }
+  @keyframes pop { from { opacity: 0; transform: scale(.96) translateY(10px); } }
+  .confirm .check { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1.2rem; display: grid; place-items: center; background: rgba(31,138,138,.12); color: var(--sea); }
+  .confirm h3 { font-family: var(--serif); font-weight: 500; font-size: 1.8rem; color: var(--navy); margin-bottom: .6rem; }
+  .confirm p { color: var(--muted); max-width: 420px; margin: 0 auto 1.2rem; }
+  .confirm .recap { display: inline-block; text-align: left; background: var(--sand-2); border-radius: 14px; padding: 1rem 1.3rem; margin-bottom: 1.4rem; font-size: .94rem; color: var(--navy); }
+  .confirm .recap div + div { margin-top: .25rem; }
+  .confirm .btns { display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; }
+  .confirm .btn { padding: 12px 22px; font-size: .9rem; }
 
-  .schedule-form { background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 2rem; }
-  .schedule-form h4 { font-family: var(--serif); font-size: 1.35rem; color: var(--navy); margin-bottom: 1.5rem; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
-  .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .85rem; }
-  .form-group label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-  .form-group input, .form-group select, .form-group textarea {
-    border: 1.5px solid var(--border); border-radius: 7px; padding: 11px 14px;
-    font-family: var(--sans); font-size: 14px; color: var(--text); background: var(--sand-light);
-    outline: none; transition: border-color .2s;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--teal); background: #fff; }
-  .form-group textarea { resize: vertical; min-height: 80px; }
-  .form-toggle { display: flex; gap: .5rem; flex-wrap: wrap; }
-  .form-toggle input { display: none; }
-  .form-toggle label { padding: 7px 16px; border: 1.5px solid var(--border); border-radius: 100px; font-size: 13px; color: var(--muted); cursor: pointer; transition: all .2s; }
-  .form-toggle input:checked + label { border-color: var(--teal); background: rgba(26,143,143,.08); color: var(--teal); font-weight: 500; }
-  .form-submit { width: 100%; padding: 14px; background: var(--navy); color: #fff; border: none; border-radius: 8px; font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: .04em; cursor: pointer; transition: background .2s; margin-top: .5rem; }
-  .form-submit:hover { background: var(--navy-mid); }
+  /* ── ABOUT ── */
+  .about { background: var(--sand-2); }
+  .about-card { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+  .portrait { position: relative; aspect-ratio: 4/5; border-radius: 28px; overflow: hidden; background: linear-gradient(160deg, var(--navy-2), var(--sea)); display: grid; place-items: center; color: #fff; box-shadow: 0 30px 60px rgba(11,42,60,.25); }
+  .portrait .mono { font-family: var(--serif); font-size: clamp(4rem, 9vw, 7rem); font-weight: 500; letter-spacing: -.04em; opacity: .95; }
+  .portrait .wv { position: absolute; left: 0; right: 0; bottom: 0; height: 40%; }
+  .portrait-tag { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; background: rgba(255,255,255,.95); color: var(--navy); border-radius: 16px; padding: .9rem 1.1rem; }
+  .portrait-tag b { display: block; font-family: var(--serif); font-size: 1.15rem; }
+  .portrait-tag span { font-size: .82rem; color: var(--muted); }
+  .about-copy p { color: var(--muted); font-size: 1.04rem; margin-top: 1.1rem; max-width: 600px; }
+  .about-copy p strong { color: var(--navy); }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+  .fact { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem; text-align: center; }
+  .fact b { display: block; font-family: var(--serif); font-size: 1.8rem; color: var(--sea); line-height: 1.1; }
+  .fact span { font-size: .8rem; color: var(--muted); }
+  .kw { display: inline-flex; align-items: center; gap: .6rem; font-size: .88rem; color: var(--muted); padding-top: .4rem; }
 
-  /* ── TESTIMONIALS ── */
-  .testimonials-section { background: var(--sand-light); }
-  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-  .testimonial-card { background: #fff; border-radius: 12px; padding: 1.75rem; border: 1px solid var(--border); }
-  .testimonial-stars { display: flex; gap: 2px; margin-bottom: 1rem; }
-  .testimonial-stars span { color: #F59E0B; font-size: 14px; }
-  .testimonial-card blockquote { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--navy); line-height: 1.6; margin-bottom: 1.25rem; }
-  .testimonial-author { display: flex; align-items: center; gap: .75rem; }
-  .testimonial-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 14px; color: #fff; font-weight: 600; flex-shrink: 0; }
-  .testimonial-name { font-size: 13px; font-weight: 500; color: var(--navy); }
-  .testimonial-detail { font-size: 11.5px; color: var(--muted); }
+  /* ── SEARCH ── */
+  .search-band { background: var(--paper); padding-top: 0; }
+  .search-box { border-radius: 30px; padding: clamp(2rem, 5vw, 3.5rem); display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; align-items: center; background: linear-gradient(120deg, var(--sea) 0%, #166f78 55%, var(--navy-2) 100%); color: #fff; position: relative; overflow: hidden; }
+  .search-box::after { content: ''; position: absolute; right: -80px; bottom: -120px; width: 380px; height: 380px; border-radius: 50%; border: 50px solid rgba(255,255,255,.07); }
+  .search-box h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3.6vw, 2.8rem); line-height: 1.1; margin-bottom: .8rem; }
+  .search-box h2 em { color: var(--sun); }
+  .search-box p { color: rgba(255,255,255,.82); max-width: 460px; }
+  .search-btns { display: grid; gap: .8rem; position: relative; z-index: 1; }
+  .search-btns .btn { width: 100%; }
+  .btn-white { background: #fff; color: var(--navy); }
+  .btn-white:hover { background: var(--sand); }
 
-  /* ── CTA BAND ── */
-  .cta-band {
-    background: linear-gradient(120deg, #0D2B3E 0%, #1A4A63 50%, #1A6A7A 100%);
-    padding: 5rem 2.5rem; text-align: center; position: relative; overflow: hidden;
-  }
-  .cta-band::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 100% at 60% 50%, rgba(74,171,171,.12), transparent); }
-  .cta-band-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-  .cta-band h2 { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 3rem); color: #fff; font-weight: 400; margin-bottom: 1rem; }
-  .cta-band p { font-size: 16px; color: rgba(255,255,255,.6); margin-bottom: 2rem; }
-  .cta-band-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  /* ── CONTACT ── */
+  .contact { background: var(--sand); }
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem; }
+  .c-card { background: #fff; border-radius: 22px; padding: 1.8rem; border: 1px solid var(--line); text-decoration: none; transition: transform .2s, box-shadow .2s; display: block; }
+  .c-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(11,42,60,.1); }
+  .c-card .ic { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; background: rgba(31,138,138,.12); color: var(--sea); margin-bottom: 1rem; }
+  .c-card small { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .c-card b { display: block; font-family: var(--serif); font-size: 1.45rem; color: var(--navy); margin: .2rem 0 .3rem; word-break: break-word; }
+  .c-card span { font-size: .9rem; color: var(--muted); }
+  .consent { margin: 2rem auto 0; max-width: 760px; text-align: center; font-size: .84rem; color: var(--muted); }
 
   /* ── FOOTER ── */
-  footer { background: #071820; padding: 3.5rem 2.5rem 2rem; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; }
-  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,.07); }
-  .footer-brand .footer-logo { font-family: var(--serif); font-size: 1.3rem; color: #fff; margin-bottom: .5rem; }
-  .footer-brand p { font-size: 13px; color: rgba(255,255,255,.35); line-height: 1.7; max-width: 220px; margin-bottom: 1.25rem; }
-  .footer-phone { font-size: 15px; color: var(--teal-light); font-weight: 500; text-decoration: none; }
-  .footer-col h5 { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 1rem; }
-  .footer-col a { display: block; font-size: 13.5px; color: rgba(255,255,255,.55); text-decoration: none; margin-bottom: .6rem; transition: color .2s; }
-  .footer-col a:hover { color: #fff; }
-  .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 1.5rem; font-size: 12px; color: rgba(255,255,255,.25); }
+  footer { background: #071b28; color: rgba(255,255,255,.6); padding: 3.5rem clamp(1.25rem, 4vw, 2.5rem) 2rem; }
+  .foot-top { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .foot-top .logo { margin-bottom: 1rem; }
+  .foot-top p { font-size: .9rem; max-width: 300px; }
+  .foot-top h4 { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 1rem; }
+  .foot-top a { display: block; text-decoration: none; font-size: .92rem; margin-bottom: .55rem; color: rgba(255,255,255,.72); transition: color .2s; }
+  .foot-top a:hover { color: var(--sea-light); }
+  .foot-bottom { max-width: 1180px; margin: 0 auto; padding-top: 1.5rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: .8rem; }
+  .foot-bottom a { color: inherit; }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 0 1.25rem; }
-    .nav-links { display: none; }
-    .nav-links.open { display: flex; flex-direction: column; position: fixed; inset: 70px 0 0 0; background: #0D2B3E; padding: 2rem 1.5rem; gap: 1.5rem; align-items: flex-start; z-index: 99; }
-    .nav-hamburger { display: flex; }
-    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; padding: 7rem 1.25rem 4rem; }
-    .hero-card { order: -1; }
-    .about-grid, .schedule-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-badge { right: 0; bottom: -10px; }
-    .services-grid, .values-grid, .testimonials-grid, .process-steps { grid-template-columns: 1fr; }
-    .process-steps::before { display: none; }
-    .form-row { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    section { padding: 3.5rem 1.25rem; }
-    .stats-inner { gap: 2.5rem; }
+  /* mobile sticky call/schedule bar */
+  .mbar { display: none; }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s ease; }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .wave-a, .wave-b, .hero-sun { animation: none; }
   }
 
-  @media (max-width: 580px) {
-    .stats-inner { flex-wrap: wrap; gap: 1.5rem; }
-    .footer-top { grid-template-columns: 1fr; }
-    .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1060px) {
+    .burger { display: flex; }
+    .menu { position: fixed; inset: var(--nav-h) 0 0 0; background: var(--navy); flex-direction: column; align-items: stretch; gap: 0; padding: 1.2rem 1.5rem 2rem; transform: translateX(100%); visibility: hidden; transition: transform .35s ease, visibility .35s; overflow-y: auto; }
+    .menu.open { transform: none; visibility: visible; }
+    .menu li { border-bottom: 1px solid rgba(255,255,255,.09); }
+    .menu a { display: block; padding: 1.05rem 0; font-size: 1.1rem; }
+    .menu a:not(.menu-cta)::after { display: none; }
+    .menu li:last-child { border: 0; }
+    .menu .menu-cta { margin-top: 1.2rem; justify-content: center; padding: 15px; font-size: 1.05rem; }
+    .menu li.sched-li { border-bottom: 0; }
+    .menu li.sched-li a { background: var(--coral); color: #fff; border-radius: 14px; padding: 1.05rem 1.2rem; margin: .8rem 0; display: flex; justify-content: center; align-items: center; gap: .6rem; font-weight: 700; }
+    .menu li.sched-li a::before { content: none; }
+  }
+  @media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; padding-bottom: 8rem; }
+    .paths, .contact-grid { grid-template-columns: 1fr; }
+    .split, .about-card, .sched-grid, .search-box { grid-template-columns: 1fr; }
+    .split.flip .split-copy { order: 0; }
+    .portrait { max-width: 380px; aspect-ratio: 1; }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    :root { --nav-h: 68px; }
+    .logo-text small { display: none; }
+    .logo-text b { font-size: 1rem; }
+    .choice { grid-template-columns: 1fr; }
+    .choice span { flex-direction: row; justify-content: flex-start; padding: .8rem 1rem; }
+    .fields { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    .foot-top { grid-template-columns: 1fr; }
+    body { padding-bottom: 68px; }
+    .mbar { display: grid; grid-template-columns: 1fr 1.4fr; gap: .6rem; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; padding: .6rem .8rem calc(.6rem + env(safe-area-inset-bottom)); background: rgba(11,42,60,.97); backdrop-filter: blur(10px); }
+    .mbar a { text-align: center; padding: .8rem; border-radius: 999px; font-weight: 700; font-size: .92rem; text-decoration: none; color: #fff; border: 2px solid rgba(255,255,255,.3); }
+    .mbar a.go { background: var(--coral); border-color: var(--coral); }
   }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sign" viewBox="0 0 24 24"><path d="M5 21V4m0 0h12l-2 4 2 4H5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 12l9-9m-3 3l3 3m-6 0l2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".16"/><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 9c3-3 5 3 8 0s5 3 8 0 3 0 4 0M2 15c3-3 5 3 8 0s5 3 8 0 3 0 4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
 
 <!-- NAV -->
-<nav id="nav">
-  <a href="#" class="nav-logo">
-    <span class="nav-logo-main">The Shore Real Estate Group</span>
-    <span class="nav-logo-sub">Michael Petretta</span>
+<header class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="The Shore Real Estate Group, home">
+    <span class="logo-mark"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 21c4-5 8 5 13 0s9 5 13 0" stroke="#62d2c4" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="22" cy="10" r="4.5" fill="#ffb870"/></svg></span>
+    <span class="logo-text"><b>The Shore Real Estate Group</b><small>Michael Petretta</small></span>
   </a>
-  <div class="nav-links" id="nav-links">
-    <a href="#services">Buy / Sell / Rent</a>
-    <a href="#process">How It Works</a>
-    <a href="#about">About</a>
-    <a href="#schedule" class="active">Schedule</a>
-    <a href="#schedule" class="nav-cta">Free Consultation</a>
-  </div>
-  <div class="nav-hamburger" id="hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
+  <nav aria-label="Main">
+    <ul class="menu" id="menu">
+      <li><a href="#sellers">Sellers</a></li>
+      <li><a href="#buyers">Buyers</a></li>
+      <li><a href="#rentals">Rentals</a></li>
+      <li><a href="https://www.shorerealestate.com/property-search" target="_blank" rel="noopener">Property Search<span class="ext" aria-hidden="true">↗</span></a></li>
+      <li><a href="#about">About</a></li>
+      <li class="sched-li"><a href="#schedule" class="menu-cta" id="menu-schedule"><svg width="17" height="17" aria-hidden="true"><use href="#i-cal"/></svg>Schedule</a></li>
+      <li><a href="https://www.shorerealestate.com/blog" target="_blank" rel="noopener">Blog<span class="ext" aria-hidden="true">↗</span></a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+</header>
+
+<main id="main">
 
 <!-- HERO -->
-<section class="hero" id="top">
+<section class="hero" id="top" style="padding:0">
+  <div class="hero-stars" aria-hidden="true"></div>
+  <div class="hero-sun" aria-hidden="true"></div>
   <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-eyebrow">South Jersey Shore Specialists</div>
+    <div>
+      <div class="eyebrow">Trust a Local!</div>
       <h1>We've got<br><em>sand in our shoes.</em></h1>
-      <p class="hero-sub">Our roots in the community give us on-the-ground knowledge to make our shore <em style="font-style:italic;color:rgba(255,255,255,.85)">your</em> shore — from Long Beach Island to Cape May.</p>
+      <p class="hero-sub">Our community roots give us the on-the-ground knowledge to make the shore <em>your</em> shore — whether you're selling, buying or renting.</p>
       <div class="hero-btns">
-        <a href="#services" class="btn-primary">Explore Properties</a>
-        <a href="#schedule" class="btn-outline-white">Book a Consultation</a>
+        <a href="#schedule" class="btn btn-coral"><svg width="20" height="20" aria-hidden="true"><use href="#i-cal"/></svg>Schedule a Free Consultation</a>
+        <a href="tel:6098145444" class="btn btn-ghost"><svg width="18" height="18" aria-hidden="true"><use href="#i-phone"/></svg>(609) 814-5444</a>
       </div>
+      <p class="hero-note">Michael Petretta · Keller Williams Realty Jersey Shore</p>
     </div>
-    <div class="hero-card">
-      <div class="hero-card-label">Find a Property</div>
-      <div class="hero-card-form">
-        <select>
-          <option>I want to... Buy</option>
-          <option>I want to... Sell</option>
-          <option>I want to... Rent</option>
-        </select>
-        <input type="text" placeholder="Town or area (e.g. Beach Haven)">
-        <select>
-          <option>Property type — Any</option>
-          <option>Single Family</option>
-          <option>Condo / Townhouse</option>
-          <option>Multi-Family</option>
-          <option>Vacant Land</option>
-        </select>
-        <select>
-          <option>Price range — Any</option>
-          <option>Under $500K</option>
-          <option>$500K – $1M</option>
-          <option>$1M – $2M</option>
-          <option>$2M+</option>
-        </select>
-        <a href="#schedule" class="btn-primary">Search →</a>
+
+    <aside class="quick" aria-label="Get started">
+      <h2>What brings you to the shore?</h2>
+      <p>Pick a path — each one starts with a conversation.</p>
+      <div class="quick-list">
+        <a class="quick-item" href="#sellers"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-sign"/></svg></span><div><b>I'm selling</b><span>List your home with a local team</span></div><svg class="arr" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="quick-item" href="#buyers"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-home"/></svg></span><div><b>I'm buying</b><span>Find your home at the shore</span></div><svg class="arr" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="quick-item" href="#rentals"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-key"/></svg></span><div><b>I'm renting</b><span>Hand-checked shore rentals</span></div><svg class="arr" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="quick-item sched" href="#schedule"><span class="ic"><svg width="22" height="22" aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Just book a time</b><span>Free consultation, pick your day</span></div><svg class="arr" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
-    </div>
+    </aside>
   </div>
-  <div class="hero-waves">
-    <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,60 C150,100 350,20 600,60 C850,100 1050,20 1200,60 L1200,120 L0,120 Z" fill="rgba(26,74,99,.6)"/>
-      <path d="M1200,60 C1050,100 850,20 600,60 C350,100 150,20 0,60 L0,120 L1200,120 Z" fill="rgba(13,43,62,.4)"/>
-    </svg>
+  <div class="hero-waves" aria-hidden="true">
+    <svg class="wave-b" viewBox="0 0 2400 190" preserveAspectRatio="none"><path d="M0,90 C200,40 400,140 600,90 C800,40 1000,140 1200,90 C1400,40 1600,140 1800,90 C2000,40 2200,140 2400,90 L2400,190 L0,190 Z" fill="#1f8a8a" fill-opacity=".55"/></svg>
+    <svg class="wave-a" viewBox="0 0 2400 190" preserveAspectRatio="none"><path d="M0,120 C200,80 400,160 600,120 C800,80 1000,160 1200,120 C1400,80 1600,160 1800,120 C2000,80 2200,160 2400,120 L2400,190 L0,190 Z" fill="#fffdf8"/></svg>
   </div>
 </section>
 
-<!-- STATS STRIP -->
-<div class="stats-strip">
-  <div class="stats-inner">
-    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Years in Shore Markets</div></div>
-    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Homes Sold</div></div>
-    <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Google Rating</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Local Expertise</div></div>
+<!-- INTRO -->
+<section class="intro" id="intro">
+  <div class="wrap">
+    <div class="center rv">
+      <div class="tag">One size doesn't fit all</div>
+      <h2 class="title">A plan built around <em>you</em>, not a template.</h2>
+      <p class="lead">We start with a comprehensive consultation to learn exactly what you want from the shore market, then build a strategy with measurable progress you can track.</p>
+    </div>
+    <div class="paths">
+      <a href="#sellers" class="path rv" style="--c:#123c55"><span class="ic"><svg width="30" height="30" aria-hidden="true"><use href="#i-sign"/></svg></span><h3>Sellers</h3><p>Selling is a life transition. We make it smoother with a customized strategy and a team that treats your home as the top priority.</p><span class="more">How we sell <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a href="#buyers" class="path rv" style="--c:#1f8a8a;transition-delay:.08s"><span class="ic"><svg width="30" height="30" aria-hidden="true"><use href="#i-home"/></svg></span><h3>Buyers</h3><p>We don't show you every listing in your price range — just the ones that fit your values, preferences and lifestyle.</p><span class="more">How we search <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+      <a href="#rentals" class="path rv" style="--c:#e8704f;transition-delay:.16s"><span class="ic"><svg width="30" height="30" aria-hidden="true"><use href="#i-key"/></svg></span><h3>Rentals</h3><p>Low-stress renting with a local team. We personally check every rental we promote, every year — only standout homes make the list.</p><span class="more">Find a rental <svg width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></span></a>
+    </div>
+    <p class="pledge rv">Whether you're selling, buying or renting your summer home, our first job is to understand your specific needs and goals.</p>
   </div>
-</div>
+</section>
 
-<!-- ABOUT -->
-<section class="about-section" id="about">
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-visual">
-        <div class="about-photo">
-          <div class="about-photo-inner">Michael Petretta<br>Shore Real Estate Group</div>
-        </div>
-        <div class="about-badge">
-          <div class="about-badge-num">20+</div>
-          <div class="about-badge-label">Years of Local<br>Shore Experience</div>
-        </div>
-      </div>
-      <div class="about-text">
-        <div class="section-tag">Trust a Local</div>
-        <h2>We don't just sell the <em>shore — we live it.</em></h2>
-        <p class="lead">One size doesn't fit all. We start with a comprehensive consultation to find out exactly what you're looking for, then build a strategy that's tailored to you.</p>
-        <div class="about-checks">
-          <div class="about-check">Deep-rooted knowledge of every shore community</div>
-          <div class="about-check">Personalized strategy from consultation to close</div>
-          <div class="about-check">Local network of trusted lenders, inspectors & attorneys</div>
-          <div class="about-check">Plain-spoken, honest communication — always</div>
-        </div>
-        <a href="#schedule" class="btn-primary" style="background:var(--navy)">Talk to Michael →</a>
-      </div>
+<!-- SELLERS -->
+<section class="sellers" id="sellers">
+  <div class="wrap split">
+    <div class="split-copy rv">
+      <div class="tag">Sellers</div>
+      <h2 class="title">Ready to list? <em>We've got you.</em></h2>
+      <p class="lead">Selling is a life transition. One team, one goal: a smoother move, with full effort on your behalf.</p>
+      <ol class="steps">
+        <li><div><b>Initial consultation</b><span>An in-depth conversation about your goals, future plans and your property's value.</span></div></li>
+        <li><div><b>Customized strategy</b><span>A plan built to maximize your return on investment.</span></div></li>
+        <li><div><b>Listing period</b><span>Your property is our top priority, with regular, transparent communication and a shared definition of success.</span></div></li>
+        <li><div><b>Listing to closing</b><span>We stay involved through the close and keep going until you're satisfied.</span></div></li>
+      </ol>
+      <a href="#schedule" class="btn btn-navy" data-intent="sell">Book a seller consultation <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="panel panel-dark rv" style="transition-delay:.1s">
+      <h3>Local knowledge, local networks</h3>
+      <ul>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-check"/></svg><span>Decades of experience in the area</span></li>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-check"/></svg><span>A network of buyers and investors to increase your home's exposure</span></li>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-check"/></svg><span>Support professionals for repairs, renovations, staging and design</span></li>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-check"/></svg><span>Help with transaction and closing needs, lending and other logistics</span></li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services-section" id="services">
-  <div class="section-inner">
-    <div class="section-tag">What We Do</div>
-    <h2>Buy, Sell, or Rent —<br>we've got <em>you covered.</em></h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🏡</div>
-        <h3>Buying</h3>
-        <p>Whether it's a primary home or a summer retreat, we'll help you find the right property at the right price — and navigate every step from offer to closing.</p>
-        <a href="#schedule" class="service-link">Start your search</a>
+<!-- BUYERS -->
+<section class="buyers" id="buyers">
+  <div class="wrap split flip">
+    <div class="split-copy rv">
+      <div class="tag">Buyers</div>
+      <h2 class="title">Looking for your home at the shore? <em>You're almost there.</em></h2>
+      <p class="lead">Complete, end-to-end service with transparency, regular updates and frequent communication — because today's clients become tomorrow's neighbors.</p>
+      <ol class="steps">
+        <li><div><b>Buyer's consultation</b><span>We learn what you want and why, so your search reflects your values, preferences and lifestyle.</span></div></li>
+        <li><div><b>Targeted listing selection</b><span>Not every listing in your price range — only the ones that fit your needs.</span></div></li>
+        <li><div><b>Representation and updates</b><span>We represent you as the buyer, keep you informed and communicate often.</span></div></li>
+        <li><div><b>Post-signing support</b><span>The relationship doesn't end at closing.</span></div></li>
+      </ol>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+        <a href="#schedule" class="btn btn-navy" data-intent="buy">Free buyer's consultation <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a href="https://www.shorerealestate.com/property-search" target="_blank" rel="noopener" class="btn btn-line"><svg width="18" height="18" aria-hidden="true"><use href="#i-search"/></svg>Search homes</a>
       </div>
-      <div class="service-card">
-        <div class="service-icon">📋</div>
-        <h3>Selling</h3>
-        <p>We price strategically, market aggressively, and negotiate fiercely — so you get maximum value with minimum stress. Let us handle every detail.</p>
-        <a href="#schedule" class="service-link">Get a home valuation</a>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🌊</div>
-        <h3>Renting</h3>
-        <p>Seasonal or year-round, we match tenants with properties and handle the process end-to-end — so you can enjoy the shore without the headache.</p>
-        <a href="#schedule" class="service-link">Find a rental</a>
-      </div>
+    </div>
+    <div class="panel panel-sand rv" style="transition-delay:.1s">
+      <h3>Locals on the ground</h3>
+      <ul>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-pin"/></svg><span>Whether you're a longtime resident or new to the area, our local knowledge helps place you in the right location at the right price.</span></li>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-chat"/></svg><span>Frequent updates through your whole search — you're never left wondering where things stand.</span></li>
+        <li><svg width="24" height="24" aria-hidden="true"><use href="#i-home"/></svg><span>A relationship that continues after the sale. Your shore home is waiting!</span></li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
-<section class="process-section" id="process">
-  <div class="section-inner">
-    <div class="section-tag">How It Works</div>
-    <h2 style="color:#fff">Simple process.<br><em>Exceptional results.</em></h2>
-    <div class="process-steps">
-      <div class="process-step">
-        <div class="process-num">01</div>
-        <h3>Consultation</h3>
-        <p>We start by listening. You share your goals, timeline, and priorities — and we build a plan around them.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">02</div>
-        <h3>Strategy</h3>
-        <p>We develop a clear, measurable approach — pricing, marketing, or search strategy — and keep you informed throughout.</p>
-      </div>
-      <div class="process-step">
-        <div class="process-num">03</div>
-        <h3>Close & Celebrate</h3>
-        <p>We handle the gritty details so you can enjoy the ride. From first showing to final signature — we've got it covered.</p>
-      </div>
+<!-- RENTALS -->
+<section class="rentals" id="rentals">
+  <div class="wrap split">
+    <div class="split-copy rv">
+      <div class="tag" style="color:var(--coral)">Rentals</div>
+      <h2 class="title">Get more <em style="color:var(--coral)">at the shore.</em></h2>
+      <p class="lead">Renting should be low-stress. Our local team matches you with the right place at the right price.</p>
+      <div class="badge"><svg width="26" height="26" aria-hidden="true"><use href="#i-check"/></svg><span><b>Every rental we promote is personally checked each year.</b> Only standout homes get listed.</span></div>
+      <p style="color:var(--muted);margin-bottom:1.6rem">It's all about you: we begin with an in-depth conversation about your ideal shore rental, then identify listings that fit — with a fast-moving team and frequent communication.</p>
+      <a href="#schedule" class="btn btn-coral" data-intent="rent">Schedule a rental consultation <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
-  </div>
-</section>
-
-<!-- VALUES -->
-<section class="values-section">
-  <div class="section-inner">
-    <div class="section-tag">What to Expect</div>
-    <h2>Your experience, <em>our priority.</em></h2>
-    <div class="values-grid">
-      <div class="value-item">
-        <div class="value-num">01</div>
-        <h3>A Warm, Friendly Approach</h3>
-        <p>Our clients aren't dollar signs — they're partners in a shared mission. We treat every transaction like it's our own.</p>
-      </div>
-      <div class="value-item">
-        <div class="value-num">02</div>
-        <h3>Utmost Professionalism</h3>
-        <p>Our work is our pleasure, and that's reflected in every email, every showing, and every negotiation we handle on your behalf.</p>
-      </div>
-      <div class="value-item">
-        <div class="value-num">03</div>
-        <h3>Total Confidence</h3>
-        <p>Not just ours — yours. You'll feel confident knowing you've chosen the right team with the right priorities, every step of the way.</p>
+    <div class="panel panel-dark rv" style="transition-delay:.1s;background:linear-gradient(155deg,#e8704f 0%,#b9452a 100%)">
+      <h3>Your perfect rental is waiting!</h3>
+      <ul>
+        <li><svg width="24" height="24" style="color:#fff" aria-hidden="true"><use href="#i-check"/></svg><span>In-depth conversation about your ideal rental</span></li>
+        <li><svg width="24" height="24" style="color:#fff" aria-hidden="true"><use href="#i-check"/></svg><span>Listings matched to your preferences</span></li>
+        <li><svg width="24" height="24" style="color:#fff" aria-hidden="true"><use href="#i-check"/></svg><span>Quick answers and a space you'll love</span></li>
+      </ul>
+      <div class="owner-box">
+        <b>Own a home you'd like to list?</b>
+        Homeowners interested in listing with us — <a href="#schedule" data-intent="sell">contact an expert today</a>.
       </div>
     </div>
   </div>
 </section>
 
 <!-- SCHEDULE -->
-<section class="schedule-section" id="schedule">
-  <div class="section-inner">
-    <div class="section-tag">Schedule</div>
-    <h2>Book a <em>free consultation.</em></h2>
-    <div class="schedule-grid">
-      <div class="schedule-info">
-        <h3>Let's talk shore real estate.</h3>
-        <p>Whether you're ready to buy, thinking about selling, or just exploring the market — a free 30-minute consultation with Michael is the best first step. No pressure, no obligation.</p>
-        <div class="schedule-meta">
-          <div class="schedule-meta-item">
-            <div class="schedule-meta-icon">📍</div>
-            <div class="schedule-meta-text">
-              <strong>South Jersey Shore Markets</strong>
-              <span>LBI, Ocean City, Cape May, Wildwood & surrounding areas</span>
-            </div>
-          </div>
-          <div class="schedule-meta-item">
-            <div class="schedule-meta-icon">⏱</div>
-            <div class="schedule-meta-text">
-              <strong>30-Minute Free Consultation</strong>
-              <span>Phone, Zoom, or in-person — whatever works for you</span>
-            </div>
-          </div>
-          <div class="schedule-meta-item">
-            <div class="schedule-meta-icon">📞</div>
-            <div class="schedule-meta-text">
-              <strong>Prefer to call?</strong>
-              <span>Reach Michael directly — we pick up.</span>
-            </div>
-          </div>
-          <div class="schedule-meta-item">
-            <div class="schedule-meta-icon">🕐</div>
-            <div class="schedule-meta-text">
-              <strong>Available 7 days a week</strong>
-              <span>Mornings, evenings and weekends by request</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="schedule-form">
-        <h4>Request a Consultation</h4>
-        <div class="form-row">
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" placeholder="Jane">
-          </div>
-          <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" placeholder="Smith">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="jane@example.com">
-        </div>
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" placeholder="(609) 555-0100">
-        </div>
-        <div class="form-group">
-          <label>I'm looking to…</label>
-          <div class="form-toggle">
-            <input type="radio" name="intent" id="intent-buy" value="buy" checked>
-            <label for="intent-buy">Buy</label>
-            <input type="radio" name="intent" id="intent-sell" value="sell">
-            <label for="intent-sell">Sell</label>
-            <input type="radio" name="intent" id="intent-rent" value="rent">
-            <label for="intent-rent">Rent</label>
-            <input type="radio" name="intent" id="intent-explore" value="explore">
-            <label for="intent-explore">Just Exploring</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Preferred Contact Time</label>
-          <select>
-            <option>Any time</option>
-            <option>Morning (8am – 12pm)</option>
-            <option>Afternoon (12pm – 5pm)</option>
-            <option>Evening (5pm – 8pm)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message (optional)</label>
-          <textarea placeholder="Tell us a little about what you're looking for…"></textarea>
-        </div>
-        <button class="form-submit">Request Consultation →</button>
-      </div>
+<section class="schedule" id="schedule">
+  <div class="wrap">
+    <div class="rv">
+      <div class="tag">Schedule</div>
+      <h2 class="title">Book your <em>free consultation.</em></h2>
+      <p class="lead">Choose what you need, pick a day and time that works, and tell us how to reach you. Michael's team will confirm with you directly.</p>
     </div>
-  </div>
-</section>
 
-<!-- TESTIMONIALS -->
-<section class="testimonials-section">
-  <div class="section-inner">
-    <div class="section-tag">Client Reviews</div>
-    <h2>What our clients <em>are saying.</em></h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <blockquote>"Michael made buying our shore house an absolute joy. He knew every block on LBI and helped us find exactly what we were looking for — well within our budget."</blockquote>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">SR</div>
-          <div>
-            <div class="testimonial-name">Sarah & Rob K.</div>
-            <div class="testimonial-detail">Bought in Beach Haven, NJ</div>
-          </div>
-        </div>
+    <div class="sched-grid">
+      <div class="sched-side rv">
+        <div class="sched-point"><span class="ic"><svg width="24" height="24" aria-hidden="true"><use href="#i-chat"/></svg></span><div><b>It starts with a conversation</b><span>We learn your goals first — then build the strategy.</span></div></div>
+        <div class="sched-point"><span class="ic"><svg width="24" height="24" aria-hidden="true"><use href="#i-clock"/></svg></span><div><b>You pick the time</b><span>Select your preferred day and time; we'll confirm or suggest the closest option.</span></div></div>
+        <div class="sched-point"><span class="ic"><svg width="24" height="24" aria-hidden="true"><use href="#i-phone"/></svg></span><div><b>Prefer to talk now?</b><span>Call <a href="tel:6098145444">(609) 814-5444</a> or text Michael at <a href="sms:6092892346">(609) 289-2346</a>.</span></div></div>
       </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <blockquote>"We listed, received multiple offers, and closed above asking — all in under three weeks. The Shore Real Estate Group knows how to sell."</blockquote>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">TM</div>
-          <div>
-            <div class="testimonial-name">Tom & Maria F.</div>
-            <div class="testimonial-detail">Sold in Harvey Cedars, NJ</div>
+
+      <div class="book rv" style="transition-delay:.1s">
+        <form id="bookForm" novalidate>
+          <div class="book-step">
+            <div class="book-label"><i>1</i>What do you need?</div>
+            <div class="choice" role="radiogroup" aria-label="Consultation type">
+              <label><input type="radio" name="intent" value="Seller's consultation"><span><svg width="26" height="26" aria-hidden="true"><use href="#i-sign"/></svg>Sell</span></label>
+              <label><input type="radio" name="intent" value="Buyer's consultation" checked><span><svg width="26" height="26" aria-hidden="true"><use href="#i-home"/></svg>Buy</span></label>
+              <label><input type="radio" name="intent" value="Rental consultation"><span><svg width="26" height="26" aria-hidden="true"><use href="#i-key"/></svg>Rent</span></label>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <blockquote>"I've worked with Michael for three rentals over the years. He's honest, responsive, and genuinely cares about getting it right. Couldn't recommend more highly."</blockquote>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">DL</div>
-          <div>
-            <div class="testimonial-name">Dana L.</div>
-            <div class="testimonial-detail">Seasonal Rental Client</div>
+
+          <div class="book-step">
+            <div class="book-label"><i>2</i>Pick a day</div>
+            <div class="days-wrap"><div class="days" id="days" role="radiogroup" aria-label="Preferred day"></div></div>
           </div>
+
+          <div class="book-step">
+            <div class="book-label"><i>3</i>Pick a time</div>
+            <div class="slots" id="slots" role="radiogroup" aria-label="Preferred time"></div>
+          </div>
+
+          <div class="book-step" style="margin-bottom:0">
+            <div class="book-label"><i>4</i>How can we reach you?</div>
+            <div class="fields">
+              <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" placeholder="Jane Smith" required></div>
+              <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="(609) 555-0123" required></div>
+              <div class="field full"><label for="f-email">Email (optional)</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com"></div>
+              <div class="field full"><label for="f-how">Best way to connect</label>
+                <select id="f-how" name="how"><option>Phone call</option><option>Text message</option><option>Email</option></select></div>
+              <div class="field full"><label for="f-msg">Anything we should know? (optional)</label><textarea id="f-msg" name="msg" placeholder="Towns you love, timeline, questions…"></textarea></div>
+            </div>
+          </div>
+
+          <div class="book-summary" id="summary" aria-live="polite"><svg width="22" height="22" aria-hidden="true"><use href="#i-cal"/></svg><span id="summaryText"></span></div>
+          <button type="submit" class="btn btn-coral book-go">Request this time <svg width="20" height="20" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <p class="fine">This opens a pre-filled email to hello@shorere.com in your mail app — press send and we'll confirm. No email app? Just call or text. By requesting, you agree to be contacted via call, email and text; reply "stop" to opt out.</p>
+        </form>
+
+        <div class="confirm" id="confirm" tabindex="-1">
+          <div class="check"><svg width="38" height="38" aria-hidden="true"><use href="#i-check"/></svg></div>
+          <h3>One last step: send it!</h3>
+          <p>Your email is ready in your mail app — hit send and we'll confirm your time. Nothing opened? Use the options below.</p>
+          <div class="recap" id="recap"></div>
+          <div class="btns">
+            <a class="btn btn-navy" id="mailAgain" href="#">Open email again</a>
+            <a class="btn btn-line" href="tel:6098145444">Call instead</a>
+            <a class="btn btn-line" id="icsBtn" href="#" download="consultation.ics">Add to calendar</a>
+          </div>
+          <p class="fine" style="margin-top:1.2rem"><a href="#schedule" id="again" style="color:var(--sea);font-weight:600">Book a different time</a></p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA BAND -->
-<div class="cta-band">
-  <div class="cta-band-inner">
-    <h2>Ready to make our shore <em style="font-style:italic;color:var(--teal-light)">yours?</em></h2>
-    <p>Talk to a local expert at The Shore Real Estate Group. We're here to help — no pressure, no obligation.</p>
-    <div class="cta-band-btns">
-      <a href="#schedule" class="btn-primary">Schedule a Consultation</a>
-      <a href="#services" class="btn-outline-white">View Services</a>
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-card">
+    <div class="portrait rv" role="img" aria-label="Portrait placeholder for Michael Petretta">
+      <span class="mono">MP</span>
+      <svg class="wv" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true"><path d="M0,70 C70,30 130,110 200,70 C270,30 330,110 400,70 L400,160 L0,160 Z" fill="rgba(255,255,255,.12)"/><path d="M0,100 C70,60 130,140 200,100 C270,60 330,140 400,100 L400,160 L0,160 Z" fill="rgba(255,255,255,.14)"/></svg>
+      <div class="portrait-tag"><b>Michael Petretta</b><span>Keller Williams Realty Jersey Shore</span></div>
+    </div>
+    <div class="about-copy rv" style="transition-delay:.1s">
+      <div class="tag">About</div>
+      <h2 class="title">Raised in Ocean City. <em>Living Shore Life™.</em></h2>
+      <p><strong>Michael Petretta grew up in Ocean City</strong> and has lived in the area his whole life. He's watched the shore real estate market for decades — and uses that perspective to understand what matters most to each client.</p>
+      <p>He believes in long-term relationships and acts as an advocate for buyers, sellers and renters alike. Away from work he lives the lifestyle he sells: with his wife, five sons and two dogs.</p>
+      <div class="facts">
+        <div class="fact"><b>Local</b><span>Born &amp; raised at the shore</span></div>
+        <div class="fact"><b>Advocate</b><span>For buyers, sellers &amp; renters</span></div>
+        <div class="fact"><b>Long-term</b><span>Relationships, not transactions</span></div>
+      </div>
+      <a href="#schedule" class="btn btn-navy">Meet Michael — book a call <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <p class="kw">Michael Petretta's The Shore Real Estate Group is part of Keller Williams Realty Jersey Shore.</p>
     </div>
   </div>
-</div>
+</section>
 
-<!-- FOOTER -->
+<!-- PROPERTY SEARCH -->
+<section class="search-band" id="search">
+  <div class="wrap">
+    <div class="search-box rv">
+      <div>
+        <h2>Browse shore homes <em>right now.</em></h2>
+        <p>Search live listings on the official Shore Real Estate Group site, then bring your favorites to your free consultation.</p>
+      </div>
+      <div class="search-btns">
+        <a class="btn btn-white" href="https://www.shorerealestate.com/property-search" target="_blank" rel="noopener"><svg width="20" height="20" aria-hidden="true"><use href="#i-search"/></svg>Property Search</a>
+        <a class="btn btn-ghost" href="https://www.shorerealestate.com/blog" target="_blank" rel="noopener">Read the Blog</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="center rv">
+      <div class="tag">Contact</div>
+      <h2 class="title">Let's start <em>the conversation.</em></h2>
+      <p class="lead">Call, text or email — whichever is easiest. Or skip the back-and-forth and <a href="#schedule" style="color:var(--sea);font-weight:600">book a time online</a>.</p>
+    </div>
+    <div class="contact-grid">
+      <a class="c-card rv" href="tel:6098145444"><span class="ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-phone"/></svg></span><small>Call the office</small><b>(609) 814-5444</b><span>Main line</span></a>
+      <a class="c-card rv" href="sms:6092892346" style="transition-delay:.08s"><span class="ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-chat"/></svg></span><small>Text Michael</small><b>(609) 289-2346</b><span>Business text line: (609) 814-5454</span></a>
+      <a class="c-card rv" href="mailto:hello@shorere.com" style="transition-delay:.16s"><span class="ic"><svg width="26" height="26" aria-hidden="true"><use href="#i-mail"/></svg></span><small>Email</small><b>hello@shorere.com</b><span>We'll get back to you promptly</span></a>
+    </div>
+    <p class="consent">By contacting us you agree to be contacted via call, email and text. Reply "stop" to opt out of texts.</p>
+  </div>
+</section>
+
+</main>
+
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-logo">The Shore Real Estate Group</div>
-        <p>Michael Petretta and team — local experts in South Jersey shore real estate since 2004.</p>
-        <a href="tel:6095550100" class="footer-phone">(609) 555-0100</a>
-      </div>
-      <div class="footer-col">
-        <h5>Services</h5>
-        <a href="#services">Buying</a>
-        <a href="#services">Selling</a>
-        <a href="#services">Renting</a>
-        <a href="#process">How It Works</a>
-      </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <a href="#about">About Michael</a>
-        <a href="#about">Our Team</a>
-        <a href="#schedule">Schedule</a>
-        <a href="#schedule">Contact Us</a>
-      </div>
-      <div class="footer-col">
-        <h5>Shore Areas</h5>
-        <a href="#">Long Beach Island</a>
-        <a href="#">Ocean City</a>
-        <a href="#">Cape May</a>
-        <a href="#">Wildwood</a>
-      </div>
+  <div class="foot-top">
+    <div>
+      <a href="#top" class="logo"><span class="logo-mark"><svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 21c4-5 8 5 13 0s9 5 13 0" stroke="#62d2c4" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="22" cy="10" r="4.5" fill="#ffb870"/></svg></span><span class="logo-text"><b>The Shore Real Estate Group</b><small>Michael Petretta</small></span></a>
+      <p>Trust a local. Buying, selling and renting at the Jersey Shore — Keller Williams Realty Jersey Shore.</p>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 The Shore Real Estate Group. All rights reserved.</span>
-      <span>Site by Shore Works Web Solutions</span>
-    </div>
+    <div><h4>Work with us</h4><a href="#sellers">Sellers</a><a href="#buyers">Buyers</a><a href="#rentals">Rentals</a><a href="#schedule">Schedule a consultation</a></div>
+    <div><h4>Explore</h4><a href="https://www.shorerealestate.com/property-search" target="_blank" rel="noopener">Property Search</a><a href="#about">About Michael</a><a href="https://www.shorerealestate.com/blog" target="_blank" rel="noopener">Blog</a><a href="#contact">Contact</a></div>
+    <div><h4>Get in touch</h4><a href="tel:6098145444">(609) 814-5444</a><a href="sms:6092892346">Text (609) 289-2346</a><a href="mailto:hello@shorere.com">hello@shorere.com</a></div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Michael Petretta's The Shore Real Estate Group. All rights reserved.</span>
+    <span>Concept redesign by Shore Works Web Solutions · <a href="https://www.shorerealestate.com/" target="_blank" rel="noopener">Current site</a></span>
   </div>
 </footer>
 
+<div class="mbar"><a href="tel:6098145444">Call</a><a href="#schedule" class="go">Schedule a consultation</a></div>
+
 <script>
-  // Nav scroll effect
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* nav: scrolled state + mobile menu */
+  var nav = $('#nav'), burger = $('#burger'), menu = $('#menu');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 30); }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  function setMenu(open) {
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+  $$('#menu a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  window.addEventListener('resize', function () { if (window.innerWidth > 1060) setMenu(false); });
+
+  /* scrollspy */
+  var links = {};
+  $$('#menu a[href^="#"]').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting && links[en.target.id]) {
+        Object.keys(links).forEach(function (k) { links[k].classList.remove('active'); });
+        links[en.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(links).forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+
+  /* reveal on scroll */
+  if ('IntersectionObserver' in window) {
+    var rv = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target); } }); }, { threshold: .12 });
+    $$('.rv').forEach(function (el) { rv.observe(el); });
+  } else { $$('.rv').forEach(function (el) { el.classList.add('in'); }); }
+
+  /* ── scheduler ── */
+  var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var TIMES = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'];
+  var daysEl = $('#days'), slotsEl = $('#slots'), form = $('#bookForm');
+  var d0 = new Date(); d0.setHours(0, 0, 0, 0);
+  var dayData = [];
+  for (var i = 0; i < 21; i++) {
+    var d = new Date(d0); d.setDate(d0.getDate() + i + (i >= 0 ? 1 : 0)); // start tomorrow
+    dayData.push(d);
+    var lab = document.createElement('label');
+    lab.innerHTML = '<input type="radio" name="day" value="' + i + '"' + (i === 0 ? ' checked' : '') + '><span><small>' + DOW[d.getDay()] + '</small><b>' + d.getDate() + '</b><em>' + MON[d.getMonth()] + '</em></span>';
+    daysEl.appendChild(lab);
+  }
+  TIMES.forEach(function (t, i) {
+    var lab = document.createElement('label');
+    lab.innerHTML = '<input type="radio" name="time" value="' + i + '"' + (i === 1 ? ' checked' : '') + '><span>' + t + '</span>';
+    slotsEl.appendChild(lab);
   });
+
+  function longDate(d) { return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()] + ', ' + ['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()] + ' ' + d.getDate(); }
+  function state() {
+    var f = new FormData(form);
+    return { intent: f.get('intent'), day: dayData[+f.get('day')], time: TIMES[+f.get('time')], name: (f.get('name') || '').trim(), phone: (f.get('phone') || '').trim(), email: (f.get('email') || '').trim(), how: f.get('how'), msg: (f.get('msg') || '').trim() };
+  }
+  function updateSummary() { var s = state(); $('#summaryText').innerHTML = '<b>' + s.intent + '</b> · ' + longDate(s.day) + ' at ' + s.time; }
+  form.addEventListener('change', updateSummary); updateSummary();
+
+  function mailto(s) {
+    var body = 'Hello Michael,\n\nI would like to request a free consultation.\n\n' +
+      'Type: ' + s.intent + '\nPreferred day: ' + longDate(s.day) + '\nPreferred time: ' + s.time + '\n\n' +
+      'Name: ' + s.name + '\nPhone: ' + s.phone + (s.email ? '\nEmail: ' + s.email : '') + '\nBest way to connect: ' + s.how +
+      (s.msg ? '\n\nNotes: ' + s.msg : '') + '\n\nThank you!';
+    return 'mailto:hello@shorere.com?subject=' + encodeURIComponent('Consultation request — ' + s.intent + ' — ' + longDate(s.day) + ' ' + s.time) + '&body=' + encodeURIComponent(body);
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ics(s) {
+    var m = /(\d+):(\d+) (AM|PM)/.exec(s.time), h = +m[1] % 12 + (m[3] === 'PM' ? 12 : 0), min = +m[2];
+    var st = new Date(s.day); st.setHours(h, min, 0, 0);
+    var en = new Date(st); en.setMinutes(en.getMinutes() + 30);
+    function f(d) { return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + 'T' + pad(d.getHours()) + pad(d.getMinutes()) + '00'; }
+    var txt = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Shore Real Estate Group//EN', 'BEGIN:VEVENT', 'UID:' + Date.now() + '@shorerealestate', 'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(st), 'DTEND:' + f(en), 'SUMMARY:' + s.intent + ' — The Shore Real Estate Group (requested)', 'DESCRIPTION:Requested time. Michael Petretta\'s team will confirm. Call (609) 814-5444.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(txt);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var s = state(), bad = false;
+    ['name', 'phone'].forEach(function (k) {
+      var inp = form.elements[k], ok = !!inp.value.trim() && (k !== 'phone' || inp.value.replace(/\D/g, '').length >= 7);
+      inp.parentNode.classList.toggle('err', !ok); if (!ok) { bad = bad || inp; }
+    });
+    if (bad) { bad.focus(); return; }
+    var href = mailto(s);
+    $('#recap').innerHTML = '<div><b>' + s.intent + '</b></div><div>' + longDate(s.day) + ' · ' + s.time + '</div><div>' + s.name + ' · ' + s.phone + '</div>';
+    $('#mailAgain').href = href; $('#icsBtn').href = ics(s);
+    form.style.display = 'none';
+    var c = $('#confirm'); c.classList.add('show'); c.focus({ preventScroll: true });
+    c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    window.location.href = href;
+  });
+  $('#again').addEventListener('click', function (e) { e.preventDefault(); $('#confirm').classList.remove('show'); form.style.display = ''; form.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+
+  /* links with data-intent preselect the consultation type */
+  $$('[data-intent]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var map = { sell: "Seller's consultation", buy: "Buyer's consultation", rent: "Rental consultation" };
+      var r = form.querySelector('input[name="intent"][value="' + map[a.getAttribute('data-intent')] + '"]');
+      if (r) { r.checked = true; updateSummary(); }
+    });
+  });
+})();
 </script>
 </body>
 </html>
