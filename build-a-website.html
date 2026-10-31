@@ -385,68 +385,113 @@ footer p{font-size:12px;color:#888}
             </div>
           </div></div>
 
-          <!-- SLIDE 2: Shore Works Shop (Pricing) -->
-          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#fff;overflow:hidden;font-family:'Space Grotesk',sans-serif;display:flex;flex-direction:column">
-            <div style="background:#0D3D54;display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:32px;flex-shrink:0">
-              <span style="color:#fff;font-weight:800;font-size:11px">Shore<em style="font-style:italic;color:#4BB8B8">works</em> <span style="font-size:8.5px;font-weight:400;color:rgba(75,184,184,.7)">Shop</span></span>
-              <div style="display:flex;gap:14px;align-items:center">
-                <span style="font-size:8.5px;color:rgba(255,255,255,.45)">Packages</span>
-                <span style="font-size:8.5px;color:rgba(255,255,255,.45)">Add-ons</span>
-                <span style="font-size:8.5px;color:rgba(255,255,255,.45)">About</span>
-                <span style="font-size:8.5px;color:#4BB8B8;font-weight:600">Cart (0)</span>
+          <!-- SLIDE 2: E-Commerce Wireframe -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px;display:flex;flex-direction:column;gap:5px">
+            <!-- Header -->
+            <div style="background:#D5D0C9;border-radius:4px;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;flex-shrink:0">
+              <div style="width:48px;height:7px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="width:90px;height:14px;background:#C5C0B9;border-radius:3px;display:flex;align-items:center;padding:0 7px;gap:4px">
+                <div style="width:8px;height:8px;border-radius:50%;background:#B5B0A9"></div>
+                <div style="flex:1;height:4px;background:#B5B0A9;border-radius:2px"></div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="background:rgba(75,184,184,.35);border:1.5px dashed #4BB8B8;border-radius:3px;width:22px;height:14px;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#4BB8B8">🛒</span></div>
               </div>
             </div>
-            <div style="background:#EDE5D4;padding:11px 14px 10px;flex-shrink:0">
-              <div style="font-size:7.5px;color:#4BB8B8;letter-spacing:.12em;font-weight:700;text-transform:uppercase;margin-bottom:3px">Web Design Packages</div>
-              <div style="font-size:13px;font-weight:700;color:#0D3D54;font-family:'Playfair Display',serif;line-height:1.2">Built for local business.</div>
-              <div style="font-size:8px;color:#667788;margin-top:2px">No monthly fees. No fluff. Just results.</div>
+            <!-- Filter + grid row -->
+            <div style="display:flex;gap:6px;flex:1;overflow:hidden">
+              <!-- Sidebar filters -->
+              <div style="width:62px;flex-shrink:0;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:6.5px;font-weight:700;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px">Filters</div>
+                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
+                  <div style="width:60%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:28px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#4BB8B8"></div><div style="width:22px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:30px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
+                  <div style="width:50%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
+                  <div style="height:6px;background:#C5C0B9;border-radius:2px;position:relative"><div style="position:absolute;left:20%;right:30%;top:1px;bottom:1px;background:#4BB8B8;border-radius:2px"></div></div>
+                  <div style="display:flex;justify-content:space-between;margin-top:3px">
+                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
+                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
+                  </div>
+                </div>
+                <div style="background:#0D3D54;border-radius:3px;padding:5px;text-align:center;margin-top:auto">
+                  <div style="font-size:6.5px;font-weight:700;color:#fff">Apply</div>
+                </div>
+              </div>
+              <!-- Product grid -->
+              <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:5px">
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;border:1.5px dashed #4BB8B8">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:8px 8px 0;flex:1">
-              <div style="border:1px solid #E8E3D8;border-radius:7px;overflow:hidden;display:flex;flex-direction:column">
-                <div style="background:#F5F0E8;padding:8px;text-align:center">
-                  <div style="font-size:7.5px;font-weight:700;color:#0D3D54;letter-spacing:.05em;text-transform:uppercase">Starter</div>
-                  <div style="font-size:17px;font-weight:800;color:#0D3D54;margin:2px 0">$799</div>
-                  <div style="font-size:7px;color:#889">one-time</div>
-                </div>
-                <div style="padding:8px;flex:1">
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Mobile-first design</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ 5 pages</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Contact form</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:8px">✓ Domain setup</div>
-                  <div style="background:#4BB8B8;border-radius:100px;text-align:center;padding:5px;font-size:8px;font-weight:700;color:#fff">Get Started</div>
-                </div>
-              </div>
-              <div style="border:2px solid #0D3D54;border-radius:7px;overflow:hidden;box-shadow:0 4px 14px rgba(13,61,84,.18);display:flex;flex-direction:column">
-                <div style="background:#4BB8B8;padding:3px;text-align:center">
-                  <div style="font-size:6.5px;font-weight:700;color:#fff;letter-spacing:.1em;text-transform:uppercase">MOST POPULAR</div>
-                </div>
-                <div style="background:#0D3D54;padding:8px;text-align:center">
-                  <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.05em;text-transform:uppercase">Business Pro</div>
-                  <div style="font-size:17px;font-weight:800;color:#fff;margin:2px 0">$1,499</div>
-                  <div style="font-size:7px;color:rgba(255,255,255,.4)">one-time</div>
-                </div>
-                <div style="padding:8px;flex:1">
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Everything in Starter</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ CMS / Blog</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Analytics</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:8px">✓ SEO package</div>
-                  <div style="background:#0D3D54;border-radius:100px;text-align:center;padding:5px;font-size:8px;font-weight:700;color:#fff">Choose Plan</div>
-                </div>
-              </div>
-              <div style="border:1px solid #E8E3D8;border-radius:7px;overflow:hidden;display:flex;flex-direction:column">
-                <div style="background:#F5F0E8;padding:8px;text-align:center">
-                  <div style="font-size:7.5px;font-weight:700;color:#0D3D54;letter-spacing:.05em;text-transform:uppercase">E-Commerce</div>
-                  <div style="font-size:17px;font-weight:800;color:#0D3D54;margin:2px 0">$2,299</div>
-                  <div style="font-size:7px;color:#889">one-time</div>
-                </div>
-                <div style="padding:8px;flex:1">
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Full online store</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Inventory mgmt</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:3px">✓ Payment gateway</div>
-                  <div style="font-size:7.5px;color:#445;margin-bottom:8px">✓ Order tracking</div>
-                  <div style="background:#4BB8B8;border-radius:100px;text-align:center;padding:5px;font-size:8px;font-weight:700;color:#fff">Get Started</div>
-                </div>
-              </div>
+            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
+              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
             </div>
           </div></div>
 
