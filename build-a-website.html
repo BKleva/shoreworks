@@ -186,13 +186,49 @@ footer{border-top:1px solid #DDD8CE;padding:2.5rem 2rem;max-width:1100px;margin:
 .foot-logo em{color:#4BB8B8;font-style:italic}
 footer p{font-size:12px;color:#888}
 
+/* HERO — digitized dark */
+.hero-section{background:#0B2E41;background-image:radial-gradient(circle,rgba(75,184,184,.13) 1px,transparent 1px);background-size:28px 28px;padding:0}
+.hero-inner{max-width:1100px;margin:0 auto;padding:4rem 2rem 4.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.hero-eyebrow{font-family:monospace;font-size:10.5px;color:#4BB8B8;letter-spacing:.16em;margin-bottom:1.25rem;opacity:.9}
+.hero-no-pad{padding:0;max-width:none;margin:0}
+.hero-section .hero h1{color:#fff}
+.hero-section .hero-sub{color:rgba(255,255,255,.68)}
+.hero-section .btn-outline{border-color:rgba(255,255,255,.3);color:#fff}
+.hero-section .btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+.cursor-blink{display:inline-block;width:3px;height:.78em;background:#4BB8B8;margin-left:4px;vertical-align:middle;animation:blink .85s step-end infinite;border-radius:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-browser{width:100%;height:auto;display:block;border-radius:14px;box-shadow:0 32px 80px rgba(0,0,0,.55),0 0 0 1px rgba(75,184,184,.18)}
+
+/* STATS STRIP */
+.stats-strip{background:#071D2A;border-top:1px solid rgba(75,184,184,.12);border-bottom:1px solid rgba(75,184,184,.12);padding:1.75rem 2rem}
+.stats-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.stat-item{text-align:center}
+.stat-num{display:block;font-family:'Playfair Display',serif;font-size:2.1rem;color:#4BB8B8;line-height:1;margin-bottom:.3rem}
+.stat-lbl{display:block;font-size:10px;color:rgba(255,255,255,.42);letter-spacing:.12em;text-transform:uppercase}
+.stat-div{width:1px;height:36px;background:rgba(255,255,255,.08)}
+
+/* PROCESS */
+.process-section{background:#fff;padding:4rem 2rem;border-bottom:1px solid #E8E3D8}
+.process-inner{max-width:1100px;margin:0 auto}
+.process-steps{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr;gap:0;align-items:start;margin-top:2.5rem}
+.ps-connector{display:flex;align-items:flex-start;justify-content:center;padding-top:22px;color:#DDD8CE;font-size:1.1rem}
+.process-step{text-align:center;padding:0 .5rem}
+.ps-num{font-family:monospace;font-size:10px;font-weight:700;color:#4BB8B8;letter-spacing:.15em;margin-bottom:.65rem}
+.ps-icon{width:48px;height:48px;border-radius:13px;background:#EBF4F8;display:flex;align-items:center;justify-content:center;color:#1A6B8A;font-size:1.3rem;margin:0 auto .75rem;transition:background .2s,color .2s}
+.process-step:hover .ps-icon{background:#0D3D54;color:#4BB8B8}
+.ps-title{font-family:'Playfair Display',serif;font-size:15px;color:#0D3D54;font-weight:500;margin-bottom:.4rem}
+.ps-desc{font-size:12px;color:#778899;line-height:1.65}
+
 @media(max-width:900px){
   .about-grid{grid-template-columns:1fr;gap:1.25rem}
   .headshot-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:0}
   .headshot-wrap img{width:180px;height:220px}
-  .hero{padding:3rem 2rem 2.5rem}
   .section,.about-section,.cta-section{padding:3rem 2rem}
   .portfolio-section,.spotlight-section{padding:3rem 2rem}
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem;padding:3rem 2rem 3.5rem}
+  .hero-browser-wrap{order:-1}
+  .process-steps{grid-template-columns:1fr 20px 1fr;gap:0}
+  .process-step:nth-child(6),.process-step:nth-child(8),.ps-connector:nth-child(6),.ps-connector:nth-child(8){display:none}
 }
 @media(max-width:768px){
   .why-grid{grid-template-columns:1fr}
@@ -202,7 +238,6 @@ footer p{font-size:12px;color:#888}
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:6px;background:#fff;border:1px solid #DDD8CE;border-radius:12px;padding:10px;margin-top:6px;box-shadow:0 16px 32px rgba(13,61,84,.15);z-index:80}
   .nav-links.open{display:flex}
   .nav-links a{font-size:12px;padding:8px 14px;display:block;text-align:left}
-  .hero{padding:2.5rem 1.25rem 2rem}
   .section,.about-section,.cta-section{padding:2.5rem 1.25rem}
   .portfolio-section,.spotlight-section{padding:2.5rem 1.25rem}
   .services-grid{grid-template-columns:1fr 1fr;gap:12px}
@@ -224,6 +259,11 @@ footer p{font-size:12px;color:#888}
   .headshot-wrap img{width:140px;height:170px}
   .spotlight-inner{grid-template-columns:1fr}
   .spotlight-card{display:none}
+  .hero-inner{padding:2.5rem 1.25rem 3rem}
+  .stat-div{display:none}
+  .process-section{padding:3rem 1.25rem}
+  .process-steps{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .ps-connector{display:none}
 }
 </style>
 <script type="text/javascript">
@@ -261,15 +301,147 @@ footer p{font-size:12px;color:#888}
 </script>
 
 <!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-tag">Web Design & Digital Solutions</div>
-  <h1>Beautiful websites<br>built for <em>real results.</em></h1>
-  <p class="hero-sub">We design and build professional websites for local businesses — from portfolio sites and restaurant menus to full e-commerce storefronts. Your online presence, handled.</p>
-  <div class="hero-btns">
-    <a href="build-contact.html" class="btn-primary">Start Your Project</a>
-    <a href="#services" class="btn-outline">See What We Offer</a>
+<section class="hero-section" id="top">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">// web design &nbsp;·&nbsp; south jersey</div>
+      <div class="hero hero-no-pad">
+        <h1>Your website,<br>built <em>the right way.<span class="cursor-blink"></span></em></h1>
+        <p class="hero-sub">We design and build professional websites for local businesses — from portfolio sites and restaurant menus to full e-commerce storefronts. Your online presence, handled.</p>
+        <div class="hero-btns">
+          <a href="build-contact.html" class="btn-primary">Start Your Project</a>
+          <a href="#services" class="btn-outline">See What We Offer</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-browser-wrap">
+      <svg class="hero-browser" viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Browser chrome -->
+        <rect width="520" height="340" rx="12" fill="#0F1E2A"/>
+        <rect width="520" height="38" rx="12" fill="#162534"/>
+        <rect y="26" width="520" height="12" fill="#162534"/>
+        <!-- traffic lights -->
+        <circle cx="20" cy="19" r="5" fill="#FF5F56"/>
+        <circle cx="36" cy="19" r="5" fill="#FFBD2E"/>
+        <circle cx="52" cy="19" r="5" fill="#27C93F"/>
+        <!-- address bar -->
+        <rect x="70" y="10" width="300" height="18" rx="4" fill="#0D2030"/>
+        <text x="84" y="22.5" font-size="9" fill="rgba(75,184,184,.6)" font-family="monospace">shoreworksnj.com/your-site</text>
+        <!-- padlock icon -->
+        <rect x="74" y="13.5" width="6" height="5" rx="1" fill="none" stroke="rgba(75,184,184,.5)" stroke-width="1"/>
+        <path d="M75.5 14 Q77 11.5 78.5 14" fill="none" stroke="rgba(75,184,184,.5)" stroke-width="1"/>
+        <!-- page area: nav bar -->
+        <rect x="0" y="38" width="520" height="30" fill="#0D3D54"/>
+        <rect x="20" y="50" width="60" height="6" rx="2" fill="rgba(255,255,255,.7)"/>
+        <rect x="400" y="50" width="40" height="6" rx="2" fill="rgba(75,184,184,.5)"/>
+        <rect x="350" y="50" width="35" height="6" rx="2" fill="rgba(255,255,255,.25)"/>
+        <rect x="295" y="50" width="40" height="6" rx="2" fill="rgba(255,255,255,.25)"/>
+        <!-- hero area -->
+        <rect x="0" y="68" width="520" height="100" fill="#0B2E41"/>
+        <!-- dot grid -->
+        <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="rgba(75,184,184,.18)"/>
+        </pattern>
+        <rect x="0" y="68" width="520" height="100" fill="url(#dots)"/>
+        <!-- hero text blocks -->
+        <rect x="30" y="88" width="180" height="10" rx="2" fill="rgba(255,255,255,.85)"/>
+        <rect x="30" y="104" width="140" height="10" rx="2" fill="rgba(255,255,255,.85)"/>
+        <rect x="30" y="120" width="160" height="6" rx="2" fill="rgba(255,255,255,.3)"/>
+        <rect x="30" y="130" width="140" height="6" rx="2" fill="rgba(255,255,255,.3)"/>
+        <rect x="30" y="146" width="70" height="14" rx="4" fill="#4BB8B8"/>
+        <rect x="108" y="148" width="55" height="10" rx="3" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/>
+        <!-- right column graphic: phone mockup -->
+        <rect x="340" y="75" width="130" height="85" rx="8" fill="#0D3D54" stroke="rgba(75,184,184,.3)" stroke-width="1"/>
+        <rect x="352" y="86" width="106" height="8" rx="2" fill="rgba(75,184,184,.45)"/>
+        <rect x="352" y="99" width="80" height="5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="352" y="109" width="90" height="5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="352" y="119" width="70" height="5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="352" y="130" width="50" height="10" rx="3" fill="rgba(75,184,184,.5)"/>
+        <!-- cards row -->
+        <rect x="0" y="168" width="520" height="80" fill="#F5F0E8"/>
+        <rect x="20" y="182" width="145" height="52" rx="6" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
+        <rect x="175" y="182" width="145" height="52" rx="6" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
+        <rect x="330" y="182" width="145" height="52" rx="6" fill="#fff" stroke="#E8E3D8" stroke-width="1"/>
+        <rect x="30" y="192" width="40" height="4" rx="1.5" fill="#0D3D54" opacity=".7"/>
+        <rect x="30" y="201" width="100" height="3.5" rx="1.5" fill="#888" opacity=".4"/>
+        <rect x="30" y="209" width="85" height="3.5" rx="1.5" fill="#888" opacity=".4"/>
+        <rect x="30" y="220" width="50" height="7" rx="2.5" fill="#4BB8B8" opacity=".8"/>
+        <rect x="185" y="192" width="40" height="4" rx="1.5" fill="#0D3D54" opacity=".7"/>
+        <rect x="185" y="201" width="100" height="3.5" rx="1.5" fill="#888" opacity=".4"/>
+        <rect x="185" y="209" width="85" height="3.5" rx="1.5" fill="#888" opacity=".4"/>
+        <rect x="185" y="220" width="50" height="7" rx="2.5" fill="#4BB8B8" opacity=".8"/>
+        <rect x="340" y="192" width="40" height="4" rx="1.5" fill="#0D3D54" opacity=".7"/>
+        <rect x="340" y="201" width="100" height="3.5" rx="1.5" fill="#888" opacity=".4"/>
+        <rect x="340" y="209" width="85" height="3.5" rx="1.5" fill="#888" opacity=".4"/>
+        <rect x="340" y="220" width="50" height="7" rx="2.5" fill="#4BB8B8" opacity=".8"/>
+        <!-- footer bar -->
+        <rect x="0" y="248" width="520" height="92" rx="0" fill="#0D3D54"/>
+        <rect x="0" y="308" width="520" height="32" rx="0" fill="#071D2A" style="border-radius:0 0 12px 12px"/>
+        <rect x="20" y="258" width="55" height="5" rx="2" fill="rgba(255,255,255,.5)"/>
+        <rect x="20" y="268" width="80" height="3.5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="20" y="276" width="70" height="3.5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="180" y="258" width="55" height="5" rx="2" fill="rgba(255,255,255,.5)"/>
+        <rect x="180" y="268" width="80" height="3.5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="180" y="276" width="65" height="3.5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="340" y="258" width="55" height="5" rx="2" fill="rgba(255,255,255,.5)"/>
+        <rect x="340" y="268" width="80" height="3.5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="340" y="276" width="65" height="3.5" rx="1.5" fill="rgba(255,255,255,.2)"/>
+        <rect x="20" y="316" width="180" height="3.5" rx="1.5" fill="rgba(255,255,255,.15)"/>
+        <rect x="380" y="316" width="100" height="3.5" rx="1.5" fill="rgba(255,255,255,.15)"/>
+      </svg>
+    </div>
   </div>
 </section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item"><span class="stat-num">50+</span><span class="stat-lbl">Projects Built</span></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><span class="stat-num">&lt;2wk</span><span class="stat-lbl">Avg. Launch Time</span></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><span class="stat-num">100%</span><span class="stat-lbl">Mobile-First</span></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><span class="stat-num">5 ★</span><span class="stat-lbl">Google Rating</span></div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="process-section">
+  <div class="process-inner">
+    <div class="section-tag" style="color:#4BB8B8">How It Works</div>
+    <h2 class="section-title" style="color:#0D3D54">From idea to <em>live site</em> in four steps.</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="ps-num">01 &mdash; DISCOVERY</div>
+        <div class="ps-icon"><i class="ti ti-message-circle"></i></div>
+        <div class="ps-title">Discovery Call</div>
+        <p class="ps-desc">We learn your business, goals, and audience. No forms — just a real conversation about what you need.</p>
+      </div>
+      <div class="ps-connector">&rsaquo;</div>
+      <div class="process-step">
+        <div class="ps-num">02 &mdash; DESIGN</div>
+        <div class="ps-icon"><i class="ti ti-layout"></i></div>
+        <div class="ps-title">Design &amp; Revisions</div>
+        <p class="ps-desc">You get a full design mockup before any code is written. We revise until it's right.</p>
+      </div>
+      <div class="ps-connector">&rsaquo;</div>
+      <div class="process-step">
+        <div class="ps-num">03 &mdash; BUILD</div>
+        <div class="ps-icon"><i class="ti ti-code"></i></div>
+        <div class="ps-title">Build &amp; Review</div>
+        <p class="ps-desc">Your site is built fast, tested on every device, and handed to you for a final walkthrough.</p>
+      </div>
+      <div class="ps-connector">&rsaquo;</div>
+      <div class="process-step">
+        <div class="ps-num">04 &mdash; LAUNCH</div>
+        <div class="ps-icon"><i class="ti ti-rocket"></i></div>
+        <div class="ps-title">Launch &amp; Support</div>
+        <p class="ps-desc">We handle your domain, hosting, and go-live. Ongoing support plans available.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ABOUT -->
 <div class="section-white"><section class="about-section" id="about">
