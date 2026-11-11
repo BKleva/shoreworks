@@ -1,0 +1,16 @@
+{
+  "name": "shore-match",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Matchmaking platform where local startups and local investors find each other",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0",
+    "bcryptjs": "^2.4.3"
+  }
+}
