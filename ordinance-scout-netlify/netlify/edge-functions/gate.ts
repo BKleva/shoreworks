@@ -2,7 +2,7 @@
 // The session cookie is signed with SESSION_SECRET by netlify/lib/auth.mjs; here we just verify the signature.
 import type { Config, Context } from "@netlify/edge-functions";
 
-const PUBLIC = [/^\/login(\.html)?$/, /^\/api\/login$/, /^\/favicon\.ico$/, /^\/login-brand\.svg$/];
+const PUBLIC = [/^\/login(\.html)?$/, /^\/api\/login$/, /^\/favicon\.ico$/, /^\/login-brand\.svg$/, /^\/legal(\.html)?$/];
 const enc = new TextEncoder();
 
 function b64urlDecode(s: string): string {

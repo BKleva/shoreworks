@@ -7,7 +7,10 @@
 <meta name="description" content="Get in touch with Outdoor Impact to inquire about billboard rates and availability on Route 4, River Edge, NJ.">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700,800&display=swap">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1628'/%3E%3Crect x='5' y='11' width='22' height='9' rx='1.5' fill='%232f6fed'/%3E%3Crect x='15' y='20' width='2' height='7' fill='%232f6fed'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="images/favicon-48.png" type="image/png" sizes="48x48">
+<link rel="icon" href="images/favicon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="images/favicon-180.png">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -152,9 +155,9 @@
   /* ============ FOOTER ============ */
   footer { border-top: 1px solid var(--border); padding: 2.4rem 0; }
   .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
-  .footer-tag { font-size: 0.85rem; color: var(--dimmer); text-align: center; }
+  .footer-tag { font-size: 0.85rem; color: #000000; text-align: center; }
   .footer-links { display: flex; gap: 1.6rem; }
-  .footer-links a { font-size: 0.85rem; color: var(--dim); }
+  .footer-links a { font-size: 0.85rem; color: #000000; }
   .footer-links a:hover { color: var(--ink); }
 
   .footer-bottom {
@@ -167,13 +170,13 @@
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
   }
-  .footer-copyright { font-size: 0.75rem; color: var(--dimmer); }
+  .footer-copyright { font-size: 0.75rem; color: #000000; }
   .footer-credit {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     font-size: 0.75rem;
-    color: var(--dimmer);
+    color: #000000;
     text-decoration: none;
     transition: color var(--dur) var(--ease);
   }
@@ -191,26 +194,26 @@
 
 <header class="nav" id="siteNav">
   <div class="wrap nav-row">
-    <a href="index.html" class="logo">
+    <a class='logo' href='/'>
       <span class="text"><span class="name">Outdoor Impact</span><span class="sub">Premium Billboard Development</span></span>
     </a>
     <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="gallery.html">Portfolio</a>
-      <a href="index.html#about">About Us</a>
-      <a href="contact.html" class="active">Contact</a>
+      <a href='/'>Home</a>
+      <a href='/gallery'>Portfolio</a>
+      <a href='/#about'>About Us</a>
+      <a class='active' href='/contact'>Contact</a>
     </nav>
     <div class="nav-right">
-      <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+      <a class='btn btn-primary' href='/contact'>Get in Touch</a>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="gallery.html">Portfolio</a>
-    <a href="index.html#about">About Us</a>
-    <a href="contact.html">Contact</a>
-    <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+    <a href='/'>Home</a>
+    <a href='/gallery'>Portfolio</a>
+    <a href='/#about'>About Us</a>
+    <a href='/contact'>Contact</a>
+    <a class='btn btn-primary' href='/contact'>Get in Touch</a>
   </div>
 </header>
 
@@ -278,13 +281,13 @@
   <div class="wrap footer-inner">
     <span class="footer-tag">Premium Locations. Real Passive Income.</span>
     <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="gallery.html">Portfolio</a>
-      <a href="contact.html">Contact</a>
+      <a href='/'>Home</a>
+      <a href='/gallery'>Portfolio</a>
+      <a href='/contact'>Contact</a>
     </div>
   </div>
   <div class="wrap footer-bottom">
-    <span class="footer-copyright">&copy; 2026 Outdoor Impact. All rights reserved.</span>
+    <span class="footer-copyright">&copy; 2026 Outdoor Impact. All rights reserved. &middot; <a href="/legal" style="color:inherit;text-decoration:underline;">Terms, Disclaimers &amp; Privacy</a></span>
     <a href="https://shoreworksnj.com" target="_blank" rel="noopener" class="footer-credit">Site by <img src="images/shoreworks-logo.png" alt="Shoreworks"></a>
   </div>
 </footer>
