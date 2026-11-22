@@ -63,7 +63,9 @@ body{font-family:'Space Grotesk',sans-serif;color:#1a1a1a;background:#EDE5D4;fon
 .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
 .service-card{background:#fff;border-radius:18px;border:1px solid #E8E3D8;transition:transform .22s,box-shadow .22s;overflow:hidden;padding:0;display:flex;flex-direction:column}
 .service-card:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(13,61,84,.13)}
-.svc-preview{width:100%;display:block;flex-shrink:0}
+.svc-shot{overflow:hidden;flex-shrink:0;border-bottom:1px solid #E8E3D8;background:#F5F0E8}
+.svc-preview{width:100%;height:auto;display:block;aspect-ratio:2/1;object-fit:cover;object-position:top center;transition:transform .5s ease}
+.service-card:hover .svc-preview{transform:scale(1.04)}
 .svc-content{padding:1.5rem 1.75rem 1.75rem;flex:1}
 .svc-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;color:#0D3D54;margin-bottom:.6rem}
 .svc-desc{font-size:13px;color:#556677;line-height:1.75}
@@ -175,12 +177,171 @@ footer p{font-size:12px;color:#888}
 .hbf-lock{font-size:9px;color:rgba(75,184,184,.5)}
 .hbf-url{font-family:monospace;font-size:10px;color:rgba(75,184,184,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hbf-screen{position:relative;overflow:hidden;aspect-ratio:4/3}
-.hbf-slide{position:absolute;inset:0;opacity:0;animation:hbf-fade 20s linear infinite}
-.hbf-slide:nth-child(1){animation-delay:0s}
-.hbf-slide:nth-child(2){animation-delay:-15s}
-.hbf-slide:nth-child(3){animation-delay:-10s}
-.hbf-slide:nth-child(4){animation-delay:-5s}
-@keyframes hbf-fade{0%,3%{opacity:0}6%,23%{opacity:1}26%,100%{opacity:0}}
+
+/* HERO — interactive portfolio browser (live demos of real client builds) */
+.hero-inner > *{min-width:0}
+.pf{display:flex;flex-direction:column}
+.pf [hidden]{display:none !important}
+.pf-tabs{display:flex;gap:2px;padding:8px 8px 0;background:#0B1C29;overflow-x:auto;scrollbar-width:none}
+.pf-tabs::-webkit-scrollbar{display:none}
+.pf-tab{position:relative;display:flex;align-items:center;gap:7px;flex:0 0 auto;padding:8px 14px 9px;border:0;border-radius:9px 9px 0 0;background:transparent;color:rgba(255,255,255,.55);font:600 11.5px/1 'Space Grotesk',sans-serif;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;overflow:hidden}
+.pf-tab:hover{color:#fff;background:rgba(255,255,255,.05)}
+.pf-tab.is-on{background:#162534;color:#fff}
+.pf-tab:focus-visible{outline:2px solid #4BB8B8;outline-offset:-2px}
+.pf-tab-dot{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px rgba(255,255,255,.06)}
+.pf-tab::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:#4BB8B8;transform:scaleX(0);transform-origin:left}
+.pf.auto .pf-tab.is-on.run::after{animation:pf-bar 7s linear forwards}
+@keyframes pf-bar{to{transform:scaleX(1)}}
+.pf .hbf-bar{max-width:none}
+.pf-open{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:#4BB8B8;text-decoration:none;padding:4px 8px;border-radius:6px;transition:background .15s}
+.pf-open:hover{background:rgba(75,184,184,.12)}
+.pf-screen{aspect-ratio:5/4;background:#fff}
+.pf-panel{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;font-family:'Space Grotesk',sans-serif;animation:pf-in .35s ease}
+.pf-panel[hidden]{display:none}
+@keyframes pf-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pf-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.pf-note{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font-size:12px;color:rgba(255,255,255,.6)}
+.pf-note i{color:#4BB8B8;font-size:15px}
+.pf-toast{position:absolute;left:50%;bottom:12px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#111;color:#fff;font-size:11.5px;font-weight:600;padding:8px 12px;border-radius:8px;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s,transform .25s;z-index:5}
+.pf-toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Wax, Packs & Throwbacks inventory */
+.pf-wpt{background:#FBF6EA;color:#111}
+.wpt-top{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#0B1730;border-bottom:3px solid #F5C518}
+.wpt-logo{font:800 12px/1 'Space Grotesk',sans-serif;letter-spacing:.06em;color:#F5C518}
+.wpt-logo b{color:#E8501C}
+.wpt-cart{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#111;background:#F5C518;border:1.5px solid #111;border-radius:6px;padding:4px 8px}
+.wpt-cart b{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:#E8501C;color:#fff;font-size:10px;padding:0 4px;transition:transform .2s}
+.wpt-cart b.bump{transform:scale(1.35)}
+.wpt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:9px 12px 6px}
+.wpt-title{width:100%;font:800 15px/1 'Space Grotesk',sans-serif;letter-spacing:.02em;text-transform:uppercase}
+.wpt-title span{color:#E8501C}
+.wpt-search{flex:1 1 140px;min-width:0;height:28px;border:1.5px solid #111;border-radius:6px;padding:0 9px;font:500 11.5px 'Space Grotesk',sans-serif;background:#fff;color:#111}
+.wpt-search:focus{outline:2px solid #F5C518;outline-offset:1px}
+.wpt-chips{display:flex;gap:4px;flex-wrap:wrap}
+.wpt-chips button,.ct-chips button{height:26px;padding:0 9px;border:1.5px solid #111;border-radius:5px;background:#fff;font:700 10px/1 'Space Grotesk',sans-serif;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;color:#111}
+.wpt-chips button.on{background:#0B1730;color:#F5C518;border-color:#0B1730}
+.wpt-stock{display:flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;cursor:pointer;margin-left:auto}
+.wpt-stock input{accent-color:#E8501C}
+.wpt-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;padding:4px 12px 14px;align-items:start}
+.wpt-card{position:relative;background:#fff;border:1.5px solid #111;border-radius:7px;box-shadow:3px 3px 0 #111;padding:6px;display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s}
+.wpt-card:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #111}
+.wpt-card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;display:block;border-radius:4px;background:#fff}
+.wpt-card.sold img{opacity:.45;filter:grayscale(.6)}
+.wpt-name{font-size:10px;font-weight:600;line-height:1.25;height:2.5em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.wpt-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.wpt-price{font-size:12px;font-weight:800;color:#E8501C}
+.wpt-add{height:22px;padding:0 8px;border:1.5px solid #111;border-radius:5px;background:#F5C518;font:800 9.5px/1 'Space Grotesk',sans-serif;text-transform:uppercase;cursor:pointer;color:#111}
+.wpt-add:active{transform:translate(1px,1px)}
+.wpt-add:disabled{background:#e9e4d8;color:#777;border-color:#bbb;cursor:not-allowed}
+.wpt-badge{position:absolute;top:9px;left:9px;font-size:8.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:#1F9D55;color:#fff}
+.wpt-card.sold .wpt-badge{background:#555}
+.wpt-empty{grid-column:1/-1;text-align:center;font-size:12px;color:#555;padding:24px 0}
+
+/* Twin Cleans contact form */
+.pf-twin{background:#EAF4F4;color:#0F2A2E}
+.tw-top{display:flex;align-items:center;gap:9px;padding:9px 14px;background:#fff;border-bottom:1px solid #d5e7e7}
+.tw-logo{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2bb3ba,#0d6f75);color:#fff;font:800 10px/30px 'Space Grotesk',sans-serif;text-align:center;font-style:italic}
+.tw-top b{display:block;font-size:13px;line-height:1.1}
+.tw-top span{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1B8F96}
+.tw-form{display:grid;gap:8px;padding:12px 14px 16px}
+.tw-form h4{font:800 16px/1.15 'Space Grotesk',sans-serif;margin:0}
+.tw-form p.tw-sub{margin:-4px 0 2px;font-size:11px;color:#4a6468}
+.tw-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tw-form label{display:grid;gap:3px;font-size:10.5px;font-weight:700}
+.tw-form input,.tw-form select{height:30px;border:1px solid #c8dede;border-radius:8px;background:#f7fbfb;padding:0 9px;font:500 12px 'Space Grotesk',sans-serif;color:#0F2A2E;min-width:0}
+.tw-form input:focus,.tw-form select:focus{outline:2px solid #1B8F96;outline-offset:0;background:#fff}
+.tw-form input[aria-invalid=true]{border-color:#d9534f;background:#fff5f5}
+.tw-pk{display:flex;flex-wrap:wrap;gap:5px}
+.tw-pk button{padding:6px 10px;border:1px solid #c8dede;border-radius:100px;background:#fff;font:600 10.5px/1 'Space Grotesk',sans-serif;color:#0F2A2E;cursor:pointer;transition:all .15s}
+.tw-pk button.on{background:#1B8F96;border-color:#1B8F96;color:#fff}
+.tw-send{height:34px;border:0;border-radius:100px;background:#1B8F96;color:#fff;font:700 12.5px/1 'Space Grotesk',sans-serif;cursor:pointer;transition:background .15s,transform .1s}
+.tw-send:hover{background:#157a80}
+.tw-send:active{transform:scale(.98)}
+.tw-err{margin:0;font-size:11px;font-weight:600;color:#c0392b}
+.tw-done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:20px}
+.tw-done i{font-size:44px;color:#1B8F96;animation:pf-pop .45s cubic-bezier(.2,1.4,.4,1)}
+.tw-done b{font-size:17px}
+.tw-done p{margin:0;font-size:12px;color:#4a6468;max-width:260px;line-height:1.5}
+.tw-again{margin-top:6px;border:1px solid #1B8F96;background:#fff;color:#1B8F96;border-radius:100px;padding:7px 14px;font:700 11px 'Space Grotesk',sans-serif;cursor:pointer}
+@keyframes pf-pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* Bookings by Shore Works */
+.pf-book{background:#0B0B0B;color:#F1ECE2}
+.bk-top{display:flex;align-items:baseline;gap:8px;padding:11px 14px;border-bottom:1px solid #262626}
+.bk-logo{font:800 14px/1 'Space Grotesk',sans-serif;letter-spacing:.14em}
+.bk-by{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#a49d90}
+.bk-steps{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid #262626}
+.bk-steps span{padding:7px 0;text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6d6860;border-right:1px solid #262626;transition:all .2s}
+.bk-steps span:last-child{border-right:0}
+.bk-steps span.on{color:#0B0B0B;background:#F1ECE2}
+.bk-steps span.done{color:#F1ECE2}
+.bk-view{padding:12px 14px 14px}
+.bk-view[hidden]{display:none}
+.bk-view h5{margin:0 0 4px;font:800 16px/1 'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.bk-view .bk-hint{margin:0 0 10px;font-size:11px;color:#a49d90}
+.bk-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.bk-day{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;border:1px solid #2e2e2e;border-radius:4px;background:#151515;color:#F1ECE2;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .15s}
+.bk-day:hover:not(:disabled){border-color:#F1ECE2;transform:translateY(-1px)}
+.bk-day b{font-size:15px;line-height:1}
+.bk-day small{font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a49d90}
+.bk-day em{font-style:normal;font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:#4BB8B8}
+.bk-day:disabled{opacity:.35;cursor:not-allowed}
+.bk-day:disabled em{color:#777}
+.bk-times,.bk-svcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.bk-svcs{grid-template-columns:1fr 1fr}
+.bk-time,.bk-svc{padding:9px 6px;border:1px solid #2e2e2e;border-radius:4px;background:#151515;color:#F1ECE2;font:700 12px/1.2 'Space Grotesk',sans-serif;cursor:pointer;transition:all .15s;text-align:center}
+.bk-svc{display:flex;justify-content:space-between;align-items:center;text-align:left;padding:10px}
+.bk-svc small{display:block;font-size:9.5px;font-weight:500;color:#a49d90;margin-top:3px}
+.bk-time:hover,.bk-svc:hover{border-color:#F1ECE2;background:#1d1d1d}
+.bk-back{margin-top:10px;border:0;background:none;color:#a49d90;font:700 10.5px 'Space Grotesk',sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;padding:4px 0}
+.bk-back:hover{color:#F1ECE2}
+.bk-picked{margin:0 0 10px;padding:7px 10px;border-left:2px solid #F1ECE2;background:#151515;font-size:11.5px}
+.bk-done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 14px}
+.bk-done i{font-size:42px;color:#4BB8B8;animation:pf-pop .45s cubic-bezier(.2,1.4,.4,1)}
+.bk-done b{font:800 17px/1.1 'Space Grotesk',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.bk-done p{margin:0;font-size:12px;color:#c9c2b5;line-height:1.5;max-width:280px}
+.bk-done .bk-again{margin-top:6px;border:1px solid #F1ECE2;background:transparent;color:#F1ECE2;border-radius:3px;padding:7px 14px;font:700 10.5px 'Space Grotesk',sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+
+/* Shore Works Catalog */
+.pf-cat{background:#EFE9DC;color:#0D3D54}
+.ct-top{display:flex;align-items:center;gap:6px;padding:9px 14px;font:400 15px/1 'Playfair Display',serif}
+.ct-top em{color:#4BB8B8}
+.ct-top span{font:700 9px/1 'Space Grotesk',sans-serif;letter-spacing:.16em;color:#4BB8B8;margin-left:2px}
+.ct-hero{margin:0 12px;padding:12px;border-radius:12px;background:#0D3D54;color:#fff}
+.ct-hero b{display:block;font:400 17px/1.15 'Playfair Display',serif;margin-bottom:8px}
+.ct-hero b em{color:#4BB8B8}
+.ct-search{display:flex;height:30px;border-radius:100px;overflow:hidden;border:1px solid rgba(255,255,255,.2)}
+.ct-search input{flex:1;min-width:0;border:0;background:rgba(255,255,255,.1);color:#fff;padding:0 12px;font:500 11.5px 'Space Grotesk',sans-serif}
+.ct-search input::placeholder{color:rgba(255,255,255,.5)}
+.ct-search input:focus{outline:none;background:rgba(255,255,255,.16)}
+.ct-search span{display:flex;align-items:center;padding:0 12px;background:#4BB8B8;color:#06293A;font-size:11px;font-weight:700}
+.ct-chips{display:flex;gap:4px;padding:9px 12px 6px;flex-wrap:wrap}
+.ct-chips button{border-color:#0D3D54;color:#0D3D54;border-radius:100px;background:transparent;text-transform:none;letter-spacing:0;font-size:10.5px}
+.ct-chips button.on{background:#0D3D54;color:#fff}
+.ct-list{display:grid;gap:6px;padding:2px 12px 14px}
+.ct-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:#0D3D54;color:#fff;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.ct-item:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(13,61,84,.25)}
+.ct-ic{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:rgba(75,184,184,.18);color:#4BB8B8;display:flex;align-items:center;justify-content:center;font-size:15px}
+.ct-item b{display:block;font:400 13px/1.2 'Playfair Display',serif}
+.ct-item small{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:2px}
+.ct-item .ct-go{margin-left:auto;font-size:10px;font-weight:700;color:#4BB8B8;white-space:nowrap}
+.ct-empty{text-align:center;font-size:12px;color:#55707e;padding:16px 0}
+
+@media(max-width:900px){.pf-screen{aspect-ratio:auto;height:420px}}
+@media(max-width:600px){
+  .pf-screen{height:410px}
+  .pf-tab{padding:8px 11px 9px;font-size:11px}
+  .wpt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bk-times{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bk-svcs{grid-template-columns:1fr}
+  .bk-days{gap:3px}
+  .bk-day b{font-size:13px}
+  .pf-open .pf-open-l{display:none}
+}
+@media(prefers-reduced-motion:reduce){.pf-panel,.tw-done i,.bk-done i{animation:none}.pf.auto .pf-tab.is-on.run::after{animation:none}}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* HERO TICKER BAND */
 .hero-ticker-band{background:#071D2A;border-top:1px solid rgba(75,184,184,.12);border-bottom:1px solid rgba(75,184,184,.12);padding:1.25rem 0}
@@ -346,313 +507,100 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
       </div>
     </div>
     <div class="hero-browser-wrap">
-      <div class="hero-browser-frame">
+      <div class="hero-browser-frame pf" id="pf">
+        <div class="pf-tabs" role="tablist" aria-label="Live demos of client builds">
+          <button class="pf-tab" type="button" role="tab" id="pf-t-wpt" aria-controls="pf-p-wpt" data-pf="wpt"><span class="pf-tab-dot" style="--c:#F5C518"></span>Inventory</button>
+          <button class="pf-tab" type="button" role="tab" id="pf-t-twin" aria-controls="pf-p-twin" data-pf="twin"><span class="pf-tab-dot" style="--c:#2bb3ba"></span>Contact form</button>
+          <button class="pf-tab" type="button" role="tab" id="pf-t-book" aria-controls="pf-p-book" data-pf="book"><span class="pf-tab-dot" style="--c:#F1ECE2"></span>Booking portal</button>
+          <button class="pf-tab" type="button" role="tab" id="pf-t-cat" aria-controls="pf-p-cat" data-pf="cat"><span class="pf-tab-dot" style="--c:#4BB8B8"></span>Directory</button>
+        </div>
         <div class="hbf-chrome">
           <div class="hbf-dots"><span class="hbf-dot"></span><span class="hbf-dot"></span><span class="hbf-dot"></span></div>
-          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="hbf-url">waxpacksandthrowbacks.com</span></div>
+          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="pf-url">waxpacksandthrowbacks.com</span></div>
+          <a class="pf-open" id="pf-open" href="https://waxpacksandthrowbacks.com/" target="_blank" rel="noopener"><span class="pf-open-l">Live site</span> <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only"> (opens in a new tab)</span></a>
         </div>
-        <div class="hbf-screen">
+        <div class="hbf-screen pf-screen">
 
-          <!-- SLIDE 1: Code Editor -->
-          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#0D1117;font-family:monospace;overflow:hidden;display:flex;flex-direction:column">
-            <div style="background:#161B22;display:flex;align-items:stretch;height:26px;border-bottom:1px solid #30363D;flex-shrink:0">
-              <div style="background:#0D1117;padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
-                <span style="width:8px;height:8px;border-radius:2px;background:#E34C26;display:inline-block"></span>
-                <span style="font-size:9px;color:rgba(255,255,255,.75)">hero-section.html</span>
-                <span style="font-size:8px;color:rgba(255,255,255,.2)">×</span>
+          <div class="pf-panel pf-wpt" id="pf-p-wpt" role="tabpanel" aria-labelledby="pf-t-wpt" data-pf="wpt">
+            <div class="wpt-top"><span class="wpt-logo">WAX, PACKS <b>&amp;</b> THROWBACKS</span><span class="wpt-cart"><i class="ti ti-shopping-cart" aria-hidden="true"></i>Cart <b aria-live="polite">0</b></span></div>
+            <div class="pf-scroll">
+              <div class="wpt-bar">
+                <div class="wpt-title">Shop <span>inventory</span></div>
+                <input class="wpt-search" type="search" placeholder="Search boxes" aria-label="Search inventory">
+                <label class="wpt-stock"><input type="checkbox"> In stock</label>
+                <div class="wpt-chips"><button type="button" class="on" data-c="all" aria-pressed="true">All</button><button type="button" data-c="Baseball" aria-pressed="false">Baseball</button><button type="button" data-c="Football" aria-pressed="false">Football</button><button type="button" data-c="Basketball" aria-pressed="false">Basketball</button></div>
               </div>
-              <div style="padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
-                <span style="width:8px;height:8px;border-radius:2px;background:#1572B6;display:inline-block"></span>
-                <span style="font-size:9px;color:rgba(255,255,255,.3)">styles.css</span>
-              </div>
-              <div style="padding:0 12px;display:flex;align-items:center;gap:6px">
-                <span style="width:8px;height:8px;border-radius:2px;background:#89D185;display:inline-block"></span>
-                <span style="font-size:9px;color:rgba(255,255,255,.3)">deploy.sh</span>
-              </div>
-            </div>
-            <div style="display:flex;flex:1;overflow:hidden">
-              <div style="width:34px;background:#161B22;padding:8px 0;text-align:right;flex-shrink:0;border-right:1px solid rgba(255,255,255,.05)">
-                <div style="font-size:8px;color:rgba(255,255,255,.2);padding:0 6px;line-height:2">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
-              </div>
-              <div style="padding:8px 12px;font-size:9px;line-height:2;flex:1;overflow:hidden">
-                <div><span style="color:#6A9955">/* Shore Works Web Solutions */</span></div>
-                <div>&nbsp;</div>
-                <div><span style="color:#4EC9B0">&lt;section</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-section"</span><span style="color:#4EC9B0">&gt;</span></div>
-                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;div</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-inner"</span><span style="color:#4EC9B0">&gt;</span></div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;span</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"eyebrow"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">// web design · south jersey</span><span style="color:#4EC9B0">&lt;/span&gt;</span></div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;h1&gt;</span><span style="color:rgba(255,255,255,.75)">Your Website,</span></div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(255,255,255,.75)">Built</span> <span style="color:#DCDCAA">&lt;em&gt;</span><span style="color:#4BB8B8">Right.</span><span style="color:#DCDCAA">&lt;/em&gt;</span><span style="color:#4EC9B0">&lt;/h1&gt;</span></div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;p</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-sub"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.45)">Custom-built for local business.</span><span style="color:#4EC9B0">&lt;/p&gt;</span></div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;a</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"btn-primary"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">Start Your Project →</span><span style="color:#4EC9B0">&lt;/a&gt;</span></div>
-                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;/div&gt;</span></div>
-                <div><span style="color:#4EC9B0">&lt;/section&gt;</span><span style="display:inline-block;width:2px;height:12px;background:#4BB8B8;vertical-align:middle;animation:blink .85s step-end infinite;margin-left:2px"></span></div>
+              <div class="wpt-grid">
+            <article class="wpt-card" data-cat="Football" data-stock="1" data-name="2025 nfl topps signature class hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-2.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 NFL Topps Signature Class Hobby Box</div><div class="wpt-row"><span class="wpt-price">$450</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Basketball" data-stock="1" data-name="2025/2026 nba topps signature hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-6.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Topps Signature Hobby Box</div><div class="wpt-row"><span class="wpt-price">$525</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Baseball" data-stock="1" data-name="2026 topps series 2 jumbo box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-8.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Jumbo Box</div><div class="wpt-row"><span class="wpt-price">$330</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Basketball" data-stock="1" data-name="2025/2025 topps nba hoops hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-5.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2025 Topps NBA Hoops Hobby Box</div><div class="wpt-row"><span class="wpt-price">$300</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Baseball" data-stock="1" data-name="2025 mlb topps stadium club value box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-0.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 MLB Topps Stadium Club Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card sold" data-cat="Football" data-stock="0" data-name="2025 nfl topps finest hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-1.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 NFL Topps Finest Hobby Box</div><div class="wpt-row"><span class="wpt-price">$775</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Basketball" data-stock="0" data-name="2025/2026 nba bowman jumbo box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-3.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Bowman Jumbo Box</div><div class="wpt-row"><span class="wpt-price">$760</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Basketball" data-stock="0" data-name="2025/2026 nba bowman hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-4.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Bowman Hobby Box</div><div class="wpt-row"><span class="wpt-price">$430</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps mlb complete set"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-7.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps MLB Complete Set</div><div class="wpt-row"><span class="wpt-price">$60</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 2 value box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-9.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 2 hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-10.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Hobby Box</div><div class="wpt-row"><span class="wpt-price">$150</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 1 value box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-11.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 1 Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+                <p class="wpt-empty" hidden>No boxes match that search.</p>
               </div>
             </div>
-            <div style="height:54px;background:#0A0F14;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0">
-              <div style="background:#1C2128;height:18px;display:flex;align-items:center;padding:0 8px;gap:14px">
-                <span style="font-size:7.5px;color:rgba(255,255,255,.6);font-weight:600">TERMINAL</span>
-                <span style="font-size:7.5px;color:rgba(255,255,255,.2)">OUTPUT</span>
-              </div>
-              <div style="padding:4px 10px">
-                <div style="font-size:8px"><span style="color:#4EC9B0">$</span> <span style="color:rgba(255,255,255,.55)">netlify deploy --prod --site shoreworksnj</span></div>
-                <div style="font-size:8px;color:#4BB8B8">✓ Deploy complete · Live at <span style="text-decoration:underline">shoreworksnj.com</span></div>
-              </div>
-            </div>
-          </div></div>
+            <div class="pf-toast" role="status"></div>
+          </div>
 
-          <!-- SLIDE 2: E-Commerce Wireframe -->
-          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px;display:flex;flex-direction:column;gap:5px">
-            <!-- Header -->
-            <div style="background:#D5D0C9;border-radius:4px;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;flex-shrink:0">
-              <div style="width:48px;height:7px;background:#B5B0A9;border-radius:2px"></div>
-              <div style="width:90px;height:14px;background:#C5C0B9;border-radius:3px;display:flex;align-items:center;padding:0 7px;gap:4px">
-                <div style="width:8px;height:8px;border-radius:50%;background:#B5B0A9"></div>
-                <div style="flex:1;height:4px;background:#B5B0A9;border-radius:2px"></div>
-              </div>
-              <div style="display:flex;gap:6px;align-items:center">
-                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
-                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
-                <div style="background:rgba(75,184,184,.35);border:1.5px dashed #4BB8B8;border-radius:3px;width:22px;height:14px;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#4BB8B8">🛒</span></div>
-              </div>
+          <div class="pf-panel pf-twin" id="pf-p-twin" role="tabpanel" aria-labelledby="pf-t-twin" data-pf="twin" hidden>
+            <div class="tw-top"><span class="tw-logo" aria-hidden="true">TC</span><div><b>Twin Cleans</b><span>Mobile detailing</span></div></div>
+            <div class="pf-scroll">
+              <form class="tw-form" novalidate>
+                <h4>Request your detailing</h4>
+                <p class="tw-sub">Tell us what you have and what you're after.</p>
+                <div class="tw-row"><label>Name<input name="tw-name" autocomplete="off"></label><label>Phone<input name="tw-phone" inputmode="tel" autocomplete="off"></label></div>
+                <label>What are we detailing?<select><option>Car</option><option>Truck or SUV</option><option>Boat</option><option>RV</option></select></label>
+                <div class="tw-pk" role="group" aria-label="Package"><button type="button" class="on" aria-pressed="true">Express Wash &amp; Shine</button><button type="button" aria-pressed="false">Full Interior Detail</button><button type="button" aria-pressed="false">Exterior Paint Detail</button><button type="button" aria-pressed="false">The Twin Full Detail</button></div>
+                <button class="tw-send" type="submit">Send Booking Request →</button>
+                <p class="tw-err" role="alert" hidden>Add your name and phone so the twins can reach you.</p>
+              </form>
+              <div class="tw-done" hidden><i class="ti ti-circle-check" aria-hidden="true"></i><b>Request sent</b><p><span class="tw-what"></span>. This is a demo: on twincleans.com the request goes straight to the owners' inbox.</p><button class="tw-again" type="button">Send another</button></div>
             </div>
-            <!-- Filter + grid row -->
-            <div style="display:flex;gap:6px;flex:1;overflow:hidden">
-              <!-- Sidebar filters -->
-              <div style="width:62px;flex-shrink:0;display:flex;flex-direction:column;gap:4px">
-                <div style="font-size:6.5px;font-weight:700;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px">Filters</div>
-                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
-                  <div style="width:60%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
-                  <div style="display:flex;flex-direction:column;gap:3px">
-                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:28px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
-                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#4BB8B8"></div><div style="width:22px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
-                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:30px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
-                  </div>
-                </div>
-                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
-                  <div style="width:50%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
-                  <div style="height:6px;background:#C5C0B9;border-radius:2px;position:relative"><div style="position:absolute;left:20%;right:30%;top:1px;bottom:1px;background:#4BB8B8;border-radius:2px"></div></div>
-                  <div style="display:flex;justify-content:space-between;margin-top:3px">
-                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
-                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
-                  </div>
-                </div>
-                <div style="background:#0D3D54;border-radius:3px;padding:5px;text-align:center;margin-top:auto">
-                  <div style="font-size:6.5px;font-weight:700;color:#fff">Apply</div>
-                </div>
-              </div>
-              <!-- Product grid -->
-              <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:5px">
-                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
-                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
-                  <div style="padding:4px 5px;background:#ECEAE6">
-                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between">
-                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
-                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
-                    </div>
-                  </div>
-                </div>
-                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;border:1.5px dashed #4BB8B8">
-                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
-                  <div style="padding:4px 5px;background:#ECEAE6">
-                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between">
-                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
-                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
-                    </div>
-                  </div>
-                </div>
-                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
-                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
-                  <div style="padding:4px 5px;background:#ECEAE6">
-                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between">
-                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
-                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
-                    </div>
-                  </div>
-                </div>
-                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
-                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
-                  <div style="padding:4px 5px;background:#ECEAE6">
-                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between">
-                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
-                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
-                    </div>
-                  </div>
-                </div>
-                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
-                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
-                  <div style="padding:4px 5px;background:#ECEAE6">
-                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between">
-                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
-                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
-                    </div>
-                  </div>
-                </div>
-                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
-                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
-                  <div style="padding:4px 5px;background:#ECEAE6">
-                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between">
-                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
-                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
-              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
-              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
-            </div>
-          </div></div>
+          </div>
 
-          <!-- SLIDE 3: Blank Website Wireframe -->
-          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px">
-            <div style="background:#D5D0C9;border-radius:4px 4px 0 0;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-bottom:0">
-              <div style="width:44px;height:7px;background:#B5B0A9;border-radius:2px"></div>
-              <div style="display:flex;gap:8px;align-items:center">
-                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
-                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
-                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
-                <div style="background:#4BB8B8;border-radius:100px;padding:3px 9px;font-size:7px;font-weight:700;color:#fff">CTA →</div>
-              </div>
+          <div class="pf-panel pf-book" id="pf-p-book" role="tabpanel" aria-labelledby="pf-t-book" data-pf="book" hidden>
+            <div class="bk-top"><span class="bk-logo">BOOKINGS</span><span class="bk-by">by Shore Works</span></div>
+            <div class="bk-steps" aria-hidden="true"><span>1 Day</span><span>2 Time</span><span>3 Service</span></div>
+            <div class="pf-scroll">
+              <div class="bk-view" data-v="day"><h5>Pick a day</h5><p class="bk-hint">Every day with openings shows how many.</p><div class="bk-days"></div></div>
+              <div class="bk-view" data-v="time" hidden><h5>Pick a time</h5><p class="bk-hint bk-dayname"></p><div class="bk-times"></div><button class="bk-back" type="button" data-to="day">← Back</button></div>
+              <div class="bk-view" data-v="svc" hidden><h5>What are we doing?</h5><p class="bk-picked"></p><div class="bk-svcs">
+                <button class="bk-svc" type="button" data-name="Haircut"><span>Haircut<small>About 45 min</small></span><span>$30</span></button>
+                <button class="bk-svc" type="button" data-name="Skin Fade"><span>Skin Fade<small>About 45 min</small></span><span>$35</span></button>
+                <button class="bk-svc" type="button" data-name="Beard Trim"><span>Beard Trim<small>About 30 min</small></span><span>$15</span></button>
+                <button class="bk-svc" type="button" data-name="Haircut & Beard"><span>Haircut &amp; Beard<small>About 60 min</small></span><span>$40</span></button>
+              </div><button class="bk-back" type="button" data-to="time">← Back</button></div>
+              <div class="bk-view bk-done" data-v="done" hidden><i class="ti ti-calendar-check" aria-hidden="true"></i><b>You're booked</b><p class="bk-summary"></p><p>This is a demo. The real app emails a confirmation with a calendar invite and a cancel link.</p><button class="bk-again" type="button">Book another</button></div>
             </div>
-            <div style="border:2px dashed #B5B0A9;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.3)">
-              <div style="width:28px;height:28px;border-radius:50%;border:2px dashed #999;display:flex;align-items:center;justify-content:center;font-size:13px;color:#999">⛶</div>
-              <div style="font-size:7.5px;color:#999;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Hero Section</div>
-              <div style="display:flex;gap:5px">
-                <div style="background:#0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#fff;font-weight:700">Primary CTA</div>
-                <div style="border:1.5px solid #0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#0D3D54;font-weight:700">Secondary</div>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:5px">
-              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
-                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
-                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
-                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
-              </div>
-              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
-                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
-                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
-                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
-              </div>
-              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
-                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
-                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
-                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
-                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
-              </div>
-            </div>
-            <div style="background:#0D3D54;border-radius:4px;padding:8px 10px;margin-top:5px;display:flex;align-items:center;justify-content:space-between">
-              <div>
-                <div style="width:80px;height:5px;background:rgba(255,255,255,.35);border-radius:2px;margin-bottom:4px"></div>
-                <div style="width:60px;height:4px;background:rgba(255,255,255,.18);border-radius:2px"></div>
-              </div>
-              <div style="background:#4BB8B8;border-radius:100px;padding:4px 11px;font-size:7.5px;font-weight:700;color:#fff">Get Started</div>
-            </div>
-            <div style="background:#D5D0C9;border-radius:0 0 4px 4px;height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-top:5px">
-              <div style="width:44px;height:5px;background:#B5B0A9;border-radius:2px"></div>
-              <div style="display:flex;gap:5px"><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div></div>
-            </div>
-            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
-              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
-              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
-            </div>
-          </div></div>
+          </div>
 
-          <!-- SLIDE 4: Report Dashboard -->
-          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#fff;overflow:hidden;font-family:'Space Grotesk',sans-serif;display:flex">
-            <div style="width:86px;background:#0D3D54;display:flex;flex-direction:column;flex-shrink:0;padding:12px 0">
-              <div style="padding:0 10px 10px;border-bottom:1px solid rgba(255,255,255,.1)">
-                <div style="font-weight:800;font-size:8px;color:#fff;line-height:1">Shore<em style="color:#4BB8B8;font-style:italic">works</em></div>
-                <div style="font-size:6px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.05em">ANALYTICS</div>
-              </div>
-              <div style="padding:10px 10px 0">
-                <div style="font-size:6px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">REPORTS</div>
-                <div style="background:rgba(75,184,184,.15);border-left:2px solid #4BB8B8;padding:4px 6px;border-radius:0 3px 3px 0;margin-bottom:3px">
-                  <span style="font-size:7px;color:#4BB8B8;font-weight:600">📊 Traffic</span>
-                </div>
-                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">🎯 Leads</span></div>
-                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">⭐ Reviews</span></div>
-                <div style="padding:4px 6px"><span style="font-size:7px;color:rgba(255,255,255,.4)">📄 Pages</span></div>
+          <div class="pf-panel pf-cat" id="pf-p-cat" role="tabpanel" aria-labelledby="pf-t-cat" data-pf="cat" hidden>
+            <div class="ct-top">Shore<em>works</em><span>CATALOG</span></div>
+            <div class="pf-scroll">
+              <div class="ct-hero"><b>Find the <em>best</em> of the shore</b><div class="ct-search"><input type="search" placeholder="Search businesses" aria-label="Search businesses"><span>Search</span></div></div>
+              <div class="ct-chips"><button type="button" class="on" data-c="all" aria-pressed="true">All</button><button type="button" data-c="Dining" aria-pressed="false">Dining</button><button type="button" data-c="Retail" aria-pressed="false">Retail</button><button type="button" data-c="Fitness" aria-pressed="false">Fitness</button></div>
+              <div class="ct-list">
+                <a class="ct-item" href="/" data-cat="Dining" data-name="aversa's margate"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Aversa&#39;s Margate</b><small>Dining · Margate</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/#b=1781664162391" data-cat="Retail" data-name="wax, packs, and throwbacks"><span class="ct-ic"><i class="ti ti-shopping-bag" aria-hidden="true"></i></span><span><b>Wax, Packs, and Throwbacks</b><small>Retail · Linwood</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Dining" data-name="hot bagels & more"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Hot Bagels &amp; More</b><small>Dining · Multiple locations</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Dining" data-name="rose's garden grill"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Rose&#39;s Garden Grill</b><small>Dining · Northfield</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Dining" data-name="chido burrito"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Chido Burrito</b><small>Dining · Atlantic County</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Fitness" data-name="international karate academy"><span class="ct-ic"><i class="ti ti-barbell" aria-hidden="true"></i></span><span><b>International Karate Academy</b><small>Fitness · Atlantic County</small></span><span class="ct-go">View →</span></a>
+                <p class="ct-empty" hidden>No businesses match that search.</p>
               </div>
             </div>
-            <div style="flex:1;overflow:hidden;padding:11px 12px">
-              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px">
-                <div>
-                  <div style="font-size:10.5px;font-weight:700;color:#0D3D54">Performance Report</div>
-                  <div style="font-size:7px;color:#889">October 2026 · shoreworksnj.com</div>
-                </div>
-                <div style="background:#EDE5D4;border-radius:4px;padding:3px 7px;font-size:7px;color:#0D3D54;font-weight:600">↓ Export PDF</div>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:7px">
-                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
-                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">1,284</div>
-                  <div style="font-size:6.5px;color:#889;margin:1px 0">Visitors</div>
-                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 12%</div>
-                </div>
-                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
-                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">47</div>
-                  <div style="font-size:6.5px;color:#889;margin:1px 0">Leads</div>
-                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 8%</div>
-                </div>
-                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
-                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">3.2%</div>
-                  <div style="font-size:6.5px;color:#889;margin:1px 0">Bounce</div>
-                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↓ good</div>
-                </div>
-                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
-                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">5.0★</div>
-                  <div style="font-size:6.5px;color:#889;margin:1px 0">Google</div>
-                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">14 reviews</div>
-                </div>
-              </div>
-              <div style="background:#F9F9F7;border:1px solid #E8E3D8;border-radius:5px;padding:6px 7px;margin-bottom:6px">
-                <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:5px">Monthly Traffic</div>
-                <svg viewBox="0 0 200 44" style="width:100%;display:block;overflow:visible">
-                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10" stroke="#4BB8B8" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
-                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10 200,44 0,44" fill="rgba(75,184,184,.12)" stroke="none"/>
-                  <text x="0" y="44" font-size="5" fill="#aaa" font-family="sans-serif">May</text>
-                  <text x="30" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jun</text>
-                  <text x="62" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jul</text>
-                  <text x="95" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Aug</text>
-                  <text x="127" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Sep</text>
-                  <text x="161" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Oct</text>
-                </svg>
-              </div>
-              <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:4px">Recent Activity</div>
-              <div style="border-left:2px solid #4BB8B8;padding-left:6px;margin-bottom:3px">
-                <div style="font-size:7.5px;color:#334">New contact form submission</div>
-                <div style="font-size:6.5px;color:#aaa">2 hours ago</div>
-              </div>
-              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px;margin-bottom:3px">
-                <div style="font-size:7.5px;color:#334">Google review posted ★★★★★</div>
-                <div style="font-size:6.5px;color:#aaa">Yesterday</div>
-              </div>
-              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px">
-                <div style="font-size:7.5px;color:#334">Traffic spike: 89 visitors (Thursday)</div>
-                <div style="font-size:6.5px;color:#aaa">3 days ago</div>
-              </div>
-            </div>
-          </div></div>
+          </div>
 
         </div>
       </div>
-      <script>
-      (function(){
-        var urls=['shoreworksnj.com','shop.shoreworksnj.com','design.shoreworksnj.com','reports.shoreworksnj.com'];
-        var el=document.getElementById('hbf-url');
-        if(!el)return;
-        var i=0;
-        setInterval(function(){i=(i+1)%4;el.textContent=urls[i];},5000);
-      })();
-      </script>
+      <p class="pf-note"><i class="ti ti-hand-click" aria-hidden="true"></i>Live demos of real client builds. Click around.</p>
     </div>
   </div>
 </section>
@@ -750,8 +698,8 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/roses-garden-grill.jpg" srcset="build-a-website-assets/work/roses-garden-grill-640.jpg 640w, build-a-website-assets/work/roses-garden-grill.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Rose&#39;s Garden Grill website: the restaurant logo on green with Order Now and View Menu buttons" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
-        <h3>Anthony Lamaina</h3>
-        <p>A booking app for a barber: clients pick a day, a time and a cut, and get an email confirmation. He adds his own time slots.</p>
+        <h3>Bookings by Shore Works</h3>
+        <p>Our booking app, shown here for barber Anthony Lamaina: clients pick a day, a time and a cut, and get an email confirmation. He adds his own time slots.</p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/anthony-lamaina.jpg" srcset="build-a-website-assets/work/anthony-lamaina-640.jpg 640w, build-a-website-assets/work/anthony-lamaina.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Anthony Lamaina booking site: his portrait beside a barber pole and a Book an appointment button" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
@@ -774,30 +722,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 1. Portfolio -->
     <div class="service-card">
-      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg1" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#093546"/><stop offset="100%" stop-color="#1E8AB8"/></linearGradient></defs>
-        <rect width="310" height="155" fill="url(#sg1)"/>
-        <circle cx="278" cy="18" r="52" fill="rgba(255,215,80,.09)"/>
-        <circle cx="278" cy="18" r="28" fill="rgba(255,195,50,.08)"/>
-        <circle cx="20" cy="148" r="40" fill="rgba(75,184,184,.06)"/>
-        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
-        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.25)"/>
-        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.25)"/>
-        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
-        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.12)"/>
-        <rect x="26" y="42" width="258" height="14" rx="3" fill="rgba(255,255,255,.07)"/>
-        <rect x="26" y="42" width="55" height="14" rx="3" fill="rgba(255,255,255,.13)"/>
-        <rect x="238" y="44" width="42" height="10" rx="5" fill="rgba(75,184,184,.6)"/>
-        <circle cx="78" cy="98" r="34" fill="rgba(255,255,255,.09)"/>
-        <circle cx="78" cy="88" r="13" fill="rgba(255,255,255,.22)"/>
-        <ellipse cx="78" cy="116" rx="22" ry="13" fill="rgba(255,255,255,.18)"/>
-        <rect x="124" y="63" width="130" height="16" rx="5" fill="rgba(255,255,255,.22)"/>
-        <rect x="124" y="85" width="88" height="10" rx="3" fill="rgba(245,197,24,.6)"/>
-        <rect x="124" y="101" width="115" height="8" rx="3" fill="rgba(255,255,255,.12)"/>
-        <rect x="124" y="115" width="90" height="8" rx="3" fill="rgba(255,255,255,.1)"/>
-        <rect x="124" y="129" width="72" height="14" rx="7" fill="rgba(75,184,184,.65)"/>
-        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(245,210,70,.09)"/>
-      </svg>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/portfolio.jpg" alt="The portfolio page of the Anthony Lamaina site: a grid of his haircut photos" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Portfolio Websites</div>
         <p class="svc-desc">Showcase your work with a polished, professional site that makes a strong first impression — perfect for freelancers, artists, photographers, and creatives.</p>
@@ -806,30 +731,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 2. Operational Business -->
     <div class="service-card">
-      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1C3828"/><stop offset="100%" stop-color="#3A7856"/></linearGradient></defs>
-        <rect width="310" height="155" fill="url(#sg2)"/>
-        <circle cx="285" cy="130" r="70" fill="rgba(245,200,80,.06)"/>
-        <!-- browser chrome -->
-        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
-        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.3)"/>
-        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.3)"/>
-        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
-        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
-        <!-- reserved sign card outline -->
-        <rect x="88" y="42" width="134" height="76" rx="5" fill="rgba(0,0,0,.18)" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>
-        <!-- inner decorative border -->
-        <rect x="94" y="48" width="122" height="64" rx="3" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
-        <!-- top ornament -->
-        <line x1="106" y1="68" x2="144" y2="68" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-        <circle cx="155" cy="68" r="2" fill="rgba(255,255,255,.35)"/>
-        <line x1="166" y1="68" x2="204" y2="68" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-        <!-- reserved text -->
-        <text x="155" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" letter-spacing="3" fill="rgba(255,255,255,.88)">Reserved</text>
-        <!-- bottom ornament -->
-        <line x1="116" y1="104" x2="194" y2="104" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
-        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(75,184,184,.15)"/>
-      </svg>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/business.jpg" alt="The Rose&#39;s Garden Grill website menu with sandwiches, subs and prices" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Operational Business Websites</div>
         <p class="svc-desc">Bookings, menus, service listings, hours, contact forms — everything your customers need online, built to match how your business actually runs.</p>
@@ -838,42 +740,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 3. Retail -->
     <div class="service-card">
-      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#083A4A"/><stop offset="100%" stop-color="#1A7888"/></linearGradient></defs>
-        <rect width="310" height="155" fill="url(#sg3)"/>
-        <circle cx="280" cy="20" r="60" fill="rgba(245,215,80,.08)"/>
-        <!-- browser chrome -->
-        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
-        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.3)"/>
-        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.3)"/>
-        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
-        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
-        <!-- nav -->
-        <rect x="26" y="40" width="190" height="10" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="254" y="38" width="28" height="14" rx="5" fill="rgba(75,184,184,.35)"/>
-        <!-- product card 1 (amber) -->
-        <rect x="26" y="56" width="80" height="83" rx="5" fill="rgba(255,255,255,.1)"/>
-        <rect x="26" y="56" width="80" height="45" rx="5" fill="rgba(245,160,50,.35)"/>
-        <rect x="26" y="89" width="80" height="12" fill="rgba(245,160,50,.35)"/>
-        <rect x="30" y="105" width="54" height="7" rx="2" fill="rgba(255,255,255,.25)"/>
-        <rect x="30" y="115" width="36" height="6" rx="2" fill="rgba(245,197,24,.6)"/>
-        <rect x="30" y="126" width="66" height="10" rx="5" fill="rgba(75,184,184,.55)"/>
-        <!-- product card 2 (teal) -->
-        <rect x="115" y="56" width="80" height="83" rx="5" fill="rgba(255,255,255,.1)"/>
-        <rect x="115" y="56" width="80" height="45" rx="5" fill="rgba(75,184,184,.4)"/>
-        <rect x="115" y="89" width="80" height="12" fill="rgba(75,184,184,.4)"/>
-        <rect x="119" y="105" width="54" height="7" rx="2" fill="rgba(255,255,255,.25)"/>
-        <rect x="119" y="115" width="36" height="6" rx="2" fill="rgba(245,197,24,.6)"/>
-        <rect x="119" y="126" width="66" height="10" rx="5" fill="rgba(75,184,184,.55)"/>
-        <!-- product card 3 (soft rose) -->
-        <rect x="204" y="56" width="80" height="83" rx="5" fill="rgba(255,255,255,.1)"/>
-        <rect x="204" y="56" width="80" height="45" rx="5" fill="rgba(200,120,160,.35)"/>
-        <rect x="204" y="89" width="80" height="12" fill="rgba(200,120,160,.35)"/>
-        <rect x="208" y="105" width="54" height="7" rx="2" fill="rgba(255,255,255,.25)"/>
-        <rect x="208" y="115" width="36" height="6" rx="2" fill="rgba(245,197,24,.6)"/>
-        <rect x="208" y="126" width="66" height="10" rx="5" fill="rgba(75,184,184,.55)"/>
-        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(245,210,70,.09)"/>
-      </svg>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/catalog.jpg" alt="The Wax, Packs and Throwbacks online shop: inventory filters and boxes of trading cards" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Retail &amp; Inventory Catalog</div>
         <p class="svc-desc">Give your shop a professional online presence with a browsable product catalog and online ordering — built for local retailers who want to sell beyond their four walls.</p>
@@ -882,30 +749,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 4. Contact Forms -->
     <div class="service-card">
-      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0A2E40"/><stop offset="100%" stop-color="#1A6878"/></linearGradient></defs>
-        <rect width="310" height="155" fill="url(#sg4)"/>
-        <circle cx="280" cy="140" r="55" fill="rgba(245,200,80,.07)"/>
-        <circle cx="280" cy="140" r="30" fill="rgba(245,180,50,.06)"/>
-        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
-        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.25)"/>
-        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.25)"/>
-        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
-        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
-        <rect x="58" y="40" width="194" height="104" rx="8" fill="rgba(255,255,255,.06)"/>
-        <rect x="74" y="50" width="110" height="12" rx="4" fill="rgba(255,255,255,.2)"/>
-        <rect x="74" y="50" width="46" height="12" rx="4" fill="rgba(75,184,184,.38)"/>
-        <rect x="74" y="70" width="162" height="14" rx="5" fill="rgba(255,255,255,.1)"/>
-        <rect x="77" y="74" width="55" height="7" rx="3" fill="rgba(255,255,255,.15)"/>
-        <rect x="74" y="90" width="162" height="14" rx="5" fill="rgba(255,255,255,.1)"/>
-        <rect x="77" y="94" width="75" height="7" rx="3" fill="rgba(255,255,255,.15)"/>
-        <rect x="74" y="110" width="162" height="22" rx="5" fill="rgba(255,255,255,.07)"/>
-        <rect x="77" y="115" width="90" height="6" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="74" y="118" width="72" height="12" rx="6" fill="rgba(75,184,184,.6)"/>
-        <rect x="204" y="50" width="28" height="22" rx="4" fill="rgba(75,184,184,.22)"/>
-        <path d="M204 50 L218 61 L232 50" stroke="rgba(75,184,184,.6)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(75,184,184,.12)"/>
-      </svg>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/forms.jpg" alt="The Twin Cleans booking request form with fields for vehicle, date and time" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Contact Forms &amp; Lead Capture</div>
         <p class="svc-desc">Custom inquiry and contact forms that route leads directly to your inbox — so you never miss a potential customer reaching out.</p>
@@ -914,42 +758,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 5. Advertising -->
     <div class="service-card">
-      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0C2A3E"/><stop offset="100%" stop-color="#1A4A6A"/></linearGradient></defs>
-        <rect width="310" height="155" fill="url(#sg5)"/>
-        <!-- sunset glow -->
-        <circle cx="295" cy="12" r="65" fill="rgba(245,160,50,.08)"/>
-        <circle cx="295" cy="12" r="38" fill="rgba(245,197,24,.07)"/>
-        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
-        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.28)"/>
-        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.28)"/>
-        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
-        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
-        <!-- stat tiles -->
-        <rect x="26" y="42" width="76" height="28" rx="5" fill="rgba(245,197,24,.2)"/>
-        <rect x="32" y="47" width="38" height="10" rx="3" fill="rgba(245,215,80,.38)"/>
-        <rect x="32" y="60" width="25" height="6" rx="2" fill="rgba(255,255,255,.12)"/>
-        <rect x="110" y="42" width="76" height="28" rx="5" fill="rgba(255,255,255,.07)"/>
-        <rect x="116" y="47" width="38" height="10" rx="3" fill="rgba(255,255,255,.18)"/>
-        <rect x="116" y="60" width="25" height="6" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="194" y="42" width="88" height="28" rx="5" fill="rgba(255,255,255,.07)"/>
-        <rect x="200" y="47" width="38" height="10" rx="3" fill="rgba(255,255,255,.18)"/>
-        <rect x="200" y="60" width="25" height="6" rx="2" fill="rgba(255,255,255,.1)"/>
-        <!-- horizon/waterline -->
-        <line x1="26" y1="134" x2="284" y2="134" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-        <line x1="26" y1="110" x2="284" y2="110" stroke="rgba(75,184,184,.15)" stroke-width="1" stroke-dasharray="3,4"/>
-        <!-- sunset bars -->
-        <rect x="34" y="112" width="28" height="22" rx="3" fill="rgba(232,100,40,.42)"/>
-        <rect x="72" y="100" width="28" height="34" rx="3" fill="rgba(232,120,40,.52)"/>
-        <rect x="110" y="88" width="28" height="46" rx="3" fill="rgba(245,160,40,.62)"/>
-        <rect x="148" y="80" width="28" height="54" rx="3" fill="rgba(245,185,40,.72)"/>
-        <rect x="186" y="72" width="28" height="62" rx="3" fill="rgba(245,197,24,.84)"/>
-        <rect x="224" y="84" width="28" height="50" rx="3" fill="rgba(245,185,50,.68)"/>
-        <!-- trend line -->
-        <polyline points="48,102 86,88 124,76 162,66 200,58 238,70" stroke="rgba(255,230,100,.62)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="200" cy="58" r="4" fill="rgba(255,225,90,.88)"/>
-        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(75,184,184,.1)"/>
-      </svg>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/advertising.jpg" alt="The Outdoor Impact website: a billboard over a city highway at night" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Advertising Strategy</div>
         <p class="svc-desc">We'll help you build a digital advertising plan — from Google Ads to Meta campaigns — to drive traffic to your new site and grow your customer base.</p>
@@ -958,44 +767,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 6. Booking -->
     <div class="service-card">
-      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
-        <defs><linearGradient id="sg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0A3248"/><stop offset="100%" stop-color="#1A6A8A"/></linearGradient></defs>
-        <rect width="310" height="155" fill="url(#sg6)"/>
-        <circle cx="288" cy="16" r="55" fill="rgba(245,215,80,.08)"/>
-        <circle cx="288" cy="16" r="30" fill="rgba(245,195,50,.07)"/>
-        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
-        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.28)"/>
-        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.28)"/>
-        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
-        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
-        <rect x="26" y="42" width="158" height="15" rx="4" fill="rgba(255,255,255,.08)"/>
-        <rect x="196" y="42" width="14" height="15" rx="3" fill="rgba(75,184,184,.3)"/>
-        <rect x="216" y="42" width="14" height="15" rx="3" fill="rgba(75,184,184,.3)"/>
-        <rect x="26" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="52" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="78" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="104" y="63" width="20" height="14" rx="3" fill="rgba(75,184,184,.55)"/>
-        <rect x="130" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="156" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="26" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="52" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="78" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="104" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="130" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="156" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
-        <rect x="26" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
-        <rect x="52" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
-        <rect x="78" y="103" width="20" height="14" rx="3" fill="rgba(75,184,184,.25)"/>
-        <rect x="104" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
-        <rect x="130" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
-        <rect x="156" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
-        <rect x="192" y="63" width="90" height="14" rx="5" fill="rgba(75,184,184,.28)"/>
-        <rect x="192" y="83" width="90" height="14" rx="5" fill="rgba(255,255,255,.08)"/>
-        <rect x="192" y="103" width="90" height="14" rx="5" fill="rgba(255,255,255,.08)"/>
-        <rect x="192" y="125" width="90" height="18" rx="7" fill="rgba(75,184,184,.65)"/>
-        <rect x="26" y="125" width="155" height="18" rx="5" fill="rgba(255,255,255,.06)"/>
-        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(245,210,70,.09)"/>
-      </svg>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/booking.jpg" alt="A booking portal step: pick a time, with open morning appointments" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Booking Portals</div>
         <p class="svc-desc">Online booking systems for appointments, reservations, classes, or services — integrated directly into your website so customers can book 24/7.</p>
@@ -1184,6 +956,133 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
   io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) deal(); }); }, { threshold: .3 });
   io.observe(grid);
   setTimeout(function(){ if (!done) { done = true; io.disconnect(); show(); } }, 8000);
+})();
+(function(){
+  var pf = document.getElementById('pf'); if (!pf) return;
+  var tabs = [].slice.call(pf.querySelectorAll('.pf-tab')), panels = [].slice.call(pf.querySelectorAll('.pf-panel'));
+  var url = document.getElementById('pf-url'), open = document.getElementById('pf-open');
+  var meta = {
+    wpt: ['waxpacksandthrowbacks.com', 'https://waxpacksandthrowbacks.com/'],
+    twin: ['twincleans.com', 'https://www.twincleans.com/'],
+    book: ['anthonylamainabookings.netlify.app', 'https://anthonylamainabookings.netlify.app/'],
+    cat: ['shoreworksnj.com', '/']
+  };
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, timer = null, visible = false, auto = !reduce;
+  function show(k, focus){
+    tabs.forEach(function(t){ var on = t.dataset.pf === k; t.classList.toggle('is-on', on); t.classList.remove('run'); t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1; if (on && focus) t.focus(); });
+    panels.forEach(function(p){ p.hidden = p.dataset.pf !== k; });
+    url.textContent = meta[k][0]; open.href = meta[k][1];
+    var cur = pf.querySelector('.pf-tab.is-on'); void cur.offsetWidth; if (auto) cur.classList.add('run');
+    var strip = pf.querySelector('.pf-tabs'); if (strip.scrollWidth > strip.clientWidth) strip.scrollTo({ left: Math.max(0, cur.offsetLeft - 8), behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function next(){ var i = tabs.findIndex(function(t){ return t.classList.contains('is-on'); }); show(tabs[(i + 1) % tabs.length].dataset.pf); }
+  function stopAuto(){ if (!auto) return; auto = false; clearInterval(timer); timer = null; pf.classList.remove('auto'); tabs.forEach(function(t){ t.classList.remove('run'); }); }
+  function runAuto(){ if (!auto || !visible || timer) return; pf.classList.add('auto'); var cur = pf.querySelector('.pf-tab.is-on'); cur.classList.remove('run'); void cur.offsetWidth; cur.classList.add('run'); timer = setInterval(next, 7000); }
+  function pauseAuto(){ clearInterval(timer); timer = null; }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ stopAuto(); show(t.dataset.pf); });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+      e.preventDefault(); stopAuto(); show(tabs[(i + d + tabs.length) % tabs.length].dataset.pf, true);
+    });
+  });
+  panels.forEach(function(p){ ['pointerdown', 'keydown', 'input', 'wheel', 'touchstart'].forEach(function(ev){ p.addEventListener(ev, stopAuto, { passive: true }); }); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible) runAuto(); else pauseAuto(); }, { threshold: .4 }).observe(pf);
+  show('wpt');
+
+  function toast(panel, text){
+    var t = panel.querySelector('.pf-toast'); t.textContent = text; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove('show'); }, 1600);
+  }
+
+  // Wax, Packs & Throwbacks: search, sport filter, in-stock toggle, add to cart
+  (function(){
+    var p = pf.querySelector('.pf-wpt'), q = p.querySelector('.wpt-search'), stock = p.querySelector('.wpt-stock input');
+    var cards = [].slice.call(p.querySelectorAll('.wpt-card')), chips = [].slice.call(p.querySelectorAll('.wpt-chips button'));
+    var empty = p.querySelector('.wpt-empty'), count = p.querySelector('.wpt-cart b'), cat = 'all', n = 0;
+    function filter(){
+      var term = q.value.trim().toLowerCase(), shown = 0;
+      cards.forEach(function(c){
+        var ok = (cat === 'all' || c.dataset.cat === cat) && (!stock.checked || c.dataset.stock === '1') && (!term || c.dataset.name.indexOf(term) > -1);
+        c.hidden = !ok; if (ok) shown++;
+      });
+      empty.hidden = shown > 0;
+    }
+    q.addEventListener('input', filter); stock.addEventListener('change', filter);
+    chips.forEach(function(b){ b.addEventListener('click', function(){ cat = b.dataset.c; chips.forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); filter(); }); });
+    cards.forEach(function(c){
+      var btn = c.querySelector('.wpt-add'); if (btn.disabled) return;
+      btn.addEventListener('click', function(){
+        n++; count.textContent = n; count.classList.add('bump'); setTimeout(function(){ count.classList.remove('bump'); }, 200);
+        toast(p, 'Added to cart: ' + c.querySelector('.wpt-name').textContent);
+      });
+    });
+  })();
+
+  // Twin Cleans: package picker and a validated request form (demo, nothing is sent)
+  (function(){
+    var p = pf.querySelector('.pf-twin'), form = p.querySelector('.tw-form'), done = p.querySelector('.tw-done'), err = p.querySelector('.tw-err');
+    var pk = [].slice.call(p.querySelectorAll('.tw-pk button'));
+    pk.forEach(function(b){ b.addEventListener('click', function(){ pk.forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); }); });
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var name = form.querySelector('[name=tw-name]'), phone = form.querySelector('[name=tw-phone]'), bad = [];
+      [name, phone].forEach(function(f){ var no = !f.value.trim(); f.setAttribute('aria-invalid', no ? 'true' : 'false'); if (no) bad.push(f); });
+      err.hidden = !bad.length; if (bad.length) { bad[0].focus(); return; }
+      done.querySelector('.tw-what').textContent = (pk.filter(function(b){ return b.classList.contains('on'); })[0] || pk[0]).textContent + ' for your ' + form.querySelector('select').value.toLowerCase();
+      form.hidden = true; done.hidden = false;
+    });
+    p.querySelector('.tw-again').addEventListener('click', function(){ form.reset(); form.querySelectorAll('input').forEach(function(f){ f.removeAttribute('aria-invalid'); }); done.hidden = true; form.hidden = false; });
+  })();
+
+  // Bookings by Shore Works: day, time, service, booked (demo openings)
+  (function(){
+    var p = pf.querySelector('.pf-book'), views = {}, steps = [].slice.call(p.querySelectorAll('.bk-steps span'));
+    [].slice.call(p.querySelectorAll('.bk-view')).forEach(function(v){ views[v.dataset.v] = v; });
+    var daysEl = p.querySelector('.bk-days'), timesEl = p.querySelector('.bk-times'), pick = {};
+    var opens = [4, 6, 0, 3, 5, 2, 4], slots = ['10:00 AM', '10:45 AM', '11:30 AM', '12:15 PM', '1:00 PM', '1:45 PM', '2:30 PM', '3:15 PM'];
+    function go(v){
+      Object.keys(views).forEach(function(k){ views[k].hidden = k !== v; });
+      var idx = { day: 0, time: 1, svc: 2, done: 3 }[v];
+      steps.forEach(function(s, i){ s.classList.toggle('on', i === idx); s.classList.toggle('done', i < idx); });
+    }
+    var today = new Date();
+    for (var d = 0; d < 7; d++) {
+      var dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() + d + 1), n = opens[d];
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'bk-day'; b.disabled = !n;
+      b.innerHTML = '<small>' + dt.toLocaleDateString('en-US', { weekday: 'short' }) + '</small><b>' + dt.getDate() + '</b><em>' + (n ? n + ' open' : 'Full') + '</em>';
+      (function(dt, n, d){ b.addEventListener('click', function(){
+        pick.day = dt.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        timesEl.innerHTML = '';
+        slots.filter(function(_, i){ return (i + d) % 8 < n + 2; }).slice(0, n).forEach(function(t){
+          var tb = document.createElement('button'); tb.type = 'button'; tb.className = 'bk-time'; tb.textContent = t;
+          tb.addEventListener('click', function(){ pick.time = t; p.querySelector('.bk-picked').textContent = pick.day + ' at ' + t; go('svc'); });
+          timesEl.appendChild(tb);
+        });
+        p.querySelector('.bk-dayname').textContent = pick.day; go('time');
+      }); })(dt, n, d);
+      daysEl.appendChild(b);
+    }
+    [].slice.call(p.querySelectorAll('.bk-svc')).forEach(function(s){
+      s.addEventListener('click', function(){ p.querySelector('.bk-summary').textContent = pick.day + ' · ' + pick.time + ' · ' + s.dataset.name; go('done'); });
+    });
+    [].slice.call(p.querySelectorAll('.bk-back')).forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.to); }); });
+    p.querySelector('.bk-again').addEventListener('click', function(){ go('day'); });
+    go('day');
+  })();
+
+  // Shore Works Catalog: search and category filter over real listings
+  (function(){
+    var p = pf.querySelector('.pf-cat'), q = p.querySelector('.ct-search input'), items = [].slice.call(p.querySelectorAll('.ct-item'));
+    var chips = [].slice.call(p.querySelectorAll('.ct-chips button')), empty = p.querySelector('.ct-empty'), cat = 'all';
+    function filter(){
+      var term = q.value.trim().toLowerCase(), shown = 0;
+      items.forEach(function(it){ var ok = (cat === 'all' || it.dataset.cat === cat) && (!term || it.dataset.name.indexOf(term) > -1); it.hidden = !ok; if (ok) shown++; });
+      empty.hidden = shown > 0;
+    }
+    q.addEventListener('input', filter);
+    chips.forEach(function(b){ b.addEventListener('click', function(){ cat = b.dataset.c; chips.forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); filter(); }); });
+  })();
 })();
 window.addEventListener('scroll', function(){
   var btt = document.getElementById('back-to-top');
