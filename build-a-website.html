@@ -381,7 +381,6 @@ footer p{font-size:12px;color:#888}
   .section,.about-section,.cta-section{padding:3rem 2rem}
   .spotlight-section{padding:3rem 2rem}
   .hero-inner{grid-template-columns:1fr;gap:2.5rem;padding:3rem 2rem 3.5rem}
-  .hero-browser-wrap{order:-1}
 }
 @media(max-width:768px){
   .why-grid{grid-template-columns:1fr}
@@ -428,6 +427,19 @@ footer p{font-size:12px;color:#888}
   .acc2-tile:hover{transform:none}
 }
 @media(prefers-reduced-motion:reduce){.acc2-tile,.acc2-tile i,.acc2-bar{transition:none}.acc2-desc.swap{animation:none}}
+
+/* HERO on a phone: the text first, then a slightly smaller slide frame (zoom keeps the slides' proportions) */
+@media(max-width:600px){
+  .hero-browser-wrap{width:86%;margin:0 auto}
+  .hero-browser-frame:not(.pf){zoom:.86}
+}
+
+/* WORK — Visit site link under each project's lines */
+.pc-visit{display:inline-flex;align-items:center;gap:6px;margin-top:.7rem;padding:7px 16px;border-radius:100px;background:#0D3D54;color:#fff !important;text-decoration:none;font:600 12px/1 'Space Grotesk',sans-serif;transition:background .15s,transform .15s}
+.pc-visit:hover{background:#1A6B8A;transform:translateY(-1px)}
+.pc-visit:focus-visible{outline:2px solid #4BB8B8;outline-offset:2px}
+.pc-visit i{font-size:13px}
+#portfolio.is-live .mo-pc__step:not(.is-on) .pc-visit{visibility:hidden}
 
 /* WORK — pinned project chapters; the tokens the module reads, in this page's colours and fonts */
 .work-section{background:#F5F0E8;padding:4.5rem 0;--ink:#0D3D54;--muted:#8796A0;--line:rgba(13,61,84,.15);--accent:#4BB8B8;--font-text:'Space Grotesk',sans-serif;--t-lead:18px;--r-md:14px;--s-2:8px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--gutter:56px;--nav:72px}
@@ -880,32 +892,32 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
       <ol class="mo-pc__steps">
       <li class="mo-pc__step">
         <h3>Thomas Lacovara &amp; Associates</h3>
-        <p>A public adjusting firm in South Jersey: team profiles, claim types, client reviews, an FAQ and a form for claim consultations.</p>
+        <p>A public adjusting firm in South Jersey: team profiles, claim types, client reviews, an FAQ and a form for claim consultations.<br><a class="pc-visit" href="https://thomaslacovarapublicadjuster.com/" target="_blank" rel="noopener">Visit site <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only">: Thomas Lacovara & Associates (opens in a new tab)</span></a></p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/thomas-lacovara.jpg" srcset="build-a-website-assets/work/thomas-lacovara-640.jpg 640w, build-a-website-assets/work/thomas-lacovara.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Thomas Lacovara Public Adjusters website, with its headline over a photograph of a fire-damaged home" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
         <h3>Wax, Packs &amp; Throwbacks</h3>
-        <p>A trading card shop in Linwood: custom branding, event listings, staff profiles, hours and an inventory link.</p>
+        <p>A trading card shop in Linwood: custom branding, event listings, staff profiles, hours and an inventory link.<br><a class="pc-visit" href="https://waxpacksandthrowbacks.com/" target="_blank" rel="noopener">Visit site <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only">: Wax, Packs & Throwbacks (opens in a new tab)</span></a></p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/wax-packs-throwbacks.jpg" srcset="build-a-website-assets/work/wax-packs-throwbacks-640.jpg 640w, build-a-website-assets/work/wax-packs-throwbacks.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Wax, Packs and Throwbacks website: the card shop floor with the shop name in big yellow letters" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
         <h3>Twin Cleans</h3>
-        <p>Mobile detailing run by twin brothers: service packages, a photo gallery the owners update, and a booking request form.</p>
+        <p>Mobile detailing run by twin brothers: service packages, a photo gallery the owners update, and a booking request form.<br><a class="pc-visit" href="https://www.twincleans.com/" target="_blank" rel="noopener">Visit site <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only">: Twin Cleans (opens in a new tab)</span></a></p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/twin-cleans.jpg" srcset="build-a-website-assets/work/twin-cleans-640.jpg 640w, build-a-website-assets/work/twin-cleans.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Twin Cleans website: a headline about showroom shine in your driveway beside the round Twin Cleans logo" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
         <h3>Rose&#39;s Garden Grill</h3>
-        <p>A family-owned restaurant in Northfield: menu display, photo gallery, hours and online ordering.</p>
+        <p>A family-owned restaurant in Northfield: menu display, photo gallery, hours and online ordering.<br><a class="pc-visit" href="https://rosesgardengrillnf.com/" target="_blank" rel="noopener">Visit site <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only">: Rose's Garden Grill (opens in a new tab)</span></a></p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/roses-garden-grill.jpg" srcset="build-a-website-assets/work/roses-garden-grill-640.jpg 640w, build-a-website-assets/work/roses-garden-grill.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Rose&#39;s Garden Grill website: the restaurant logo on green with Order Now and View Menu buttons" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
         <h3>Bookings by Shore Works</h3>
-        <p>Our booking app, shown here for barber Anthony Lamaina: clients pick a day, a time and a cut, and get an email confirmation. He adds his own time slots.</p>
+        <p>Our booking app, shown here for barber Anthony Lamaina: clients pick a day, a time and a cut, and get an email confirmation. He adds his own time slots.<br><a class="pc-visit" href="https://anthonylamainabookings.netlify.app/" target="_blank" rel="noopener">Visit site <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only">: Bookings by Shore Works (opens in a new tab)</span></a></p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/anthony-lamaina.jpg" srcset="build-a-website-assets/work/anthony-lamaina-640.jpg 640w, build-a-website-assets/work/anthony-lamaina.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Anthony Lamaina booking site: his portrait beside a barber pole and a Book an appointment button" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
         <h3>Outdoor Impact</h3>
-        <p>A billboard development company: a gallery of placements, case studies and a contact portal for landowners.</p>
+        <p>A billboard development company: a gallery of placements, case studies and a contact portal for landowners.<br><a class="pc-visit" href="https://outdoorimpactllc.com/" target="_blank" rel="noopener">Visit site <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only">: Outdoor Impact (opens in a new tab)</span></a></p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/outdoor-impact.jpg" srcset="build-a-website-assets/work/outdoor-impact-640.jpg 640w, build-a-website-assets/work/outdoor-impact.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Outdoor Impact website: a billboard with the company name over a city highway at night" width="1256" height="838" loading="lazy"></figure>
       </li>
       </ol>
