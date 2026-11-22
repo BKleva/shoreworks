@@ -1352,11 +1352,12 @@ main em{font-style:normal}
   if (!cv || !cv.getContext) return;
   var ctx = cv.getContext('2d'), base = document.createElement('canvas'), bctx = base.getContext('2d');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var PAL = ['75,184,184', '127,216,210', '245,196,107', '242,140,107', '237,229,212'];
+  // Dark blue, light blue, sand
+  var PAL = ['41,110,196', '134,200,240', '226,204,160'];
   var CELL = 16, cols = 0, rows = 0, W = 0, H = 0, dpr = 1, I = null, C = null;
   var last = null, travel = 0, ci = 0, raf = 0, running = false, visible = true, t = 0, prevTs = 0;
   var comets = [0, 1, 2].map(function(k){
-    return { a: .23 + Math.random() * .12, b: .31 + Math.random() * .14, p: Math.random() * 6.28, q: Math.random() * 6.28, c: [0, 2, 3][k], prev: null };
+    return { a: .23 + Math.random() * .12, b: .31 + Math.random() * .14, p: Math.random() * 6.28, q: Math.random() * 6.28, c: k, prev: null };
   });
 
   function size(){
