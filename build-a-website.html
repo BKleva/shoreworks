@@ -113,10 +113,6 @@ body{font-family:'Space Grotesk',sans-serif;color:#1a1a1a;background:#EDE5D4;fon
 .about-grid{display:grid;grid-template-columns:auto 1fr;gap:5rem;align-items:start}
 .headshot-wrap img{width:260px;height:320px;object-fit:cover;object-position:center top;border-radius:20px;box-shadow:0 16px 48px rgba(13,61,84,.18);display:block}
 .headshot-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:#0D3D54;text-align:center;margin-top:1rem;letter-spacing:.04em}
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-top:1.5rem}
-.skill-chip{display:flex;align-items:center;gap:.6rem;padding:.75rem 1rem;border-radius:10px;background:#0D3D54;border:1px solid #1A5E78}
-.skill-chip i{font-size:1.1rem;color:#4BB8B8}
-.skill-chip span{font-size:12px;font-weight:600;color:#fff}
 
 /* SPOTLIGHT */
 .spotlight-section{background:linear-gradient(135deg,#f5f0e8 0%,#ede5d4 100%);padding:4rem 2rem;border-top:1px solid #E2DACE;border-bottom:1px solid #E2DACE}
@@ -195,17 +191,6 @@ footer p{font-size:12px;color:#888}
 .hero-ticker-band .rev-body{color:rgba(255,255,255,.55)}
 .hero-ticker-band .rev-g{color:rgba(255,255,255,.35)}
 
-/* PROCESS */
-.process-section{background:#fff;padding:4rem 2rem;border-bottom:1px solid #E8E3D8}
-.process-inner{max-width:1100px;margin:0 auto}
-.process-steps{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr;gap:0;align-items:start;margin-top:2.5rem}
-.ps-connector{display:flex;align-items:flex-start;justify-content:center;padding-top:22px;color:#DDD8CE;font-size:1.1rem}
-.process-step{text-align:center;padding:0 .5rem}
-.ps-num{font-family:monospace;font-size:10px;font-weight:700;color:#4BB8B8;letter-spacing:.15em;margin-bottom:.65rem}
-.ps-icon{width:48px;height:48px;border-radius:13px;background:#EBF4F8;display:flex;align-items:center;justify-content:center;color:#1A6B8A;font-size:1.3rem;margin:0 auto .75rem;transition:background .2s,color .2s}
-.process-step:hover .ps-icon{background:#0D3D54;color:#4BB8B8}
-.ps-title{font-family:'Playfair Display',serif;font-size:15px;color:#0D3D54;font-weight:500;margin-bottom:.4rem}
-.ps-desc{font-size:12px;color:#778899;line-height:1.65}
 
 @media(max-width:900px){
   .about-grid{grid-template-columns:1fr;gap:1.25rem}
@@ -215,8 +200,6 @@ footer p{font-size:12px;color:#888}
   .spotlight-section{padding:3rem 2rem}
   .hero-inner{grid-template-columns:1fr;gap:2.5rem;padding:3rem 2rem 3.5rem}
   .hero-browser-wrap{order:-1}
-  .process-steps{grid-template-columns:1fr 20px 1fr;gap:0}
-  .process-step:nth-child(6),.process-step:nth-child(8),.ps-connector:nth-child(6),.ps-connector:nth-child(8){display:none}
 }
 @media(max-width:768px){
   .why-grid{grid-template-columns:1fr}
@@ -238,9 +221,53 @@ footer p{font-size:12px;color:#888}
   .spotlight-inner{grid-template-columns:1fr}
   .spotlight-card{display:none}
   .hero-inner{padding:2.5rem 1.25rem 3rem}
-  .process-section{padding:3rem 1.25rem}
-  .process-steps{grid-template-columns:1fr 1fr;gap:1.5rem}
-  .ps-connector{display:none}
+}
+
+/* ABOUT — accolade flip cards (tap or click to flip; tilt and glow follow a mouse) */
+.acc-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:1.75rem 0 .9rem;flex-wrap:wrap}
+.acc-hint{display:flex;align-items:center;gap:6px;font-size:12px;color:#5d7584}
+.acc-hint i{color:#4BB8B8;font-size:15px}
+.acc-hint-click{display:none}
+@media(hover:hover) and (pointer:fine){.acc-hint-tap{display:none}.acc-hint-click{display:inline}}
+.acc-count{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#1A6B8A;background:#EBF4F8;padding:5px 11px;border-radius:100px;white-space:nowrap;transition:background .3s,color .3s}
+.acc-count.done{background:#4BB8B8;color:#06293A}
+.acc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+.acc-card{position:relative;display:block;width:100%;height:182px;padding:0;margin:0;border:0;background:none;cursor:pointer;font:inherit;text-align:left;color:inherit;-webkit-tap-highlight-color:transparent;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .2s ease-out;border-radius:16px}
+.acc-card:focus-visible{outline:2px solid #4BB8B8;outline-offset:3px}
+.acc-inner{position:absolute;inset:0;display:block;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.acc-card.is-flipped .acc-inner{transform:rotateY(180deg)}
+.acc-face{position:absolute;inset:0;display:flex;flex-direction:column;padding:1rem 1.05rem;border-radius:16px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.acc-front{justify-content:space-between;background:linear-gradient(155deg,#0D3D54 0%,#0B2E41 100%);border:1px solid rgba(75,184,184,.25);color:#fff;box-shadow:0 10px 28px rgba(13,61,84,.18)}
+.acc-front::before{content:"";position:absolute;inset:0;background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(75,184,184,.32),transparent 62%);opacity:0;transition:opacity .3s}
+.acc-card:hover .acc-front::before{opacity:1}
+.acc-ico{position:relative;width:42px;height:42px;border-radius:12px;background:rgba(75,184,184,.16);color:#4BB8B8;display:flex;align-items:center;justify-content:center;font-size:1.35rem;transition:transform .3s}
+.acc-card:hover .acc-ico{transform:scale(1.08) rotate(-4deg)}
+.acc-card.seen .acc-ico::after{content:"\2713";position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#4BB8B8;color:#06293A;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.acc-title{position:relative;font-family:'Playfair Display',serif;font-size:18px;line-height:1.2}
+.acc-flip{position:relative;display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.acc-flip i{font-size:13px;color:#4BB8B8;transition:transform .4s}
+.acc-card:hover .acc-flip i{transform:rotate(180deg)}
+.acc-back{justify-content:center;gap:.5rem;background:linear-gradient(155deg,#4BB8B8 0%,#2E9A9F 100%);color:#06293A;transform:rotateY(180deg);box-shadow:0 10px 28px rgba(13,61,84,.18)}
+.acc-btitle{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.acc-desc{font-size:13.5px;line-height:1.55;color:#062B3D}
+.acc-grid.js-ready .acc-card:not(.in){opacity:0}
+.acc-card.in{animation:acc-in .6s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0) * 90ms)}
+@keyframes acc-in{from{opacity:0;transform:perspective(900px) translateY(28px) rotateX(18deg) scale(.92)}to{opacity:1;transform:perspective(900px)}}
+@media(max-width:640px){
+  .acc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
+  .acc-card{height:176px}
+  .acc-face{padding:.9rem}
+  .acc-title{font-size:16px}
+  .acc-desc{font-size:12.5px;line-height:1.5}
+}
+@media(max-width:360px){
+  .acc-card{height:200px}
+  .acc-face{padding:.8rem}
+  .acc-desc{font-size:12px;line-height:1.45}
+}
+@media(prefers-reduced-motion:reduce){
+  .acc-card,.acc-inner,.acc-ico,.acc-flip i{transition:none}
+  .acc-card.in{animation:none}
 }
 
 /* WORK — pinned project chapters; the tokens the module reads, in this page's colours and fonts */
@@ -256,6 +283,8 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 #portfolio .mo-pc__visual > img{aspect-ratio:3/2;height:auto}
 #portfolio:not(.is-live) .mo-pc__visual{align-self:center}
 #portfolio.is-live .mo-pc__visuals{aspect-ratio:3/2}
+/* six projects: four screens tall, so each one gets about half a screen of scroll */
+#portfolio.is-live{height:400svh}
 #portfolio.is-live .mo-pc__visual > img{aspect-ratio:auto;height:100%}
 @media(max-width:640px){
   .work-section{padding:3rem 0}
@@ -643,43 +672,6 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 </div>
 <script>(function(){var t=document.getElementById('rev-ticker-hero');if(t)t.innerHTML+=t.innerHTML;})();</script>
 
-<!-- PROCESS -->
-<div class="process-section">
-  <div class="process-inner">
-    <div class="section-tag" style="color:#4BB8B8">How It Works</div>
-    <h2 class="section-title" style="color:#0D3D54">From idea to <em>live site</em> in four steps.</h2>
-    <div class="process-steps">
-      <div class="process-step">
-        <div class="ps-num">01 &mdash; DISCOVERY</div>
-        <div class="ps-icon"><i class="ti ti-message-circle"></i></div>
-        <div class="ps-title">Discovery Call</div>
-        <p class="ps-desc">We learn your business, goals, and audience. No forms — just a real conversation about what you need.</p>
-      </div>
-      <div class="ps-connector">&rsaquo;</div>
-      <div class="process-step">
-        <div class="ps-num">02 &mdash; DESIGN</div>
-        <div class="ps-icon"><i class="ti ti-layout"></i></div>
-        <div class="ps-title">Design &amp; Revisions</div>
-        <p class="ps-desc">You get a full design mockup before any code is written. We revise until it's right.</p>
-      </div>
-      <div class="ps-connector">&rsaquo;</div>
-      <div class="process-step">
-        <div class="ps-num">03 &mdash; BUILD</div>
-        <div class="ps-icon"><i class="ti ti-code"></i></div>
-        <div class="ps-title">Build &amp; Review</div>
-        <p class="ps-desc">Your site is built fast, tested on every device, and handed to you for a final walkthrough.</p>
-      </div>
-      <div class="ps-connector">&rsaquo;</div>
-      <div class="process-step">
-        <div class="ps-num">04 &mdash; LAUNCH</div>
-        <div class="ps-icon"><i class="ti ti-rocket"></i></div>
-        <div class="ps-title">Launch &amp; Support</div>
-        <p class="ps-desc">We handle your domain, hosting, and go-live. Ongoing support plans available.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ABOUT -->
 <div class="section-white"><section class="about-section" id="about">
   <div class="section-tag">About</div>
@@ -693,14 +685,37 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
       <p class="body-text">I'm a South Jersey native with over seven years working as a data analyst and data engineer, including in the government contracting space where I helped develop CRM tools for government technology resellers. That work taught me how to build systems that are clean, functional, and actually used by the people they're built for.</p>
       <p class="body-text">Working at that level — where data pipelines, user workflows, and business outcomes had to align — gave me a deep understanding of what makes a digital product succeed and what makes it fall flat.</p>
       <p class="body-text">Now I'm bringing those skills home. Local restaurants, shops, contractors, and service providers deserve the same quality of digital presence that big companies take for granted. Shore Works Web Solutions is how I make that happen.</p>
-      <div class="skills-grid">
-        <div class="skill-chip"><i class="ti ti-chart-bar"></i><span>Data Analytics</span></div>
-        <div class="skill-chip"><i class="ti ti-database"></i><span>Data Engineering</span></div>
-        <div class="skill-chip"><i class="ti ti-users"></i><span>CRM Development</span></div>
-        <div class="skill-chip"><i class="ti ti-building"></i><span>Gov. Contracting</span></div>
-        <div class="skill-chip"><i class="ti ti-world"></i><span>Web Design</span></div>
-        <div class="skill-chip"><i class="ti ti-speakerphone"></i><span>Digital Strategy</span></div>
+      <div class="acc-head">
+        <span class="acc-hint"><i class="ti ti-hand-finger" aria-hidden="true"></i><span class="acc-hint-tap">Tap a card to flip it</span><span class="acc-hint-click">Click a card to flip it</span></span>
+        <span class="acc-count" id="acc-count" aria-live="polite">0 of 6 explored</span>
       </div>
+      <div class="acc-grid" id="acc-grid">
+        <button class="acc-card" type="button" aria-pressed="false"><span class="acc-inner">
+          <span class="acc-face acc-front"><span class="acc-ico"><i class="ti ti-chart-bar" aria-hidden="true"></i></span><span class="acc-title">Data Analytics</span><span class="acc-flip" aria-hidden="true"><i class="ti ti-rotate-clockwise"></i>Flip</span></span>
+          <span class="acc-face acc-back"><span class="acc-btitle">Data Analytics</span><span class="acc-desc">Seven-plus years as a data analyst. Your traffic and leads, turned into numbers you can act on.</span></span>
+        </span></button>
+        <button class="acc-card" type="button" aria-pressed="false"><span class="acc-inner">
+          <span class="acc-face acc-front"><span class="acc-ico"><i class="ti ti-database" aria-hidden="true"></i></span><span class="acc-title">Data Engineering</span><span class="acc-flip" aria-hidden="true"><i class="ti ti-rotate-clockwise"></i>Flip</span></span>
+          <span class="acc-face acc-back"><span class="acc-btitle">Data Engineering</span><span class="acc-desc">Built data pipelines that had to run right every day. The same care goes into every site.</span></span>
+        </span></button>
+        <button class="acc-card" type="button" aria-pressed="false"><span class="acc-inner">
+          <span class="acc-face acc-front"><span class="acc-ico"><i class="ti ti-users" aria-hidden="true"></i></span><span class="acc-title">CRM Development</span><span class="acc-flip" aria-hidden="true"><i class="ti ti-rotate-clockwise"></i>Flip</span></span>
+          <span class="acc-face acc-back"><span class="acc-btitle">CRM Development</span><span class="acc-desc">Helped build CRM tools for government technology resellers. Leads land where you need them.</span></span>
+        </span></button>
+        <button class="acc-card" type="button" aria-pressed="false"><span class="acc-inner">
+          <span class="acc-face acc-front"><span class="acc-ico"><i class="ti ti-building" aria-hidden="true"></i></span><span class="acc-title">Gov. Contracting</span><span class="acc-flip" aria-hidden="true"><i class="ti ti-rotate-clockwise"></i>Flip</span></span>
+          <span class="acc-face acc-back"><span class="acc-btitle">Gov. Contracting</span><span class="acc-desc">Worked where systems had to be clean, documented and actually used by real people.</span></span>
+        </span></button>
+        <button class="acc-card" type="button" aria-pressed="false"><span class="acc-inner">
+          <span class="acc-face acc-front"><span class="acc-ico"><i class="ti ti-world" aria-hidden="true"></i></span><span class="acc-title">Web Design</span><span class="acc-flip" aria-hidden="true"><i class="ti ti-rotate-clockwise"></i>Flip</span></span>
+          <span class="acc-face acc-back"><span class="acc-btitle">Web Design</span><span class="acc-desc">Custom, mobile-first sites for South Jersey restaurants, shops, contractors and services.</span></span>
+        </span></button>
+        <button class="acc-card" type="button" aria-pressed="false"><span class="acc-inner">
+          <span class="acc-face acc-front"><span class="acc-ico"><i class="ti ti-speakerphone" aria-hidden="true"></i></span><span class="acc-title">Digital Strategy</span><span class="acc-flip" aria-hidden="true"><i class="ti ti-rotate-clockwise"></i>Flip</span></span>
+          <span class="acc-face acc-back"><span class="acc-btitle">Digital Strategy</span><span class="acc-desc">Google Ads and Meta campaigns that send real customers to your new site.</span></span>
+        </span></button>
+      </div>
+    </div>
     </div>
   </div>
 </section></div>
@@ -720,9 +735,19 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/thomas-lacovara.jpg" srcset="build-a-website-assets/work/thomas-lacovara-640.jpg 640w, build-a-website-assets/work/thomas-lacovara.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Thomas Lacovara Public Adjusters website, with its headline over a photograph of a fire-damaged home" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
+        <h3>Wax, Packs &amp; Throwbacks</h3>
+        <p>A trading card shop in Linwood: custom branding, event listings, staff profiles, hours and an inventory link.</p>
+        <figure class="mo-pc__visual"><img src="build-a-website-assets/work/wax-packs-throwbacks.jpg" srcset="build-a-website-assets/work/wax-packs-throwbacks-640.jpg 640w, build-a-website-assets/work/wax-packs-throwbacks.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Wax, Packs and Throwbacks website: the card shop floor with the shop name in big yellow letters" width="1256" height="838" loading="lazy"></figure>
+      </li>
+      <li class="mo-pc__step">
         <h3>Twin Cleans</h3>
         <p>Mobile detailing run by twin brothers: service packages, a photo gallery the owners update, and a booking request form.</p>
         <figure class="mo-pc__visual"><img src="build-a-website-assets/work/twin-cleans.jpg" srcset="build-a-website-assets/work/twin-cleans-640.jpg 640w, build-a-website-assets/work/twin-cleans.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Twin Cleans website: a headline about showroom shine in your driveway beside the round Twin Cleans logo" width="1256" height="838" loading="lazy"></figure>
+      </li>
+      <li class="mo-pc__step">
+        <h3>Rose&#39;s Garden Grill</h3>
+        <p>A family-owned restaurant in Northfield: menu display, photo gallery, hours and online ordering.</p>
+        <figure class="mo-pc__visual"><img src="build-a-website-assets/work/roses-garden-grill.jpg" srcset="build-a-website-assets/work/roses-garden-grill-640.jpg 640w, build-a-website-assets/work/roses-garden-grill.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Rose&#39;s Garden Grill website: the restaurant logo on green with Order Now and View Menu buttons" width="1256" height="838" loading="lazy"></figure>
       </li>
       <li class="mo-pc__step">
         <h3>Anthony Lamaina</h3>
@@ -1121,6 +1146,45 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 </footer>
 
 <script>
+(function(){
+  var grid = document.getElementById('acc-grid'); if (!grid) return;
+  var cards = [].slice.call(grid.querySelectorAll('.acc-card')), count = document.getElementById('acc-count'), seen = {}, n = 0;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function update(){ count.textContent = n === cards.length ? 'All ' + n + ' explored' : n + ' of ' + cards.length + ' explored'; count.classList.toggle('done', n === cards.length); }
+  cards.forEach(function(c, i){
+    c.style.setProperty('--i', i);
+    c.addEventListener('click', function(){
+      var on = !c.classList.contains('is-flipped') || c.classList.contains('demo');
+      c.classList.remove('demo'); c.classList.toggle('is-flipped', on); c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on && !seen[i]) { seen[i] = 1; n++; c.classList.add('seen'); update(); }
+    });
+    if (fine && !reduce) {
+      c.addEventListener('pointermove', function(e){
+        var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--ry', ((x - .5) * 14).toFixed(2) + 'deg'); c.style.setProperty('--rx', ((.5 - y) * 12).toFixed(2) + 'deg');
+        c.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); c.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+      });
+      c.addEventListener('pointerleave', function(){ c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
+    }
+  });
+  update();
+  if (reduce || !('IntersectionObserver' in window)) return;
+  grid.classList.add('js-ready');
+  var done = false, io;
+  function show(){ cards.forEach(function(c){ c.classList.add('in'); }); }
+  function deal(){
+    if (done) return; done = true; io.disconnect(); show();
+    // the first card flips once on its own, so visitors see the cards turn
+    setTimeout(function(){
+      var c = cards[0]; if (c.classList.contains('is-flipped')) return;
+      c.classList.add('is-flipped', 'demo');
+      setTimeout(function(){ if (c.classList.contains('demo')) c.classList.remove('is-flipped', 'demo'); }, 1500);
+    }, 700 + cards.length * 90);
+  }
+  io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) deal(); }); }, { threshold: .3 });
+  io.observe(grid);
+  setTimeout(function(){ if (!done) { done = true; io.disconnect(); show(); } }, 8000);
+})();
 window.addEventListener('scroll', function(){
   var btt = document.getElementById('back-to-top');
   if (!btt) return;
