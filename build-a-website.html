@@ -156,7 +156,9 @@ footer{border-top:1px solid #DDD8CE;padding:2.5rem 2rem;max-width:1100px;margin:
 footer p{font-size:12px;color:#888}
 
 /* HERO — digitized dark */
-.hero-section{background:#0B2E41;background-image:radial-gradient(circle,rgba(75,184,184,.13) 1px,transparent 1px);background-size:28px 28px;padding:0}
+.hero-section{position:relative;overflow:hidden;background:#0B2E41;padding:0}
+.hero-pixels{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+.hero-section .hero-inner{position:relative;z-index:1}
 .hero-inner{max-width:1100px;margin:0 auto;padding:4rem 2rem 4.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
 .hero-eyebrow{font-family:monospace;font-size:10.5px;color:#4BB8B8;letter-spacing:.16em;margin-bottom:1.25rem;opacity:.9}
 .hero-no-pad{padding:0;max-width:none;margin:0}
@@ -177,9 +179,26 @@ footer p{font-size:12px;color:#888}
 .hbf-lock{font-size:9px;color:rgba(75,184,184,.5)}
 .hbf-url{font-family:monospace;font-size:10px;color:rgba(75,184,184,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hbf-screen{position:relative;overflow:hidden;aspect-ratio:4/3}
+.hbf-slide{position:absolute;inset:0;opacity:0;animation:hbf-fade 20s linear infinite}
+.hbf-slide:nth-child(1){animation-delay:0s}
+.hbf-slide:nth-child(2){animation-delay:-15s}
+.hbf-slide:nth-child(3){animation-delay:-10s}
+.hbf-slide:nth-child(4){animation-delay:-5s}
+@keyframes hbf-fade{0%,3%{opacity:0}6%,23%{opacity:1}26%,100%{opacity:0}}
 
 /* HERO — interactive portfolio browser (live demos of real client builds) */
 .hero-inner > *{min-width:0}
+.demo-section{background:#0B2E41;padding:5rem 2rem;position:relative}
+.demo-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:3.5rem;align-items:center}
+.demo-inner > *{min-width:0}
+.demo-section .section-title{color:#fff}
+.demo-sub{font-size:15px;line-height:1.75;color:rgba(255,255,255,.68);margin:0 0 1.5rem;max-width:440px}
+.demo-list{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.demo-list li{display:flex;gap:.8rem;align-items:flex-start;font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.62)}
+.demo-list i{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:rgba(75,184,184,.14);color:#4BB8B8;display:flex;align-items:center;justify-content:center;font-size:17px}
+.demo-list b{display:block;color:#fff;font-weight:600;font-size:14px}
+@media(max-width:900px){.demo-inner{grid-template-columns:1fr;gap:2rem}.demo-section{padding:3.5rem 2rem}}
+@media(max-width:600px){.demo-section{padding:3rem 1.25rem}}
 .pf{display:flex;flex-direction:column}
 .pf [hidden]{display:none !important}
 .pf-tabs{display:flex;gap:2px;padding:8px 8px 0;background:#0B1C29;overflow-x:auto;scrollbar-width:none}
@@ -494,6 +513,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 <main>
 <!-- HERO -->
 <section class="hero-section" id="top">
+  <canvas class="hero-pixels" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-eyebrow" hidden>// web design &nbsp;·&nbsp; south jersey</div>
@@ -507,100 +527,313 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
       </div>
     </div>
     <div class="hero-browser-wrap">
-      <div class="hero-browser-frame pf" id="pf">
-        <div class="pf-tabs" role="tablist" aria-label="Live demos of client builds">
-          <button class="pf-tab" type="button" role="tab" id="pf-t-wpt" aria-controls="pf-p-wpt" data-pf="wpt"><span class="pf-tab-dot" style="--c:#F5C518"></span>Inventory</button>
-          <button class="pf-tab" type="button" role="tab" id="pf-t-twin" aria-controls="pf-p-twin" data-pf="twin"><span class="pf-tab-dot" style="--c:#2bb3ba"></span>Contact form</button>
-          <button class="pf-tab" type="button" role="tab" id="pf-t-book" aria-controls="pf-p-book" data-pf="book"><span class="pf-tab-dot" style="--c:#F1ECE2"></span>Booking portal</button>
-          <button class="pf-tab" type="button" role="tab" id="pf-t-cat" aria-controls="pf-p-cat" data-pf="cat"><span class="pf-tab-dot" style="--c:#4BB8B8"></span>Directory</button>
-        </div>
+      <div class="hero-browser-frame">
         <div class="hbf-chrome">
           <div class="hbf-dots"><span class="hbf-dot"></span><span class="hbf-dot"></span><span class="hbf-dot"></span></div>
-          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="pf-url">waxpacksandthrowbacks.com</span></div>
-          <a class="pf-open" id="pf-open" href="https://waxpacksandthrowbacks.com/" target="_blank" rel="noopener"><span class="pf-open-l">Live site</span> <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only"> (opens in a new tab)</span></a>
+          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="hbf-url">waxpacksandthrowbacks.com</span></div>
         </div>
-        <div class="hbf-screen pf-screen">
+        <div class="hbf-screen">
 
-          <div class="pf-panel pf-wpt" id="pf-p-wpt" role="tabpanel" aria-labelledby="pf-t-wpt" data-pf="wpt">
-            <div class="wpt-top"><span class="wpt-logo">WAX, PACKS <b>&amp;</b> THROWBACKS</span><span class="wpt-cart"><i class="ti ti-shopping-cart" aria-hidden="true"></i>Cart <b aria-live="polite">0</b></span></div>
-            <div class="pf-scroll">
-              <div class="wpt-bar">
-                <div class="wpt-title">Shop <span>inventory</span></div>
-                <input class="wpt-search" type="search" placeholder="Search boxes" aria-label="Search inventory">
-                <label class="wpt-stock"><input type="checkbox"> In stock</label>
-                <div class="wpt-chips"><button type="button" class="on" data-c="all" aria-pressed="true">All</button><button type="button" data-c="Baseball" aria-pressed="false">Baseball</button><button type="button" data-c="Football" aria-pressed="false">Football</button><button type="button" data-c="Basketball" aria-pressed="false">Basketball</button></div>
+          <!-- SLIDE 1: Code Editor -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#0D1117;font-family:monospace;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:#161B22;display:flex;align-items:stretch;height:26px;border-bottom:1px solid #30363D;flex-shrink:0">
+              <div style="background:#0D1117;padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
+                <span style="width:8px;height:8px;border-radius:2px;background:#E34C26;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.75)">hero-section.html</span>
+                <span style="font-size:8px;color:rgba(255,255,255,.2)">×</span>
               </div>
-              <div class="wpt-grid">
-            <article class="wpt-card" data-cat="Football" data-stock="1" data-name="2025 nfl topps signature class hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-2.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 NFL Topps Signature Class Hobby Box</div><div class="wpt-row"><span class="wpt-price">$450</span><button class="wpt-add" type="button">Add</button></div></article>
-            <article class="wpt-card" data-cat="Basketball" data-stock="1" data-name="2025/2026 nba topps signature hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-6.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Topps Signature Hobby Box</div><div class="wpt-row"><span class="wpt-price">$525</span><button class="wpt-add" type="button">Add</button></div></article>
-            <article class="wpt-card" data-cat="Baseball" data-stock="1" data-name="2026 topps series 2 jumbo box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-8.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Jumbo Box</div><div class="wpt-row"><span class="wpt-price">$330</span><button class="wpt-add" type="button">Add</button></div></article>
-            <article class="wpt-card" data-cat="Basketball" data-stock="1" data-name="2025/2025 topps nba hoops hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-5.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2025 Topps NBA Hoops Hobby Box</div><div class="wpt-row"><span class="wpt-price">$300</span><button class="wpt-add" type="button">Add</button></div></article>
-            <article class="wpt-card" data-cat="Baseball" data-stock="1" data-name="2025 mlb topps stadium club value box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-0.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 MLB Topps Stadium Club Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button">Add</button></div></article>
-            <article class="wpt-card sold" data-cat="Football" data-stock="0" data-name="2025 nfl topps finest hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-1.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 NFL Topps Finest Hobby Box</div><div class="wpt-row"><span class="wpt-price">$775</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-            <article class="wpt-card sold" data-cat="Basketball" data-stock="0" data-name="2025/2026 nba bowman jumbo box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-3.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Bowman Jumbo Box</div><div class="wpt-row"><span class="wpt-price">$760</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-            <article class="wpt-card sold" data-cat="Basketball" data-stock="0" data-name="2025/2026 nba bowman hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-4.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Bowman Hobby Box</div><div class="wpt-row"><span class="wpt-price">$430</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps mlb complete set"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-7.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps MLB Complete Set</div><div class="wpt-row"><span class="wpt-price">$60</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 2 value box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-9.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 2 hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-10.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Hobby Box</div><div class="wpt-row"><span class="wpt-price">$150</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 1 value box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-11.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 1 Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
-                <p class="wpt-empty" hidden>No boxes match that search.</p>
+              <div style="padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
+                <span style="width:8px;height:8px;border-radius:2px;background:#1572B6;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">styles.css</span>
+              </div>
+              <div style="padding:0 12px;display:flex;align-items:center;gap:6px">
+                <span style="width:8px;height:8px;border-radius:2px;background:#89D185;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">deploy.sh</span>
               </div>
             </div>
-            <div class="pf-toast" role="status"></div>
-          </div>
-
-          <div class="pf-panel pf-twin" id="pf-p-twin" role="tabpanel" aria-labelledby="pf-t-twin" data-pf="twin" hidden>
-            <div class="tw-top"><span class="tw-logo" aria-hidden="true">TC</span><div><b>Twin Cleans</b><span>Mobile detailing</span></div></div>
-            <div class="pf-scroll">
-              <form class="tw-form" novalidate>
-                <h4>Request your detailing</h4>
-                <p class="tw-sub">Tell us what you have and what you're after.</p>
-                <div class="tw-row"><label>Name<input name="tw-name" autocomplete="off"></label><label>Phone<input name="tw-phone" inputmode="tel" autocomplete="off"></label></div>
-                <label>What are we detailing?<select><option>Car</option><option>Truck or SUV</option><option>Boat</option><option>RV</option></select></label>
-                <div class="tw-pk" role="group" aria-label="Package"><button type="button" class="on" aria-pressed="true">Express Wash &amp; Shine</button><button type="button" aria-pressed="false">Full Interior Detail</button><button type="button" aria-pressed="false">Exterior Paint Detail</button><button type="button" aria-pressed="false">The Twin Full Detail</button></div>
-                <button class="tw-send" type="submit">Send Booking Request →</button>
-                <p class="tw-err" role="alert" hidden>Add your name and phone so the twins can reach you.</p>
-              </form>
-              <div class="tw-done" hidden><i class="ti ti-circle-check" aria-hidden="true"></i><b>Request sent</b><p><span class="tw-what"></span>. This is a demo: on twincleans.com the request goes straight to the owners' inbox.</p><button class="tw-again" type="button">Send another</button></div>
-            </div>
-          </div>
-
-          <div class="pf-panel pf-book" id="pf-p-book" role="tabpanel" aria-labelledby="pf-t-book" data-pf="book" hidden>
-            <div class="bk-top"><span class="bk-logo">BOOKINGS</span><span class="bk-by">by Shore Works</span></div>
-            <div class="bk-steps" aria-hidden="true"><span>1 Day</span><span>2 Time</span><span>3 Service</span></div>
-            <div class="pf-scroll">
-              <div class="bk-view" data-v="day"><h5>Pick a day</h5><p class="bk-hint">Every day with openings shows how many.</p><div class="bk-days"></div></div>
-              <div class="bk-view" data-v="time" hidden><h5>Pick a time</h5><p class="bk-hint bk-dayname"></p><div class="bk-times"></div><button class="bk-back" type="button" data-to="day">← Back</button></div>
-              <div class="bk-view" data-v="svc" hidden><h5>What are we doing?</h5><p class="bk-picked"></p><div class="bk-svcs">
-                <button class="bk-svc" type="button" data-name="Haircut"><span>Haircut<small>About 45 min</small></span><span>$30</span></button>
-                <button class="bk-svc" type="button" data-name="Skin Fade"><span>Skin Fade<small>About 45 min</small></span><span>$35</span></button>
-                <button class="bk-svc" type="button" data-name="Beard Trim"><span>Beard Trim<small>About 30 min</small></span><span>$15</span></button>
-                <button class="bk-svc" type="button" data-name="Haircut & Beard"><span>Haircut &amp; Beard<small>About 60 min</small></span><span>$40</span></button>
-              </div><button class="bk-back" type="button" data-to="time">← Back</button></div>
-              <div class="bk-view bk-done" data-v="done" hidden><i class="ti ti-calendar-check" aria-hidden="true"></i><b>You're booked</b><p class="bk-summary"></p><p>This is a demo. The real app emails a confirmation with a calendar invite and a cancel link.</p><button class="bk-again" type="button">Book another</button></div>
-            </div>
-          </div>
-
-          <div class="pf-panel pf-cat" id="pf-p-cat" role="tabpanel" aria-labelledby="pf-t-cat" data-pf="cat" hidden>
-            <div class="ct-top">Shore<em>works</em><span>CATALOG</span></div>
-            <div class="pf-scroll">
-              <div class="ct-hero"><b>Find the <em>best</em> of the shore</b><div class="ct-search"><input type="search" placeholder="Search businesses" aria-label="Search businesses"><span>Search</span></div></div>
-              <div class="ct-chips"><button type="button" class="on" data-c="all" aria-pressed="true">All</button><button type="button" data-c="Dining" aria-pressed="false">Dining</button><button type="button" data-c="Retail" aria-pressed="false">Retail</button><button type="button" data-c="Fitness" aria-pressed="false">Fitness</button></div>
-              <div class="ct-list">
-                <a class="ct-item" href="/" data-cat="Dining" data-name="aversa's margate"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Aversa&#39;s Margate</b><small>Dining · Margate</small></span><span class="ct-go">View →</span></a>
-                <a class="ct-item" href="/#b=1781664162391" data-cat="Retail" data-name="wax, packs, and throwbacks"><span class="ct-ic"><i class="ti ti-shopping-bag" aria-hidden="true"></i></span><span><b>Wax, Packs, and Throwbacks</b><small>Retail · Linwood</small></span><span class="ct-go">View →</span></a>
-                <a class="ct-item" href="/" data-cat="Dining" data-name="hot bagels & more"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Hot Bagels &amp; More</b><small>Dining · Multiple locations</small></span><span class="ct-go">View →</span></a>
-                <a class="ct-item" href="/" data-cat="Dining" data-name="rose's garden grill"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Rose&#39;s Garden Grill</b><small>Dining · Northfield</small></span><span class="ct-go">View →</span></a>
-                <a class="ct-item" href="/" data-cat="Dining" data-name="chido burrito"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Chido Burrito</b><small>Dining · Atlantic County</small></span><span class="ct-go">View →</span></a>
-                <a class="ct-item" href="/" data-cat="Fitness" data-name="international karate academy"><span class="ct-ic"><i class="ti ti-barbell" aria-hidden="true"></i></span><span><b>International Karate Academy</b><small>Fitness · Atlantic County</small></span><span class="ct-go">View →</span></a>
-                <p class="ct-empty" hidden>No businesses match that search.</p>
+            <div style="display:flex;flex:1;overflow:hidden">
+              <div style="width:34px;background:#161B22;padding:8px 0;text-align:right;flex-shrink:0;border-right:1px solid rgba(255,255,255,.05)">
+                <div style="font-size:8px;color:rgba(255,255,255,.2);padding:0 6px;line-height:2">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+              </div>
+              <div style="padding:8px 12px;font-size:9px;line-height:2;flex:1;overflow:hidden">
+                <div><span style="color:#6A9955">/* Shore Works Web Solutions */</span></div>
+                <div>&nbsp;</div>
+                <div><span style="color:#4EC9B0">&lt;section</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-section"</span><span style="color:#4EC9B0">&gt;</span></div>
+                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;div</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-inner"</span><span style="color:#4EC9B0">&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;span</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"eyebrow"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">// web design · south jersey</span><span style="color:#4EC9B0">&lt;/span&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;h1&gt;</span><span style="color:rgba(255,255,255,.75)">Your Website,</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(255,255,255,.75)">Built</span> <span style="color:#DCDCAA">&lt;em&gt;</span><span style="color:#4BB8B8">Right.</span><span style="color:#DCDCAA">&lt;/em&gt;</span><span style="color:#4EC9B0">&lt;/h1&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;p</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-sub"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.45)">Custom-built for local business.</span><span style="color:#4EC9B0">&lt;/p&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;a</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"btn-primary"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">Start Your Project →</span><span style="color:#4EC9B0">&lt;/a&gt;</span></div>
+                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;/div&gt;</span></div>
+                <div><span style="color:#4EC9B0">&lt;/section&gt;</span><span style="display:inline-block;width:2px;height:12px;background:#4BB8B8;vertical-align:middle;animation:blink .85s step-end infinite;margin-left:2px"></span></div>
               </div>
             </div>
-          </div>
+            <div style="height:54px;background:#0A0F14;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0">
+              <div style="background:#1C2128;height:18px;display:flex;align-items:center;padding:0 8px;gap:14px">
+                <span style="font-size:7.5px;color:rgba(255,255,255,.6);font-weight:600">TERMINAL</span>
+                <span style="font-size:7.5px;color:rgba(255,255,255,.2)">OUTPUT</span>
+              </div>
+              <div style="padding:4px 10px">
+                <div style="font-size:8px"><span style="color:#4EC9B0">$</span> <span style="color:rgba(255,255,255,.55)">netlify deploy --prod --site shoreworksnj</span></div>
+                <div style="font-size:8px;color:#4BB8B8">✓ Deploy complete · Live at <span style="text-decoration:underline">shoreworksnj.com</span></div>
+              </div>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 2: E-Commerce Wireframe -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px;display:flex;flex-direction:column;gap:5px">
+            <!-- Header -->
+            <div style="background:#D5D0C9;border-radius:4px;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;flex-shrink:0">
+              <div style="width:48px;height:7px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="width:90px;height:14px;background:#C5C0B9;border-radius:3px;display:flex;align-items:center;padding:0 7px;gap:4px">
+                <div style="width:8px;height:8px;border-radius:50%;background:#B5B0A9"></div>
+                <div style="flex:1;height:4px;background:#B5B0A9;border-radius:2px"></div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="background:rgba(75,184,184,.35);border:1.5px dashed #4BB8B8;border-radius:3px;width:22px;height:14px;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#4BB8B8">🛒</span></div>
+              </div>
+            </div>
+            <!-- Filter + grid row -->
+            <div style="display:flex;gap:6px;flex:1;overflow:hidden">
+              <!-- Sidebar filters -->
+              <div style="width:62px;flex-shrink:0;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:6.5px;font-weight:700;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px">Filters</div>
+                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
+                  <div style="width:60%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:28px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#4BB8B8"></div><div style="width:22px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:30px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
+                  <div style="width:50%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
+                  <div style="height:6px;background:#C5C0B9;border-radius:2px;position:relative"><div style="position:absolute;left:20%;right:30%;top:1px;bottom:1px;background:#4BB8B8;border-radius:2px"></div></div>
+                  <div style="display:flex;justify-content:space-between;margin-top:3px">
+                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
+                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
+                  </div>
+                </div>
+                <div style="background:#0D3D54;border-radius:3px;padding:5px;text-align:center;margin-top:auto">
+                  <div style="font-size:6.5px;font-weight:700;color:#fff">Apply</div>
+                </div>
+              </div>
+              <!-- Product grid -->
+              <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:5px">
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;border:1.5px dashed #4BB8B8">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
+              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 3: Blank Website Wireframe -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px">
+            <div style="background:#D5D0C9;border-radius:4px 4px 0 0;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-bottom:0">
+              <div style="width:44px;height:7px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="background:#4BB8B8;border-radius:100px;padding:3px 9px;font-size:7px;font-weight:700;color:#fff">CTA →</div>
+              </div>
+            </div>
+            <div style="border:2px dashed #B5B0A9;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.3)">
+              <div style="width:28px;height:28px;border-radius:50%;border:2px dashed #999;display:flex;align-items:center;justify-content:center;font-size:13px;color:#999">⛶</div>
+              <div style="font-size:7.5px;color:#999;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Hero Section</div>
+              <div style="display:flex;gap:5px">
+                <div style="background:#0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#fff;font-weight:700">Primary CTA</div>
+                <div style="border:1.5px solid #0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#0D3D54;font-weight:700">Secondary</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:5px">
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="background:#0D3D54;border-radius:4px;padding:8px 10px;margin-top:5px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="width:80px;height:5px;background:rgba(255,255,255,.35);border-radius:2px;margin-bottom:4px"></div>
+                <div style="width:60px;height:4px;background:rgba(255,255,255,.18);border-radius:2px"></div>
+              </div>
+              <div style="background:#4BB8B8;border-radius:100px;padding:4px 11px;font-size:7.5px;font-weight:700;color:#fff">Get Started</div>
+            </div>
+            <div style="background:#D5D0C9;border-radius:0 0 4px 4px;height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-top:5px">
+              <div style="width:44px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="display:flex;gap:5px"><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div></div>
+            </div>
+            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
+              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 4: Report Dashboard -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#fff;overflow:hidden;font-family:'Space Grotesk',sans-serif;display:flex">
+            <div style="width:86px;background:#0D3D54;display:flex;flex-direction:column;flex-shrink:0;padding:12px 0">
+              <div style="padding:0 10px 10px;border-bottom:1px solid rgba(255,255,255,.1)">
+                <div style="font-weight:800;font-size:8px;color:#fff;line-height:1">Shore<em style="color:#4BB8B8;font-style:italic">works</em></div>
+                <div style="font-size:6px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.05em">ANALYTICS</div>
+              </div>
+              <div style="padding:10px 10px 0">
+                <div style="font-size:6px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">REPORTS</div>
+                <div style="background:rgba(75,184,184,.15);border-left:2px solid #4BB8B8;padding:4px 6px;border-radius:0 3px 3px 0;margin-bottom:3px">
+                  <span style="font-size:7px;color:#4BB8B8;font-weight:600">📊 Traffic</span>
+                </div>
+                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">🎯 Leads</span></div>
+                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">⭐ Reviews</span></div>
+                <div style="padding:4px 6px"><span style="font-size:7px;color:rgba(255,255,255,.4)">📄 Pages</span></div>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:11px 12px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px">
+                <div>
+                  <div style="font-size:10.5px;font-weight:700;color:#0D3D54">Performance Report</div>
+                  <div style="font-size:7px;color:#889">October 2026 · shoreworksnj.com</div>
+                </div>
+                <div style="background:#EDE5D4;border-radius:4px;padding:3px 7px;font-size:7px;color:#0D3D54;font-weight:600">↓ Export PDF</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:7px">
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">1,284</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Visitors</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 12%</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">47</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Leads</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 8%</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">3.2%</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Bounce</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↓ good</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">5.0★</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Google</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">14 reviews</div>
+                </div>
+              </div>
+              <div style="background:#F9F9F7;border:1px solid #E8E3D8;border-radius:5px;padding:6px 7px;margin-bottom:6px">
+                <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:5px">Monthly Traffic</div>
+                <svg viewBox="0 0 200 44" style="width:100%;display:block;overflow:visible">
+                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10" stroke="#4BB8B8" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10 200,44 0,44" fill="rgba(75,184,184,.12)" stroke="none"/>
+                  <text x="0" y="44" font-size="5" fill="#aaa" font-family="sans-serif">May</text>
+                  <text x="30" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jun</text>
+                  <text x="62" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jul</text>
+                  <text x="95" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Aug</text>
+                  <text x="127" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Sep</text>
+                  <text x="161" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Oct</text>
+                </svg>
+              </div>
+              <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:4px">Recent Activity</div>
+              <div style="border-left:2px solid #4BB8B8;padding-left:6px;margin-bottom:3px">
+                <div style="font-size:7.5px;color:#334">New contact form submission</div>
+                <div style="font-size:6.5px;color:#aaa">2 hours ago</div>
+              </div>
+              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px;margin-bottom:3px">
+                <div style="font-size:7.5px;color:#334">Google review posted ★★★★★</div>
+                <div style="font-size:6.5px;color:#aaa">Yesterday</div>
+              </div>
+              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px">
+                <div style="font-size:7.5px;color:#334">Traffic spike: 89 visitors (Thursday)</div>
+                <div style="font-size:6.5px;color:#aaa">3 days ago</div>
+              </div>
+            </div>
+          </div></div>
 
         </div>
       </div>
-      <p class="pf-note"><i class="ti ti-hand-click" aria-hidden="true"></i>Live demos of real client builds. Click around.</p>
+      <script>
+      (function(){
+        var urls=['shoreworksnj.com','shop.shoreworksnj.com','design.shoreworksnj.com','reports.shoreworksnj.com'];
+        var el=document.getElementById('hbf-url');
+        if(!el)return;
+        var i=0;
+        setInterval(function(){i=(i+1)%4;el.textContent=urls[i];},5000);
+      })();
+      </script>
     </div>
   </div>
 </section>
@@ -713,6 +946,119 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
   </div>
 </section>
 
+<!-- LIVE DEMOS: interactive portfolio -->
+<section class="demo-section" id="demos" aria-labelledby="demos-h">
+  <div class="demo-inner">
+    <div class="demo-text">
+      <div class="section-tag">Live Demos</div>
+      <h2 class="section-title" id="demos-h">Try our work, <em>right here.</em></h2>
+      <p class="demo-sub">Click through working pieces of real client builds: shop an inventory, send a request, book an appointment and search a directory.</p>
+      <ul class="demo-list">
+        <li><i class="ti ti-building-store" aria-hidden="true"></i><span><b>Inventory catalog</b>Wax, Packs &amp; Throwbacks: search, filter and add boxes to a cart.</span></li>
+        <li><i class="ti ti-forms" aria-hidden="true"></i><span><b>Contact form</b>Twin Cleans: pick a package and send a booking request.</span></li>
+        <li><i class="ti ti-calendar-event" aria-hidden="true"></i><span><b>Booking portal</b>Bookings by Shore Works: choose a day, a time and a service.</span></li>
+        <li><i class="ti ti-map-search" aria-hidden="true"></i><span><b>Business directory</b>Shore Works Catalog: search local South Jersey businesses.</span></li>
+      </ul>
+    </div>
+    <div class="demo-frame">
+      <div class="hero-browser-frame pf" id="pf">
+        <div class="pf-tabs" role="tablist" aria-label="Live demos of client builds">
+          <button class="pf-tab" type="button" role="tab" id="pf-t-wpt" aria-controls="pf-p-wpt" data-pf="wpt"><span class="pf-tab-dot" style="--c:#F5C518"></span>Inventory</button>
+          <button class="pf-tab" type="button" role="tab" id="pf-t-twin" aria-controls="pf-p-twin" data-pf="twin"><span class="pf-tab-dot" style="--c:#2bb3ba"></span>Contact form</button>
+          <button class="pf-tab" type="button" role="tab" id="pf-t-book" aria-controls="pf-p-book" data-pf="book"><span class="pf-tab-dot" style="--c:#F1ECE2"></span>Booking portal</button>
+          <button class="pf-tab" type="button" role="tab" id="pf-t-cat" aria-controls="pf-p-cat" data-pf="cat"><span class="pf-tab-dot" style="--c:#4BB8B8"></span>Directory</button>
+        </div>
+        <div class="hbf-chrome">
+          <div class="hbf-dots"><span class="hbf-dot"></span><span class="hbf-dot"></span><span class="hbf-dot"></span></div>
+          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="pf-url">waxpacksandthrowbacks.com</span></div>
+          <a class="pf-open" id="pf-open" href="https://waxpacksandthrowbacks.com/" target="_blank" rel="noopener"><span class="pf-open-l">Live site</span> <i class="ti ti-external-link" aria-hidden="true"></i><span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+        <div class="hbf-screen pf-screen">
+
+          <div class="pf-panel pf-wpt" id="pf-p-wpt" role="tabpanel" aria-labelledby="pf-t-wpt" data-pf="wpt">
+            <div class="wpt-top"><span class="wpt-logo">WAX, PACKS <b>&amp;</b> THROWBACKS</span><span class="wpt-cart"><i class="ti ti-shopping-cart" aria-hidden="true"></i>Cart <b aria-live="polite">0</b></span></div>
+            <div class="pf-scroll">
+              <div class="wpt-bar">
+                <div class="wpt-title">Shop <span>inventory</span></div>
+                <input class="wpt-search" type="search" placeholder="Search boxes" aria-label="Search inventory">
+                <label class="wpt-stock"><input type="checkbox"> In stock</label>
+                <div class="wpt-chips"><button type="button" class="on" data-c="all" aria-pressed="true">All</button><button type="button" data-c="Baseball" aria-pressed="false">Baseball</button><button type="button" data-c="Football" aria-pressed="false">Football</button><button type="button" data-c="Basketball" aria-pressed="false">Basketball</button></div>
+              </div>
+              <div class="wpt-grid">
+            <article class="wpt-card" data-cat="Football" data-stock="1" data-name="2025 nfl topps signature class hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-2.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 NFL Topps Signature Class Hobby Box</div><div class="wpt-row"><span class="wpt-price">$450</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Basketball" data-stock="1" data-name="2025/2026 nba topps signature hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-6.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Topps Signature Hobby Box</div><div class="wpt-row"><span class="wpt-price">$525</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Baseball" data-stock="1" data-name="2026 topps series 2 jumbo box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-8.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Jumbo Box</div><div class="wpt-row"><span class="wpt-price">$330</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Basketball" data-stock="1" data-name="2025/2025 topps nba hoops hobby box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-5.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2025 Topps NBA Hoops Hobby Box</div><div class="wpt-row"><span class="wpt-price">$300</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card" data-cat="Baseball" data-stock="1" data-name="2025 mlb topps stadium club value box"><span class="wpt-badge">In stock</span><img src="build-a-website-assets/portfolio-demo/wpt-0.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 MLB Topps Stadium Club Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button">Add</button></div></article>
+            <article class="wpt-card sold" data-cat="Football" data-stock="0" data-name="2025 nfl topps finest hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-1.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025 NFL Topps Finest Hobby Box</div><div class="wpt-row"><span class="wpt-price">$775</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Basketball" data-stock="0" data-name="2025/2026 nba bowman jumbo box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-3.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Bowman Jumbo Box</div><div class="wpt-row"><span class="wpt-price">$760</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Basketball" data-stock="0" data-name="2025/2026 nba bowman hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-4.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2025/2026 NBA Bowman Hobby Box</div><div class="wpt-row"><span class="wpt-price">$430</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps mlb complete set"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-7.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps MLB Complete Set</div><div class="wpt-row"><span class="wpt-price">$60</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 2 value box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-9.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 2 hobby box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-10.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 2 Hobby Box</div><div class="wpt-row"><span class="wpt-price">$150</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+            <article class="wpt-card sold" data-cat="Baseball" data-stock="0" data-name="2026 topps series 1 value box"><span class="wpt-badge">Sold out</span><img src="build-a-website-assets/portfolio-demo/wpt-11.jpg" alt="" width="240" height="240" loading="lazy"><div class="wpt-name">2026 Topps Series 1 Value Box</div><div class="wpt-row"><span class="wpt-price">$30</span><button class="wpt-add" type="button" disabled>Sold out</button></div></article>
+                <p class="wpt-empty" hidden>No boxes match that search.</p>
+              </div>
+            </div>
+            <div class="pf-toast" role="status"></div>
+          </div>
+
+          <div class="pf-panel pf-twin" id="pf-p-twin" role="tabpanel" aria-labelledby="pf-t-twin" data-pf="twin" hidden>
+            <div class="tw-top"><span class="tw-logo" aria-hidden="true">TC</span><div><b>Twin Cleans</b><span>Mobile detailing</span></div></div>
+            <div class="pf-scroll">
+              <form class="tw-form" novalidate>
+                <h4>Request your detailing</h4>
+                <p class="tw-sub">Tell us what you have and what you're after.</p>
+                <div class="tw-row"><label>Name<input name="tw-name" autocomplete="off"></label><label>Phone<input name="tw-phone" inputmode="tel" autocomplete="off"></label></div>
+                <label>What are we detailing?<select><option>Car</option><option>Truck or SUV</option><option>Boat</option><option>RV</option></select></label>
+                <div class="tw-pk" role="group" aria-label="Package"><button type="button" class="on" aria-pressed="true">Express Wash &amp; Shine</button><button type="button" aria-pressed="false">Full Interior Detail</button><button type="button" aria-pressed="false">Exterior Paint Detail</button><button type="button" aria-pressed="false">The Twin Full Detail</button></div>
+                <button class="tw-send" type="submit">Send Booking Request →</button>
+                <p class="tw-err" role="alert" hidden>Add your name and phone so the twins can reach you.</p>
+              </form>
+              <div class="tw-done" hidden><i class="ti ti-circle-check" aria-hidden="true"></i><b>Request sent</b><p><span class="tw-what"></span>. This is a demo: on twincleans.com the request goes straight to the owners' inbox.</p><button class="tw-again" type="button">Send another</button></div>
+            </div>
+          </div>
+
+          <div class="pf-panel pf-book" id="pf-p-book" role="tabpanel" aria-labelledby="pf-t-book" data-pf="book" hidden>
+            <div class="bk-top"><span class="bk-logo">BOOKINGS</span><span class="bk-by">by Shore Works</span></div>
+            <div class="bk-steps" aria-hidden="true"><span>1 Day</span><span>2 Time</span><span>3 Service</span></div>
+            <div class="pf-scroll">
+              <div class="bk-view" data-v="day"><h5>Pick a day</h5><p class="bk-hint">Every day with openings shows how many.</p><div class="bk-days"></div></div>
+              <div class="bk-view" data-v="time" hidden><h5>Pick a time</h5><p class="bk-hint bk-dayname"></p><div class="bk-times"></div><button class="bk-back" type="button" data-to="day">← Back</button></div>
+              <div class="bk-view" data-v="svc" hidden><h5>What are we doing?</h5><p class="bk-picked"></p><div class="bk-svcs">
+                <button class="bk-svc" type="button" data-name="Haircut"><span>Haircut<small>About 45 min</small></span><span>$30</span></button>
+                <button class="bk-svc" type="button" data-name="Skin Fade"><span>Skin Fade<small>About 45 min</small></span><span>$35</span></button>
+                <button class="bk-svc" type="button" data-name="Beard Trim"><span>Beard Trim<small>About 30 min</small></span><span>$15</span></button>
+                <button class="bk-svc" type="button" data-name="Haircut & Beard"><span>Haircut &amp; Beard<small>About 60 min</small></span><span>$40</span></button>
+              </div><button class="bk-back" type="button" data-to="time">← Back</button></div>
+              <div class="bk-view bk-done" data-v="done" hidden><i class="ti ti-calendar-check" aria-hidden="true"></i><b>You're booked</b><p class="bk-summary"></p><p>This is a demo. The real app emails a confirmation with a calendar invite and a cancel link.</p><button class="bk-again" type="button">Book another</button></div>
+            </div>
+          </div>
+
+          <div class="pf-panel pf-cat" id="pf-p-cat" role="tabpanel" aria-labelledby="pf-t-cat" data-pf="cat" hidden>
+            <div class="ct-top">Shore<em>works</em><span>CATALOG</span></div>
+            <div class="pf-scroll">
+              <div class="ct-hero"><b>Find the <em>best</em> of the shore</b><div class="ct-search"><input type="search" placeholder="Search businesses" aria-label="Search businesses"><span>Search</span></div></div>
+              <div class="ct-chips"><button type="button" class="on" data-c="all" aria-pressed="true">All</button><button type="button" data-c="Dining" aria-pressed="false">Dining</button><button type="button" data-c="Retail" aria-pressed="false">Retail</button><button type="button" data-c="Fitness" aria-pressed="false">Fitness</button></div>
+              <div class="ct-list">
+                <a class="ct-item" href="/" data-cat="Dining" data-name="aversa's margate"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Aversa&#39;s Margate</b><small>Dining · Margate</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/#b=1781664162391" data-cat="Retail" data-name="wax, packs, and throwbacks"><span class="ct-ic"><i class="ti ti-shopping-bag" aria-hidden="true"></i></span><span><b>Wax, Packs, and Throwbacks</b><small>Retail · Linwood</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Dining" data-name="hot bagels & more"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Hot Bagels &amp; More</b><small>Dining · Multiple locations</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Dining" data-name="rose's garden grill"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Rose&#39;s Garden Grill</b><small>Dining · Northfield</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Dining" data-name="chido burrito"><span class="ct-ic"><i class="ti ti-tools-kitchen-2" aria-hidden="true"></i></span><span><b>Chido Burrito</b><small>Dining · Atlantic County</small></span><span class="ct-go">View →</span></a>
+                <a class="ct-item" href="/" data-cat="Fitness" data-name="international karate academy"><span class="ct-ic"><i class="ti ti-barbell" aria-hidden="true"></i></span><span><b>International Karate Academy</b><small>Fitness · Atlantic County</small></span><span class="ct-go">View →</span></a>
+                <p class="ct-empty" hidden>No businesses match that search.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <p class="pf-note"><i class="ti ti-hand-click" aria-hidden="true"></i>Live demos of real client builds. Click around.</p>
+    </div>
+  </div>
+</section>
+
 <!-- SERVICES -->
 <section class="section" id="services">
   <div class="section-tag">What We Build</div>
@@ -722,7 +1068,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 1. Portfolio -->
     <div class="service-card">
-      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/portfolio.jpg" alt="The portfolio page of the Anthony Lamaina site: a grid of his haircut photos" width="760" height="380" loading="lazy"></div>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/portfolio.jpg" alt="The Shore Works Web Solutions portfolio: client sites with their screenshots" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Portfolio Websites</div>
         <p class="svc-desc">Showcase your work with a polished, professional site that makes a strong first impression — perfect for freelancers, artists, photographers, and creatives.</p>
@@ -758,7 +1104,7 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
 
     <!-- 5. Advertising -->
     <div class="service-card">
-      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/advertising.jpg" alt="The Outdoor Impact website: a billboard over a city highway at night" width="760" height="380" loading="lazy"></div>
+      <div class="svc-shot"><img class="svc-preview" src="build-a-website-assets/services/advertising.jpg" alt="The Shore Works Catalog directory: Spotlight listings for South Jersey businesses" width="760" height="380" loading="lazy"></div>
       <div class="svc-content">
         <div class="svc-name">Advertising Strategy</div>
         <p class="svc-desc">We'll help you build a digital advertising plan — from Google Ads to Meta campaigns — to drive traffic to your new site and grow your customer base.</p>
@@ -1083,6 +1429,91 @@ main > #portfolio.work-section:not(.is-live){min-height:0}
     q.addEventListener('input', filter);
     chips.forEach(function(b){ b.addEventListener('click', function(){ cat = b.dataset.c; chips.forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); filter(); }); });
   })();
+})();
+(function(){
+  // Hero pixel grid: the pointer paints a colour trail across the squares, and three wandering trails paint on their own.
+  var hero = document.querySelector('.hero-section'), cv = hero && hero.querySelector('.hero-pixels');
+  if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d'), base = document.createElement('canvas'), bctx = base.getContext('2d');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var PAL = ['75,184,184', '127,216,210', '245,196,107', '242,140,107', '237,229,212'];
+  var CELL = 16, cols = 0, rows = 0, W = 0, H = 0, dpr = 1, I = null, C = null;
+  var last = null, travel = 0, ci = 0, raf = 0, running = false, visible = true, t = 0, prevTs = 0;
+  var comets = [0, 1, 2].map(function(k){
+    return { a: .23 + Math.random() * .12, b: .31 + Math.random() * .14, p: Math.random() * 6.28, q: Math.random() * 6.28, c: [0, 2, 3][k], prev: null };
+  });
+
+  function size(){
+    var r = hero.getBoundingClientRect();
+    W = r.width; H = r.height; dpr = Math.min(window.devicePixelRatio || 1, 2);
+    CELL = W < 640 ? 14 : 16;
+    cv.width = base.width = Math.round(W * dpr); cv.height = base.height = Math.round(H * dpr);
+    cols = Math.ceil(W / CELL); rows = Math.ceil(H / CELL);
+    I = new Float32Array(cols * rows); C = new Uint8Array(cols * rows);
+    bctx.setTransform(dpr, 0, 0, dpr, 0, 0); bctx.clearRect(0, 0, W, H);
+    for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+      var n = Math.random();
+      bctx.fillStyle = n > .93 ? 'rgba(75,184,184,' + (.07 + Math.random() * .06).toFixed(3) + ')' : 'rgba(255,255,255,' + (.012 + n * .03).toFixed(3) + ')';
+      bctx.fillRect(x * CELL + 1, y * CELL + 1, CELL - 2, CELL - 2);
+    }
+    draw();
+  }
+  function paint(x, y, c, str){
+    var cx = Math.floor(x / CELL), cy = Math.floor(y / CELL);
+    for (var dy = -2; dy <= 2; dy++) for (var dx = -2; dx <= 2; dx++) {
+      var gx = cx + dx, gy = cy + dy; if (gx < 0 || gy < 0 || gx >= cols || gy >= rows) continue;
+      var d = Math.sqrt(dx * dx + dy * dy); if (d > 2.3) continue;
+      var v = str * (1 - d / 2.6), i = gy * cols + gx;
+      if (v > I[i]) { I[i] = v; C[i] = c; }
+    }
+  }
+  function stroke(x0, y0, x1, y1, c, str){
+    var dist = Math.hypot(x1 - x0, y1 - y0), steps = Math.max(1, Math.ceil(dist / (CELL * .5)));
+    for (var s = 0; s <= steps; s++) paint(x0 + (x1 - x0) * s / steps, y0 + (y1 - y0) * s / steps, c, str);
+    return dist;
+  }
+  function draw(){
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.drawImage(base, 0, 0);
+    if (!I) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    for (var k = 0; k < PAL.length; k++) {
+      ctx.fillStyle = 'rgb(' + PAL[k] + ')';
+      for (var i = 0; i < I.length; i++) {
+        if (I[i] < .01 || C[i] !== k) continue;
+        ctx.globalAlpha = Math.min(1, I[i]) * .92;
+        ctx.fillRect((i % cols) * CELL + 1, Math.floor(i / cols) * CELL + 1, CELL - 2, CELL - 2);
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+  function frame(ts){
+    raf = 0; if (!running) return;
+    var dt = prevTs ? Math.min(.05, (ts - prevTs) / 1000) : .016; prevTs = ts; t += dt;
+    comets.forEach(function(m){
+      var x = W * (.5 + .46 * Math.sin(t * m.a + m.p)), y = H * (.5 + .44 * Math.sin(t * m.b + m.q));
+      if (m.prev) stroke(m.prev[0], m.prev[1], x, y, m.c, .9); m.prev = [x, y];
+    });
+    var decay = Math.pow(.962, dt * 60);
+    for (var i = 0; i < I.length; i++) if (I[i]) { I[i] *= decay; if (I[i] < .01) I[i] = 0; }
+    draw();
+    raf = requestAnimationFrame(frame);
+  }
+  function start(){ if (reduce || running || !visible || document.hidden) return; running = true; prevTs = 0; raf = requestAnimationFrame(frame); }
+  function stop(){ running = false; if (raf) cancelAnimationFrame(raf); raf = 0; comets.forEach(function(m){ m.prev = null; }); }
+  function point(cx, cy){
+    if (reduce) return;
+    var r = hero.getBoundingClientRect(), x = cx - r.left, y = cy - r.top;
+    if (last) { travel += stroke(last[0], last[1], x, y, ci, 1); if (travel > 140) { travel = 0; ci = (ci + 1) % PAL.length; } }
+    last = [x, y];
+  }
+  hero.addEventListener('pointermove', function(e){ point(e.clientX, e.clientY); });
+  hero.addEventListener('pointerleave', function(){ last = null; });
+  hero.addEventListener('touchmove', function(e){ var p = e.touches[0]; if (p) point(p.clientX, p.clientY); }, { passive: true });
+  hero.addEventListener('touchend', function(){ last = null; }, { passive: true });
+  var rt = 0; addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 150); });
+  document.addEventListener('visibilitychange', function(){ if (document.hidden) stop(); else start(); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible) start(); else stop(); }).observe(hero);
+  size(); start();
 })();
 window.addEventListener('scroll', function(){
   var btt = document.getElementById('back-to-top');
