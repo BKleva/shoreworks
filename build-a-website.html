@@ -1,315 +1,1136 @@
-﻿<!doctype html>
-<html lang="en" data-type="service" data-radius="soft" data-buttons="tonal" data-motion>
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Shore Works Web Solutions: websites and apps for South Jersey businesses</title>
-<meta name="description" content="Custom websites, booking apps and online shops for local businesses in South Jersey, designed and built by Shore Works from the first mockup to launch.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Shore Works Web Solutions: websites and apps for South Jersey businesses">
-<meta property="og:description" content="Custom websites, booking apps and online shops for local businesses in South Jersey.">
-<meta property="og:url" content="https://www.shoreworksnj.com/build-a-website">
-<meta property="og:image" content="https://www.shoreworksnj.com/build-a-website-assets/share.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.shoreworksnj.com/build-a-website-assets/share.jpg">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shore Works Web Solutions — Web Design & Digital Solutions</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.png">
-<meta name="theme-color" content="#f5f0e8">
-<link rel="canonical" href="https://www.shoreworksnj.com/build-a-website">
-<meta name="site-kind" content="other">
-<meta name="page-type" content="service">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wdth,wght@75..100,400..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="build-a-website-assets/system.css">
-<link rel="stylesheet" href="build-a-website-assets/ui/cards.css">
-<link rel="stylesheet" href="build-a-website-assets/motion/motion.css">
-<link rel="stylesheet" href="build-a-website-assets/backgrounds/backgrounds.css">
-<link rel="stylesheet" href="build-a-website-assets/layout/layout.css">
-<link rel="stylesheet" href="build-a-website-assets/icons/icon.css">
+<meta property="og:title" content="Shore Works Web Solutions — Web Design & Digital Solutions">
+<meta property="og:description" content="Professional websites for South Jersey businesses. Restaurants, retail, service businesses — we build it all.">
+<meta property="og:image" content="https://shoreworksnj.com/outdoor-impact/images/shoreworks-logo.png">
+<meta property="og:url" content="https://shoreworksnj.com/build-a-website">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://shoreworksnj.com/outdoor-impact/images/shoreworks-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --p-bg: #f5f0e8; --p-surface: #ede5d4; --p-ink: #0b2e41; --p-muted: #536874;
-  --p-accent: #4bb8b8; --p-accent-ink: #111111; --p-action: #0b2e41; --p-action-ink: #f5f0e8;
-  --p-inv-bg: #0b2e41; --p-inv-surface: #1c3a4c; --p-inv-ink: #f5f0e8; --p-inv-muted: #9ea7aa;
-  --p-inv-accent: #4bb8b8; --p-inv-accent-ink: #111111; --p-inv-action: #4bb8b8; --p-inv-action-ink: #111111;
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-text: "Instrument Sans", system-ui, sans-serif;
-  --display-weight: 400;
-  --display-tracking: -0.012em;
-  --display-tracking-xl: -0.016em;
-  --ly-scale: 1.12;
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#EDE5D4;scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;color:#1a1a1a;background:#EDE5D4;font-size:14px}
+
+/* NAV */
+.nav-bar{position:sticky;top:0;z-index:999;background:rgba(237,229,212,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #DDD8CE}
+.nav{position:relative;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem}
+.logo{font-family:'Playfair Display',serif;font-size:21px;color:#0D3D54;text-decoration:none}
+.logo em{color:#4BB8B8;font-style:italic}
+.nav-toggle{display:none;background:#fff;border:1px solid #DDD8CE;border-radius:8px;padding:6px 10px;font-size:18px;line-height:1;cursor:pointer;color:#0D3D54}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a{padding:7px 18px;border-radius:100px;font-size:12px;font-weight:500;text-decoration:none;color:#333;border:1px solid #DDD8CE;background:#fff;transition:all .15s}
+.nav-links a:hover{border-color:#1A6B8A;color:#0D3D54;background:#e8f5fb}
+.nav-links a.always{display:inline-block}
+.nav-links a.cta{background:#0D3D54;color:#fff;border-color:#0D3D54}
+.nav-links a.cta:hover{background:#0a2f40}
+.nav-links a.catalog{background:#4BB8B8;color:#0D3D54;border-color:#4BB8B8;font-weight:600}
+.nav-links a.catalog:hover{background:#3aa3a3}
+
+/* SHARED */
+.section{max-width:1100px;margin:0 auto;padding:4rem 2rem}
+.section-white{background:#fff}
+.section-tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#4BB8B8;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:10px}
+.section-tag::before{content:'';width:32px;height:1px;background:#4BB8B8}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:400;color:#0D3D54;line-height:1.1;margin-bottom:.75rem}
+.section-title em{font-style:italic;color:#4BB8B8}
+.section-sub{font-size:14px;color:#556677;line-height:1.8;max-width:520px;margin-bottom:3rem}
+.body-text{font-size:14px;color:#445566;line-height:1.85;margin-bottom:1.25rem}
+
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:4rem 2rem 3rem}
+.hero-tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#4BB8B8;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';width:32px;height:1px;background:#4BB8B8}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:400;color:#0D3D54;line-height:1.05;margin-bottom:1.5rem}
+.hero h1 em{font-style:italic;color:#4BB8B8}
+.hero-sub{font-size:16px;color:#3D4F5C;line-height:1.8;max-width:560px;margin-bottom:2.5rem}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{padding:13px 30px;border-radius:100px;background:#0D3D54;color:#fff;text-decoration:none;font-size:13px;font-weight:600;font-family:'Space Grotesk',sans-serif;border:none;cursor:pointer;transition:background .15s;display:inline-block}
+.btn-primary:hover{background:#0a2f40}
+.btn-outline{padding:13px 30px;border-radius:100px;background:transparent;color:#0D3D54;text-decoration:none;font-size:13px;font-weight:600;font-family:'Space Grotesk',sans-serif;border:2px solid #0D3D54;cursor:pointer;transition:all .15s;display:inline-block}
+.btn-outline:hover{background:#0D3D54;color:#fff}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.service-card{background:#fff;border-radius:18px;border:1px solid #E8E3D8;transition:transform .22s,box-shadow .22s;overflow:hidden;padding:0;display:flex;flex-direction:column}
+.service-card:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(13,61,84,.13)}
+.svc-preview{width:100%;display:block;flex-shrink:0}
+.svc-content{padding:1.5rem 1.75rem 1.75rem;flex:1}
+.svc-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;color:#0D3D54;margin-bottom:.6rem}
+.svc-desc{font-size:13px;color:#556677;line-height:1.75}
+
+/* PORTFOLIO */
+.portfolio-inner{max-width:1100px;margin:0 auto}
+.portfolio-carousel{position:relative;margin-top:3rem;padding:0 52px}
+.portfolio-track-wrap{overflow:hidden;position:relative;height:540px}
+.portfolio-track{position:relative;height:100%}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.why-list{display:flex;flex-direction:column;gap:1.5rem}
+.why-item{display:flex;gap:1rem;align-items:flex-start}
+.why-icon{width:38px;height:38px;border-radius:10px;background:#EBF4F8;display:flex;align-items:center;justify-content:center;color:#1A6B8A;font-size:17px;flex-shrink:0;margin-top:2px}
+.why-text h4{font-size:14px;font-weight:600;color:#0D3D54;margin-bottom:.35rem}
+.why-text p{font-size:13px;color:#556677;line-height:1.7}
+.why-visual{background:linear-gradient(135deg,#0D3D54 0%,#082737 100%);border-radius:24px;padding:3rem;position:relative;overflow:hidden}
+.why-visual::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(75,184,184,.15)}
+.wv-stat{margin-bottom:2rem;position:relative;z-index:1}
+.wv-num{font-family:'Playfair Display',serif;font-size:3.5rem;color:#fff;font-weight:400;line-height:1}
+.wv-num em{font-style:italic;color:#4BB8B8}
+.wv-label{font-size:12px;color:rgba(255,255,255,.6);margin-top:.3rem}
+
+/* REVIEWS TICKER */
+.reviews-band{background:#fff;padding:2.5rem 0;border-top:1px solid #E8E3D8;border-bottom:1px solid #E8E3D8}
+.reviews-band-head{max-width:1100px;margin:0 auto 1.5rem;padding:0 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.reviews-band-head .section-tag{margin-bottom:0}
+.g-pill{display:inline-flex;align-items:center;gap:5px;background:#F5F0E8;border:1px solid #E2DACE;border-radius:100px;padding:4px 11px;font-size:11px;font-weight:600;color:#445566}
+.rev-ticker-wrap{overflow:hidden;position:relative}
+.rev-ticker-wrap::before,.rev-ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:72px;z-index:2;pointer-events:none}
+.rev-ticker-wrap::before{left:0;background:linear-gradient(90deg,#fff,transparent)}
+.rev-ticker-wrap::after{right:0;background:linear-gradient(-90deg,#fff,transparent)}
+.rev-ticker{display:flex;gap:14px;width:max-content;animation:rev-scroll 48s linear infinite;padding:6px 0}
+.rev-ticker:hover{animation-play-state:paused}
+@keyframes rev-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.rev-card{flex-shrink:0;width:268px;background:#FAFAF8;border:1px solid #E8E3D8;border-radius:14px;padding:1rem 1.15rem}
+.rev-top{display:flex;align-items:center;gap:.55rem;margin-bottom:.6rem}
+.rev-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.rev-name{font-size:12px;font-weight:600;color:#0D3D54;line-height:1.3}
+.rev-stars{font-size:11px;color:#F4B942;letter-spacing:1px;margin-top:1px}
+.rev-body{font-size:12px;color:#556677;line-height:1.65}
+.rev-g{display:flex;align-items:center;gap:4px;margin-top:.55rem;font-size:10px;color:#999;font-weight:500}
+
+/* ABOUT */
+.about-section{max-width:1100px;margin:0 auto;padding:4rem 2rem}
+.about-grid{display:grid;grid-template-columns:auto 1fr;gap:5rem;align-items:start}
+.headshot-wrap img{width:260px;height:320px;object-fit:cover;object-position:center top;border-radius:20px;box-shadow:0 16px 48px rgba(13,61,84,.18);display:block}
+.headshot-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:#0D3D54;text-align:center;margin-top:1rem;letter-spacing:.04em}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-top:1.5rem}
+.skill-chip{display:flex;align-items:center;gap:.6rem;padding:.75rem 1rem;border-radius:10px;background:#0D3D54;border:1px solid #1A5E78}
+.skill-chip i{font-size:1.1rem;color:#4BB8B8}
+.skill-chip span{font-size:12px;font-weight:600;color:#fff}
+
+/* SPOTLIGHT */
+.spotlight-section{background:linear-gradient(135deg,#f5f0e8 0%,#ede5d4 100%);padding:4rem 2rem;border-top:1px solid #E2DACE;border-bottom:1px solid #E2DACE}
+.spotlight-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:center}
+.spotlight-perks{display:flex;flex-direction:column;gap:.75rem;margin-top:1.5rem}
+.perk{display:flex;align-items:center;gap:.6rem;font-size:13px;color:#445566;font-weight:500}
+.perk i{color:#4BB8B8;font-size:15px}
+.spotlight-card{background:linear-gradient(135deg,#0D3D54 0%,#082737 100%);border-radius:20px;padding:2rem;border:1px solid rgba(75,184,184,.2);box-shadow:0 12px 48px rgba(13,61,84,.2);position:relative;overflow:hidden}
+.spotlight-card::before{content:'';position:absolute;top:-50px;right:-50px;width:220px;height:220px;border-radius:50%;border:1px solid rgba(75,184,184,.1)}
+.sc-badge{display:inline-flex;padding:4px 12px;border-radius:100px;background:#4BB8B8;color:#0D3D54;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.25rem}
+.sc-logo-area{width:56px;height:56px;border-radius:14px;background:rgba(75,184,184,.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+.sc-biz-name{font-family:'Playfair Display',serif;font-size:22px;color:#fff;font-weight:400;margin-bottom:.25rem}
+.sc-category{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:1.25rem}
+.sc-divider{height:1px;background:rgba(255,255,255,.1);margin-bottom:1.25rem}
+.sc-row{display:flex;align-items:center;gap:.5rem;font-size:12px;color:rgba(255,255,255,.75);margin-bottom:.6rem}
+.sc-row i{font-size:13px;color:#4BB8B8}
+.sc-cta{display:inline-block;margin-top:1.5rem;padding:11px 22px;border-radius:100px;background:#4BB8B8;color:#0D3D54;font-size:12px;font-weight:700;font-family:'Space Grotesk',sans-serif;text-decoration:none;transition:background .15s}
+.sc-cta:hover{background:#3aa3a3}
+
+/* CTA */
+.cta-section{max-width:1100px;margin:0 auto;padding:4rem 2rem}
+.cta-box{background:linear-gradient(135deg,#0D3D54 0%,#1A6B8A 100%);border-radius:24px;padding:4rem;text-align:center;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;border:1px solid rgba(75,184,184,.12)}
+.cta-box h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.8rem);color:#fff;font-weight:400;margin-bottom:1rem;position:relative;z-index:1}
+.cta-box h2 em{color:#4BB8B8;font-style:italic}
+.cta-box p{color:rgba(255,255,255,.75);font-size:15px;line-height:1.8;max-width:480px;margin:0 auto 2.5rem;position:relative;z-index:1}
+.btn-teal{padding:14px 34px;border-radius:100px;background:#4BB8B8;color:#0D3D54;text-decoration:none;font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;display:inline-block;position:relative;z-index:1;transition:background .15s}
+.btn-teal:hover{background:#3aa3a3}
+
+/* BACK TO TOP */
+#back-to-top{position:fixed;bottom:1.5rem;right:1.5rem;width:42px;height:42px;border-radius:50%;background:#0D3D54;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 4px 18px rgba(13,61,84,.25);opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:900}
+#back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#back-to-top:hover{background:#1A6B8A}
+
+/* FOOTER */
+footer{border-top:1px solid #DDD8CE;padding:2.5rem 2rem;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-logo{font-family:'Playfair Display',serif;font-size:18px;color:#0D3D54}
+.foot-logo em{color:#4BB8B8;font-style:italic}
+footer p{font-size:12px;color:#888}
+
+/* HERO — digitized dark */
+.hero-section{background:#0B2E41;background-image:radial-gradient(circle,rgba(75,184,184,.13) 1px,transparent 1px);background-size:28px 28px;padding:0}
+.hero-inner{max-width:1100px;margin:0 auto;padding:4rem 2rem 4.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.hero-eyebrow{font-family:monospace;font-size:10.5px;color:#4BB8B8;letter-spacing:.16em;margin-bottom:1.25rem;opacity:.9}
+.hero-no-pad{padding:0;max-width:none;margin:0}
+.hero-section .hero h1{color:#fff}
+.hero-section .hero-sub{color:rgba(255,255,255,.68)}
+.hero-section .btn-outline{border-color:rgba(255,255,255,.3);color:#fff}
+.hero-section .btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+.cursor-blink{display:inline-block;width:3px;height:.78em;background:#4BB8B8;margin-left:4px;vertical-align:middle;animation:blink .85s step-end infinite;border-radius:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-browser-frame{border-radius:14px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(75,184,184,.2);background:#162534;width:100%}
+.hbf-chrome{background:#162534;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+.hbf-dots{display:flex;gap:6px}
+.hbf-dot{width:11px;height:11px;border-radius:50%}
+.hbf-dot:nth-child(1){background:#FF5F56}
+.hbf-dot:nth-child(2){background:#FFBD2E}
+.hbf-dot:nth-child(3){background:#27C93F}
+.hbf-bar{flex:1;background:#0D2030;border-radius:5px;padding:5px 10px;display:flex;align-items:center;gap:6px;max-width:360px}
+.hbf-lock{font-size:9px;color:rgba(75,184,184,.5)}
+.hbf-url{font-family:monospace;font-size:10px;color:rgba(75,184,184,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbf-screen{position:relative;overflow:hidden;aspect-ratio:4/3}
+.hbf-slide{position:absolute;inset:0;opacity:0;animation:hbf-fade 20s linear infinite}
+.hbf-slide:nth-child(1){animation-delay:0s}
+.hbf-slide:nth-child(2){animation-delay:-15s}
+.hbf-slide:nth-child(3){animation-delay:-10s}
+.hbf-slide:nth-child(4){animation-delay:-5s}
+@keyframes hbf-fade{0%,3%{opacity:0}6%,23%{opacity:1}26%,100%{opacity:0}}
+
+/* HERO TICKER BAND */
+.hero-ticker-band{background:#071D2A;border-top:1px solid rgba(75,184,184,.12);border-bottom:1px solid rgba(75,184,184,.12);padding:1.25rem 0}
+.rev-ticker-wrap--dark::before{background:linear-gradient(90deg,#071D2A,transparent)}
+.rev-ticker-wrap--dark::after{background:linear-gradient(-90deg,#071D2A,transparent)}
+.hero-ticker-band .rev-card{background:rgba(255,255,255,.05);border-color:rgba(75,184,184,.15)}
+.hero-ticker-band .rev-name{color:#fff}
+.hero-ticker-band .rev-body{color:rgba(255,255,255,.55)}
+.hero-ticker-band .rev-g{color:rgba(255,255,255,.35)}
+
+/* PROCESS */
+.process-section{background:#fff;padding:4rem 2rem;border-bottom:1px solid #E8E3D8}
+.process-inner{max-width:1100px;margin:0 auto}
+.process-steps{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr;gap:0;align-items:start;margin-top:2.5rem}
+.ps-connector{display:flex;align-items:flex-start;justify-content:center;padding-top:22px;color:#DDD8CE;font-size:1.1rem}
+.process-step{text-align:center;padding:0 .5rem}
+.ps-num{font-family:monospace;font-size:10px;font-weight:700;color:#4BB8B8;letter-spacing:.15em;margin-bottom:.65rem}
+.ps-icon{width:48px;height:48px;border-radius:13px;background:#EBF4F8;display:flex;align-items:center;justify-content:center;color:#1A6B8A;font-size:1.3rem;margin:0 auto .75rem;transition:background .2s,color .2s}
+.process-step:hover .ps-icon{background:#0D3D54;color:#4BB8B8}
+.ps-title{font-family:'Playfair Display',serif;font-size:15px;color:#0D3D54;font-weight:500;margin-bottom:.4rem}
+.ps-desc{font-size:12px;color:#778899;line-height:1.65}
+
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;gap:1.25rem}
+  .headshot-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:0}
+  .headshot-wrap img{width:180px;height:220px}
+  .section,.about-section,.cta-section{padding:3rem 2rem}
+  .spotlight-section{padding:3rem 2rem}
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem;padding:3rem 2rem 3.5rem}
+  .hero-browser-wrap{order:-1}
+  .process-steps{grid-template-columns:1fr 20px 1fr;gap:0}
+  .process-step:nth-child(6),.process-step:nth-child(8),.ps-connector:nth-child(6),.ps-connector:nth-child(8){display:none}
+}
+@media(max-width:768px){
+  .why-grid{grid-template-columns:1fr}
+  .why-visual{display:none}
+  .nav{padding:.9rem 1.25rem}
+  .nav-toggle{display:inline-flex;align-items:center}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:6px;background:#fff;border:1px solid #DDD8CE;border-radius:12px;padding:10px;margin-top:6px;box-shadow:0 16px 32px rgba(13,61,84,.15);z-index:80}
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:12px;padding:8px 14px;display:block;text-align:left}
+  .section,.about-section,.cta-section{padding:2.5rem 1.25rem}
+  .spotlight-section{padding:2.5rem 1.25rem}
+  .services-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .svc-content{padding:1rem 1rem 1.1rem}
+  .svc-name{font-size:14px}
+  .svc-desc{font-size:11.5px;line-height:1.6}
+  .portfolio-carousel{padding:0 28px}
+  .portfolio-track-wrap{height:390px}
+  .headshot-wrap img{width:140px;height:170px}
+  .spotlight-inner{grid-template-columns:1fr}
+  .spotlight-card{display:none}
+  .hero-inner{padding:2.5rem 1.25rem 3rem}
+  .process-section{padding:3rem 1.25rem}
+  .process-steps{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .ps-connector{display:none}
+}
+
+/* WORK — pinned project chapters; the tokens the module reads, in this page's colours and fonts */
+.work-section{background:#F5F0E8;padding:4.5rem 0;--ink:#0D3D54;--muted:#8796A0;--line:rgba(13,61,84,.15);--accent:#4BB8B8;--font-text:'Space Grotesk',sans-serif;--t-lead:18px;--r-md:14px;--s-2:8px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--gutter:56px;--nav:72px}
+.work-section .mo-pc__grid{max-width:1100px;margin:0 auto;padding-left:2rem;padding-right:2rem}
+.work-section .section-title{margin-bottom:0}
+.work-section .mo-pc__step p{font-size:14px;line-height:1.7;color:#556677}
+.work-section .mo-pc__visuals,.work-section .mo-pc__visual{border-radius:16px;overflow:hidden;border:1px solid rgba(13,61,84,.12);background:#fff}
+.work-section .mo-pc__visuals{box-shadow:0 24px 60px rgba(13,61,84,.14)}
+.work-section .mo-pc__visual img{display:block;object-position:50% 0}
+main > #portfolio.work-section:not(.is-live){min-height:0}
+/* the screenshots are 3:2: frames match them so no site text is cropped at the sides */
+#portfolio .mo-pc__visual > img{aspect-ratio:3/2;height:auto}
+#portfolio:not(.is-live) .mo-pc__visual{align-self:center}
+#portfolio.is-live .mo-pc__visuals{aspect-ratio:3/2}
+#portfolio.is-live .mo-pc__visual > img{aspect-ratio:auto;height:100%}
+@media(max-width:640px){
+  .work-section{padding:3rem 0}
+  .work-section .mo-pc__grid{padding-left:1.25rem;padding-right:1.25rem}
+  #portfolio .mo-pc__visual > img{max-height:none}
 }
 </style>
-<style>
-/* picture-develops: the services section's one photograph, beside the list, as tall as the text */
-.develop { margin: 0; border-radius: var(--r-lg); overflow: hidden; height: min(560px, var(--ly-fit)); }
-.develop > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
-@media (max-width: 639px) { .develop { height: auto; aspect-ratio: 3 / 5; margin-top: var(--s-7); } }
-/* the client screenshots show the top of each site */
-.mo-pc__visual img, #catalog .frame__img { object-position: 50% 0; }
-#catalog .frame { --ratio: 75%; }
-@media (max-width: 1023px) { #faq .grid:first-child .faq > :last-child { border-bottom: 0; } }
-.faq__more .faq > :first-child { padding-top: var(--s-4); }
-/* the four Google reviews, one card each */
-.reviews__grid { row-gap: var(--s-8); }
-.reviews__more { margin-top: var(--s-8); }
-.reviews__grid figure { margin: 0; display: grid; align-content: space-between; gap: var(--s-5); }
-.reviews__grid blockquote { margin: 0; font: 400 var(--t-lead)/1.5 var(--font-text); color: var(--ink); }
-.reviews__grid .person img { width: 24px; height: 24px; background: none; }
-/* the tablet keeps the page's split for the services and the catalog, so each stays one screen */
-@media (min-width: 640px) and (max-width: 1023px) {
-  :is(#services, #catalog) > .wrap.grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-  :is(#services, #catalog) > .wrap.grid > .span-5 { grid-column: 1 / span 6; }
-  #services .develop { grid-column: 7 / -1; height: 100%; }
-  #catalog .frame { grid-column: 7 / -1; --ratio: 0px; height: 100%; }
-  main > #work[data-moment]:not(.is-live) { height: calc(var(--h) * 100svh); }
-  #work:not(.is-live) .mo-pc__step { grid-template-columns: minmax(0, 1fr); }
-  #work:not(.is-live) .mo-pc__step .mo-pc__visual { grid-column: 1; grid-row: auto; }
-  #work:not(.is-live) .mo-pc__visual > img { width: 100%; height: 27svh; max-height: none; object-fit: cover; }
-  #reviews .reviews__grid { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-6); }
-  #reviews .reviews__grid > * { grid-column: auto; }
-  #reviews .reviews__more { margin-top: var(--s-6); }
-}
-@media (max-width: 1023px) { #reviews .reviews__grid blockquote { font-size: var(--t-body); } .reviews__grid figure { align-content: start; } }
-/* a narrow phone keeps the main action in the open menu, as system.css does with an action bar (the hero and close carry it too) */
-@media (max-width: 359px) {
-  .nav:not(.is-open) .nav__actions { display: none; }
-  .nav:not(.is-open) .nav__toggle { margin-left: auto; }
-}
-/* pinned-chapters at rest on a phone: two screens, growing only when a narrow phone needs more */
-@media (max-width: 639px) {
-  .nav .nav__logo img { height: 20px; }
-  #reviews .reviews__more { margin-top: 0; }
-  :is(#faq, #reviews) .grid { align-content: start; }
-  main > #work[data-moment]:not(.is-live) { height: auto; min-height: calc(var(--hm) * 100lvh); }
-  #catalog .frame { --ratio: 125%; }
-}
-</style>
-<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
-<script src="build-a-website-assets/backgrounds/backgrounds.js"></script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 <link rel="modulepreload" href="build-a-website-assets/moments/moments.js">
 <link rel="modulepreload" href="build-a-website-assets/moments/lib.js">
 <link rel="modulepreload" href="build-a-website-assets/moments/pinned-chapters/moment.js">
-<link rel="modulepreload" href="build-a-website-assets/moments/picture-develops/moment.js">
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y9gr1diace");
+</script>
 </head>
 <body>
-<!-- type: service (site-kind other)
-     deal: hero split (re-dealt from photo: no 1920px photograph with a calm area; the work is the client sites themselves),
-     palette: the client's brand through start.mjs brand (navy ink, teal accent, sand ground, from the Shoreworks logo),
-     type instrument-serif (newsreader, red-hat and figtree each took 4 lines at 45 characters in the split hero: hero-lines; dealt again), nav nav-mega, close close-type, footer footer-columns (re-dealt from footer-visit: no address or
-     hours to visit), rhythm surface-pairs (reviews and catalog), buttons tonal, mark: the client's own logo
-     moments: pinned-chapters in #work (four client sites shown in the space of one), picture-develops in #services -->
 
-<header class="nav">
-  <div class="wrap nav__bar">
-    <a class="skip-link" href="#top">Skip to content</a>
-    <a class="nav__logo" href="#top"><img src="build-a-website-assets/shoreworks-logo.png" alt="Shore Works Web Solutions" width="260" height="42"></a>
-    <nav class="nav__links" aria-label="Main">
-      <div class="nav__item"><a class="nav__link" href="#services">Services</a></div>
-      <div class="nav__item">
-        <a class="nav__link" href="#work">Work <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <div class="nav__menu">
-          <div class="wrap grid">
-            <div class="menu-col span-3">
-              <p class="t-label">Websites</p>
-              <a href="https://thomaslacovarapublicadjuster.com/">Thomas Lacovara &amp; Associates<span>Public adjusters, South Jersey</span></a>
-              <a href="https://rosesgardengrillnf.com/">Rose's Garden Grill<span>Restaurant in Northfield</span></a>
-              <a href="https://outdoorimpactllc.com/">Outdoor Impact<span>Billboard development</span></a>
-              <a href="https://waxpacksandthrowbacks.com/">Wax, Packs &amp; Throwbacks<span>Trading card shop in Linwood</span></a>
-            </div>
-            <div class="menu-col span-3">
-              <p class="t-label">Apps</p>
-              <a href="https://www.twincleans.com/">Twin Cleans<span>Booking requests for detailing</span></a>
-              <a href="/">Shore Works Catalog<span>Local business directory</span></a>
-            </div>
-            <a class="menu-card span-3 start-10" href="https://anthonylamainabookings.netlify.app/">
-              <div class="panel"><img class="frame__img" src="build-a-website-assets/work/anthony-lamaina-calendar.jpg" width="600" height="346" loading="lazy" alt="A month calendar showing how many open times each day has" data-source="client" data-subject="work"></div>
-              <span class="t-card">Barber booking app</span>
-              <span class="t-small muted">Clients pick a day and a time</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="nav__item"><a class="nav__link" href="#reviews">Reviews</a></div>
-      <div class="nav__item"><a class="nav__link" href="#catalog">Catalog</a></div>
-      <div class="nav__item"><a class="nav__link" href="#faq">Questions</a></div>
-    </nav>
-    <div class="nav__actions">
-      <a class="btn btn--primary" href="build-contact.html">Start your project</a>
-    </div>
-    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
-      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </button>
+<div class="nav-bar"><nav class="nav">
+  <a class="logo" href="#top">Shore<em>works</em> <span style="font-size:15px;font-weight:400;color:#1A6B8A;font-style:normal">Web Solutions</span></a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="document.getElementById('main-nav-links').classList.toggle('open')"><i class="ti ti-menu-2"></i></button>
+  <div class="nav-links" id="main-nav-links">
+    <a href="#about" class="always">About</a>
+    <a href="#services">Services</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#why">Why Us</a>
+    <a href="/" class="catalog">← Directory</a>
+    <a href="/reviews">Get Google Reviews</a>
+    <a href="build-contact.html" class="cta">Contact</a>
   </div>
-</header>
+</nav></div>
+<script>
+(function(){
+  var nav = document.getElementById('main-nav-links');
+  if (!nav) return;
+  nav.addEventListener('click', function(e) {
+    var t = e.target;
+    while (t && t !== nav) { if (t.tagName === 'A') { nav.classList.remove('open'); return; } t = t.parentElement; }
+  });
+})();
+</script>
 
-<main id="top">
-  <section class="hero hero--split" data-enter aria-labelledby="hero-h">
-    <div class="wrap"><div class="hero-text grid hero__grid">
-      <div class="hero__text span-5">
-        <h1 id="hero-h">Websites and apps for South Jersey businesses</h1>
-        <p class="hero__lead">We design and build custom websites, booking apps and online shops for local businesses, from the first mockup to launch on your domain. You own the code.</p>
-        <div class="btn-row"><a class="btn btn--primary" href="build-contact.html">Start your project<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="#work">See our work</a></div>
-      </div>
-      <div class="hero__media span-6 start-7">
-        <img src="build-a-website-assets/work/wax-packs-throwbacks.jpg" srcset="build-a-website-assets/work/wax-packs-throwbacks-640.jpg 640w, build-a-website-assets/work/wax-packs-throwbacks.jpg 1256w" sizes="(max-width: 639px) 342px, (max-width: 1023px) 724px, 628px" alt="The Wax, Packs &amp; Throwbacks website: a photograph of the card shop's floor with the shop's name over it" width="1256" height="1432" style="--ly-pos: 50% 0%" fetchpriority="high" data-source="client" data-subject="work">
-        <div class="ly-float">
-          <div class="ly-float__row"><span>Google review</span><span>5 of 5 stars</span></div>
-          <div class="ly-float__title">“Ben had our site live in under a week.” Dan S.</div>
-        </div>
-      </div>
-    </div></div>
-  </section>
-
-  <section class="section" id="services" style="--hm: 2" aria-labelledby="services-h">
-    <div class="wrap grid grid--top">
-      <div class="span-5">
-        <div class="section-head">
-          <h2 id="services-h">Websites and apps we build</h2>
-          <p>Each one is designed for your business and built around how it runs.</p>
-        </div>
-        <ul class="rows">
-          <li><span class="rows__name">Business websites</span><p>Menus, hours, services and contact forms, set up the way you work.</p></li>
-          <li><span class="rows__name">Booking apps</span><p>Clients pick a day, a time and a service, then get an email confirmation.</p></li>
-          <li><span class="rows__name">Online shops</span><p>A product catalog with online ordering for local retailers.</p></li>
-          <li><span class="rows__name">Portfolio sites</span><p>A clear showcase for artists, photographers and firms.</p></li>
-          <li><span class="rows__name">Lead forms</span><p>Inquiry forms that send every lead straight to your inbox.</p></li>
-          <li><span class="rows__name">Advertising</span><p>Google Ads and Meta campaigns that send people to the new site.</p></li>
-        </ul>
-      </div>
-      <figure class="develop span-6 start-7" data-moment="picture-develops"><img src="build-a-website-assets/work/roses-garden-grill.jpg" srcset="build-a-website-assets/work/roses-garden-grill-phone.jpg 700w, build-a-website-assets/work/roses-garden-grill.jpg 1256w" sizes="(max-width: 1023px) 350px, 701px" alt="The Rose's Garden Grill website: the restaurant's logo on green with Order Now and View Menu buttons" width="1256" height="1120" loading="lazy" data-source="client" data-subject="work"></figure>
-    </div>
-  </section>
-
-  <section class="section" id="work" style="--h: 2; --hm: 2" data-moment="pinned-chapters" aria-labelledby="work-h">
-    <div class="wrap mo-pc__grid">
-      <div class="mo-pc__text">
-        <h2 id="work-h">Sites and apps we've built</h2>
-        <ol class="mo-pc__steps">
-          <li class="mo-pc__step">
-            <h3>Website for Thomas Lacovara &amp; Associates</h3>
-            <p>A public adjusting firm in South Jersey: team profiles, claim types, client reviews, an FAQ and a form for claim consultations.</p>
-            <figure class="mo-pc__visual"><img src="build-a-website-assets/work/thomas-lacovara.jpg" srcset="build-a-website-assets/work/thomas-lacovara-640.jpg 640w, build-a-website-assets/work/thomas-lacovara.jpg 1256w" sizes="(max-width: 639px) 342px, (max-width: 1023px) 724px, 628px" loading="lazy" alt="The Thomas Lacovara Public Adjusters website, with its headline over a photograph of a fire-damaged home" width="1256" height="838" data-source="client" data-subject="work"></figure>
-          </li>
-          <li class="mo-pc__step">
-            <h3>Website and booking form for Twin Cleans</h3>
-            <p>Mobile detailing run by twin brothers: service packages, a photo gallery the owners update, and a booking request form.</p>
-            <figure class="mo-pc__visual"><img src="build-a-website-assets/work/twin-cleans.jpg" srcset="build-a-website-assets/work/twin-cleans-640.jpg 640w, build-a-website-assets/work/twin-cleans.jpg 1256w" sizes="(max-width: 639px) 342px, (max-width: 1023px) 724px, 628px" loading="lazy" alt="The Twin Cleans website: a headline about showroom shine in your driveway beside the round Twin Cleans logo" width="1256" height="838" data-source="client" data-subject="work"></figure>
-          </li>
-          <li class="mo-pc__step">
-            <h3>Booking app for Anthony Lamaina</h3>
-            <p>A booking app for a barber: clients pick a day, a time and a cut, and get an email confirmation. He adds his own time slots.</p>
-            <figure class="mo-pc__visual"><img src="build-a-website-assets/work/anthony-lamaina.jpg" srcset="build-a-website-assets/work/anthony-lamaina-640.jpg 640w, build-a-website-assets/work/anthony-lamaina.jpg 1256w" sizes="(max-width: 639px) 342px, (max-width: 1023px) 724px, 628px" loading="lazy" alt="The Anthony Lamaina booking site: his portrait beside a barber pole and a Book an appointment button" width="1256" height="838" data-source="client" data-subject="work"></figure>
-          </li>
-          <li class="mo-pc__step">
-            <h3>Website for Outdoor Impact</h3>
-            <p>A billboard development company: a gallery of placements, case studies and a contact portal for landowners.</p>
-            <figure class="mo-pc__visual"><img src="build-a-website-assets/work/outdoor-impact.jpg" srcset="build-a-website-assets/work/outdoor-impact-640.jpg 640w, build-a-website-assets/work/outdoor-impact.jpg 1256w" sizes="(max-width: 639px) 342px, (max-width: 1023px) 724px, 628px" loading="lazy" alt="The Outdoor Impact website: a billboard with the company's name over a city highway at night" width="1256" height="838" data-source="client" data-subject="work"></figure>
-          </li>
-        </ol>
-      </div>
-      <div class="mo-pc__visuals frame"></div>
-    </div>
-  </section>
-
-  <section class="section g2m" id="faq" aria-labelledby="faq-h">
-    <div class="wrap">
-      <div class="grid grid--top">
-        <div class="span-5">
-          <div class="section-head">
-            <h2 id="faq-h">Questions before you start</h2>
-            <p>Anything else, ask on the first call: <a class="link" href="tel:6092897698">(609) 289-7698</a></p>
-          </div>
-        </div>
-        <div class="faq span-6 start-7">
-          <details open><summary>How does a project run?</summary><p>A call about your business, a full design mockup we revise until it's right, the build, then launch on your domain.</p></details>
-        </div>
-      </div>
-      <div class="grid grid--top faq__more">
-        <div class="faq span-6 start-7">
-          <details open><summary>Who will I work with?</summary><p>Ben Kleva, who runs Shore Works. Before it, he built CRM tools for government technology resellers.</p></details>
-          <details open><summary>Do I own the site?</summary><p>Yes. Your domain, your code and your content belong to you, with no lock-in.</p></details>
-          <details open><summary>Do you handle the domain and hosting?</summary><p>Yes. We set up the domain, the hosting and the launch, and offer support plans after it.</p></details>
-          <details open><summary>What if I need changes after launch?</summary><p>Send a message. Updates, edits and questions are part of the support plans.</p></details>
-          <details open><summary>Where do you work?</summary><p>South Jersey, with restaurants, shops, contractors and service businesses.</p></details>
+<main>
+<!-- HERO -->
+<section class="hero-section" id="top">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">// web design &nbsp;·&nbsp; south jersey</div>
+      <div class="hero hero-no-pad">
+        <h1>Your website,<br>built <em>the right way.<span class="cursor-blink"></span></em></h1>
+        <p class="hero-sub">We design and build professional websites for local businesses — from portfolio sites and restaurant menus to full e-commerce storefronts. Your online presence, handled.</p>
+        <div class="hero-btns">
+          <a href="build-contact.html" class="btn-primary">Start Your Project</a>
+          <a href="#services" class="btn-outline">See What We Offer</a>
         </div>
       </div>
     </div>
-  </section>
+    <div class="hero-browser-wrap">
+      <div class="hero-browser-frame">
+        <div class="hbf-chrome">
+          <div class="hbf-dots"><span class="hbf-dot"></span><span class="hbf-dot"></span><span class="hbf-dot"></span></div>
+          <div class="hbf-bar"><span class="hbf-lock">🔒</span><span class="hbf-url" id="hbf-url">waxpacksandthrowbacks.com</span></div>
+        </div>
+        <div class="hbf-screen">
 
-  <section class="section ground-surface g2m" id="reviews" aria-labelledby="reviews-h">
-    <div class="wrap">
-      <div class="group">
-        <div class="section-head"><h2 id="reviews-h">Reviews from our clients on Google</h2></div>
-        <div class="grid reviews__grid">
-          <figure class="quote span-12"><blockquote>The skill and professionalism is unmatched in the industry, especially at this price point. It's hard to emphasize how much more business I'm getting since making the switch — night and day difference.</blockquote><div class="person"><span><span class="person__name">Colton Lacovara</span><span class="person__role">Google review</span></span><img src="build-a-website-assets/icons/google-icon.svg" alt="Google" width="40" height="40" loading="lazy"></div></figure>
+          <!-- SLIDE 1: Code Editor -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#0D1117;font-family:monospace;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:#161B22;display:flex;align-items:stretch;height:26px;border-bottom:1px solid #30363D;flex-shrink:0">
+              <div style="background:#0D1117;padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
+                <span style="width:8px;height:8px;border-radius:2px;background:#E34C26;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.75)">hero-section.html</span>
+                <span style="font-size:8px;color:rgba(255,255,255,.2)">×</span>
+              </div>
+              <div style="padding:0 12px;display:flex;align-items:center;gap:6px;border-right:1px solid #30363D">
+                <span style="width:8px;height:8px;border-radius:2px;background:#1572B6;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">styles.css</span>
+              </div>
+              <div style="padding:0 12px;display:flex;align-items:center;gap:6px">
+                <span style="width:8px;height:8px;border-radius:2px;background:#89D185;display:inline-block"></span>
+                <span style="font-size:9px;color:rgba(255,255,255,.3)">deploy.sh</span>
+              </div>
+            </div>
+            <div style="display:flex;flex:1;overflow:hidden">
+              <div style="width:34px;background:#161B22;padding:8px 0;text-align:right;flex-shrink:0;border-right:1px solid rgba(255,255,255,.05)">
+                <div style="font-size:8px;color:rgba(255,255,255,.2);padding:0 6px;line-height:2">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+              </div>
+              <div style="padding:8px 12px;font-size:9px;line-height:2;flex:1;overflow:hidden">
+                <div><span style="color:#6A9955">/* Shore Works Web Solutions */</span></div>
+                <div>&nbsp;</div>
+                <div><span style="color:#4EC9B0">&lt;section</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-section"</span><span style="color:#4EC9B0">&gt;</span></div>
+                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;div</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-inner"</span><span style="color:#4EC9B0">&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;span</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"eyebrow"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">// web design · south jersey</span><span style="color:#4EC9B0">&lt;/span&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;h1&gt;</span><span style="color:rgba(255,255,255,.75)">Your Website,</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(255,255,255,.75)">Built</span> <span style="color:#DCDCAA">&lt;em&gt;</span><span style="color:#4BB8B8">Right.</span><span style="color:#DCDCAA">&lt;/em&gt;</span><span style="color:#4EC9B0">&lt;/h1&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;p</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"hero-sub"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.45)">Custom-built for local business.</span><span style="color:#4EC9B0">&lt;/p&gt;</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;a</span> <span style="color:#9CDCFE">class</span><span style="color:#fff">=</span><span style="color:#CE9178">"btn-primary"</span><span style="color:#4EC9B0">&gt;</span><span style="color:rgba(255,255,255,.55)">Start Your Project →</span><span style="color:#4EC9B0">&lt;/a&gt;</span></div>
+                <div>&nbsp;&nbsp;<span style="color:#4EC9B0">&lt;/div&gt;</span></div>
+                <div><span style="color:#4EC9B0">&lt;/section&gt;</span><span style="display:inline-block;width:2px;height:12px;background:#4BB8B8;vertical-align:middle;animation:blink .85s step-end infinite;margin-left:2px"></span></div>
+              </div>
+            </div>
+            <div style="height:54px;background:#0A0F14;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0">
+              <div style="background:#1C2128;height:18px;display:flex;align-items:center;padding:0 8px;gap:14px">
+                <span style="font-size:7.5px;color:rgba(255,255,255,.6);font-weight:600">TERMINAL</span>
+                <span style="font-size:7.5px;color:rgba(255,255,255,.2)">OUTPUT</span>
+              </div>
+              <div style="padding:4px 10px">
+                <div style="font-size:8px"><span style="color:#4EC9B0">$</span> <span style="color:rgba(255,255,255,.55)">netlify deploy --prod --site shoreworksnj</span></div>
+                <div style="font-size:8px;color:#4BB8B8">✓ Deploy complete · Live at <span style="text-decoration:underline">shoreworksnj.com</span></div>
+              </div>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 2: E-Commerce Wireframe -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px;display:flex;flex-direction:column;gap:5px">
+            <!-- Header -->
+            <div style="background:#D5D0C9;border-radius:4px;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;flex-shrink:0">
+              <div style="width:48px;height:7px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="width:90px;height:14px;background:#C5C0B9;border-radius:3px;display:flex;align-items:center;padding:0 7px;gap:4px">
+                <div style="width:8px;height:8px;border-radius:50%;background:#B5B0A9"></div>
+                <div style="flex:1;height:4px;background:#B5B0A9;border-radius:2px"></div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center">
+                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:20px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="background:rgba(75,184,184,.35);border:1.5px dashed #4BB8B8;border-radius:3px;width:22px;height:14px;display:flex;align-items:center;justify-content:center"><span style="font-size:9px;color:#4BB8B8">🛒</span></div>
+              </div>
+            </div>
+            <!-- Filter + grid row -->
+            <div style="display:flex;gap:6px;flex:1;overflow:hidden">
+              <!-- Sidebar filters -->
+              <div style="width:62px;flex-shrink:0;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:6.5px;font-weight:700;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1px">Filters</div>
+                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
+                  <div style="width:60%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
+                  <div style="display:flex;flex-direction:column;gap:3px">
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:28px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#4BB8B8"></div><div style="width:22px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                    <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:1px;background:#C5C0B9;border:1px solid #B5B0A9"></div><div style="width:30px;height:4px;background:#C5C0B9;border-radius:2px"></div></div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:3px;padding:5px 6px">
+                  <div style="width:50%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:4px"></div>
+                  <div style="height:6px;background:#C5C0B9;border-radius:2px;position:relative"><div style="position:absolute;left:20%;right:30%;top:1px;bottom:1px;background:#4BB8B8;border-radius:2px"></div></div>
+                  <div style="display:flex;justify-content:space-between;margin-top:3px">
+                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
+                    <div style="width:20px;height:4px;background:#C5C0B9;border-radius:2px"></div>
+                  </div>
+                </div>
+                <div style="background:#0D3D54;border-radius:3px;padding:5px;text-align:center;margin-top:auto">
+                  <div style="font-size:6.5px;font-weight:700;color:#fff">Apply</div>
+                </div>
+              </div>
+              <!-- Product grid -->
+              <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:5px">
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;border:1.5px dashed #4BB8B8">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#D5D0C9;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+                  <div style="background:#C5C0B9;flex:1;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;color:#A8A3A0">⛶</span></div>
+                  <div style="padding:4px 5px;background:#ECEAE6">
+                    <div style="width:80%;height:4px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="width:30%;height:5px;background:#0D3D54;border-radius:2px;opacity:.5"></div>
+                      <div style="background:#4BB8B8;border-radius:100px;padding:2px 5px;font-size:5.5px;font-weight:700;color:#fff">Add</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
+              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 3: Blank Website Wireframe -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#ECEAE6;overflow:hidden;font-family:'Space Grotesk',sans-serif;padding:10px 10px 8px">
+            <div style="background:#D5D0C9;border-radius:4px 4px 0 0;height:24px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-bottom:0">
+              <div style="width:44px;height:7px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="width:24px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+                <div style="background:#4BB8B8;border-radius:100px;padding:3px 9px;font-size:7px;font-weight:700;color:#fff">CTA →</div>
+              </div>
+            </div>
+            <div style="border:2px dashed #B5B0A9;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.3)">
+              <div style="width:28px;height:28px;border-radius:50%;border:2px dashed #999;display:flex;align-items:center;justify-content:center;font-size:13px;color:#999">⛶</div>
+              <div style="font-size:7.5px;color:#999;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Hero Section</div>
+              <div style="display:flex;gap:5px">
+                <div style="background:#0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#fff;font-weight:700">Primary CTA</div>
+                <div style="border:1.5px solid #0D3D54;border-radius:100px;padding:3px 10px;font-size:6.5px;color:#0D3D54;font-weight:700">Secondary</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:5px">
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+              <div style="background:#D5D0C9;border-radius:4px;padding:7px">
+                <div style="width:18px;height:18px;border-radius:3px;background:#B5B0A9;margin-bottom:5px"></div>
+                <div style="width:65%;height:5px;background:#B5B0A9;border-radius:2px;margin-bottom:3px"></div>
+                <div style="width:90%;height:4px;background:#C5C0B9;border-radius:2px;margin-bottom:2px"></div>
+                <div style="width:75%;height:4px;background:#C5C0B9;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="background:#0D3D54;border-radius:4px;padding:8px 10px;margin-top:5px;display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="width:80px;height:5px;background:rgba(255,255,255,.35);border-radius:2px;margin-bottom:4px"></div>
+                <div style="width:60px;height:4px;background:rgba(255,255,255,.18);border-radius:2px"></div>
+              </div>
+              <div style="background:#4BB8B8;border-radius:100px;padding:4px 11px;font-size:7.5px;font-weight:700;color:#fff">Get Started</div>
+            </div>
+            <div style="background:#D5D0C9;border-radius:0 0 4px 4px;height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-top:5px">
+              <div style="width:44px;height:5px;background:#B5B0A9;border-radius:2px"></div>
+              <div style="display:flex;gap:5px"><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div><div style="width:18px;height:4px;background:#B5B0A9;border-radius:2px"></div></div>
+            </div>
+            <div style="position:absolute;top:14px;right:14px;background:#0D3D54;border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px">
+              <span style="width:6px;height:6px;border-radius:50%;background:#4BB8B8;display:inline-block"></span>
+              <span style="font-size:6.5px;color:#fff;font-weight:600;letter-spacing:.04em">Shore Works Design System</span>
+            </div>
+          </div></div>
+
+          <!-- SLIDE 4: Report Dashboard -->
+          <div class="hbf-slide"><div style="position:absolute;inset:0;background:#fff;overflow:hidden;font-family:'Space Grotesk',sans-serif;display:flex">
+            <div style="width:86px;background:#0D3D54;display:flex;flex-direction:column;flex-shrink:0;padding:12px 0">
+              <div style="padding:0 10px 10px;border-bottom:1px solid rgba(255,255,255,.1)">
+                <div style="font-weight:800;font-size:8px;color:#fff;line-height:1">Shore<em style="color:#4BB8B8;font-style:italic">works</em></div>
+                <div style="font-size:6px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.05em">ANALYTICS</div>
+              </div>
+              <div style="padding:10px 10px 0">
+                <div style="font-size:6px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">REPORTS</div>
+                <div style="background:rgba(75,184,184,.15);border-left:2px solid #4BB8B8;padding:4px 6px;border-radius:0 3px 3px 0;margin-bottom:3px">
+                  <span style="font-size:7px;color:#4BB8B8;font-weight:600">📊 Traffic</span>
+                </div>
+                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">🎯 Leads</span></div>
+                <div style="padding:4px 6px;margin-bottom:3px"><span style="font-size:7px;color:rgba(255,255,255,.4)">⭐ Reviews</span></div>
+                <div style="padding:4px 6px"><span style="font-size:7px;color:rgba(255,255,255,.4)">📄 Pages</span></div>
+              </div>
+            </div>
+            <div style="flex:1;overflow:hidden;padding:11px 12px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px">
+                <div>
+                  <div style="font-size:10.5px;font-weight:700;color:#0D3D54">Performance Report</div>
+                  <div style="font-size:7px;color:#889">October 2026 · shoreworksnj.com</div>
+                </div>
+                <div style="background:#EDE5D4;border-radius:4px;padding:3px 7px;font-size:7px;color:#0D3D54;font-weight:600">↓ Export PDF</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:7px">
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">1,284</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Visitors</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 12%</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">47</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Leads</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↑ 8%</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">3.2%</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Bounce</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">↓ good</div>
+                </div>
+                <div style="background:#F5F0E8;border-radius:5px;padding:5px 6px">
+                  <div style="font-size:14px;font-weight:800;color:#0D3D54;line-height:1">5.0★</div>
+                  <div style="font-size:6.5px;color:#889;margin:1px 0">Google</div>
+                  <div style="font-size:6.5px;color:#2E7D52;font-weight:600">14 reviews</div>
+                </div>
+              </div>
+              <div style="background:#F9F9F7;border:1px solid #E8E3D8;border-radius:5px;padding:6px 7px;margin-bottom:6px">
+                <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:5px">Monthly Traffic</div>
+                <svg viewBox="0 0 200 44" style="width:100%;display:block;overflow:visible">
+                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10" stroke="#4BB8B8" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                  <polyline points="0,40 33,34 66,26 100,18 133,14 166,6 200,10 200,44 0,44" fill="rgba(75,184,184,.12)" stroke="none"/>
+                  <text x="0" y="44" font-size="5" fill="#aaa" font-family="sans-serif">May</text>
+                  <text x="30" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jun</text>
+                  <text x="62" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Jul</text>
+                  <text x="95" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Aug</text>
+                  <text x="127" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Sep</text>
+                  <text x="161" y="44" font-size="5" fill="#aaa" font-family="sans-serif">Oct</text>
+                </svg>
+              </div>
+              <div style="font-size:7px;font-weight:600;color:#0D3D54;margin-bottom:4px">Recent Activity</div>
+              <div style="border-left:2px solid #4BB8B8;padding-left:6px;margin-bottom:3px">
+                <div style="font-size:7.5px;color:#334">New contact form submission</div>
+                <div style="font-size:6.5px;color:#aaa">2 hours ago</div>
+              </div>
+              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px;margin-bottom:3px">
+                <div style="font-size:7.5px;color:#334">Google review posted ★★★★★</div>
+                <div style="font-size:6.5px;color:#aaa">Yesterday</div>
+              </div>
+              <div style="border-left:2px solid rgba(75,184,184,.3);padding-left:6px">
+                <div style="font-size:7.5px;color:#334">Traffic spike: 89 visitors (Thursday)</div>
+                <div style="font-size:6.5px;color:#aaa">3 days ago</div>
+              </div>
+            </div>
+          </div></div>
+
         </div>
       </div>
-      <div class="grid reviews__grid reviews__more">
-          <figure class="quote span-4"><blockquote>Ben built an impressive web application in no time. It was very user friendly, looked amazing and very professional.</blockquote><div class="person"><span><span class="person__name">Lori Montgomery</span><span class="person__role">Google review</span></span><img src="build-a-website-assets/icons/google-icon.svg" alt="Google" width="40" height="40" loading="lazy"></div></figure>
-          <figure class="quote span-4"><blockquote>From first call to launch, everything was smooth. Ben is responsive, talented, and easy to work with.</blockquote><div class="person"><span><span class="person__name">Thomas L.</span><span class="person__role">Google review</span></span><img src="build-a-website-assets/icons/google-icon.svg" alt="Google" width="40" height="40" loading="lazy"></div></figure>
-          <figure class="quote span-4"><blockquote>Shore Works got us online fast and made the whole process painless. Our restaurant looks amazing.</blockquote><div class="person"><span><span class="person__name">Rose T.</span><span class="person__role">Google review</span></span><img src="build-a-website-assets/icons/google-icon.svg" alt="Google" width="40" height="40" loading="lazy"></div></figure>
-      </div>
+      <script>
+      (function(){
+        var urls=['shoreworksnj.com','shop.shoreworksnj.com','design.shoreworksnj.com','reports.shoreworksnj.com'];
+        var el=document.getElementById('hbf-url');
+        if(!el)return;
+        var i=0;
+        setInterval(function(){i=(i+1)%4;el.textContent=urls[i];},5000);
+      })();
+      </script>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section ground-surface g2m" id="catalog" aria-labelledby="catalog-h">
-    <div class="wrap grid grid--top">
-      <div class="span-5">
-        <div class="section-head">
-          <h2 id="catalog-h">Your Shore Works Catalog listing</h2>
-          <p>Every web design client gets a Spotlight profile on our directory of South Jersey businesses, linked to the new site.</p>
-        </div>
-        <ul class="rows">
-          <li><span class="rows__name">Spotlight placement</span><p>Your business at the top of the directory for its category.</p></li>
-          <li><span class="rows__name">Local search</span><p>Shown when people search your town or your trade.</p></li>
-          <li><span class="rows__name">A profile page</span><p>Hours, photos, links and contact details in one place.</p></li>
-          <li><span class="rows__name">Review requests</span><p>A tool that asks your customers for Google reviews.</p></li>
-        </ul>
-        <p><a class="link" href="/">See the Shore Works Catalog</a></p>
+<!-- HERO TICKER BAND -->
+<div class="hero-ticker-band">
+  <div class="rev-ticker-wrap rev-ticker-wrap--dark">
+    <div class="rev-ticker" id="rev-ticker-hero">
+      <div class="rev-card"><div class="rev-top"><div class="rev-av" style="background:#0D3D54">F</div><div><div class="rev-name">Frank Trifiletti</div><div class="rev-stars">★★★★★</div></div></div><div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div></div>
+      <div class="rev-card"><div class="rev-top"><div class="rev-av" style="background:#4BB8B8">L</div><div><div class="rev-name">Lori Montgomery</div><div class="rev-stars">★★★★★</div></div></div><div class="rev-body">"Ben built an impressive web application in no time. It was very user friendly, looked amazing and very professional."</div><div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div></div>
+      <div class="rev-card"><div class="rev-top"><div class="rev-av" style="background:#1A6B8A">C</div><div><div class="rev-name">Colton Lacovara</div><div class="rev-stars">★★★★★</div></div></div><div class="rev-body">"The skill and professionalism is unmatched in the industry, especially at this price point. It's hard to emphasize how much more business I'm getting since making the switch — night and day difference."</div><div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div></div>
+      <div class="rev-card"><div class="rev-top"><div class="rev-av" style="background:#2E7D52">D</div><div><div class="rev-name">Dan S.</div><div class="rev-stars">★★★★★</div></div></div><div class="rev-body">"Ben had our site live in under a week. Clean, professional, and exactly what we envisioned."</div><div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div></div>
+      <div class="rev-card"><div class="rev-top"><div class="rev-av" style="background:#5B6B7A">R</div><div><div class="rev-name">Rose T.</div><div class="rev-stars">★★★★★</div></div></div><div class="rev-body">"Shore Works got us online fast and made the whole process painless. Our restaurant looks amazing."</div><div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div></div>
+      <div class="rev-card"><div class="rev-top"><div class="rev-av" style="background:#8B5E3C">T</div><div><div class="rev-name">Thomas L.</div><div class="rev-stars">★★★★★</div></div></div><div class="rev-body">"From first call to launch, everything was smooth. Ben is responsive, talented, and easy to work with."</div><div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div></div>
+    </div>
+  </div>
+</div>
+<script>(function(){var t=document.getElementById('rev-ticker-hero');if(t)t.innerHTML+=t.innerHTML;})();</script>
+
+<!-- PROCESS -->
+<div class="process-section">
+  <div class="process-inner">
+    <div class="section-tag" style="color:#4BB8B8">How It Works</div>
+    <h2 class="section-title" style="color:#0D3D54">From idea to <em>live site</em> in four steps.</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="ps-num">01 &mdash; DISCOVERY</div>
+        <div class="ps-icon"><i class="ti ti-message-circle"></i></div>
+        <div class="ps-title">Discovery Call</div>
+        <p class="ps-desc">We learn your business, goals, and audience. No forms — just a real conversation about what you need.</p>
       </div>
-      <div class="frame frame--photo span-6 start-7">
-        <img class="frame__img" src="build-a-website-assets/work/shore-works-catalog.jpg" srcset="build-a-website-assets/work/shore-works-catalog-phone.jpg 700w, build-a-website-assets/work/shore-works-catalog.jpg 1256w" sizes="(max-width: 1023px) 350px, 701px" alt="The Shore Works Catalog: a search for South Jersey businesses with county and category filters above Spotlight listings" width="1256" height="942" loading="lazy" data-source="client" data-subject="work">
+      <div class="ps-connector">&rsaquo;</div>
+      <div class="process-step">
+        <div class="ps-num">02 &mdash; DESIGN</div>
+        <div class="ps-icon"><i class="ti ti-layout"></i></div>
+        <div class="ps-title">Design &amp; Revisions</div>
+        <p class="ps-desc">You get a full design mockup before any code is written. We revise until it's right.</p>
+      </div>
+      <div class="ps-connector">&rsaquo;</div>
+      <div class="process-step">
+        <div class="ps-num">03 &mdash; BUILD</div>
+        <div class="ps-icon"><i class="ti ti-code"></i></div>
+        <div class="ps-title">Build &amp; Review</div>
+        <p class="ps-desc">Your site is built fast, tested on every device, and handed to you for a final walkthrough.</p>
+      </div>
+      <div class="ps-connector">&rsaquo;</div>
+      <div class="process-step">
+        <div class="ps-num">04 &mdash; LAUNCH</div>
+        <div class="ps-icon"><i class="ti ti-rocket"></i></div>
+        <div class="ps-title">Launch &amp; Support</div>
+        <p class="ps-desc">We handle your domain, hosting, and go-live. Ongoing support plans available.</p>
       </div>
     </div>
-  </section>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section-white"><section class="about-section" id="about">
+  <div class="section-tag">About</div>
+  <h2 class="section-title">South Jersey roots.<br><em>Personalized</em> digital solutions.</h2>
+  <div class="about-grid" style="margin-top:3rem">
+    <div class="headshot-wrap">
+      <img src="IMG_4556.jpg" alt="Ben Kleva">
+      <div class="headshot-name">Ben Kleva</div>
+    </div>
+    <div>
+      <p class="body-text">I'm a South Jersey native with over seven years working as a data analyst and data engineer, including in the government contracting space where I helped develop CRM tools for government technology resellers. That work taught me how to build systems that are clean, functional, and actually used by the people they're built for.</p>
+      <p class="body-text">Working at that level — where data pipelines, user workflows, and business outcomes had to align — gave me a deep understanding of what makes a digital product succeed and what makes it fall flat.</p>
+      <p class="body-text">Now I'm bringing those skills home. Local restaurants, shops, contractors, and service providers deserve the same quality of digital presence that big companies take for granted. Shore Works Web Solutions is how I make that happen.</p>
+      <div class="skills-grid">
+        <div class="skill-chip"><i class="ti ti-chart-bar"></i><span>Data Analytics</span></div>
+        <div class="skill-chip"><i class="ti ti-database"></i><span>Data Engineering</span></div>
+        <div class="skill-chip"><i class="ti ti-users"></i><span>CRM Development</span></div>
+        <div class="skill-chip"><i class="ti ti-building"></i><span>Gov. Contracting</span></div>
+        <div class="skill-chip"><i class="ti ti-world"></i><span>Web Design</span></div>
+        <div class="skill-chip"><i class="ti ti-speakerphone"></i><span>Digital Strategy</span></div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- PORTFOLIO: pinned project chapters (build-a-website-assets/moments/pinned-chapters) -->
+<section class="work-section" id="portfolio" data-moment="pinned-chapters" aria-labelledby="work-h">
+  <div class="mo-pc__grid">
+    <div class="mo-pc__text">
+      <div>
+        <div class="section-tag">Our Work</div>
+        <h2 class="section-title" id="work-h">Sites and apps we've <em>built</em></h2>
+      </div>
+      <ol class="mo-pc__steps">
+      <li class="mo-pc__step">
+        <h3>Thomas Lacovara &amp; Associates</h3>
+        <p>A public adjusting firm in South Jersey: team profiles, claim types, client reviews, an FAQ and a form for claim consultations.</p>
+        <figure class="mo-pc__visual"><img src="build-a-website-assets/work/thomas-lacovara.jpg" srcset="build-a-website-assets/work/thomas-lacovara-640.jpg 640w, build-a-website-assets/work/thomas-lacovara.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Thomas Lacovara Public Adjusters website, with its headline over a photograph of a fire-damaged home" width="1256" height="838" loading="lazy"></figure>
+      </li>
+      <li class="mo-pc__step">
+        <h3>Twin Cleans</h3>
+        <p>Mobile detailing run by twin brothers: service packages, a photo gallery the owners update, and a booking request form.</p>
+        <figure class="mo-pc__visual"><img src="build-a-website-assets/work/twin-cleans.jpg" srcset="build-a-website-assets/work/twin-cleans-640.jpg 640w, build-a-website-assets/work/twin-cleans.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Twin Cleans website: a headline about showroom shine in your driveway beside the round Twin Cleans logo" width="1256" height="838" loading="lazy"></figure>
+      </li>
+      <li class="mo-pc__step">
+        <h3>Anthony Lamaina</h3>
+        <p>A booking app for a barber: clients pick a day, a time and a cut, and get an email confirmation. He adds his own time slots.</p>
+        <figure class="mo-pc__visual"><img src="build-a-website-assets/work/anthony-lamaina.jpg" srcset="build-a-website-assets/work/anthony-lamaina-640.jpg 640w, build-a-website-assets/work/anthony-lamaina.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Anthony Lamaina booking site: his portrait beside a barber pole and a Book an appointment button" width="1256" height="838" loading="lazy"></figure>
+      </li>
+      <li class="mo-pc__step">
+        <h3>Outdoor Impact</h3>
+        <p>A billboard development company: a gallery of placements, case studies and a contact portal for landowners.</p>
+        <figure class="mo-pc__visual"><img src="build-a-website-assets/work/outdoor-impact.jpg" srcset="build-a-website-assets/work/outdoor-impact-640.jpg 640w, build-a-website-assets/work/outdoor-impact.jpg 1256w" sizes="(max-width: 640px) 100vw, 540px" alt="The Outdoor Impact website: a billboard with the company name over a city highway at night" width="1256" height="838" loading="lazy"></figure>
+      </li>
+      </ol>
+    </div>
+    <div class="mo-pc__visuals"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-tag">What We Build</div>
+  <h2 class="section-title">Services designed<br>for <em>local businesses</em></h2>
+  <p class="section-sub">Every project is custom-built to match your brand and goals — no templates, no cookie-cutter layouts.</p>
+  <div class="services-grid">
+
+    <!-- 1. Portfolio -->
+    <div class="service-card">
+      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg1" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#093546"/><stop offset="100%" stop-color="#1E8AB8"/></linearGradient></defs>
+        <rect width="310" height="155" fill="url(#sg1)"/>
+        <circle cx="278" cy="18" r="52" fill="rgba(255,215,80,.09)"/>
+        <circle cx="278" cy="18" r="28" fill="rgba(255,195,50,.08)"/>
+        <circle cx="20" cy="148" r="40" fill="rgba(75,184,184,.06)"/>
+        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
+        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.25)"/>
+        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.25)"/>
+        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
+        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.12)"/>
+        <rect x="26" y="42" width="258" height="14" rx="3" fill="rgba(255,255,255,.07)"/>
+        <rect x="26" y="42" width="55" height="14" rx="3" fill="rgba(255,255,255,.13)"/>
+        <rect x="238" y="44" width="42" height="10" rx="5" fill="rgba(75,184,184,.6)"/>
+        <circle cx="78" cy="98" r="34" fill="rgba(255,255,255,.09)"/>
+        <circle cx="78" cy="88" r="13" fill="rgba(255,255,255,.22)"/>
+        <ellipse cx="78" cy="116" rx="22" ry="13" fill="rgba(255,255,255,.18)"/>
+        <rect x="124" y="63" width="130" height="16" rx="5" fill="rgba(255,255,255,.22)"/>
+        <rect x="124" y="85" width="88" height="10" rx="3" fill="rgba(245,197,24,.6)"/>
+        <rect x="124" y="101" width="115" height="8" rx="3" fill="rgba(255,255,255,.12)"/>
+        <rect x="124" y="115" width="90" height="8" rx="3" fill="rgba(255,255,255,.1)"/>
+        <rect x="124" y="129" width="72" height="14" rx="7" fill="rgba(75,184,184,.65)"/>
+        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(245,210,70,.09)"/>
+      </svg>
+      <div class="svc-content">
+        <div class="svc-name">Portfolio Websites</div>
+        <p class="svc-desc">Showcase your work with a polished, professional site that makes a strong first impression — perfect for freelancers, artists, photographers, and creatives.</p>
+      </div>
+    </div>
+
+    <!-- 2. Operational Business -->
+    <div class="service-card">
+      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1C3828"/><stop offset="100%" stop-color="#3A7856"/></linearGradient></defs>
+        <rect width="310" height="155" fill="url(#sg2)"/>
+        <circle cx="285" cy="130" r="70" fill="rgba(245,200,80,.06)"/>
+        <!-- browser chrome -->
+        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
+        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.3)"/>
+        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.3)"/>
+        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
+        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
+        <!-- reserved sign card outline -->
+        <rect x="88" y="42" width="134" height="76" rx="5" fill="rgba(0,0,0,.18)" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>
+        <!-- inner decorative border -->
+        <rect x="94" y="48" width="122" height="64" rx="3" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
+        <!-- top ornament -->
+        <line x1="106" y1="68" x2="144" y2="68" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+        <circle cx="155" cy="68" r="2" fill="rgba(255,255,255,.35)"/>
+        <line x1="166" y1="68" x2="204" y2="68" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+        <!-- reserved text -->
+        <text x="155" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" letter-spacing="3" fill="rgba(255,255,255,.88)">Reserved</text>
+        <!-- bottom ornament -->
+        <line x1="116" y1="104" x2="194" y2="104" stroke="rgba(255,255,255,.22)" stroke-width="1"/>
+        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(75,184,184,.15)"/>
+      </svg>
+      <div class="svc-content">
+        <div class="svc-name">Operational Business Websites</div>
+        <p class="svc-desc">Bookings, menus, service listings, hours, contact forms — everything your customers need online, built to match how your business actually runs.</p>
+      </div>
+    </div>
+
+    <!-- 3. Retail -->
+    <div class="service-card">
+      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#083A4A"/><stop offset="100%" stop-color="#1A7888"/></linearGradient></defs>
+        <rect width="310" height="155" fill="url(#sg3)"/>
+        <circle cx="280" cy="20" r="60" fill="rgba(245,215,80,.08)"/>
+        <!-- browser chrome -->
+        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
+        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.3)"/>
+        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.3)"/>
+        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
+        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
+        <!-- nav -->
+        <rect x="26" y="40" width="190" height="10" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="254" y="38" width="28" height="14" rx="5" fill="rgba(75,184,184,.35)"/>
+        <!-- product card 1 (amber) -->
+        <rect x="26" y="56" width="80" height="83" rx="5" fill="rgba(255,255,255,.1)"/>
+        <rect x="26" y="56" width="80" height="45" rx="5" fill="rgba(245,160,50,.35)"/>
+        <rect x="26" y="89" width="80" height="12" fill="rgba(245,160,50,.35)"/>
+        <rect x="30" y="105" width="54" height="7" rx="2" fill="rgba(255,255,255,.25)"/>
+        <rect x="30" y="115" width="36" height="6" rx="2" fill="rgba(245,197,24,.6)"/>
+        <rect x="30" y="126" width="66" height="10" rx="5" fill="rgba(75,184,184,.55)"/>
+        <!-- product card 2 (teal) -->
+        <rect x="115" y="56" width="80" height="83" rx="5" fill="rgba(255,255,255,.1)"/>
+        <rect x="115" y="56" width="80" height="45" rx="5" fill="rgba(75,184,184,.4)"/>
+        <rect x="115" y="89" width="80" height="12" fill="rgba(75,184,184,.4)"/>
+        <rect x="119" y="105" width="54" height="7" rx="2" fill="rgba(255,255,255,.25)"/>
+        <rect x="119" y="115" width="36" height="6" rx="2" fill="rgba(245,197,24,.6)"/>
+        <rect x="119" y="126" width="66" height="10" rx="5" fill="rgba(75,184,184,.55)"/>
+        <!-- product card 3 (soft rose) -->
+        <rect x="204" y="56" width="80" height="83" rx="5" fill="rgba(255,255,255,.1)"/>
+        <rect x="204" y="56" width="80" height="45" rx="5" fill="rgba(200,120,160,.35)"/>
+        <rect x="204" y="89" width="80" height="12" fill="rgba(200,120,160,.35)"/>
+        <rect x="208" y="105" width="54" height="7" rx="2" fill="rgba(255,255,255,.25)"/>
+        <rect x="208" y="115" width="36" height="6" rx="2" fill="rgba(245,197,24,.6)"/>
+        <rect x="208" y="126" width="66" height="10" rx="5" fill="rgba(75,184,184,.55)"/>
+        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(245,210,70,.09)"/>
+      </svg>
+      <div class="svc-content">
+        <div class="svc-name">Retail &amp; Inventory Catalog</div>
+        <p class="svc-desc">Give your shop a professional online presence with a browsable product catalog and online ordering — built for local retailers who want to sell beyond their four walls.</p>
+      </div>
+    </div>
+
+    <!-- 4. Contact Forms -->
+    <div class="service-card">
+      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0A2E40"/><stop offset="100%" stop-color="#1A6878"/></linearGradient></defs>
+        <rect width="310" height="155" fill="url(#sg4)"/>
+        <circle cx="280" cy="140" r="55" fill="rgba(245,200,80,.07)"/>
+        <circle cx="280" cy="140" r="30" fill="rgba(245,180,50,.06)"/>
+        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
+        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.25)"/>
+        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.25)"/>
+        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
+        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
+        <rect x="58" y="40" width="194" height="104" rx="8" fill="rgba(255,255,255,.06)"/>
+        <rect x="74" y="50" width="110" height="12" rx="4" fill="rgba(255,255,255,.2)"/>
+        <rect x="74" y="50" width="46" height="12" rx="4" fill="rgba(75,184,184,.38)"/>
+        <rect x="74" y="70" width="162" height="14" rx="5" fill="rgba(255,255,255,.1)"/>
+        <rect x="77" y="74" width="55" height="7" rx="3" fill="rgba(255,255,255,.15)"/>
+        <rect x="74" y="90" width="162" height="14" rx="5" fill="rgba(255,255,255,.1)"/>
+        <rect x="77" y="94" width="75" height="7" rx="3" fill="rgba(255,255,255,.15)"/>
+        <rect x="74" y="110" width="162" height="22" rx="5" fill="rgba(255,255,255,.07)"/>
+        <rect x="77" y="115" width="90" height="6" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="74" y="118" width="72" height="12" rx="6" fill="rgba(75,184,184,.6)"/>
+        <rect x="204" y="50" width="28" height="22" rx="4" fill="rgba(75,184,184,.22)"/>
+        <path d="M204 50 L218 61 L232 50" stroke="rgba(75,184,184,.6)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(75,184,184,.12)"/>
+      </svg>
+      <div class="svc-content">
+        <div class="svc-name">Contact Forms &amp; Lead Capture</div>
+        <p class="svc-desc">Custom inquiry and contact forms that route leads directly to your inbox — so you never miss a potential customer reaching out.</p>
+      </div>
+    </div>
+
+    <!-- 5. Advertising -->
+    <div class="service-card">
+      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0C2A3E"/><stop offset="100%" stop-color="#1A4A6A"/></linearGradient></defs>
+        <rect width="310" height="155" fill="url(#sg5)"/>
+        <!-- sunset glow -->
+        <circle cx="295" cy="12" r="65" fill="rgba(245,160,50,.08)"/>
+        <circle cx="295" cy="12" r="38" fill="rgba(245,197,24,.07)"/>
+        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
+        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.28)"/>
+        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.28)"/>
+        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
+        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
+        <!-- stat tiles -->
+        <rect x="26" y="42" width="76" height="28" rx="5" fill="rgba(245,197,24,.2)"/>
+        <rect x="32" y="47" width="38" height="10" rx="3" fill="rgba(245,215,80,.38)"/>
+        <rect x="32" y="60" width="25" height="6" rx="2" fill="rgba(255,255,255,.12)"/>
+        <rect x="110" y="42" width="76" height="28" rx="5" fill="rgba(255,255,255,.07)"/>
+        <rect x="116" y="47" width="38" height="10" rx="3" fill="rgba(255,255,255,.18)"/>
+        <rect x="116" y="60" width="25" height="6" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="194" y="42" width="88" height="28" rx="5" fill="rgba(255,255,255,.07)"/>
+        <rect x="200" y="47" width="38" height="10" rx="3" fill="rgba(255,255,255,.18)"/>
+        <rect x="200" y="60" width="25" height="6" rx="2" fill="rgba(255,255,255,.1)"/>
+        <!-- horizon/waterline -->
+        <line x1="26" y1="134" x2="284" y2="134" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <line x1="26" y1="110" x2="284" y2="110" stroke="rgba(75,184,184,.15)" stroke-width="1" stroke-dasharray="3,4"/>
+        <!-- sunset bars -->
+        <rect x="34" y="112" width="28" height="22" rx="3" fill="rgba(232,100,40,.42)"/>
+        <rect x="72" y="100" width="28" height="34" rx="3" fill="rgba(232,120,40,.52)"/>
+        <rect x="110" y="88" width="28" height="46" rx="3" fill="rgba(245,160,40,.62)"/>
+        <rect x="148" y="80" width="28" height="54" rx="3" fill="rgba(245,185,40,.72)"/>
+        <rect x="186" y="72" width="28" height="62" rx="3" fill="rgba(245,197,24,.84)"/>
+        <rect x="224" y="84" width="28" height="50" rx="3" fill="rgba(245,185,50,.68)"/>
+        <!-- trend line -->
+        <polyline points="48,102 86,88 124,76 162,66 200,58 238,70" stroke="rgba(255,230,100,.62)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="200" cy="58" r="4" fill="rgba(255,225,90,.88)"/>
+        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(75,184,184,.1)"/>
+      </svg>
+      <div class="svc-content">
+        <div class="svc-name">Advertising Strategy</div>
+        <p class="svc-desc">We'll help you build a digital advertising plan — from Google Ads to Meta campaigns — to drive traffic to your new site and grow your customer base.</p>
+      </div>
+    </div>
+
+    <!-- 6. Booking -->
+    <div class="service-card">
+      <svg class="svc-preview" viewBox="0 0 310 155" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="sg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0A3248"/><stop offset="100%" stop-color="#1A6A8A"/></linearGradient></defs>
+        <rect width="310" height="155" fill="url(#sg6)"/>
+        <circle cx="288" cy="16" r="55" fill="rgba(245,215,80,.08)"/>
+        <circle cx="288" cy="16" r="30" fill="rgba(245,195,50,.07)"/>
+        <rect x="18" y="12" width="274" height="131" rx="10" fill="rgba(255,255,255,.07)"/>
+        <rect x="18" y="12" width="274" height="24" rx="10" fill="rgba(0,0,0,.28)"/>
+        <rect x="18" y="24" width="274" height="12" fill="rgba(0,0,0,.28)"/>
+        <circle cx="31" cy="24" r="3" fill="#FF6058"/><circle cx="42" cy="24" r="3" fill="#FFC130"/><circle cx="53" cy="24" r="3" fill="#27C93F"/>
+        <rect x="65" y="16" width="120" height="13" rx="6" fill="rgba(255,255,255,.1)"/>
+        <rect x="26" y="42" width="158" height="15" rx="4" fill="rgba(255,255,255,.08)"/>
+        <rect x="196" y="42" width="14" height="15" rx="3" fill="rgba(75,184,184,.3)"/>
+        <rect x="216" y="42" width="14" height="15" rx="3" fill="rgba(75,184,184,.3)"/>
+        <rect x="26" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="52" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="78" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="104" y="63" width="20" height="14" rx="3" fill="rgba(75,184,184,.55)"/>
+        <rect x="130" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="156" y="63" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="26" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="52" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="78" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="104" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="130" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="156" y="83" width="20" height="14" rx="3" fill="rgba(255,255,255,.08)"/>
+        <rect x="26" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="52" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="78" y="103" width="20" height="14" rx="3" fill="rgba(75,184,184,.25)"/>
+        <rect x="104" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="130" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="156" y="103" width="20" height="14" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="192" y="63" width="90" height="14" rx="5" fill="rgba(75,184,184,.28)"/>
+        <rect x="192" y="83" width="90" height="14" rx="5" fill="rgba(255,255,255,.08)"/>
+        <rect x="192" y="103" width="90" height="14" rx="5" fill="rgba(255,255,255,.08)"/>
+        <rect x="192" y="125" width="90" height="18" rx="7" fill="rgba(75,184,184,.65)"/>
+        <rect x="26" y="125" width="155" height="18" rx="5" fill="rgba(255,255,255,.06)"/>
+        <path d="M0,143 C52,136 104,150 156,143 C208,136 260,150 310,143 L310,155 L0,155 Z" fill="rgba(245,210,70,.09)"/>
+      </svg>
+      <div class="svc-content">
+        <div class="svc-name">Booking Portals</div>
+        <p class="svc-desc">Online booking systems for appointments, reservations, classes, or services — integrated directly into your website so customers can book 24/7.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY -->
+<div class="section-white"><section class="section" id="why">
+  <div class="section-tag">Why Shore Works</div>
+  <h2 class="section-title">Local expertise.<br><em>Real results.</em></h2>
+  <p class="section-sub">We specialize in working with local businesses who need a strong digital presence without enterprise price tags.</p>
+  <div class="why-grid">
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-icon"><i class="ti ti-map-pin"></i></div>
+        <div class="why-text"><h4>Local Focus</h4><p>We work with small and local businesses in our community — we understand your customers and what makes them click.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><i class="ti ti-device-mobile"></i></div>
+        <div class="why-text"><h4>Mobile-First Design</h4><p>Every site we build is optimized for phones first — because that's how your customers find you.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><i class="ti ti-lock"></i></div>
+        <div class="why-text"><h4>You Own It</h4><p>No lock-in. You own your domain, your code, and your content — full transparency throughout.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><i class="ti ti-headset"></i></div>
+        <div class="why-text"><h4>Ongoing Support</h4><p>We don't disappear after launch. Updates, edits, and questions are always just a message away.</p></div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div style="position:relative;z-index:1">
+        <div style="font-family:'Playfair Display',serif;font-size:2rem;color:#fff;font-weight:400;line-height:1.2;margin-bottom:1.25rem">Your <em style="font-style:italic;color:#4BB8B8">forever</em> digital partner.</div>
+        <p style="font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.85;margin-bottom:1.5rem">Whether you need a polished website, a custom-built app, or data tools that give your business a real edge — we take care of it all. Shore Works is your one stop for every digital need.</p>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:12px;color:rgba(255,255,255,.7)"><span style="color:#4BB8B8;font-size:1rem">&#10003;</span> Websites &amp; landing pages</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:12px;color:rgba(255,255,255,.7)"><span style="color:#4BB8B8;font-size:1rem">&#10003;</span> Custom web applications</div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:12px;color:rgba(255,255,255,.7)"><span style="color:#4BB8B8;font-size:1rem">&#10003;</span> Data &amp; analytics solutions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- GOOGLE REVIEWS TICKER -->
+<div class="reviews-band">
+  <div class="reviews-band-head">
+    <div class="section-tag" style="margin-bottom:0">What Clients Say</div>
+    <span class="g-pill">
+      <svg width="12" height="12" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg>
+      Google Reviews
+    </span>
+  </div>
+  <div class="rev-ticker-wrap">
+    <div class="rev-ticker" id="rev-ticker">
+
+      <div class="rev-card">
+        <div class="rev-top"><div class="rev-av" style="background:#0D3D54">F</div><div><div class="rev-name">Frank Trifiletti</div><div class="rev-stars">★★★★★</div></div></div>
+        <div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-top"><div class="rev-av" style="background:#4BB8B8">L</div><div><div class="rev-name">Lori Montgomery</div><div class="rev-stars">★★★★★</div></div></div>
+        <div class="rev-body">"Ben built an impressive web application in no time. It was very user friendly, looked amazing and very professional."</div>
+        <div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-top"><div class="rev-av" style="background:#1A6B8A">C</div><div><div class="rev-name">Colton Lacovara</div><div class="rev-stars">★★★★★</div></div></div>
+        <div class="rev-body">"The skill and professionalism is unmatched in the industry, especially at this price point. It's hard to emphasize how much more business I'm getting since making the switch — night and day difference."</div>
+        <div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-top"><div class="rev-av" style="background:#2E7D52">D</div><div><div class="rev-name">Dan S.</div><div class="rev-stars">★★★★★</div></div></div>
+        <div class="rev-body">"Ben had our site live in under a week. Clean, professional, and exactly what we envisioned."</div>
+        <div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-top"><div class="rev-av" style="background:#5B6B7A">R</div><div><div class="rev-name">Rose T.</div><div class="rev-stars">★★★★★</div></div></div>
+        <div class="rev-body">"Shore Works got us online fast and made the whole process painless. Our restaurant looks amazing."</div>
+        <div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div>
+      </div>
+
+      <div class="rev-card">
+        <div class="rev-top"><div class="rev-av" style="background:#8B5E3C">T</div><div><div class="rev-name">Thomas L.</div><div class="rev-stars">★★★★★</div></div></div>
+        <div class="rev-body">"From first call to launch, everything was smooth. Ben is responsive, talented, and easy to work with."</div>
+        <div class="rev-g"><svg width="10" height="10" viewBox="0 0 48 48" fill="none"><path fill="#4285F4" d="M44 24.5c0-1.4-.1-2.8-.4-4H24v7.6h11.3c-.5 2.6-2 4.8-4.2 6.3v5.2h6.8C41.5 35.8 44 30.5 44 24.5z"/><path fill="#34A853" d="M24 45c5.7 0 10.5-1.9 14-5.1l-6.8-5.2c-1.9 1.3-4.3 2-7.2 2-5.5 0-10.2-3.7-11.9-8.8H5.1v5.4C8.6 41.2 15.8 45 24 45z"/><path fill="#FBBC05" d="M12.1 27.9c-.4-1.3-.7-2.6-.7-4s.3-2.7.7-4v-5.4H5.1A20 20 0 0 0 4 24c0 3.2.8 6.3 2.1 9z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.1l6-6C34.5 4.8 29.6 3 24 3 15.8 3 8.6 6.8 5.1 12.9l7 5.4c1.7-5.1 6.4-8.7 11.9-7.1z"/></svg> Google</div>
+      </div>
+
+    </div><!-- /rev-ticker -->
+  </div>
+</div>
+<script>(function(){var t=document.getElementById('rev-ticker');if(t)t.innerHTML+=t.innerHTML;})();</script>
+
+<!-- SPOTLIGHT -->
+<section class="spotlight-section">
+  <div class="spotlight-inner">
+    <div class="spotlight-text">
+      <div class="section-tag">Exclusive Client Perk</div>
+      <h2 class="section-title">Get listed on the<br><em>Shore Works Catalog</em></h2>
+      <p style="font-size:14px;color:#556677;line-height:1.8;max-width:480px">Every web design client receives a complimentary <strong>Spotlight profile</strong> on the Shore Works Catalog — South Jersey's premier local business search engine. Your business gets featured placement, a dedicated profile page, and direct visibility to local customers searching your category.</p>
+      <div class="spotlight-perks">
+        <div class="perk"><i class="ti ti-star"></i> Featured Spotlight placement</div>
+        <div class="perk"><i class="ti ti-map-pin"></i> Listed in local search results</div>
+        <div class="perk"><i class="ti ti-id-badge"></i> Dedicated business profile page</div>
+        <div class="perk"><i class="ti ti-star-filled" style="color:#F4B942"></i> Google Review request tool</div>
+        <div class="perk"><i class="ti ti-chart-bar"></i> Automated traffic reporting</div>
+        <div class="perk"><i class="ti ti-gift"></i> Complimentary with any web project</div>
+      </div>
+    </div>
+    <div class="spotlight-card">
+      <div class="sc-badge">Spotlight</div>
+      <div class="sc-logo-area"><i class="ti ti-building-store" style="font-size:2.2rem;color:#4BB8B8"></i></div>
+      <div class="sc-biz-name">Your Business</div>
+      <div class="sc-category">South Jersey Local</div>
+      <div class="sc-divider"></div>
+      <div class="sc-row"><i class="ti ti-map-pin"></i> Atlantic County, NJ</div>
+      <div class="sc-row"><i class="ti ti-star-filled" style="color:#f4b942"></i> Featured on Shore Works Catalog</div>
+      <div class="sc-row"><i class="ti ti-world"></i> Linked to your new website</div>
+      <a href="build-contact.html" class="sc-cta">Claim Your Free Listing &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box">
+    <h2>Ready to build<br>something <em>great?</em></h2>
+    <p>Reach out today and let's talk about what your business needs. No pressure, no commitment — just a conversation.</p>
+    <a href="build-contact.html" class="btn-teal">Get in Touch</a>
+  </div>
+</section>
 
 </main>
 
-<footer class="footer closing g2m" id="contact" aria-labelledby="close-h">
-  <div class="wrap">
-    <div class="closing__cta close--type">
-      <div class="section-head">
-        <h2 id="close-h">Tell us what your business needs</h2>
-        <p>Send a few lines about your business and we set up a first call.</p>
-      </div>
-      <a class="btn btn--primary btn--xl btn--wide" href="build-contact.html">Start your project<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
-    </div>
-    <div class="closing__links">
-      <div class="grid">
-        <div class="span-4 stack-4">
-          <a class="nav__logo" href="#top"><img src="build-a-website-assets/shoreworks-logo.png" alt="Shore Works Web Solutions" width="260" height="42" loading="lazy"></a>
-          <p class="footer__lede">Web design and apps in South Jersey</p>
-        </div>
-        <div class="span-2 footer__col"><h3>This page</h3><ul><li><a href="#services">Services</a></li><li><a href="#work">Work</a></li><li><a href="#reviews">Reviews</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>More</h3><ul><li><a href="#catalog">Catalog</a></li><li><a href="#faq">Questions</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Shore Works</h3><ul><li><a href="/">Business directory</a></li><li><a href="/reviews">Review request tool</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Contact</h3><ul><li><a href="tel:6092897698">(609) 289-7698</a></li><li><a href="https://www.instagram.com/shoreworksnj">Instagram</a></li></ul></div>
-      </div>
-      <div class="footer__legal">
-        <span>&copy; 2026 Shore Works</span>
-        <div class="socials"></div>
-        <span class="credits">Product names and logos are trademarks of their owners</span>
-      </div>
-    </div>
-  </div>
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<footer>
+  <div class="foot-logo">Shore<em>works</em> <span style="font-size:13px;font-weight:400;color:#1A6B8A">Web Solutions</span></div>
+  <p>© 2026 Shore Works. All rights reserved.</p>
+  <a href="tel:6092897698" style="font-size:12px;color:#888;text-decoration:none">(609) 289-7698</a>
+  <a href="https://www.instagram.com/shoreworksnj" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#888;text-decoration:none;transition:color .15s" onmouseover="this.style.color='#1A6B8A'" onmouseout="this.style.color='#888'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> @shoreworksnj</a>
 </footer>
 
-<script type="module" src="build-a-website-assets/system.js"></script>
-<script type="module" src="build-a-website-assets/motion/motion.js"></script>
-<script type="module" src="build-a-website-assets/layout/layout.js"></script>
+<script>
+window.addEventListener('scroll', function(){
+  var btt = document.getElementById('back-to-top');
+  if (!btt) return;
+  if (window.scrollY > 400) btt.classList.add('visible');
+  else btt.classList.remove('visible');
+});
+</script>
+
+<script type="module" src="build-a-website-assets/moments/moments.js"></script>
 </body>
 </html>
+
+
