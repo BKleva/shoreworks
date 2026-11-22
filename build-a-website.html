@@ -1352,8 +1352,8 @@ main em{font-style:normal}
   if (!cv || !cv.getContext) return;
   var ctx = cv.getContext('2d'), base = document.createElement('canvas'), bctx = base.getContext('2d');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Dark blue, light blue, sand
-  var PAL = ['41,110,196', '134,200,240', '226,204,160'];
+  // Dark blue, hero accent blue (matches "for you." #4BB8B8), sand
+  var PAL = ['41,110,196', '75,184,184', '226,204,160'];
   var CELL = 16, cols = 0, rows = 0, W = 0, H = 0, dpr = 1, I = null, C = null;
   var last = null, travel = 0, ci = 0, raf = 0, running = false, visible = true, t = 0, prevTs = 0;
   var comets = [0, 1, 2].map(function(k){
