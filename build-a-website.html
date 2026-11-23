@@ -164,8 +164,17 @@ footer p{font-size:12px;color:#888}
 .hero-no-pad{padding:0;max-width:none;margin:0}
 .hero-section .hero h1{color:#fff}
 .hero-section .hero-sub{color:rgba(255,255,255,.68)}
-.hero-section .btn-outline{border-color:rgba(255,255,255,.3);color:#fff}
-.hero-section .btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+/* hero buttons: bright enough to read on the dark pixel background */
+.hero-section .hero-btns{gap:14px;position:relative;z-index:1}
+.hero-section .hero-btns a{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;font-size:15px;font-weight:600;letter-spacing:-.005em;transition:background .15s,border-color .15s,color .15s,transform .15s,box-shadow .15s}
+.hero-section .hero-btns a i{font-size:17px;transition:transform .15s}
+.hero-section .btn-primary{background:#4BB8B8;color:#062C3D;border:2px solid transparent;box-shadow:0 8px 28px rgba(75,184,184,.35),inset 0 0 0 1px rgba(255,255,255,.25)}
+.hero-section .btn-primary:hover{background:#6FD0CC;transform:translateY(-1px);box-shadow:0 12px 34px rgba(75,184,184,.45),inset 0 0 0 1px rgba(255,255,255,.35)}
+.hero-section .btn-primary:hover i{transform:translateX(3px)}
+.hero-section .btn-outline{background:rgba(255,255,255,.08);border:2px solid #fff;color:#fff;backdrop-filter:blur(4px)}
+.hero-section .btn-outline:hover{background:#fff;color:#0D3D54;border-color:#fff;transform:translateY(-1px)}
+.hero-section .hero-btns a:focus-visible{outline:3px solid #E0C878;outline-offset:3px}
+@media(max-width:600px){.hero-section .hero-btns a{flex:1 1 100%;justify-content:center}}
 .cursor-blink{display:inline-block;width:3px;height:.78em;background:#4BB8B8;margin-left:4px;vertical-align:middle;animation:blink .85s step-end infinite;border-radius:1px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .hero-browser-frame{border-radius:14px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(75,184,184,.2);background:#162534;width:100%}
@@ -513,7 +522,7 @@ main em{font-style:normal}
         <h1>Your website,<br>built <em>for you.<span class="cursor-blink"></span></em></h1>
         <p class="hero-sub">We design and build professional websites for local businesses — from portfolio sites and restaurant menus to full e-commerce storefronts. Your online presence, handled.</p>
         <div class="hero-btns">
-          <a href="build-contact.html" class="btn-primary">Start Your Project</a>
+          <a href="build-contact.html" class="btn-primary">Start Your Project <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
           <a href="#services" class="btn-outline">See What We Offer</a>
         </div>
       </div>
@@ -1390,6 +1399,7 @@ main em{font-style:normal}
     return dist;
   }
   function draw(){
+    if (!base.width || !base.height) return; // hero not laid out yet (hidden tab / mid-resize)
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.drawImage(base, 0, 0);
     if (!I) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
